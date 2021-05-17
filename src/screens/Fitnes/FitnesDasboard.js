@@ -10,7 +10,8 @@ import {
     TextInput,
     ScrollView,
     Alert,
-    ActivityIndicator
+    ActivityIndicator,
+    AsyncStorage
 } from 'react-native';
 import {Picker} from '@react-native-community/picker';
 import MainBG from '../../assets/formTab/background.png'
@@ -22,7 +23,7 @@ const { height, width } = Dimensions.get('window');
 const FitnesDashboard = ({ navigation }) => {
    const [trainName, setTrainName] = useState('1')
    const [trainNumber, setTraintNumber] = useState('№1 грудь')
-
+    console.log(AsyncStorage.getItem('token'))
     return (
         <View style={styles.container} >
             <ImageBackground source={MainBG} style={styles.image}>

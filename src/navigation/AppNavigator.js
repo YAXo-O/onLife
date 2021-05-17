@@ -288,6 +288,7 @@ function BottomTabs() {
             }}
             shifting={false}
         >
+
             <Tab.Screen
                 name="Fitnes"
                 component={FitnesStack}

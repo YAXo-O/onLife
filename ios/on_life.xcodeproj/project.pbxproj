@@ -8,21 +8,25 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* on_lifeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* on_lifeTests.m */; };
+		07EAD56C9F594B20B247784B /* FuturaPTCond-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 787BD3D20C344A4FB2F2361C /* FuturaPTCond-Medium.ttf */; };
+		0B8E5F44E6BB4BD9A164B756 /* FuturaPT-Book.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3DB6FFA68A774BD8AAA70734 /* FuturaPT-Book.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		3D372E28B8D34EC39398390E /* Jost-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 30F0AADD184940D78AB2F02C /* Jost-Bold.ttf */; };
-		3622F2061BB84B28AE374253 /* Jost-Bold.woff in Resources */ = {isa = PBXBuildFile; fileRef = 75EA0DE458FB4882A804F9ED /* Jost-Bold.woff */; };
 		1C2757E008F940F99027C6B6 /* Jost-Bold.woff2 in Resources */ = {isa = PBXBuildFile; fileRef = 72E96AD063C6405B85A6F923 /* Jost-Bold.woff2 */; };
-		F925D911503941D98D837696 /* FuturaPT-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 845364E38EE948F0A98AFF34 /* FuturaPT-Bold.ttf */; };
+		3622F2061BB84B28AE374253 /* Jost-Bold.woff in Resources */ = {isa = PBXBuildFile; fileRef = 75EA0DE458FB4882A804F9ED /* Jost-Bold.woff */; };
+		3D372E28B8D34EC39398390E /* Jost-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 30F0AADD184940D78AB2F02C /* Jost-Bold.ttf */; };
+		3FCBE357B195FB6F70ACA215 /* libPods-on_life-on_lifeTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 451C97FD3522C755FE97B1FD /* libPods-on_life-on_lifeTests.a */; };
+		52537AFC2D4A2B7C40F0031B /* libPods-on_life.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7350FF55D1ED7EC00946D80 /* libPods-on_life.a */; };
 		54432D60937D4CCDA0B49B0F /* FuturaPT-Bold.woff in Resources */ = {isa = PBXBuildFile; fileRef = A4AAC5B70AF043B785154492 /* FuturaPT-Bold.woff */; };
-		0B8E5F44E6BB4BD9A164B756 /* FuturaPT-Book.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3DB6FFA68A774BD8AAA70734 /* FuturaPT-Book.ttf */; };
-		F47D773238124128ABA6EDC1 /* FuturaPT-Book.woff in Resources */ = {isa = PBXBuildFile; fileRef = 9AFC02C53AFF413CA07402D2 /* FuturaPT-Book.woff */; };
-		07EAD56C9F594B20B247784B /* FuturaPTCond-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 787BD3D20C344A4FB2F2361C /* FuturaPTCond-Medium.ttf */; };
-		B4E7FC340BE24482897B2273 /* FuturaPTCond-Medium.woff in Resources */ = {isa = PBXBuildFile; fileRef = 90D79CDF72AD40838AE16F12 /* FuturaPTCond-Medium.woff */; };
 		57B9904F9AB74CAD8456698F /* FuturaPT-BookObl.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8A94D914DC154D1A9D3AA652 /* FuturaPT-BookObl.ttf */; };
+		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		B4E7FC340BE24482897B2273 /* FuturaPTCond-Medium.woff in Resources */ = {isa = PBXBuildFile; fileRef = 90D79CDF72AD40838AE16F12 /* FuturaPTCond-Medium.woff */; };
+		B55351A7263AA0190052F2C4 /* FuturaPT-Medium.woff in Resources */ = {isa = PBXBuildFile; fileRef = B55351A5263AA0190052F2C4 /* FuturaPT-Medium.woff */; };
+		B55351A8263AA0190052F2C4 /* FuturaPT-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B55351A6263AA0190052F2C4 /* FuturaPT-Medium.ttf */; };
 		E5350F87BB0E426CA63837B2 /* FuturaPT-BookObl.woff in Resources */ = {isa = PBXBuildFile; fileRef = ED1032BDC1D242BA96FA50A8 /* FuturaPT-BookObl.woff */; };
+		F47D773238124128ABA6EDC1 /* FuturaPT-Book.woff in Resources */ = {isa = PBXBuildFile; fileRef = 9AFC02C53AFF413CA07402D2 /* FuturaPT-Book.woff */; };
+		F925D911503941D98D837696 /* FuturaPT-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 845364E38EE948F0A98AFF34 /* FuturaPT-Bold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,19 +49,27 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = on_life/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = on_life/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = on_life/main.m; sourceTree = "<group>"; };
+		30F0AADD184940D78AB2F02C /* Jost-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Jost-Bold.ttf"; path = "../src/assets/fonts/Jost-Bold.ttf"; sourceTree = "<group>"; };
+		3DB6FFA68A774BD8AAA70734 /* FuturaPT-Book.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-Book.ttf"; path = "../src/assets/fonts/FuturaPT-Book.ttf"; sourceTree = "<group>"; };
+		451C97FD3522C755FE97B1FD /* libPods-on_life-on_lifeTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-on_life-on_lifeTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		72E96AD063C6405B85A6F923 /* Jost-Bold.woff2 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Jost-Bold.woff2"; path = "../src/assets/fonts/Jost-Bold.woff2"; sourceTree = "<group>"; };
+		75EA0DE458FB4882A804F9ED /* Jost-Bold.woff */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Jost-Bold.woff"; path = "../src/assets/fonts/Jost-Bold.woff"; sourceTree = "<group>"; };
+		787BD3D20C344A4FB2F2361C /* FuturaPTCond-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPTCond-Medium.ttf"; path = "../src/assets/fonts/FuturaPTCond-Medium.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = on_life/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8340A99CBAAA56CAE7FEEB6F /* Pods-on_life.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-on_life.debug.xcconfig"; path = "Target Support Files/Pods-on_life/Pods-on_life.debug.xcconfig"; sourceTree = "<group>"; };
+		845364E38EE948F0A98AFF34 /* FuturaPT-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-Bold.ttf"; path = "../src/assets/fonts/FuturaPT-Bold.ttf"; sourceTree = "<group>"; };
+		8A94D914DC154D1A9D3AA652 /* FuturaPT-BookObl.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-BookObl.ttf"; path = "../src/assets/fonts/FuturaPT-BookObl.ttf"; sourceTree = "<group>"; };
+		90D79CDF72AD40838AE16F12 /* FuturaPTCond-Medium.woff */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPTCond-Medium.woff"; path = "../src/assets/fonts/FuturaPTCond-Medium.woff"; sourceTree = "<group>"; };
+		989B0BAC2C9617470957F840 /* Pods-on_life.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-on_life.release.xcconfig"; path = "Target Support Files/Pods-on_life/Pods-on_life.release.xcconfig"; sourceTree = "<group>"; };
+		9AFC02C53AFF413CA07402D2 /* FuturaPT-Book.woff */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-Book.woff"; path = "../src/assets/fonts/FuturaPT-Book.woff"; sourceTree = "<group>"; };
+		A4AAC5B70AF043B785154492 /* FuturaPT-Bold.woff */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-Bold.woff"; path = "../src/assets/fonts/FuturaPT-Bold.woff"; sourceTree = "<group>"; };
+		B55351A5263AA0190052F2C4 /* FuturaPT-Medium.woff */ = {isa = PBXFileReference; lastKnownFileType = file; name = "FuturaPT-Medium.woff"; path = "../src/assets/fonts/FuturaPT-Medium.woff"; sourceTree = "<group>"; };
+		B55351A6263AA0190052F2C4 /* FuturaPT-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "FuturaPT-Medium.ttf"; path = "../src/assets/fonts/FuturaPT-Medium.ttf"; sourceTree = "<group>"; };
+		B7350FF55D1ED7EC00946D80 /* libPods-on_life.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-on_life.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B95AA0DAC1A0DF39F2E54FB6 /* Pods-on_life-on_lifeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-on_life-on_lifeTests.release.xcconfig"; path = "Target Support Files/Pods-on_life-on_lifeTests/Pods-on_life-on_lifeTests.release.xcconfig"; sourceTree = "<group>"; };
+		EB4CFA453CB791BA837786B4 /* Pods-on_life-on_lifeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-on_life-on_lifeTests.debug.xcconfig"; path = "Target Support Files/Pods-on_life-on_lifeTests/Pods-on_life-on_lifeTests.debug.xcconfig"; sourceTree = "<group>"; };
+		ED1032BDC1D242BA96FA50A8 /* FuturaPT-BookObl.woff */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-BookObl.woff"; path = "../src/assets/fonts/FuturaPT-BookObl.woff"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		30F0AADD184940D78AB2F02C /* Jost-Bold.ttf */ = {isa = PBXFileReference; name = "Jost-Bold.ttf"; path = "../src/assets/fonts/Jost-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		75EA0DE458FB4882A804F9ED /* Jost-Bold.woff */ = {isa = PBXFileReference; name = "Jost-Bold.woff"; path = "../src/assets/fonts/Jost-Bold.woff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		72E96AD063C6405B85A6F923 /* Jost-Bold.woff2 */ = {isa = PBXFileReference; name = "Jost-Bold.woff2"; path = "../src/assets/fonts/Jost-Bold.woff2"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		845364E38EE948F0A98AFF34 /* FuturaPT-Bold.ttf */ = {isa = PBXFileReference; name = "FuturaPT-Bold.ttf"; path = "../src/assets/fonts/FuturaPT-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		A4AAC5B70AF043B785154492 /* FuturaPT-Bold.woff */ = {isa = PBXFileReference; name = "FuturaPT-Bold.woff"; path = "../src/assets/fonts/FuturaPT-Bold.woff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		3DB6FFA68A774BD8AAA70734 /* FuturaPT-Book.ttf */ = {isa = PBXFileReference; name = "FuturaPT-Book.ttf"; path = "../src/assets/fonts/FuturaPT-Book.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		9AFC02C53AFF413CA07402D2 /* FuturaPT-Book.woff */ = {isa = PBXFileReference; name = "FuturaPT-Book.woff"; path = "../src/assets/fonts/FuturaPT-Book.woff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		787BD3D20C344A4FB2F2361C /* FuturaPTCond-Medium.ttf */ = {isa = PBXFileReference; name = "FuturaPTCond-Medium.ttf"; path = "../src/assets/fonts/FuturaPTCond-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		90D79CDF72AD40838AE16F12 /* FuturaPTCond-Medium.woff */ = {isa = PBXFileReference; name = "FuturaPTCond-Medium.woff"; path = "../src/assets/fonts/FuturaPTCond-Medium.woff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		8A94D914DC154D1A9D3AA652 /* FuturaPT-BookObl.ttf */ = {isa = PBXFileReference; name = "FuturaPT-BookObl.ttf"; path = "../src/assets/fonts/FuturaPT-BookObl.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		ED1032BDC1D242BA96FA50A8 /* FuturaPT-BookObl.woff */ = {isa = PBXFileReference; name = "FuturaPT-BookObl.woff"; path = "../src/assets/fonts/FuturaPT-BookObl.woff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FCBE357B195FB6F70ACA215 /* libPods-on_life-on_lifeTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,6 +85,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52537AFC2D4A2B7C40F0031B /* libPods-on_life.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,8 +126,21 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
+				B7350FF55D1ED7EC00946D80 /* libPods-on_life.a */,
+				451C97FD3522C755FE97B1FD /* libPods-on_life-on_lifeTests.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6043CCF7F4079FE23BD613C8 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8340A99CBAAA56CAE7FEEB6F /* Pods-on_life.debug.xcconfig */,
+				989B0BAC2C9617470957F840 /* Pods-on_life.release.xcconfig */,
+				EB4CFA453CB791BA837786B4 /* Pods-on_life-on_lifeTests.debug.xcconfig */,
+				B95AA0DAC1A0DF39F2E54FB6 /* Pods-on_life-on_lifeTests.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -132,6 +159,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				95F1425BC2E44C90A11AA6E3 /* Resources */,
+				6043CCF7F4079FE23BD613C8 /* Pods */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -148,8 +176,10 @@
 			sourceTree = "<group>";
 		};
 		95F1425BC2E44C90A11AA6E3 /* Resources */ = {
-			isa = "PBXGroup";
+			isa = PBXGroup;
 			children = (
+				B55351A6263AA0190052F2C4 /* FuturaPT-Medium.ttf */,
+				B55351A5263AA0190052F2C4 /* FuturaPT-Medium.woff */,
 				30F0AADD184940D78AB2F02C /* Jost-Bold.ttf */,
 				75EA0DE458FB4882A804F9ED /* Jost-Bold.woff */,
 				72E96AD063C6405B85A6F923 /* Jost-Bold.woff2 */,
@@ -164,7 +194,6 @@
 			);
 			name = Resources;
 			sourceTree = "<group>";
-			path = "";
 		};
 /* End PBXGroup section */
 
@@ -173,9 +202,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "on_lifeTests" */;
 			buildPhases = (
+				C4806CE2A5466717FCFB529A /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
+				0A53733BE77EA11DBC626659 /* [CP] Embed Pods Frameworks */,
+				30B80579805D553A2DB53E38 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -191,11 +223,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "on_life" */;
 			buildPhases = (
+				A13A6930E7D55CB6824F2464 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
+				0A1D7D4084136EA47F0818B2 /* [CP] Embed Pods Frameworks */,
+				A5CBB17ED2653F5A826BA4C3 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -212,7 +247,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1210;
+				LastUpgradeCheck = 1240;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
@@ -255,11 +290,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				B55351A7263AA0190052F2C4 /* FuturaPT-Medium.woff in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3D372E28B8D34EC39398390E /* Jost-Bold.ttf in Resources */,
 				3622F2061BB84B28AE374253 /* Jost-Bold.woff in Resources */,
 				1C2757E008F940F99027C6B6 /* Jost-Bold.woff2 in Resources */,
 				F925D911503941D98D837696 /* FuturaPT-Bold.ttf in Resources */,
+				B55351A8263AA0190052F2C4 /* FuturaPT-Medium.ttf in Resources */,
 				54432D60937D4CCDA0B49B0F /* FuturaPT-Bold.woff in Resources */,
 				0B8E5F44E6BB4BD9A164B756 /* FuturaPT-Book.ttf in Resources */,
 				F47D773238124128ABA6EDC1 /* FuturaPT-Book.woff in Resources */,
@@ -286,6 +323,118 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
+		};
+		0A1D7D4084136EA47F0818B2 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-on_life/Pods-on_life-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-on_life/Pods-on_life-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-on_life/Pods-on_life-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		0A53733BE77EA11DBC626659 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-on_life-on_lifeTests/Pods-on_life-on_lifeTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-on_life-on_lifeTests/Pods-on_life-on_lifeTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-on_life-on_lifeTests/Pods-on_life-on_lifeTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		30B80579805D553A2DB53E38 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-on_life-on_lifeTests/Pods-on_life-on_lifeTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-on_life-on_lifeTests/Pods-on_life-on_lifeTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-on_life-on_lifeTests/Pods-on_life-on_lifeTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A13A6930E7D55CB6824F2464 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-on_life-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A5CBB17ED2653F5A826BA4C3 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-on_life/Pods-on_life-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-on_life/Pods-on_life-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-on_life/Pods-on_life-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C4806CE2A5466717FCFB529A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-on_life-on_lifeTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -339,14 +488,16 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EB4CFA453CB791BA837786B4 /* Pods-on_life-on_lifeTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = on_lifeTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -365,11 +516,13 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B95AA0DAC1A0DF39F2E54FB6 /* Pods-on_life-on_lifeTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = on_lifeTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -388,6 +541,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8340A99CBAAA56CAE7FEEB6F /* Pods-on_life.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -413,6 +567,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 989B0BAC2C9617470957F840 /* Pods-on_life.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -467,6 +622,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 ";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -482,7 +638,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -531,6 +687,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 ";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -539,7 +696,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
