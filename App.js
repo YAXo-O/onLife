@@ -1,47 +1,36 @@
 import 'react-native-gesture-handler';
-import React, {useState, useEffect} from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import 'react-native-get-random-values';
+import React from 'react';
+import {NavigationContainer} from '@react-navigation/native';
 import type {Node} from 'react';
-import {
-  AsyncStorage,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-import  AppNavigator from './src/navigation/AppNavigator'
-import Login from "./src/screens/Login";
-import AuthNavigator from "./src/navigation/AuthNavigator";
+import {Provider} from 'react-redux';
+import {store, persistor} from './src/redux/store';
+import {PersistGate} from 'redux-persist/integration/react';
+import AppNavigator from './src/navigation/AppNavigator';
+import AuthNavigator from './src/navigation/AuthNavigator';
+import {useSelector} from 'react-redux';
+import {navigationRef} from './src/navigation/RootNavigation';
 
-const App: () => Node = () => {
-  const [isLogin, setIsLogin] = useState(false)
-  const [token, setToken] = useState('')
+const NavigationComponent = () => {
+  const {token} = useSelector(state => state.auth);
 
-  useEffect(async () => {
-    try {
-      const token = await AsyncStorage.getItem('token');
-      setToken(token)
-    } catch (error) {
-      console.log(error);
-    }
-  }, [])
-
-  console.log('token', token);
-  return (
-      <NavigationContainer
-          initialRouteName={'AuthStack'}>
-
-        {token.length > 0 || isLogin  ? <AppNavigator /> : <AuthNavigator setIsLogin={setIsLogin} /> }
-
-      </NavigationContainer>
-  );
+  if (token) {
+    return <AppNavigator />;
+  } else {
+    return <AuthNavigator setIsLogin={false} />;
+  }
 };
 
-const styles = StyleSheet.create({
-
-});
+const App: () => Node = () => {
+  return (
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <NavigationContainer initialRouteName={'AuthStack'} ref={navigationRef}>
+          <NavigationComponent />
+        </NavigationContainer>
+      </PersistGate>
+    </Provider>
+  );
+};
 
 export default App;
