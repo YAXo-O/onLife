@@ -11,11 +11,8 @@ const INITIAL_STATE = {
 };
 
 const photosReducer = produce((draft, action) => {
-  console.log(`event:: ${action.type}`);
-
   switch (action.type) {
     case Actions.ADD_PHOTO:
-      console.log('hitting that shit!');
       draft.photos.push({
         id: uuidv4(),
         ...action.photo,
@@ -62,7 +59,6 @@ const photosReducer = produce((draft, action) => {
       break;
 
     case Actions.SET_INITIAL_STATE:
-      console.log('init PHOTOS');
       if (action.state.photos) draft.photos = action.state.photos;
       break;
   }

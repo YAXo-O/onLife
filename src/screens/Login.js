@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {
+  ActivityIndicator,
   Text,
   View,
   StyleSheet,
@@ -36,7 +37,6 @@ const Login = ({navigation}) => {
   const registerUser = async () => {
     const result = await dispatch(loginPhone(phoneNumber));
     if (result.challenge) {
-      console.log(`token: ${result.token}`);
       navigation.navigate('CodeScreen', {challenge: result.challenge});
     }
   };
@@ -86,7 +86,17 @@ const Login = ({navigation}) => {
             affinityCalculationStrategy={null}
           />
           {error && <Text>Введите корректный номер</Text>}
-          <TouchableOpacity style={styles.btn} onPress={() => registerUser()}>
+          <TouchableOpacity
+            style={styles.btn}
+            onPress={() => registerUser()}
+            disabled={loading}>
+            {loading ? (
+              <ActivityIndicator
+                size="small"
+                color="#ffffff"
+                style={styles.busyIndicator}
+              />
+            ) : null}
             <Text style={styles.btnText}>Register</Text>
           </TouchableOpacity>
         </View>
@@ -133,6 +143,11 @@ const styles = StyleSheet.create({
   },
   btnText: {
     color: '#fff',
+  },
+  busyIndicator: {
+    position: 'absolute',
+    left: 10,
+    top: 10,
   },
 });
 

@@ -1,14 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Login from '../screens/Login';
 import CodeScreen from '../screens/CodeScreen';
 
 const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
 
 const AuthStack = (props, setIsLogin) => {
-
   return (
     <Stack.Navigator
       initialRouteName={'FitnessScreen'}
@@ -31,7 +28,7 @@ const AuthStack = (props, setIsLogin) => {
   );
 };
 
-const AuthNavigator = (props) => {
+const AuthNavigator = props => {
   const isLogin = props.setIsLogin;
   return (
     <Stack.Navigator

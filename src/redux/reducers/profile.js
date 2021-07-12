@@ -73,8 +73,6 @@ const profileReducer = produce((draft, action) => {
       break;
 
     case Actions.UPLOAD_PROFILE_VALUES:
-      console.log('UPLOADING PROFILE VALUES');
-      console.log(action.values);
       draft.profileLoading = true;
       draft.profileLoading = false;
       draft.profileErrors = {};

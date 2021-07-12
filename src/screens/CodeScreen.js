@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from 'react'
 import {
+  ActivityIndicator,
   Text,
   View,
   StyleSheet,
@@ -10,7 +11,6 @@ import {
   TextInput,
   ScrollView,
   Alert,
-  ActivityIndicator,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {changePhone, confirmPhone} from '../redux/action-creators';
@@ -24,8 +24,11 @@ const CodeScreen = ({navigation, route}) => {
   const [error, setError] = useState(false);
   const challenge = route.params ? route.params.challenge : '';
   const dispatch = useDispatch();
-
-  console.log(`challenge: ${challenge}`);
+  const {
+    loginLoading: loading,
+    loginErrors: errors,
+    loginMessage: message,
+  } = useSelector(state => state.auth);
 
   const handleSubmit = async () => {
     if (codeNumber === '') return;
@@ -36,6 +39,29 @@ const CodeScreen = ({navigation, route}) => {
     await dispatch(changePhone());
     navigation.navigate('Login');
   };
+
+  useEffect(() => {
+    if (errors) {
+      let reason = (error => {
+        switch (error) {
+          case 'invalid token':
+            return 'Некорректный токен авторизации';
+
+          case 'invalid code':
+            return 'Неправильный код';
+
+          case 'max attempts':
+            return 'Превышено число попыток';
+
+          default:
+            return null;
+        }
+      })(errors.error);
+      if (reason) {
+        Alert.alert('Ошибка авторизации', reason);
+      }
+    }
+  }, [errors]);
 
   return (
     <View style={styles.container}>
@@ -49,8 +75,18 @@ const CodeScreen = ({navigation, route}) => {
             keyboardType="numeric"
           />
           {error && <Text>Введите корректный номер</Text>}
-          <TouchableOpacity style={styles.btn} onPress={handleSubmit}>
-            <Text style={styles.btnText}>Login</Text>
+          <TouchableOpacity
+            style={styles.btn}
+            onPress={handleSubmit}
+            disabled={loading}>
+            {loading ? (
+              <ActivityIndicator
+                size="small"
+                color="#ffffff"
+                style={styles.busyIndicator}
+              />
+            ) : null}
+            <Text style={styles.btnText}>Ввести код</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.backButton} onPress={handleChangePhone}>
             <Text style={styles.backButtonText}>Другой номер телефона</Text>
@@ -106,8 +142,6 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 1,
-
   },
   backButtonText: {
     color: '#fff',
@@ -115,6 +149,11 @@ const styles = StyleSheet.create({
     fontFamily: 'FuturaPT-Book',
     width: width - 70,
     textAlign: 'center',
+  },
+  busyIndicator: {
+    position: 'absolute',
+    left: 10,
+    top: 10,
   },
 });
 

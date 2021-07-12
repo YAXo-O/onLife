@@ -4,6 +4,7 @@ import produce from 'immer';
 const INITIAL_STATE = {
   token: null,
   pushToken: null,
+  pushTokenSynced: null,
   challenge: '',
   loginLoading: false,
   loginErrors: {},
@@ -21,18 +22,22 @@ const authReducer = produce((draft, action) => {
       break;
 
     case Actions.SET_PUSH_TOKEN:
-      draft.pushToken = { os: action.os, token: action.token };
+      draft.pushToken = action.token;
+      break;
+
+    case Actions.response(Actions.REGISTER_PUSH_TOKEN):
+      draft.pushTokenSynced = action.result.token;
       break;
 
     case Actions.request(Actions.LOGIN_PHONE):
       draft.loginLoading = true;
+      draft.loginMessage = null;
       break;
 
     case Actions.fail(Actions.LOGIN_PHONE):
       draft.loginLoading = false;
       draft.loginErrors = action.data.errors || {};
       draft.loginMessage = action.data.message;
-      console.log(action.data);
       break;
 
     case Actions.response(Actions.LOGIN_PHONE):
@@ -49,6 +54,7 @@ const authReducer = produce((draft, action) => {
     case Actions.request(Actions.CONFIRM_PHONE):
       draft.loginErrors = {};
       draft.loginLoading = true;
+      draft.loginMessage = null;
       break;
 
     case Actions.fail(Actions.CONFIRM_PHONE):
@@ -59,6 +65,7 @@ const authReducer = produce((draft, action) => {
     case Actions.response(Actions.CONFIRM_PHONE):
       draft.loginLoading = false;
       draft.token = action.result.token;
+      draft.loginMessage = null;
       draft.challenge = '';
       break;
 

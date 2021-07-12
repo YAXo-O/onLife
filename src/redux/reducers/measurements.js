@@ -11,8 +11,6 @@ const INITIAL_STATE = {
 };
 
 const measurementsReducer = produce((draft, action) => {
-  console.log(`event:: ${action.type}`);
-
   switch (action.type) {
     case Actions.request(Actions.GET_MEASUREMENTS):
       break;

@@ -26,7 +26,6 @@ const trainingReducer = produce((draft, action) => {
     case Actions.SET_INITIAL_STATE:
       if (action.state.programs) draft.programs = action.state.programs;
       if (action.state.session) {
-        console.log(`we are setting initial ${action.state.session.id}`);
         draft.session = action.state.session;
       }
       break;
@@ -46,8 +45,18 @@ const trainingReducer = produce((draft, action) => {
       }
       break;
 
+    case Actions.UPDATE_TRAINING_SESSION_ITEM:
+      const sessionPos = draft.sessions.findIndex(session => session.id === action.sessionId);
+      if (sessionPos !== -1) {
+        const p = draft.sessions[sessionPos].items.findIndex(item => item.id === action.sessionItem.id);
+        if (p !== -1) {
+          draft.sessions[sessionPos].items.splice(p, 1, action.sessionItem);
+          draft.sessions[sessionPos].synced = false;
+        }
+      }
+      break;
+
     case Actions.SAVE_TRAINING_SESSION:
-      console.log(`here we reset session`);
       if (!draft.sessions) {
         draft.sessions = [];
       }
@@ -55,22 +64,22 @@ const trainingReducer = produce((draft, action) => {
       draft.sessions.push({...session, synced: false});
       // draft.session = null;
       delete draft.currentSession[action.profile_id];
-      console.log('reset completed');
       break;
 
     case Actions.response(Actions.SYNC_TRAINING_SESSIONS):
       draft.sessions = action.sessions;
       break;
 
+    case Actions.response(Actions.GET_TRAINING_SESSIONS):
+      break;
+
     case Actions.SET_CURRENT_TRAINING_PROGRAM: {
-      console.log(`got here to set program ${action.programId} for profile ${action.profile_id}`);
       if (typeof draft.currentProgram === 'undefined') draft.currentProgram = {};
       draft.currentProgram[action.profile_id] = action.programId;
       break;
     }
 
     case Actions.ADD_TRAINING_SESSION:
-      console.log(`HERE WE ADD TRAINING SESSIONG`);
       if (!draft.currentSession) draft.currentSession = {};
 
       draft.currentSession[action.profile_id] = {

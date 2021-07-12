@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Actions from '../actions';
-import {uploadProfileValues} from '../action-creators'
+import { getTrainingPrograms, registerPushToken, syncTrainingPrograms, uploadProfileValues } from '../action-creators'
 // import { TRAINING_SESSION_ACTIVE } from '../../constants/statuses'
 import {
   getMeasurements,
@@ -32,7 +32,7 @@ const syncProfile = async (store, profile) => {
 */
 const syncTrainer = async (store, profile) => {
   await AsyncStorage.setItem(storageTrainerKey, JSON.stringify(profile));
-}
+};
 
 const syncSession = async (store, session) => {
   // how about we keep current session in local storage
@@ -43,7 +43,6 @@ const syncSession = async (store, session) => {
 const syncPhotos = async (store, photos) => {
   await AsyncStorage.setItem(storagePhotosKey, JSON.stringify(photos));
 }
-
 
 const loadProfile = async () => {
   const profile = await AsyncStorage.getItem(storageProfileKey);
@@ -81,21 +80,20 @@ const loadInitialState = async (store) => {
 const loadSession = async () => {
   const session = await AsyncStorage.getItem(storageSessionKey);
   return session ? JSON.parse(session) : null;
-}
+};
 
 const uploadSessions = async (store) => {
   console.log('here i upload stuff');
-}
+};
 
 const uploadEverything = (store) => {
   uploadSessions(store);
-}
+};
 
 const syncRequestParams = (store) => ({
   token: store.getState().auth.token,
   profile_id: store.getState().profile.profile && store.getState().profile.profile.id ? store.getState().profile.profile.id : 0, // lol ok ugly
 });
-
 
 const syncMeasurements = async (store, sendOnly) => {
   const params = syncRequestParams(store);
@@ -129,7 +127,6 @@ const syncMeasurements = async (store, sendOnly) => {
     const updateRecords = localMeasurements.filter((item) => item.synced === false);
     if (updateRecords.length) {
       console.log(`have to update ${updateRecords.length} records`);
-      console.log(updateRecords);
 
       try {
         const result = await uploadMeasurements({...params, measurements: updateRecords});
@@ -175,7 +172,6 @@ const syncGenericItems = async ({ store, sendOnly = false, items, getItems, uplo
           localMap[sm.id] = localItems.length;
           localItems.push({...sm, synced: true});
           syncedRecords[sm.id] = true;
-          console.log(`new record found ${sm.id}, ${sm.code}, ${sm.value}`);
         } else {
           const lm = localItems[localMap[sm.id]];
           if (lm.synced) { // if local record is marked as "synced", then server has newer version, we overwrite
@@ -247,6 +243,7 @@ const transformToCamel = (item) => {
 
 const syncTrainingSessions = async (store, sendOnly) => {
   const state = store.getState();
+  console.log('=== SYNC: trainingSessions');
 
   syncGenericItems({
     store, sendOnly,
@@ -286,9 +283,28 @@ const syncNotifications = async (store, sendOnly) => {
       return result.processed;
     },
   })
-}
+};
 
+const syncEverything = store => {
+  const state = store.getState();
+  console.log(`we went into sync`);
+  console.log(state.sync);
+  if (state.sync?.syncItems?.trainingPrograms) {
+    console.log('got to sync programs');
+    store.dispatch(getTrainingPrograms());
+  }
+  syncPushToken(store);
+};
 
+const syncPushToken = store => {
+  const state = store.getState();
+  const {pushToken, pushTokenSynced} = state.auth;
+  console.log(`push token ${pushToken} vs ${pushTokenSynced}`);
+
+  if (pushToken && pushToken != pushTokenSynced) {
+    store.dispatch(registerPushToken(pushToken));
+  }
+};
 
 const sync = (store) => (next) => async (action) => {
   const processed = next(action);
@@ -320,10 +336,34 @@ const sync = (store) => (next) => async (action) => {
       syncNotifications(store);
       break;
 
-    case Actions.NOTIFICATION_MESSAGE:
-      console.log('someone GOT IT');
+    case Actions.response(Actions.CONFIRM_PHONE):
+      syncTrainingSessions(store);
       break;
-  };
+    case Actions.UPDATE_TRAINING_SESSION_ITEM:
+      syncTrainingSessions(store, true);
+      break;
+
+    case Actions.SYNC_TRAINING_PROGRAMS:
+    case Actions.SYNC_EVERYTHING:
+      syncEverything(store);
+      break;
+
+    case Actions.SET_PUSH_TOKEN:
+      syncPushToken(store);
+      break;
+
+    case Actions.NOTIFICATION_MESSAGE:
+      console.log('so we got it');
+      console.log(action.message);
+      if (action.message.refresh) {
+        action.message.refresh.split(',').forEach((refreshType) => {
+          if (refreshType === 'programs') {
+            store.dispatch(syncTrainingPrograms());
+          }
+        });
+      }
+      break;
+  }
 
   return processed;
   /*

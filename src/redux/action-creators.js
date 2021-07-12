@@ -7,6 +7,10 @@ export const setBearerToken = (token, local = false) => ({
   local
 });
 
+export const logout = () => ({
+  type: Actions.LOGOUT,
+});
+
 export const setPushToken = (token, os = 'android') => ({
   type: Actions.SET_PUSH_TOKEN,
   token,
@@ -124,6 +128,11 @@ export const addTrainingSessionItem = (sessionItem) => ({
   sessionItem, profile_id: null,
 });
 
+export const updateTrainingSessionItem = (sessionId, sessionItem) => ({
+  type: Actions.UPDATE_TRAINING_SESSION_ITEM,
+  sessionId, sessionItem, profile_id: null,
+});
+
 export const uploadTrainingSessions = (sessions) => ({
   type: Actions.UPLOAD_TRAINING_SESSIONS,
   request: Api.uploadTrainingSessions,
@@ -191,12 +200,21 @@ export const saveSession = (session) => ({
   session, profile_id: null,
 });
 
+export const syncEverything = () => ({
+  type: Actions.SYNC_EVERYTHING,
+});
+
+export const syncTrainingPrograms = () => ({
+  type: Actions.SYNC_TRAINING_PROGRAMS,
+});
+
 export const syncTrainingSessions = () => ({
   type: Actions.SYNC_TRAINING_SESSIONS,
 });
 
 export const getTrainingSessions = () => ({
   type: Actions.GET_TRAINING_SESSIONS,
+  request: getTrainingSessions,
 });
 
 export const getLists = () => ({

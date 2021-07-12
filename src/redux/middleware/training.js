@@ -66,9 +66,16 @@ const switchTrainingDay = (store, action) => {
       }),
     };
 
-    console.log('got training day');
-    console.log(trainingDay);
-    RootNavigation.navigate('TrainFitness', {trainingCycle, trainingDay});
+    const existingSession = (state.training.sessions || []).find(
+      session =>
+        session.dayId === trainingDay.id && session.cycle == trainingCycle,
+    );
+
+    RootNavigation.navigate('TrainFitness', {
+      trainingCycle,
+      trainingDay,
+      existingSession,
+    });
   }
 };
 

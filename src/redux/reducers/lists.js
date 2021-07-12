@@ -12,7 +12,6 @@ const INITIAL_STATE = {
 const listsReducer = produce((draft, action) => {
   switch (action.type) {
     case Actions.response(Actions.GET_LISTS):
-      console.log(`here we got muscles`);
       Object.keys(INITIAL_STATE).forEach(key => {
         if (action.result[key]) {
           draft[key] = action.result[key];

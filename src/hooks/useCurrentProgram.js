@@ -13,10 +13,8 @@ export default function () {
   }
 
   if (currentProgram) {
-    console.log(`we got current program ${currentProgram}`);
     const program = programs.find((program) => program.id == currentProgram);
     if (program) {
-      console.log(`we found program, getting it`);
       return program;
     }
   }

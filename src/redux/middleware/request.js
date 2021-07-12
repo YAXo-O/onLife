@@ -1,7 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Actions from '../actions';
 // import { navigate } from '../../navigation';
-import { setBearerToken, getProfile, registerPushToken } from '../action-creators'
+import {
+  setBearerToken,
+  getProfile,
+  registerPushToken,
+} from '../action-creators';
 
 const navigate = (route) => {};
 
@@ -30,7 +34,6 @@ const request = (store) => (next) => async (action) => {
       return result;
 
     } catch (e) {
-      console.log(`we actually threw: ${e.message}`);
       if (e.response) {
         if (e.response.status === 401) {
           navigate('LoginScreen');
@@ -79,6 +82,11 @@ const request = (store) => (next) => async (action) => {
     }
   }
 
+  if (action.type === Actions.LOGOUT) {
+    await AsyncStorage.removeItem('bearerToken');
+  }
+
+  /*
   if (action.type === Actions.response(Actions.GET_PROFILE) || action.type === Actions.SET_PUSH_TOKEN || action.type === Actions.SET_INITIAL_STATE) {
     const token = action.type === Actions.SET_PUSH_TOKEN ? { token: action.token, os: action.os } : store.getState().auth.pushToken;
     let user = store.getState().auth.user;
@@ -87,13 +95,17 @@ const request = (store) => (next) => async (action) => {
     } else if (action.type === Actions.SET_INITIAL_STATE) {
       user = action.state.user;
     }
-
+    console.log('i was here on sync');
+    console.log(user);
     if (user && token) {
+      console.log('i went in');
       if (user.push_token !== token.token) {
+        console.log('i dispatched');
         store.dispatch(registerPushToken(token.token, token.os));
       }
     }
   }
+   */
 
   return next(action);
 }

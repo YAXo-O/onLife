@@ -1,16 +1,16 @@
 import React from 'react';
 import {
-  Text,
-  Image,
-  View,
-  TouchableOpacity,
   ImageBackground,
   StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import FitnessDashboard from '../screens/Fitness/FitnessDasboard';
 import TrainFitness from '../screens/Fitness/TrainFitness';
+import UnderConstruction from '../screens/UnderConstruction';
 
 import FitnessIcon from '../assets/NavIcons/fitnes.svg';
 import FitnessUnactiveIcon from '../assets/NavIcons/fitnesUnactive.svg';
@@ -24,7 +24,6 @@ import ShopIconActive from '../assets/NavIcons/storeUnactive.svg';
 
 import MoreIcon from '../assets/NavIcons/more.svg';
 import MoreIconActive from '../assets/NavIcons/moreActive.svg';
-import MenuBg from '../assets/formTab/menu-bg.png';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -65,14 +64,14 @@ function FitnessStack() {
 function MyFormStack() {
   return (
     <Stack.Navigator
-      initialRouteName={'FitnessScreen'}
+      initialRouteName={'MyShapeScreen'}
       screenOptions={{
         headerShown: false,
         gestureEnabled: true,
       }}>
       <Stack.Screen
-        name="ViewScreen"
-        component={FitnessDashboard}
+        name="MyShapeScreen"
+        component={UnderConstruction}
         options={{
           gestureEnabled: false,
         }}
@@ -84,14 +83,14 @@ function MyFormStack() {
 function ShopStack() {
   return (
     <Stack.Navigator
-      initialRouteName={'FitnessScreen'}
+      initialRouteName={'ShopScreen'}
       screenOptions={{
         headerShown: false,
         gestureEnabled: true,
       }}>
       <Stack.Screen
         name="ViewScreen"
-        component={FitnessDashboard}
+        component={UnderConstruction}
         options={{
           gestureEnabled: false,
         }}
@@ -100,17 +99,17 @@ function ShopStack() {
   );
 }
 
-function MoreStack () {
+function MoreStack() {
   return (
     <Stack.Navigator
-      initialRouteName={'FitnessScreen'}
+      initialRouteName={'MoreScreen'}
       screenOptions={{
         headerShown: false,
         gestureEnabled: true,
       }}>
       <Stack.Screen
-        name="ViewScreen"
-        component={FitnessDashboard}
+        name="MoreScreen"
+        component={UnderConstruction}
         options={{
           gestureEnabled: false,
         }}
@@ -119,30 +118,30 @@ function MoreStack () {
   );
 }
 
-function EatsStack () {
+function EatsStack() {
   return (
     <Stack.Navigator
-      initialRouteName={'FitnessScreen'}
+      initialRouteName={'NutritionScreen'}
       screenOptions={{
         headerShown: false,
         gestureEnabled: true,
-      }}
-    >
+      }}>
       <Stack.Screen
-        name="ViewScreen"
-        component={FitnessDashboard}
+        name="NutritionScreen"
+        component={UnderConstruction}
         options={{
           gestureEnabled: false,
         }}
       />
-
     </Stack.Navigator>
   );
 }
 
 function BgTabBar({state, descriptors, navigation}) {
   return (
-    <ImageBackground source={require('../assets/formTab/menu-bg.png')} style={styles.bgImage}>
+    <ImageBackground
+      source={require('../assets/formTab/menu-bg.png')}
+      style={styles.bgImage}>
       {state.routes.map((route, index) => {
         const {options} = descriptors[route.key];
         const label =
@@ -152,8 +151,6 @@ function BgTabBar({state, descriptors, navigation}) {
             ? options.title
             : route.name;
         const tabIcon = options.tabBarIcon;
-        console.log(tabIcon[1], route.name);
-        const tabIconActive = options.tabBarIconActive;
         const isFocused = state.index === index;
         const onPress = () => {
           const event = navigation.emit({
@@ -183,11 +180,15 @@ function BgTabBar({state, descriptors, navigation}) {
               testID={options.tabBarTestID}
               onPress={onPress}
               onLongPress={onLongPress}
-              style={styles.tabCentered}
-            >
+              style={styles.tabCentered}>
               {tabIcon}
             </TouchableOpacity>
-            <Text style={{top: 5, fontSize: 12, color: isFocused ? '#283933' : '#BCC3CC'}}>
+            <Text
+              style={{
+                top: 5,
+                fontSize: 12,
+                color: isFocused ? '#283933' : '#BCC3CC',
+              }}>
               {label}
             </Text>
           </View>
@@ -200,8 +201,7 @@ function BgTabBar({state, descriptors, navigation}) {
             testID={options.tabBarTestID}
             onPress={onPress}
             onLongPress={onLongPress}
-            style={styles.tabStyle}
-          >
+            style={styles.tabStyle}>
             {!isFocused && <Text style={styles.tabIcon}> {tabIcon[0]}</Text>}
             {isFocused && <Text style={styles.tabIcon}> {tabIcon[1]}</Text>}
             <Text
@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
       height: 12,
     },
     shadowOpacity: 0.58,
-    shadowRadius: 16.00,
+    shadowRadius: 16,
     elevation: 24,
     alignItems: 'center',
     justifyContent: 'center',
@@ -266,7 +266,6 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     bottom: 10,
   },
-
 });
 
 function BottomTabs() {
@@ -276,7 +275,6 @@ function BottomTabs() {
       initialRouteName={'Dashboard'}
       activeColor="#616D78"
       inactiveColor="rgba(97, 109, 120, 0.6)"
-
       tabBarOptions={{
         showIcon: true,
         activeTintColor: '#283933',

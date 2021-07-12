@@ -12,8 +12,6 @@ const INITIAL_STATE = {
 };
 
 const nutritionReducer = produce((draft, action) => {
-  console.log(`event:: ${action.type}`);
-
   switch (action.type) {
     case Actions.request(Actions.GET_NUTRITION_PROGRAM):
       break;
