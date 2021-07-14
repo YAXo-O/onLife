@@ -33,6 +33,10 @@ const trainingReducer = produce((draft, action) => {
     case Actions.response(Actions.GET_TRAINING_PROGRAMS):
       if (action.result.programs) {
         draft.programs[action.profile_id] = action.result.programs;
+        const currentProgram = action.result.programs.find((program) => program.isCurrent);
+        if (currentProgram) {
+          draft.currentProgram[action.profile_id] = currentProgram.id;
+        }
       }
       break;
 
