@@ -4,7 +4,7 @@ import * as Api from '../api/requests';
 export const setBearerToken = (token, local = false) => ({
   type: Actions.SET_BEARER_TOKEN,
   token,
-  local
+  local,
 });
 
 export const logout = () => ({
@@ -15,7 +15,7 @@ export const setPushToken = (token, os = 'android') => ({
   type: Actions.SET_PUSH_TOKEN,
   token,
   os,
-})
+});
 
 export const registerPushToken = (pushToken, os = 'android') => ({
   type: Actions.REGISTER_PUSH_TOKEN,
