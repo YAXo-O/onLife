@@ -25,7 +25,7 @@
     "axios": "^0.21.1",
     "immer": "^9.0.2",
     "react": "17.0.1",
-    "react-native": "0.64.0",
+    "react-native": "facebook/react-native#cf8a364767df830d7255339741350bb53ab1a68a",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-get-random-values": "^1.7.0",
     "react-native-pager-view": "^5.1.11",
