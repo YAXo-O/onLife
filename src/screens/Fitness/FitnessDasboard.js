@@ -1,5 +1,6 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {
+  ActionSheetIOS,
   Text,
   View,
   StyleSheet,
@@ -22,6 +23,56 @@ import {useDispatch, useSelector} from 'react-redux'
 import { getTrainingPrograms, getTrainingSessions, logout, setCurrentTrainingDay } from '../../redux/action-creators'
 
 const {height, width} = Dimensions.get('window');
+
+
+const PickMe = ({ name, values, value, style, onSelect }) => {
+  const valueText = useMemo(() => {
+    const v = values.find(item => item.id == value);
+    return v ? v.name : '';    
+  }, [ value, values ]);
+
+  if (Platform.OS === 'ios') {
+    const handleOpenSelect = () => {
+      ActionSheetIOS.showActionSheetWithOptions(
+        {
+          options: values.map(item => item.name),
+        },
+        buttonIndex => {
+          onSelect(values[buttonIndex].id);
+        }
+      );
+    }
+
+    return (
+      <TouchableOpacity style={style} onPress={handleOpenSelect}>
+        <Text style={styles.selectlabel}>{name}</Text>
+        <Text style={styles.selectedOption}>{valueText}</Text>
+        <SelectArr style={styles.selectArr} />
+      </TouchableOpacity>
+   )
+  } else {
+    return (
+      <View style={style}>
+        <Text style={styles.selectlabel}>{name}</Text>
+        <Picker
+          selectedValue={value}
+          style={styles.picker}
+          onValueChange={(itemValue, itemIndex) =>
+            onSelect(itemValue)
+          }>
+          {values.map(day => (
+            <Picker.Item
+              label={day.name}
+              value={day.id}
+              key={day.id}
+            />
+           ))}
+        </Picker>
+        <SelectArr style={styles.selectArr} />
+      </View>
+   )
+  }
+}
 
 const FitnesDashboard = ({navigation}) => {
   const dispatch = useDispatch();
@@ -123,37 +174,8 @@ const FitnesDashboard = ({navigation}) => {
             <Logo />
           </TouchableOpacity>
           <View style={styles.inputWrapper}>
-            <View style={styles.inputBlock}>
-              <Text style={styles.selectlabel}>Номер круга</Text>
-              <Picker
-                selectedValue={trainingCycle}
-                style={styles.picker}
-                onValueChange={(itemValue, itemIndex) =>
-                  setTrainingCycle(itemValue)
-                }>
-                {pickerNames.cycles.map(cycle => <Picker.Item label={cycle.name} value={cycle.id} key={cycle.id} />)}
-              </Picker>
-              <SelectArr style={styles.selectArr} />
-            </View>
-
-            <View style={styles.inputBlockBottom}>
-              <Text style={styles.selectlabel}>Тренировка</Text>
-              <Picker
-                selectedValue={trainingDayId}
-                style={styles.picker}
-                onValueChange={(itemValue, itemIndex) =>
-                  setTrainingDayId(itemValue)
-                }>
-                {pickerNames.days.map(day => (
-                  <Picker.Item
-                    label={day.name}
-                    value={day.id}
-                    key={day.id}
-                  />
-                ))}
-              </Picker>
-              <SelectArr style={styles.selectArr} />
-            </View>
+            <PickMe name="Номер круга" style={styles.inputBlock} values={pickerNames.cycles} value={trainingCycle} onSelect={value => setTrainingCycle(value)} />
+            <PickMe name="Тренировка" style={styles.inputBlockBottom} values={pickerNames.days} value={trainingDayId} onSelect={value => setTrainingDayId(value)} />
           </View>
           <View style={styles.startWrapper}>
             <TouchableOpacity
@@ -217,6 +239,7 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(255, 255, 255, 0.13)',
     paddingLeft: 14,
     paddingRight: 20,
+    zIndex: 1,
   },
   selectlabel: {
     color: '#fff',
@@ -224,6 +247,12 @@ const styles = StyleSheet.create({
     marginLeft: 6,
     fontFamily: 'FuturaPT-Book',
     fontSize: 15,
+  },
+  selectedOption: {
+    color: '#fff',
+    marginLeft: 6,
+    fontFamily: 'FuturaPT-Book',
+    fontSize: 18,
   },
   picker: {
     width: '100%',
@@ -234,6 +263,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     lineHeight: 23,
+    zIndex: 0,
   },
   startWrapper: {
     alignItems: 'center',
