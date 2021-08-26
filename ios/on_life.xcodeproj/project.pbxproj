@@ -11,18 +11,19 @@
 		07EAD56C9F594B20B247784B /* FuturaPTCond-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 787BD3D20C344A4FB2F2361C /* FuturaPTCond-Medium.ttf */; };
 		0B8E5F44E6BB4BD9A164B756 /* FuturaPT-Book.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3DB6FFA68A774BD8AAA70734 /* FuturaPT-Book.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		1C2757E008F940F99027C6B6 /* Jost-Bold.woff2 in Resources */ = {isa = PBXBuildFile; fileRef = 72E96AD063C6405B85A6F923 /* Jost-Bold.woff2 */; };
 		3622F2061BB84B28AE374253 /* Jost-Bold.woff in Resources */ = {isa = PBXBuildFile; fileRef = 75EA0DE458FB4882A804F9ED /* Jost-Bold.woff */; };
 		3D372E28B8D34EC39398390E /* Jost-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 30F0AADD184940D78AB2F02C /* Jost-Bold.ttf */; };
 		3FCBE357B195FB6F70ACA215 /* libPods-on_life-on_lifeTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 451C97FD3522C755FE97B1FD /* libPods-on_life-on_lifeTests.a */; };
-		52537AFC2D4A2B7C40F0031B /* libPods-on_life.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7350FF55D1ED7EC00946D80 /* libPods-on_life.a */; };
 		54432D60937D4CCDA0B49B0F /* FuturaPT-Bold.woff in Resources */ = {isa = PBXBuildFile; fileRef = A4AAC5B70AF043B785154492 /* FuturaPT-Bold.woff */; };
 		57B9904F9AB74CAD8456698F /* FuturaPT-BookObl.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8A94D914DC154D1A9D3AA652 /* FuturaPT-BookObl.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8B70706426D2BB6E003A8258 /* libswiftWebKit.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B70706326D2BB6E003A8258 /* libswiftWebKit.tbd */; };
 		8B70706626D2BCF0003A8258 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B70706526D2BCF0003A8258 /* GoogleService-Info.plist */; };
+		8B83326326D6AC2600249441 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B83326126D6AC2600249441 /* Assets.xcassets */; };
+		8B83326426D6AC2600249441 /* appstore.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B83326226D6AC2600249441 /* appstore.png */; };
+		8B83326626D6AF4800249441 /* libReact-Core.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B83326526D6AF4800249441 /* libReact-Core.a */; };
 		B4E7FC340BE24482897B2273 /* FuturaPTCond-Medium.woff in Resources */ = {isa = PBXBuildFile; fileRef = 90D79CDF72AD40838AE16F12 /* FuturaPTCond-Medium.woff */; };
 		B55351A7263AA0190052F2C4 /* FuturaPT-Medium.woff in Resources */ = {isa = PBXBuildFile; fileRef = B55351A5263AA0190052F2C4 /* FuturaPT-Medium.woff */; };
 		B55351A8263AA0190052F2C4 /* FuturaPT-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B55351A6263AA0190052F2C4 /* FuturaPT-Medium.ttf */; };
@@ -48,7 +49,6 @@
 		13B07F961A680F5B00A75B9A /* on_life.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = on_life.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = on_life/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = on_life/AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = on_life/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = on_life/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = on_life/main.m; sourceTree = "<group>"; };
 		30F0AADD184940D78AB2F02C /* Jost-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Jost-Bold.ttf"; path = "../src/assets/fonts/Jost-Bold.ttf"; sourceTree = "<group>"; };
@@ -63,6 +63,10 @@
 		8A94D914DC154D1A9D3AA652 /* FuturaPT-BookObl.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-BookObl.ttf"; path = "../src/assets/fonts/FuturaPT-BookObl.ttf"; sourceTree = "<group>"; };
 		8B70706326D2BB6E003A8258 /* libswiftWebKit.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libswiftWebKit.tbd; path = usr/lib/swift/libswiftWebKit.tbd; sourceTree = SDKROOT; };
 		8B70706526D2BCF0003A8258 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "on_life/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		8B83326126D6AC2600249441 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = on_life/Assets.xcassets; sourceTree = "<group>"; };
+		8B83326226D6AC2600249441 /* appstore.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = appstore.png; path = on_life/appstore.png; sourceTree = "<group>"; };
+		8B83326526D6AF4800249441 /* libReact-Core.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libReact-Core.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8BF5D95326D7A5080088826D /* on_life.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = on_life.entitlements; path = on_life/on_life.entitlements; sourceTree = "<group>"; };
 		90D79CDF72AD40838AE16F12 /* FuturaPTCond-Medium.woff */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPTCond-Medium.woff"; path = "../src/assets/fonts/FuturaPTCond-Medium.woff"; sourceTree = "<group>"; };
 		989B0BAC2C9617470957F840 /* Pods-on_life.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-on_life.release.xcconfig"; path = "Target Support Files/Pods-on_life/Pods-on_life.release.xcconfig"; sourceTree = "<group>"; };
 		9AFC02C53AFF413CA07402D2 /* FuturaPT-Book.woff */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-Book.woff"; path = "../src/assets/fonts/FuturaPT-Book.woff"; sourceTree = "<group>"; };
@@ -89,8 +93,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B83326626D6AF4800249441 /* libReact-Core.a in Frameworks */,
 				8B70706426D2BB6E003A8258 /* libswiftWebKit.tbd in Frameworks */,
-				52537AFC2D4A2B7C40F0031B /* libPods-on_life.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,9 +121,11 @@
 		13B07FAE1A68108700A75B9A /* on_life */ = {
 			isa = PBXGroup;
 			children = (
+				8BF5D95326D7A5080088826D /* on_life.entitlements */,
+				8B83326226D6AC2600249441 /* appstore.png */,
+				8B83326126D6AC2600249441 /* Assets.xcassets */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
-				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
@@ -130,6 +136,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8B83326526D6AF4800249441 /* libReact-Core.a */,
 				8B70706326D2BB6E003A8258 /* libswiftWebKit.tbd */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				B7350FF55D1ED7EC00946D80 /* libPods-on_life.a */,
@@ -297,10 +304,11 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				B55351A7263AA0190052F2C4 /* FuturaPT-Medium.woff in Resources */,
-				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3D372E28B8D34EC39398390E /* Jost-Bold.ttf in Resources */,
 				3622F2061BB84B28AE374253 /* Jost-Bold.woff in Resources */,
 				1C2757E008F940F99027C6B6 /* Jost-Bold.woff2 in Resources */,
+				8B83326326D6AC2600249441 /* Assets.xcassets in Resources */,
+				8B83326426D6AC2600249441 /* appstore.png in Resources */,
 				F925D911503941D98D837696 /* FuturaPT-Bold.ttf in Resources */,
 				B55351A8263AA0190052F2C4 /* FuturaPT-Medium.ttf in Resources */,
 				54432D60937D4CCDA0B49B0F /* FuturaPT-Bold.woff in Resources */,
@@ -531,7 +539,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CODE_SIGN_ENTITLEMENTS = on_life/on_life.entitlements;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = 8FZ3CH7FRR;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = on_life/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -561,7 +571,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CODE_SIGN_ENTITLEMENTS = on_life/on_life.entitlements;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = 8FZ3CH7FRR;
 				INFOPLIST_FILE = on_life/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
