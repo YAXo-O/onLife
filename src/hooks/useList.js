@@ -1,28 +1,29 @@
-import {useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {getLists} from '../redux/action-creators';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-export default function (path, type = 'list') {
-  const dispatch = useDispatch();
+import { getLists } from '@app/redux/action-creators';
 
-  const data = useSelector(state => {
-    const lists = state.lists;
-    return lists[path];
-  });
+export default function(path, type = 'list') {
+	const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (data === null || typeof data === 'undefined') {
-      dispatch(getLists());
-    }
-  }, [data, dispatch]);
+	const data = useSelector(state => {
+		const lists = state.lists;
+		return lists[path];
+	});
 
-  if (type === 'map') {
-    const map = {};
-    for (const item of data || []) {
-      map[item.id || item.code] = item;
-    }
-    return map;
-  } else {
-    return data;
-  }
+	useEffect(() => {
+		if (data === null || typeof data === 'undefined') {
+			dispatch(getLists());
+		}
+	}, [data, dispatch]);
+
+	if (type === 'map') {
+		const map = {};
+		for (const item of data || []) {
+			map[item.id || item.code] = item;
+		}
+		return map;
+	} else {
+		return data;
+	}
 }

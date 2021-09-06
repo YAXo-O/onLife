@@ -1,84 +1,100 @@
+import * as React from 'react';
+import { Provider, useDispatch, useSelector } from 'react-redux';
+
+import { AppState } from 'react-native';
 import 'react-native-gesture-handler';
 import 'react-native-get-random-values';
-import React, {Node, useCallback, useEffect, useRef} from 'react'
-import {NavigationContainer} from '@react-navigation/native';
-import {Provider, useDispatch} from 'react-redux'
-import {Alert, AppState} from 'react-native';
-import {store, persistor} from './src/redux/store';
-import {PersistGate} from 'redux-persist/integration/react';
-import AppNavigator from './src/navigation/AppNavigator';
-import AuthNavigator from './src/navigation/AuthNavigator';
-import {useSelector} from 'react-redux';
-import {navigationRef} from './src/navigation/RootNavigation';
-import messaging from '@react-native-firebase/messaging';
-import { notificationMessage, setPushToken, syncEverything, syncTrainingPrograms } from './src/redux/action-creators'
 
-messaging().setBackgroundMessageHandler(async remoteMessage => {
-  if (store) {
-    store.dispatch(notificationMessage(remoteMessage.data));
-  }
+import { NavigationContainer } from '@react-navigation/native';
+import messaging from '@react-native-firebase/messaging';
+import { PersistGate } from 'redux-persist/integration/react';
+
+import * as Sentry from '@sentry/react-native';
+
+
+import { store, persistor } from '@app/redux/store';
+import AppNavigator from '@app/navigation/AppNavigator';
+import AuthNavigator from '@app/navigation/AuthNavigator';
+import { navigationRef } from '@app/navigation/RootNavigation';
+import {
+	notificationMessage,
+	setPushToken,
+	syncEverything,
+	syncTrainingPrograms,
+} from '@app/redux/action-creators';
+import { sentryDsn } from './app.json';
+
+/* Setup Firebase messaging */
+async function backgroundHandler(message) {
+	if (store) {
+		store.dispatch(notificationMessage(message.data));
+	}
+}
+
+messaging().setBackgroundMessageHandler(backgroundHandler);
+
+/* Setup Sentry */
+Sentry.init({
+	dsn: sentryDsn,
 });
 
 const NavigationComponent = () => {
-  const {token} = useSelector(state => state.auth);
-  const dispatch = useDispatch();
-  const appState = useRef(AppState.currentState);
+	const { token } = useSelector(state => state.auth);
+	const dispatch = useDispatch();
+	const appState = React.useRef(AppState.currentState);
 
-  const handleAppState = useCallback(
-    nextAppState => {
-      if (
-        appState.current.match(/inactive|background/) &&
-        nextAppState === 'active'
-      ) {
-        dispatch(syncEverything());
-      }
+	const handleAppState = React.useCallback(
+		nextAppState => {
+			if (
+				appState.current.match(/inactive|background/) &&
+				nextAppState === 'active'
+			) {
+				dispatch(syncEverything());
+			}
 
-      appState.current = nextAppState;
-    },
-    [appState, dispatch],
-  );
+			appState.current = nextAppState;
+		},
+		[appState, dispatch],
+	);
 
-  useEffect(() => {
-    AppState.addEventListener('change', handleAppState);
-    return () => AppState.removeEventListener('change', handleAppState);
-  }, [handleAppState]);
+	React.useEffect(() => {
+		AppState.addEventListener('change', handleAppState);
+		return () => AppState.removeEventListener('change', handleAppState);
+	}, [handleAppState]);
 
-  useEffect(() => {
-    dispatch(syncTrainingPrograms());
-  }, [dispatch]);
+	React.useEffect(() => {
+		dispatch(syncTrainingPrograms());
+	}, [dispatch]);
 
-  useEffect(() => {
-    const unsubscribe = messaging().onMessage(async remoteMessage => {
-      // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-      dispatch(notificationMessage(remoteMessage.data));
-    });
+	React.useEffect(() => {
+		const unsubscribe = messaging().onMessage(async remoteMessage => {
+			dispatch(notificationMessage(remoteMessage.data));
+		});
 
-    messaging()
-      .getToken()
-      .then(token => {
-        dispatch(setPushToken(token));
-      });
+		messaging()
+			.getToken()
+			.then(newToken => {
+				dispatch(setPushToken(newToken));
+			});
 
-    return unsubscribe;
-  }, [dispatch]);
+		return unsubscribe;
+	}, [dispatch]);
 
-  if (token) {
-    return <AppNavigator />;
-  } else {
-    return <AuthNavigator setIsLogin={false} />;
-  }
+	if (token) {
+		return <AppNavigator />;
+	} else {
+		return <AuthNavigator setIsLogin={false} />;
+	}
 };
 
-const App: () => Node = () => {
-  return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <NavigationContainer initialRouteName={'AuthStack'} ref={navigationRef}>
-          <NavigationComponent />
-        </NavigationContainer>
-      </PersistGate>
-    </Provider>
-  );
+export const App = () => {
+	return (
+		<Provider store={store}>
+			<PersistGate loading={null} persistor={persistor}>
+				<NavigationContainer ref={navigationRef}>
+					<NavigationComponent />
+				</NavigationContainer>
+			</PersistGate>
+		</Provider>
+	);
 };
-
-export default App;
