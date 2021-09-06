@@ -11,7 +11,6 @@ import { PersistGate } from 'redux-persist/integration/react';
 
 import * as Sentry from '@sentry/react-native';
 
-
 import { store, persistor } from '@app/redux/store';
 import AppNavigator from '@app/navigation/AppNavigator';
 import AuthNavigator from '@app/navigation/AuthNavigator';
@@ -22,6 +21,7 @@ import {
 	syncEverything,
 	syncTrainingPrograms,
 } from '@app/redux/action-creators';
+
 import { sentryDsn } from './app.json';
 
 /* Setup Firebase messaging */
