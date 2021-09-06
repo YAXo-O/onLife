@@ -8,17 +8,13 @@ import {
 } from 'react-native';
 
 import {createStackNavigator} from '@react-navigation/stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import FitnessDashboard from '@app/screens/Fitness/FitnessDasboard';
 import TrainFitness from '@app/screens/Fitness/TrainFitness';
 
-import FitnessIcon from '@app/assets/NavIcons/fitnes.svg';
-import FitnessUnactiveIcon from '@app/assets/NavIcons/fitnesUnactive.svg';
 import EditStats from '@app/screens/Fitness/components/subTabs/EditStats';
 
 const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
 
 function FitnessStack() {
 	return (
@@ -184,46 +180,6 @@ const styles = StyleSheet.create({
 	},
 });
 
-function BottomTabs() {
-	return (
-		<Tab.Navigator
-			tabBar={props => <BgTabBar {...props} />}
-			initialRouteName={'Dashboard'}
-			activeColor="#616D78"
-			inactiveColor="rgba(97, 109, 120, 0.6)"
-			tabBarOptions={{
-				showIcon: true,
-				activeTintColor: '#283933',
-				inactiveTintColor: '#BCC3CC',
-
-				tabStyle: {
-					marginTop: 13,
-					height: 50,
-				},
-				labelStyle: {
-					fontSize: 13,
-				},
-				style: {
-					height: 86,
-					bottom: 0,
-					opacity: 0.5,
-					elevation: 0,
-					borderTopWidth: 0,
-				},
-			}}
-			shifting={false}>
-			<Tab.Screen
-				name="Fitness"
-				component={FitnessStack}
-				options={{
-					tabBarLabel: 'Фитнес',
-					tabBarIcon: [<FitnessUnactiveIcon />, <FitnessIcon />],
-				}}
-			/>
-		</Tab.Navigator>
-	);
-}
-
 const AppNavigator = props => {
 	return (
 		<Stack.Navigator
@@ -232,7 +188,7 @@ const AppNavigator = props => {
 				headerShown: false,
 				gestureEnabled: false,
 			}}>
-			<Stack.Screen name="MainStack" component={BottomTabs} />
+			<Stack.Screen name="MainStack" component={FitnessStack} />
 		</Stack.Navigator>
 	);
 };

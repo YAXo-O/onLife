@@ -1,8 +1,6 @@
 package com.on_life;
 
-
 import com.reactnativecommunity.picker.RNCPickerPackage;
-
 
 import android.app.Application;
 import android.content.Context;

@@ -18,7 +18,7 @@ import SelectArr from '@app/assets/formTab/select-arr.svg';
 import useCurrentProgram from '@app/hooks/useCurrentProgram';
 import { setCurrentTrainingDay } from '@app/redux/action-creators';
 
-const {height, width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 
 const PickMe = ({ name, values, value, style, onSelect }) => {

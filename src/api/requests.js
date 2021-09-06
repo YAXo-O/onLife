@@ -1,5 +1,5 @@
 import axios from 'axios';
-import RNFetchBlob from 'rn-fetch-blob';
+import ReactNativeBlobUtil from 'react-native-blob-util';
 
 const apiVersion = '';
 const apiUrl = (point, version = apiVersion) =>
@@ -155,7 +155,7 @@ export const deletePhoto = async ({token, profile_id, id}) => {
 
 export const uploadFile = async ({token, file}) => {
 	try {
-		const res = await RNFetchBlob.fetch(
+		const res = await ReactNativeBlobUtil.fetch(
 			'POST',
 			apiUrl('upload-file'),
 			{
@@ -167,7 +167,7 @@ export const uploadFile = async ({token, file}) => {
 					name: 'file',
 					filename: 'photo.jpg',
 					type: 'image/jpeg',
-					data: RNFetchBlob.wrap(file),
+					data: ReactNativeBlobUtil.wrap(file),
 				},
 			],
 		);

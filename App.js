@@ -24,7 +24,7 @@ import {
 
 import { sentryDsn } from './app.json';
 
-/* Setup Firebase messaging */
+//* Setup Firebase messaging */
 async function backgroundHandler(message) {
 	if (store) {
 		store.dispatch(notificationMessage(message.data));
@@ -98,3 +98,4 @@ export const App = () => {
 		</Provider>
 	);
 };
+
