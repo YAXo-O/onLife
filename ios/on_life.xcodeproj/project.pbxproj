@@ -27,6 +27,7 @@
 		B4E7FC340BE24482897B2273 /* FuturaPTCond-Medium.woff in Resources */ = {isa = PBXBuildFile; fileRef = 90D79CDF72AD40838AE16F12 /* FuturaPTCond-Medium.woff */; };
 		B55351A7263AA0190052F2C4 /* FuturaPT-Medium.woff in Resources */ = {isa = PBXBuildFile; fileRef = B55351A5263AA0190052F2C4 /* FuturaPT-Medium.woff */; };
 		B55351A8263AA0190052F2C4 /* FuturaPT-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B55351A6263AA0190052F2C4 /* FuturaPT-Medium.ttf */; };
+		BBCBB79A18064A9EA69B3720 /* libPods-on_life.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7350FF55D1ED7EC00946D80 /* libPods-on_life.a */; };
 		E5350F87BB0E426CA63837B2 /* FuturaPT-BookObl.woff in Resources */ = {isa = PBXBuildFile; fileRef = ED1032BDC1D242BA96FA50A8 /* FuturaPT-BookObl.woff */; };
 		F47D773238124128ABA6EDC1 /* FuturaPT-Book.woff in Resources */ = {isa = PBXBuildFile; fileRef = 9AFC02C53AFF413CA07402D2 /* FuturaPT-Book.woff */; };
 		F925D911503941D98D837696 /* FuturaPT-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 845364E38EE948F0A98AFF34 /* FuturaPT-Bold.ttf */; };
@@ -95,6 +96,7 @@
 			files = (
 				8B83326626D6AF4800249441 /* libReact-Core.a in Frameworks */,
 				8B70706426D2BB6E003A8258 /* libswiftWebKit.tbd in Frameworks */,
+				BBCBB79A18064A9EA69B3720 /* libPods-on_life.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -643,7 +645,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 ";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -708,7 +710,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 ";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
