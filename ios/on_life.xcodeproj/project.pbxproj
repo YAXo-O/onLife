@@ -22,6 +22,7 @@
 		8B2094A626E7EB02004E0EEA /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2094A526E7EB02004E0EEA /* File.swift */; };
 		8B70706426D2BB6E003A8258 /* libswiftWebKit.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B70706326D2BB6E003A8258 /* libswiftWebKit.tbd */; };
 		8B70706626D2BCF0003A8258 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B70706526D2BCF0003A8258 /* GoogleService-Info.plist */; };
+		8B761DE427090CE600BCD18B /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 8B761DE327090CE600BCD18B /* Fonts */; };
 		8B83326326D6AC2600249441 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B83326126D6AC2600249441 /* Assets.xcassets */; };
 		8B83326426D6AC2600249441 /* appstore.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B83326226D6AC2600249441 /* appstore.png */; };
 		8B83326626D6AF4800249441 /* libReact-Core.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B83326526D6AF4800249441 /* libReact-Core.a */; };
@@ -67,6 +68,7 @@
 		8B2094A526E7EB02004E0EEA /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		8B70706326D2BB6E003A8258 /* libswiftWebKit.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libswiftWebKit.tbd; path = usr/lib/swift/libswiftWebKit.tbd; sourceTree = SDKROOT; };
 		8B70706526D2BCF0003A8258 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "on_life/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		8B761DE327090CE600BCD18B /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Fonts; path = on_life/Fonts; sourceTree = "<group>"; };
 		8B83326126D6AC2600249441 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = on_life/Assets.xcassets; sourceTree = "<group>"; };
 		8B83326226D6AC2600249441 /* appstore.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = appstore.png; path = on_life/appstore.png; sourceTree = "<group>"; };
 		8B83326526D6AF4800249441 /* libReact-Core.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libReact-Core.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -126,6 +128,7 @@
 		13B07FAE1A68108700A75B9A /* on_life */ = {
 			isa = PBXGroup;
 			children = (
+				8B761DE327090CE600BCD18B /* Fonts */,
 				8BF5D95326D7A5080088826D /* on_life.entitlements */,
 				8B83326226D6AC2600249441 /* appstore.png */,
 				8B83326126D6AC2600249441 /* Assets.xcassets */,
@@ -313,6 +316,7 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				B55351A7263AA0190052F2C4 /* FuturaPT-Medium.woff in Resources */,
 				3D372E28B8D34EC39398390E /* Jost-Bold.ttf in Resources */,
+				8B761DE427090CE600BCD18B /* Fonts in Resources */,
 				3622F2061BB84B28AE374253 /* Jost-Bold.woff in Resources */,
 				1C2757E008F940F99027C6B6 /* Jost-Bold.woff2 in Resources */,
 				8B83326326D6AC2600249441 /* Assets.xcassets in Resources */,
@@ -520,6 +524,10 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(SDKROOT)/usr/lib/swift",
+					"$(inherited)",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -544,6 +552,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(SDKROOT)/usr/lib/swift",
+					"$(inherited)",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -572,8 +584,8 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
 					"$(SDKROOT)/usr/lib/swift",
+					"$(inherited)",
 				);
 				MARKETING_VERSION = 1.1;
 				OTHER_LDFLAGS = (
@@ -605,8 +617,8 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
 					"$(SDKROOT)/usr/lib/swift",
+					"$(inherited)",
 				);
 				MARKETING_VERSION = 1.1;
 				OTHER_LDFLAGS = (

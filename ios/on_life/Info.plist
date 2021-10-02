@@ -41,6 +41,9 @@
 	<string></string>
 	<key>UIAppFonts</key>
 	<array>
+		<string>FontAwesome5_Regular.ttf</string>
+		<string>FontAwesome5_Solid.ttf</string>
+		<string>FontAwesome5_Brands.ttf</string>
 		<string>FuturaPT-Medium.woff</string>
 		<string>FuturaPT-Medium.ttf</string>
 		<string>Jost-Bold.ttf</string>
