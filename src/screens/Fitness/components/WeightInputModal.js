@@ -1,5 +1,15 @@
-import React, {useEffect, useState} from 'react'
-import {Dimensions, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+	Dimensions,
+	KeyboardAvoidingView,
+	Modal,
+	Platform,
+	StyleSheet,
+	Text,
+	TextInput,
+	TouchableOpacity,
+	View
+} from 'react-native';
 import CloseIcon from '../../../assets/formTab/closemdpi.svg';
 import UpArr from '../../../assets/formTab/up.svg';
 import DownArr from '../../../assets/formTab/down.svg';
@@ -27,44 +37,50 @@ export default function({weightInput, onClose}) {
 			visible={true}
 			onRequestClose={onClose}
 		>
-			<View style={styles.centeredView}>
-				<TouchableOpacity
-					onPress={onClose}
-					style={styles.topTouchable}>
-					<View style={styles.closeIcon}>
-						<CloseIcon/>
-					</View>
-				</TouchableOpacity>
-				<View style={styles.modalView}>
-					<Text style={styles.modalTitle}>Выполнен вес</Text>
-					{weightInput?.name ? (
-						<Text style={styles.modalSubtitle}>{weightInput.name}</Text>
-					) : null}
-					<View style={styles.inputView}>
-						<TouchableOpacity
-							style={styles.modalArrUp}
-							onPress={() => setValue(value + 0.5)}>
-							<UpArr/>
-						</TouchableOpacity>
-						<TextInput
-							style={styles.lastItem}
-							onChangeText={value => setValue(Number(value))}
-							value={value ? value.toString() : ''}
-							keyboardType="numeric"
-						/>
-						<TouchableOpacity
-							style={styles.modalArrDown}
-							onPress={() => setValue(value - 0.5)}>
-							<DownArr/>
-						</TouchableOpacity>
-					</View>
+			<KeyboardAvoidingView
+				behavior={Platform.OS === 'ios' ? 'height' : null}
+				style={{ flex: 1}}
+				enabled
+			>
+				<View style={styles.centeredView}>
 					<TouchableOpacity
-						onPress={handleSubmit}
-						style={styles.doneBtn}>
-						<DoneIcon/>
+						onPress={onClose}
+						style={styles.topTouchable}>
+						<View style={styles.closeIcon}>
+							<CloseIcon/>
+						</View>
 					</TouchableOpacity>
+					<View style={styles.modalView}>
+						<Text style={styles.modalTitle}>Выполнен вес</Text>
+						{weightInput?.name ? (
+							<Text style={styles.modalSubtitle}>{weightInput.name}</Text>
+						) : null}
+						<View style={styles.inputView}>
+							<TouchableOpacity
+								style={styles.modalArrUp}
+								onPress={() => setValue(value + 0.5)}>
+								<UpArr/>
+							</TouchableOpacity>
+							<TextInput
+								style={styles.lastItem}
+								onChangeText={value => setValue(Number(value))}
+								value={value ? value.toString() : ''}
+								keyboardType="numeric"
+							/>
+							<TouchableOpacity
+								style={styles.modalArrDown}
+								onPress={() => setValue(value - 0.5)}>
+								<DownArr/>
+							</TouchableOpacity>
+						</View>
+						<TouchableOpacity
+							onPress={handleSubmit}
+							style={styles.doneBtn}>
+							<DoneIcon/>
+						</TouchableOpacity>
+					</View>
 				</View>
-			</View>
+			</KeyboardAvoidingView>
 		</Modal>
 	);
 }

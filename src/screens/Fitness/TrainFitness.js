@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {
-	Alert, KeyboardAvoidingView, Platform,
+	Alert,
 	ScrollView,
 	StyleSheet,
 	Text,
@@ -125,20 +125,14 @@ const TrainFitness = props => {
 					)
 				}
 			</ScrollView>
-			<KeyboardAvoidingView
-				behavior={Platform.OS === 'ios' ? 'height' : null}
-				style={{ flex: 1}}
-				enabled
-			>
-				{
-					weightInput && (
-						<WeightInputModal
-							weightInput={weightInput}
-							onClose={() => setWeightInput(null)}
-						/>
-					)
-				}
-			</KeyboardAvoidingView>
+			{
+				weightInput && (
+					<WeightInputModal
+						weightInput={weightInput}
+						onClose={() => setWeightInput(null)}
+					/>
+				)
+			}
 		</View>
 	);
 };
