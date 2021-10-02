@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 
-import {AppState, KeyboardAvoidingView, Linking, Platform} from 'react-native';
+import { AppState, Linking } from 'react-native';
 import 'react-native-gesture-handler';
 import 'react-native-get-random-values';
 
@@ -110,14 +110,9 @@ export const App = () => {
 	return (
 		<Provider store={store}>
 			<PersistGate loading={null} persistor={persistor}>
-				<KeyboardAvoidingView
-					behavior={Platform.OS === 'ios' ? 'height' : null}
-					style={{ flex: 1}}
-				>
-					<NavigationContainer ref={navigationRef}>
-						<NavigationComponent />
-					</NavigationContainer>
-				</KeyboardAvoidingView>
+				<NavigationContainer ref={navigationRef}>
+					<NavigationComponent />
+				</NavigationContainer>
 			</PersistGate>
 		</Provider>
 	);

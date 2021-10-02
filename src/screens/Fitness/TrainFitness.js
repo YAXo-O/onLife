@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {
-	Alert,
+	Alert, KeyboardAvoidingView, Platform,
 	ScrollView,
 	StyleSheet,
 	Text,
@@ -25,10 +25,6 @@ const TrainFitness = props => {
 	const navigation = useNavigation();
 
 	const [weightInput, setWeightInput] = React.useState(null);
-
-	React.useEffect(() => {
-		console.log('WeightInput value changed: ', weightInput);
-	}, [weightInput]);
 
 	const exercises = React.useMemo(() => {
 		const exercises = [];
@@ -101,39 +97,48 @@ const TrainFitness = props => {
 					) : null}
 				</View>
 			</View>
-			<ScrollView
-				showsVerticalScrollIndicator={false}
-				contentContainerStyle={styles.tabsWrapper}>
-				{exercises.map((exercise, count) => (
-					<Tab
-						name={exercise.name}
-						desc={exercise.intro}
-						trainingDay={trainingDay}
-						trainingCycle={trainingCycle}
-						exercise={exercise}
-						key={exercise.id}
-						count={count + 1}
-						setWeightInput={setWeightInput}
-					/>
-				))}
-				{canIFinish ? (
-					<View style={styles.successButtons}>
-						<TouchableOpacity
-							style={styles.successButton}
-							onPress={handleFinishSession}>
-							<Text style={styles.successButtonText}>Завершить тренировку</Text>
-						</TouchableOpacity>
-					</View>
-				) : null}
-			</ScrollView>
-
-			{
-				weightInput &&
-				<WeightInputModal
-					weightInput={weightInput}
-					onClose={() => setWeightInput(null)}
-				/>
-			}
+			<KeyboardAvoidingView
+				behavior={Platform.OS === 'ios' ? 'height' : null}
+				style={{ flex: 1}}
+				enabled
+			>
+				<ScrollView
+					showsVerticalScrollIndicator={false}
+					contentContainerStyle={styles.tabsWrapper}
+				>
+					{exercises.map((exercise, count) => (
+						<Tab
+							name={exercise.name}
+							desc={exercise.intro}
+							trainingDay={trainingDay}
+							trainingCycle={trainingCycle}
+							exercise={exercise}
+							key={exercise.id}
+							count={count + 1}
+							setWeightInput={setWeightInput}
+						/>
+					))}
+					{
+						canIFinish && (
+							<View style={styles.successButtons}>
+								<TouchableOpacity
+									style={styles.successButton}
+									onPress={handleFinishSession}>
+									<Text style={styles.successButtonText}>Завершить тренировку</Text>
+								</TouchableOpacity>
+							</View>
+						)
+					}
+					{
+						weightInput && (
+							<WeightInputModal
+								weightInput={weightInput}
+								onClose={() => setWeightInput(null)}
+							/>
+						)
+					}
+				</ScrollView>
+			</KeyboardAvoidingView>
 		</View>
 	);
 };
@@ -164,7 +169,7 @@ const styles = StyleSheet.create({
 	},
 	headerTitle: {
 		fontFamily: 'FuturaPT-Book',
-		fontSize: 20,
+		fontSize: 18,
 		fontWeight: '700',
 		color: '#000000',
 	},
