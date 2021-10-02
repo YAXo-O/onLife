@@ -97,47 +97,47 @@ const TrainFitness = props => {
 					) : null}
 				</View>
 			</View>
+			<ScrollView
+				showsVerticalScrollIndicator={false}
+				contentContainerStyle={styles.tabsWrapper}
+			>
+				{exercises.map((exercise, count) => (
+					<Tab
+						name={exercise.name}
+						desc={exercise.intro}
+						trainingDay={trainingDay}
+						trainingCycle={trainingCycle}
+						exercise={exercise}
+						key={exercise.id}
+						count={count + 1}
+						setWeightInput={setWeightInput}
+					/>
+				))}
+				{
+					canIFinish && (
+						<View style={styles.successButtons}>
+							<TouchableOpacity
+								style={styles.successButton}
+								onPress={handleFinishSession}>
+								<Text style={styles.successButtonText}>Завершить тренировку</Text>
+							</TouchableOpacity>
+						</View>
+					)
+				}
+			</ScrollView>
 			<KeyboardAvoidingView
 				behavior={Platform.OS === 'ios' ? 'height' : null}
 				style={{ flex: 1}}
 				enabled
 			>
-				<ScrollView
-					showsVerticalScrollIndicator={false}
-					contentContainerStyle={styles.tabsWrapper}
-				>
-					{exercises.map((exercise, count) => (
-						<Tab
-							name={exercise.name}
-							desc={exercise.intro}
-							trainingDay={trainingDay}
-							trainingCycle={trainingCycle}
-							exercise={exercise}
-							key={exercise.id}
-							count={count + 1}
-							setWeightInput={setWeightInput}
+				{
+					weightInput && (
+						<WeightInputModal
+							weightInput={weightInput}
+							onClose={() => setWeightInput(null)}
 						/>
-					))}
-					{
-						canIFinish && (
-							<View style={styles.successButtons}>
-								<TouchableOpacity
-									style={styles.successButton}
-									onPress={handleFinishSession}>
-									<Text style={styles.successButtonText}>Завершить тренировку</Text>
-								</TouchableOpacity>
-							</View>
-						)
-					}
-					{
-						weightInput && (
-							<WeightInputModal
-								weightInput={weightInput}
-								onClose={() => setWeightInput(null)}
-							/>
-						)
-					}
-				</ScrollView>
+					)
+				}
 			</KeyboardAvoidingView>
 		</View>
 	);
