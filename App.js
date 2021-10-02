@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 
-import { AppState, Linking } from 'react-native';
+import {AppState, KeyboardAvoidingView, Linking, Platform} from 'react-native';
 import 'react-native-gesture-handler';
 import 'react-native-get-random-values';
 
@@ -80,11 +80,21 @@ const NavigationComponent = () => {
 			dispatch(notificationMessage(remoteMessage.data));
 		});
 
-		messaging()
-			.getToken()
-			.then(newToken => {
-				dispatch(setPushToken(newToken));
-			});
+		// Request permissions (required for ios)
+		const authStatus = messaging().requestPermission();
+		const enabled = authStatus === messaging.AuthorizationStatus.AUTHORIZED || messaging.AuthorizationStatus.PROVISIONAL;
+
+		if (enabled) {
+			console.log('User has enabled push-notifications');
+
+			messaging()
+				.getToken()
+				.then(newToken => {
+					dispatch(setPushToken(newToken));
+				});
+		} else {
+			console.log('Push notifications are disabled by user');
+		}
 
 		return unsubscribe;
 	}, [dispatch]);
@@ -100,9 +110,14 @@ export const App = () => {
 	return (
 		<Provider store={store}>
 			<PersistGate loading={null} persistor={persistor}>
-				<NavigationContainer ref={navigationRef}>
-					<NavigationComponent />
-				</NavigationContainer>
+				<KeyboardAvoidingView
+					behavior={Platform.OS === 'ios' ? 'padding' : null}
+					style={{ flex: 1}}
+				>
+					<NavigationContainer ref={navigationRef}>
+						<NavigationComponent />
+					</NavigationContainer>
+				</KeyboardAvoidingView>
 			</PersistGate>
 		</Provider>
 	);

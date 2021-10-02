@@ -19,10 +19,11 @@ import useProfiledData from '@app/hooks/useProfiledData';
 import {saveSession} from '@app/redux/action-creators';
 
 const TrainFitness = props => {
-	const {trainingDay, trainingCycle} = props.route.params;
+	const { trainingDay, trainingCycle } = props.route.params;
 	const session = useProfiledData('training.currentSession');
 	const dispatch = useDispatch();
 	const navigation = useNavigation();
+
 	const [weightInput, setWeightInput] = React.useState(null);
 
 	const exercises = React.useMemo(() => {
@@ -84,7 +85,7 @@ const TrainFitness = props => {
 		<View style={styles.container}>
 			<View style={styles.header}>
 				<View style={styles.headerColumn}>
-					<View style={styles.headerRow} onTouchEnd={() => navigation.navigate('ViewScreen')}>
+					<View style={styles.headerRow} onTouchEnd={() => navigation.goBack()}>
 						<FontAwesome5 style={styles.headerBack} name="chevron-left" />
 						<Text style={styles.headerBack}> Назад</Text>
 					</View>
