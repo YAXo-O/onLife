@@ -123,10 +123,13 @@ const TrainFitness = props => {
 				) : null}
 			</ScrollView>
 
-			<WeightInputModal
-				weightInput={weightInput}
-				onClose={() => setWeightInput(null)}
-			/>
+			{
+				weightInput &&
+				<WeightInputModal
+					weightInput={weightInput}
+					onClose={() => setWeightInput(null)}
+				/>
+			}
 		</View>
 	);
 };
