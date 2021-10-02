@@ -111,7 +111,7 @@ export const App = () => {
 		<Provider store={store}>
 			<PersistGate loading={null} persistor={persistor}>
 				<KeyboardAvoidingView
-					behavior={Platform.OS === 'ios' ? 'padding' : null}
+					behavior={Platform.OS === 'ios' ? 'height' : null}
 					style={{ flex: 1}}
 				>
 					<NavigationContainer ref={navigationRef}>

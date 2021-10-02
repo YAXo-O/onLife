@@ -9,13 +9,11 @@ const {width} = Dimensions.get('window');
 
 export default function({weightInput, onClose}) {
 	const [value, setValue] = useState(0);
-	const [isVisible, setIsVisible] = useState(false);
 
 	useEffect(() => {
 		if (weightInput) {
 			setValue(weightInput.value);
 		}
-		setIsVisible(!!weightInput);
 	}, [weightInput]);
 
 	const handleSubmit = () => {
@@ -26,7 +24,7 @@ export default function({weightInput, onClose}) {
 		<Modal
 			animationType="slide"
 			transparent={true}
-			visible={isVisible}
+			visible={true}
 			onRequestClose={onClose}
 		>
 			<View style={styles.centeredView}>

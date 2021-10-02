@@ -26,6 +26,10 @@ const TrainFitness = props => {
 
 	const [weightInput, setWeightInput] = React.useState(null);
 
+	React.useEffect(() => {
+		console.log('WeightInput value changed: ', weightInput);
+	}, [weightInput]);
+
 	const exercises = React.useMemo(() => {
 		const exercises = [];
 		const source = trainingDay.exercises.concat();
