@@ -114,7 +114,7 @@ const TrainFitness = props => {
 					/>
 				))}
 				{
-					canIFinish && (
+					canIFinish ? (
 						<View style={styles.successButtons}>
 							<TouchableOpacity
 								style={styles.successButton}
@@ -122,16 +122,16 @@ const TrainFitness = props => {
 								<Text style={styles.successButtonText}>Завершить тренировку</Text>
 							</TouchableOpacity>
 						</View>
-					)
+					) : null
 				}
 			</ScrollView>
 			{
-				weightInput && (
+				weightInput ? (
 					<WeightInputModal
 						weightInput={weightInput}
 						onClose={() => setWeightInput(null)}
 					/>
-				)
+				) : null
 			}
 		</View>
 	);
