@@ -7,15 +7,16 @@ import {
 	TouchableOpacity,
 	View,
 } from 'react-native';
-
-import Tab from './components/Tab';
 import {useDispatch} from 'react-redux';
 
 import {useNavigation} from '@react-navigation/native';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+
+import Tab from '@app/screens/Fitness/components/Tab';
+import WeightInputModal from '@app/screens/Fitness/components/WeightInputModal';
 
 import useProfiledData from '@app/hooks/useProfiledData';
 import {saveSession} from '@app/redux/action-creators';
-import WeightInputModal from '@app/screens/Fitness/components/WeightInputModal';
 
 const TrainFitness = props => {
 	const {trainingDay, trainingCycle} = props.route.params;
@@ -82,10 +83,18 @@ const TrainFitness = props => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
-				<Text style={styles.headerTitle}>Тренировка</Text>
-				{trainingDay ? (
-					<Text style={styles.headerName}>{trainingDay.name}</Text>
-				) : null}
+				<View style={styles.headerColumn}>
+					<View style={styles.headerRow} onTouchEnd={() => navigation.navigate('ViewScreen')}>
+						<FontAwesome5 style={styles.headerBack} name="chevron-left" />
+						<Text style={styles.headerBack}> Назад</Text>
+					</View>
+				</View>
+				<View style={styles.headerColumn}>
+					<Text style={styles.headerTitle}>Тренировка</Text>
+					{trainingDay ? (
+						<Text style={styles.headerName}>{trainingDay.name}</Text>
+					) : null}
+				</View>
 			</View>
 			<ScrollView
 				showsVerticalScrollIndicator={false}
@@ -129,15 +138,33 @@ const styles = StyleSheet.create({
 		paddingTop: 35,
 	},
 	header: {
+		flexDirection: 'row',
+		paddingBottom: 15,
+	},
+	headerRow: {
+		flexDirection: 'row',
+		alignItems: 'flex-start',
+		width: '100%',
+	},
+	headerColumn: {
+		flexDirection: 'column',
+		width: '33%',
 		justifyContent: 'center',
 		alignItems: 'center',
-		paddingBottom: 15,
+		paddingLeft: 8,
+		paddingRight: 8,
 	},
 	headerTitle: {
 		fontFamily: 'FuturaPT-Book',
 		fontSize: 20,
 		fontWeight: '700',
 		color: '#000000',
+	},
+	headerBack: {
+		fontFamily: 'FuturaPT-Book',
+		fontSize: 16,
+		fontWeight: 'normal',
+		color: '#007bff',
 	},
 	headerName: {
 		fontFamily: 'FuturaPT-Book',

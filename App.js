@@ -1,13 +1,14 @@
 import * as React from 'react';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 
-import { AppState } from 'react-native';
+import { AppState, Linking } from 'react-native';
 import 'react-native-gesture-handler';
 import 'react-native-get-random-values';
 
 import { NavigationContainer } from '@react-navigation/native';
 import messaging from '@react-native-firebase/messaging';
 import { PersistGate } from 'redux-persist/integration/react';
+import VersionCheck from 'react-native-version-check';
 
 import * as Sentry from '@sentry/react-native';
 
@@ -37,6 +38,14 @@ messaging().setBackgroundMessageHandler(backgroundHandler);
 Sentry.init({
 	dsn: sentryDsn,
 });
+
+/* Version Check */
+VersionCheck.needUpdate()
+	.then((res) => {
+		if (res.isNeeded) {
+			Linking.openURL(res.storeUrl);
+		}
+	});
 
 const NavigationComponent = () => {
 	const { token } = useSelector(state => state.auth);
