@@ -114,13 +114,13 @@ export default function({ html, autoHeight, width, height, defaultHeight = 200 }
 
 	const h = autoHeight ? webViewHeight : defaultHeight;
 
-	const handleLoadRequest = (event) => {
-		if (event.url !== 'file:///android_res/') {
-			Linking.openURL(event.url);
-			return false;
-		}
-		return true;
-	};
+	// const handleLoadRequest = (event) => {
+	// 	if (event.url !== 'file:///android_res/') {
+	// 		Linking.openURL(event.url);
+	// 		return false;
+	// 	}
+	// 	return true;
+	// };
 
 	const handleMessage = e => {
 		setWebViewHeight(parseInt(e.nativeEvent.data));
@@ -132,10 +132,10 @@ export default function({ html, autoHeight, width, height, defaultHeight = 200 }
 				style={{width: '100%', height: h}}
 				javaScriptEnabled={true}
 				onMessage={handleMessage}
-				source={{html: wrapHtml(html), baseUrl: 'file:///android_res/'}}
+				source={{html: wrapHtml(html)}}
 				onStartShouldSetResponder={() => true}
 				ref={webviewRef}
-				onShouldStartLoadWithRequest={handleLoadRequest}
+				// onShouldStartLoadWithRequest={handleLoadRequest}
 			/>
 		</React.Fragment>
 	);
