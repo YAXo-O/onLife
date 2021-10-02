@@ -1,28 +1,15 @@
-import React, {useRef, useState} from 'react';
-import {Dimensions, Linking, Platform, Text} from 'react-native';
+import React, { useRef, useState } from 'react';
+import { Linking, Platform } from 'react-native';
 import WebView from 'react-native-webview';
 
-const injectedScript = function() {
-  function waitForBridge() {
-    if (window.postMessage.length !== 1) {
-      setTimeout(waitForBridge, 200);
-    } else {
-      postMessage(
-        Math.max(document.documentElement.clientHeight, document.documentElement.scrollHeight, document.body.clientHeight, document.body.scrollHeight)
-      );
-    }
-  }
-  waitForBridge();
-};
-
 const wrapHtml = content => {
-  if (!content) {
-    return null;
-  }
+	if (!content) {
+		return null;
+	}
 
-  content = content.replace(/(<table.+?<\/table>)/gsi, '<div class="table-wrapper">$1</div>');
+	content = content.replace(/(<table.+?<\/table>)/gsi, '<div class="table-wrapper">$1</div>');
 
-  return `<html>
+	return `<html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 
@@ -35,7 +22,7 @@ html {
 body { 
     padding: 15px;
     margin: 0;
-    font-family: ${Platform.select({ ios: 'Arial', android: 'Roboto' })}
+    font-family: ${Platform.select({ios: 'Arial', android: 'Roboto'})}
 }
 
 h1 {
@@ -110,8 +97,6 @@ table tr td {
     if (!window.ReactNativeWebView || !window.ReactNativeWebView.postMessage || !document.body) {
       setTimeout(waitForBridge, 200);
     } else {
-      // alert(Math.max(document.documentElement.clientHeight, document.documentElement.scrollHeight, document.body.clientHeight, document.body.scrollHeight));
-      // alert(Math.max(document.documentElement.clientHeight, document.documentElement.scrollHeight, document.body.clientHeight, document.body.scrollHeight));
       window.ReactNativeWebView.postMessage(
         Math.max(document.documentElement.clientHeight, document.documentElement.scrollHeight, document.body.clientHeight, document.body.scrollHeight)
       );
@@ -124,34 +109,34 @@ ${content}
 };
 
 export default function({ html, autoHeight, width, height, defaultHeight = 200 }) {
-  const webviewRef = useRef(null);
-  const [webViewHeight, setWebViewHeight] = useState(defaultHeight);
+	const webviewRef = useRef(null);
+	const [webViewHeight, setWebViewHeight] = useState(defaultHeight);
 
-  const h = autoHeight ? webViewHeight : defaultHeight;
+	const h = autoHeight ? webViewHeight : defaultHeight;
 
-  const handleLoadRequest = (event) => {
-    if (event.url != 'file:///android_res/') {
-      Linking.openURL(event.url);
-      return false;
-    }
-    return true;
-  };
+	const handleLoadRequest = (event) => {
+		if (event.url !== 'file:///android_res/') {
+			Linking.openURL(event.url);
+			return false;
+		}
+		return true;
+	};
 
-  const handleMessage = e => {
-    setWebViewHeight(parseInt(e.nativeEvent.data));
-  };
+	const handleMessage = e => {
+		setWebViewHeight(parseInt(e.nativeEvent.data));
+	};
 
-  return (
-    <React.Fragment>
-      <WebView
-        style={{width: '100%', height: h}}
-        javaScriptEnabled={true}
-        onMessage={handleMessage}
-        source={{html: wrapHtml(html), baseUrl: 'file:///android_res/'}}
-        onStartShouldSetResponder={() => true}
-        ref={webviewRef}
-        onShouldStartLoadWithRequest={handleLoadRequest}
-      />
-    </React.Fragment>
-  );
+	return (
+		<React.Fragment>
+			<WebView
+				style={{width: '100%', height: h}}
+				javaScriptEnabled={true}
+				onMessage={handleMessage}
+				source={{html: wrapHtml(html), baseUrl: 'file:///android_res/'}}
+				onStartShouldSetResponder={() => true}
+				ref={webviewRef}
+				onShouldStartLoadWithRequest={handleLoadRequest}
+			/>
+		</React.Fragment>
+	);
 }
