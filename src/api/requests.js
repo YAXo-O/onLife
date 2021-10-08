@@ -4,51 +4,55 @@ import ReactNativeBlobUtil from 'react-native-blob-util';
 const apiVersion = '';
 const apiUrl = (point, version = apiVersion) =>
 	`https://powertrain.app/api/app/${version ? `${version}/` : ''}${point}`;
-const apiHeaders = token => ({headers: {Authorization: `Bearer ${token}`}});
+const apiHeaders = token => ({
+	headers: {
+		Authorization: `Bearer ${token}`,
+	},
+});
 
-export const loginPhone = async ({phone}) => {
-	const {data} = await axios.post(apiUrl('login-phone', null), {phone});
+export async function loginPhone({ phone }) {
+	const { data } = await axios.post(apiUrl('login-phone', null), { phone });
 	return data;
-};
+}
 
-export const getLists = async ({token}) => {
-	const {data} = await axios.get(apiUrl('lists', null), apiHeaders(token));
+export async function getLists({ token }) {
+	const { data } = await axios.get(apiUrl('lists', null), apiHeaders(token));
 	return data;
-};
+}
 
-export const registerToken = async ({os, pushToken, token, app = 'onlife'}) => {
-	const {data} = await axios.post(apiUrl('register-push-token', null), {
+export async function registerToken({ os, pushToken, token, app = 'onlife' }) {
+	const { data } = await axios.post(apiUrl('register-push-token', null), {
 		os,
 		pushToken,
 		token,
 		app,
 	});
 	return data;
-};
+}
 
-export const confirmPhone = async ({challenge, code}) => {
-	const {data} = await axios.post(apiUrl('confirm-phone', null), {
+export async function confirmPhone({ challenge, code }) {
+	const { data } = await axios.post(apiUrl('confirm-phone', null), {
 		challenge,
 		code,
 	});
 	return data;
-};
+}
 
-export const getUser = async ({token}) => {
-	const {data} = await axios.get(apiUrl('user', null), apiHeaders(token));
+export async function getUser({ token }) {
+	const { data } = await axios.get(apiUrl('user', null), apiHeaders(token));
 	return data;
-};
+}
 
-export const getProfile = async ({profile_id, token}) => {
-	const {data} = await axios.get(
+export async function getProfile({ profile_id, token }) {
+	const { data } = await axios.get(
 		apiUrl(`profile${profile_id ? `/${profile_id}` : ''}`, null),
 		apiHeaders(token),
 	);
 	return data;
 };
 
-export const uploadProfileValues = async ({profile_id, token, values}) => {
-	const {data} = await axios.put(
+export async function uploadProfileValues ({profile_id, token, values}) {
+	const { data } = await axios.put(
 		apiUrl(`profile/${profile_id}`, null),
 		{values},
 		apiHeaders(token),
@@ -56,54 +60,49 @@ export const uploadProfileValues = async ({profile_id, token, values}) => {
 	return data;
 };
 
-export const getNotifications = async ({token, profile_id}) => {
-	const {data} = await axios.get(
+export async function getNotifications({token, profile_id}) {
+	const { data } = await axios.get(
 		apiUrl(`profile/${profile_id}/notifications`, null),
 		apiHeaders(token),
 	);
 	return data;
 };
 
-export const uploadNotifications = async ({
-	                                          token,
-	                                          notifications,
-	                                          profile_id,
-                                          }) => {
-	const {data} = await axios.post(
+export async function uploadNotifications({ token, notifications, profile_id }) {
+	const { data } = await axios.post(
 		apiUrl(`profile/${profile_id}/notifications`, null),
 		{notifications},
 		apiHeaders(token),
 	);
 	return data;
-};
+}
 
-export const getTrainingPrograms = async ({token, profile_id}) => {
-	const {data} = await axios.get(
+export async function getTrainingPrograms({ token, profile_id }) {
+	const { data } = await axios.get(
 		apiUrl(`profile/${profile_id}/programs`, null),
 		apiHeaders(token),
 	);
 	return data;
-};
+}
 
-export const getNutritionProgram = async ({token, profile_id}) => {
-	const {data} = await axios.get(
+export async function getNutritionProgram({ token, profile_id }) {
+	const { data } = await axios.get(
 		apiUrl(`profile/${profile_id}/nutrition`, null),
 		apiHeaders(token),
 	);
 	return data;
-};
+}
 
-export const getTrainingSessions = async ({token, profile_id}) => {
-	console.log(`getting sessions for ${profile_id}`);
-	const {data} = await axios.get(
+export async function getTrainingSessions({ token, profile_id }) {
+	const { data } = await axios.get(
 		apiUrl(`profile/${profile_id}/sessions`, null),
 		apiHeaders(token),
 	);
 	return data;
 };
 
-export const uploadTrainingSessions = async ({token, sessions, profile_id}) => {
-	const {data} = await axios.post(
+export async function uploadTrainingSessions({ token, sessions, profile_id }) {
+	const { data } = await axios.post(
 		apiUrl(`profile/${profile_id}/sessions`, null),
 		{sessions},
 		apiHeaders(token),
@@ -111,15 +110,15 @@ export const uploadTrainingSessions = async ({token, sessions, profile_id}) => {
 	return data;
 };
 
-export const getPhotos = async ({token, profile_id}) => {
-	const {data} = await axios.get(
+export async function getPhotos({token, profile_id}) {
+	const { data } = await axios.get(
 		apiUrl(`profile/${profile_id}/photos`, null),
 		apiHeaders(token),
 	);
 	return data;
 };
 
-export const getMeasurements = async ({token, profile_id}) => {
+export async function getMeasurements({token, profile_id}) {
 	const {data} = await axios.get(
 		apiUrl(`profile/${profile_id}/measurements`, null),
 		apiHeaders(token),
@@ -127,7 +126,7 @@ export const getMeasurements = async ({token, profile_id}) => {
 	return data;
 };
 
-export const uploadMeasurements = async ({token, measurements, profile_id}) => {
+export async function uploadMeasurements({token, measurements, profile_id}) {
 	const {data} = await axios.post(
 		apiUrl(`profile/${profile_id}/measurements`, null),
 		{measurements},
@@ -136,7 +135,7 @@ export const uploadMeasurements = async ({token, measurements, profile_id}) => {
 	return data;
 };
 
-export const uploadPhotos = async ({token, photos, profile_id}) => {
+export async function uploadPhotos({token, photos, profile_id}) {
 	const {data} = await axios.post(
 		apiUrl(`profile/${profile_id}/photos`, null),
 		{photos},
@@ -145,7 +144,7 @@ export const uploadPhotos = async ({token, photos, profile_id}) => {
 	return data;
 };
 
-export const deletePhoto = async ({token, profile_id, id}) => {
+export async function deletePhoto({token, profile_id, id}) {
 	const {data} = await axios.delete(
 		apiUrl(`profile/${profile_id}/photos/${id}`, null),
 		apiHeaders(token),
@@ -153,14 +152,14 @@ export const deletePhoto = async ({token, profile_id, id}) => {
 	return data;
 };
 
-export const uploadFile = async ({token, file}) => {
+export async function uploadFile({token, file}) {
 	try {
 		const res = await ReactNativeBlobUtil.fetch(
 			'POST',
 			apiUrl('upload-file'),
 			{
 				...apiHeaders(token).headers,
-				'Content-Type': 'multipart/form-data', // 'application/octet-stream',
+				'Content-Type': 'multipart/form-data',
 			},
 			[
 				{
@@ -194,4 +193,4 @@ export const uploadFile = async ({token, file}) => {
 			};
 		}
 	}
-};
+}

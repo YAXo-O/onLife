@@ -16,7 +16,7 @@ import MainBG from '@app/assets/formTab/background.png';
 import Logo from '@app/assets/logotype.svg';
 import SelectArr from '@app/assets/formTab/select-arr.svg';
 import useCurrentProgram from '@app/hooks/useCurrentProgram';
-import { setCurrentTrainingDay } from '@app/redux/action-creators';
+import {logout, setCurrentTrainingDay} from '@app/redux/action-creators';
 
 const { width } = Dimensions.get('window');
 
@@ -158,9 +158,11 @@ const FitnesDashboard = ({navigation}) => {
 
 	const handleRefresh = () => {
 		dispatch({type: 'SYNC_TRAINING_SESSIONS'});
-		// dispatch(logout());
-		// dispatch(getTrainingPrograms());
 	};
+
+	const handleLogout = () => {
+		dispatch(logout());
+	}
 
 	return (
 		<View style={styles.container}>
@@ -194,6 +196,12 @@ const FitnesDashboard = ({navigation}) => {
 						<Text style={styles.startText}>Начать тренировку</Text>
 					</View>
 				</View>
+
+				<View style={styles.logoutContainer}>
+					<TouchableOpacity onPress={handleLogout}>
+						<Text>Выйти</Text>
+					</TouchableOpacity>
+				</View>
 			</ImageBackground>
 		</View>
 	);
@@ -213,6 +221,15 @@ const styles = StyleSheet.create({
 		flexDirection: 'column',
 		top: '-5%',
 	},
+	logoutContainer: {
+		position: 'absolute',
+		bottom: 25,
+		backgroundColor: '#696969',
+		padding: 8,
+		paddingLeft: 16,
+		paddingRight: 16,
+		borderRadius: 16,
+	},
 	image: {
 		flex: 1,
 		paddingTop: 10,
@@ -224,7 +241,7 @@ const styles = StyleSheet.create({
 		position: 'absolute',
 		right: 20,
 		top: 35,
-		opacity: .4,
+		opacity: 0.4,
 	},
 	inputWrapper: {
 		marginTop: 20,

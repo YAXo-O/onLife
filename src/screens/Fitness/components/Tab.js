@@ -1,16 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {
 	Text,
 	View,
 	StyleSheet,
 	TouchableOpacity,
 	ImageBackground,
-	Dimensions,
-	Platform,
-	TextInput,
-	ScrollView,
-	Alert,
-	ActivityIndicator,
 } from 'react-native';
 
 import tabBg from '../../../assets/formTab/tab_bg.png';
@@ -19,20 +13,23 @@ import OpenArr from '../../../assets/formTab/Expand.svg';
 import CloseArr from '../../../assets/formTab/ExpandClose.svg';
 import TabContent from './TabContent';
 
-const {height, width} = Dimensions.get('window');
-
-const Tab = ({name, count, exercise, trainingDay, trainingCycle, desc, setWeightInput}) => {
-	const [openTab, setOpenTab] = useState(false);
+const Tab = ({
+	name, count, exercise, trainingDay,
+	trainingCycle, desc, setWeightInput,
+}) => {
+	const [openTab, setOpenTab] = React.useState(false);
 
 	return (
 		<View style={styles.container}>
 			<TouchableOpacity
-				style={{height: openTab ? 80 : 105}}
+				style={{ height: openTab ? 80 : 105 }}
 				activeOpacity={0.8}
-				onPress={() => setOpenTab(!openTab)}>
+				onPress={() => setOpenTab(!openTab)}
+			>
 				<ImageBackground
 					source={openTab ? tabBg : tabBgClose}
-					style={styles.image}>
+					style={styles.image}
+				>
 					<View style={styles.tabWrapper}>
 						<View style={styles.leftTitle}>
 							<View style={styles.header}>
@@ -49,6 +46,7 @@ const Tab = ({name, count, exercise, trainingDay, trainingCycle, desc, setWeight
 					</View>
 				</ImageBackground>
 			</TouchableOpacity>
+
 			{openTab && (
 				<TabContent
 					name={name}
@@ -65,22 +63,25 @@ const Tab = ({name, count, exercise, trainingDay, trainingCycle, desc, setWeight
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		width: '100%',
+		paddingLeft: 8,
+		paddingRight: 8,
 	},
 	image: {
 		marginBottom: 0,
 		resizeMode: 'contain',
 		alignItems: 'center',
-		width: width,
 	},
+
 	tabWrapper: {
 		paddingLeft: 20,
 		paddingRight: 20,
 		height: 112,
 		flexDirection: 'row',
-		width: width,
 		justifyContent: 'space-between',
 		alignItems: 'center',
 	},
+
 	leftTitle: {
 		flexDirection: 'column',
 		justifyContent: 'flex-start',
@@ -94,6 +95,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		alignItems: 'center',
 	},
+
 	tabNumber: {
 		width: 20,
 		height: 20,
@@ -104,6 +106,7 @@ const styles = StyleSheet.create({
 		fontSize: 8,
 		color: '#0B2266',
 	},
+
 	tabText: {
 		fontFamily: 'FuturaPT-Medium',
 		fontWeight: '500',

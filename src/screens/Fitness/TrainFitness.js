@@ -134,7 +134,6 @@ const styles = StyleSheet.create({
 		backgroundColor: '#fff',
 	},
 	tabsWrapper: {
-		paddingBottom: 100,
 		flexDirection: 'column',
 		alignItems: 'center',
 	},
