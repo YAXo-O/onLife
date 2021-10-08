@@ -7,16 +7,16 @@ import {
 	TouchableOpacity,
 	View,
 } from 'react-native';
-import {useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import {useNavigation} from '@react-navigation/native';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { useNavigation } from '@react-navigation/native';
 
 import Tab from '@app/screens/Fitness/components/Tab';
 import WeightInputModal from '@app/screens/Fitness/components/WeightInputModal';
 
 import useProfiledData from '@app/hooks/useProfiledData';
-import {saveSession} from '@app/redux/action-creators';
+import { saveSession } from '@app/redux/action-creators';
+import { Header } from '@app/screens/Fitness/components/Header';
 
 const TrainFitness = props => {
 	const { trainingDay, trainingCycle } = props.route.params;
@@ -83,20 +83,10 @@ const TrainFitness = props => {
 
 	return (
 		<View style={styles.container}>
-			<View style={styles.header}>
-				<View style={styles.headerColumn}>
-					<View style={styles.headerRow} onTouchEnd={() => navigation.goBack()}>
-						<FontAwesome5 style={styles.headerBack} name="chevron-left" />
-						<Text style={styles.headerBack}> Назад</Text>
-					</View>
-				</View>
-				<View style={styles.headerColumn}>
-					<Text style={styles.headerTitle}>Тренировка</Text>
-					{trainingDay ? (
-						<Text style={styles.headerName}>{trainingDay.name}</Text>
-					) : null}
-				</View>
-			</View>
+			<Header
+				title="Тренировка"
+				subtitle={trainingDay.name}
+			/>
 			<ScrollView
 				showsVerticalScrollIndicator={false}
 				contentContainerStyle={styles.tabsWrapper}
@@ -142,43 +132,6 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: 'column',
 		backgroundColor: '#fff',
-		paddingTop: 35,
-	},
-	header: {
-		flexDirection: 'row',
-		paddingBottom: 15,
-	},
-	headerRow: {
-		flexDirection: 'row',
-		alignItems: 'flex-start',
-		width: '100%',
-	},
-	headerColumn: {
-		flexDirection: 'column',
-		width: '33%',
-		justifyContent: 'center',
-		alignItems: 'center',
-		paddingLeft: 8,
-		paddingRight: 8,
-	},
-	headerTitle: {
-		fontFamily: 'FuturaPT-Book',
-		fontSize: 18,
-		fontWeight: '700',
-		color: '#000000',
-	},
-	headerBack: {
-		fontFamily: 'FuturaPT-Book',
-		fontSize: 16,
-		fontWeight: 'normal',
-		color: '#007bff',
-	},
-	headerName: {
-		fontFamily: 'FuturaPT-Book',
-		fontSize: 16,
-		opacity: 0.52,
-		fontWeight: 'normal',
-		color: '#000000',
 	},
 	tabsWrapper: {
 		paddingBottom: 100,

@@ -7,7 +7,8 @@ import {
 	Dimensions,
 	ScrollView,
 	Modal,
-	TextInput,
+	TextInput, Platform,
+	KeyboardAvoidingView,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -17,8 +18,8 @@ import { v4 as uuidv4 } from 'uuid';
 import useProfiledData from '@app/hooks/useProfiledData';
 import { extractParam, timer } from '@app/utils';
 import { addTrainingSessionItem, updateTrainingSessionItem } from '@app/redux/action-creators';
+import { Header } from '@app/screens/Fitness/components/Header';
 
-import GoBack from '@app/assets/formTab/goback.svg';
 import UpArr from '@app/assets/formTab/up.svg';
 import DownArr from '@app/assets/formTab/down.svg';
 import DoneIcon from '@app/assets/formTab/done.svg';
@@ -234,94 +235,105 @@ const EditStats = ({route}) => {
 
 	return (
 		<View style={styles.wrapper}>
-			<TouchableOpacity
-				onPress={() => navigation.goBack()}
-				style={styles.header}>
-				<GoBack width={50} height={25}/>
-				<Text style={styles.headerTitle}>{trainingDay.name}</Text>
-			</TouchableOpacity>
+			<Header
+				title={trainingDay.name}
+			/>
 			<ScrollView
 				showsVerticalScrollIndicator={false}
-				contentContainerStyle={styles.tabsWrapper}>
-				{sets.map((item, index) => {
-					return (
+				contentContainerStyle={styles.tabsWrapper}
+			>
+				{
+					sets.map((item, index) => (
 						<View style={styles.editItem} key={`set${index}`}>
 							<Text style={styles.title}>{index + 1}-й подход</Text>
+							{
+								exercises.map((exercise, exerciseIndex) => {
+									const weight = extractParam(doneSets[exercise.id].sets[index], 'weight');
 
-							{exercises.map((exercise, exerciseIndex) => (
-								<View
-									style={[
-										styles.cardHeader,
-										exerciseIndex ? styles.cardHeaderSecond : null,
-									]}
-									key={exercise.id}>
-									<View style={styles.cardTitle}>
-										<Text style={styles.cardExerciseName}>{exercise.name}</Text>
-										<Text style={styles.cardExerciseReps}>
-											{exercise.reps[index]} повторений
-										</Text>
-									</View>
-									<View style={styles.cardButtons}>
-										<TouchableOpacity
-											style={styles.defaultBtn}
-											onPress={handleEditSet(exercise, index)}>
-											<Text style={styles.defaultText}>
-												{extractParam(
-													doneSets[exercise.id].sets[index],
-													'weight',
-												)}
-											</Text>
-										</TouchableOpacity>
-									</View>
-								</View>
-							))}
+									return (
+										<View
+											style={[
+												styles.cardHeader,
+												exerciseIndex ? styles.cardHeaderSecond : null,
+											]}
+											key={exercise.id}
+										>
+											<View style={styles.cardTitle}>
+												<Text style={styles.cardExerciseName}>{exercise.name}</Text>
+												<Text style={styles.cardExerciseReps}>
+													{exercise.reps[index]} повторений
+												</Text>
+											</View>
+											<View style={styles.cardButtons}>
+												<TouchableOpacity
+													style={styles.defaultBtn}
+													onPress={handleEditSet(exercise, index)}>
+													{
+														weight
+															? <Text style={styles.defaultText}>{weight}</Text>
+															: <Text style={styles.placeholder}>Выполненный вес</Text>
+													}
+												</TouchableOpacity>
+											</View>
+										</View>
+									);
+								})
+							}
 
 							{item.timer ? <Timer {...item.timer} /> : null}
 						</View>
-					);
-				})}
+					))
+				}
 			</ScrollView>
+
 			<Modal
 				animationType="slide"
-				transparent={true}
+				transparent
 				visible={modalVisible}
 				onRequestClose={() => {
 					setModalVisible(!modalVisible);
-				}}>
-				<View style={styles.centeredView}>
-					<TouchableOpacity
-						onPress={() => setModalVisible(false)}
-						style={styles.topTouchable}>
-						<View style={styles.closeIcon}>
-							<CloseIcon/>
-						</View>
-					</TouchableOpacity>
-
-					<View style={styles.modalView}>
-						<Text style={styles.modalTitle}>Выполнен вес</Text>
-						<View style={styles.inputView}>
-							<TouchableOpacity
-								style={styles.modalArrUp}
-								onPress={() => setValue(value + 0.5)}>
-								<UpArr/>
-							</TouchableOpacity>
-							<TextInput
-								style={styles.lastItem}
-								onChangeText={value => setValue(Number(value))}
-								value={value ? value.toString() : ''}
-								keyboardType="numeric"
-							/>
-							<TouchableOpacity
-								style={styles.modalArrDown}
-								onPress={() => setValue(value - 0.5)}>
-								<DownArr/>
-							</TouchableOpacity>
-						</View>
-						<TouchableOpacity onPress={handleSetDone} style={styles.doneBtn}>
-							<DoneIcon/>
+				}}
+			>
+				<KeyboardAvoidingView
+					behavior={Platform.OS === 'ios' ? 'height' : null}
+					style={{ flex: 1}}
+					enabled
+				>
+					<View style={styles.centeredView}>
+						<TouchableOpacity
+							onPress={() => setModalVisible(false)}
+							style={styles.topTouchable}>
+							<View style={styles.closeIcon}>
+								<CloseIcon/>
+							</View>
 						</TouchableOpacity>
+						<View style={styles.modalView}>
+							<Text style={styles.modalTitle}>Выполнен вес</Text>
+							<View style={styles.inputView}>
+								<TouchableOpacity
+									style={styles.modalArrUp}
+									onPress={() => setValue(value + 0.5)}>
+									<UpArr/>
+								</TouchableOpacity>
+								<TextInput
+									autoFocus
+									keyboardType="numeric"
+									style={styles.lastItem}
+									onChangeText={value => setValue(Number(value))}
+									value={value ? value.toString() : ''}
+								/>
+								<TouchableOpacity
+									style={styles.modalArrDown}
+									onPress={() => setValue(value - 0.5)}>
+									<DownArr/>
+								</TouchableOpacity>
+							</View>
+							<TouchableOpacity onPress={handleSetDone} style={styles.doneBtn}>
+								<DoneIcon/>
+							</TouchableOpacity>
+						</View>
 					</View>
-				</View>
+				</KeyboardAvoidingView>
 			</Modal>
 		</View>
 	);
@@ -332,7 +344,6 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: 'column',
 		justifyContent: 'flex-start',
-		padding: 15,
 		backgroundColor: '#fff',
 	},
 	modalTitle: {
@@ -410,26 +421,8 @@ const styles = StyleSheet.create({
 	},
 	tabsWrapper: {
 		flexDirection: 'column',
-		marginTop: 60,
 		alignItems: 'center',
 		paddingBottom: 145,
-	},
-	header: {
-		height: 60,
-		position: 'absolute',
-		width: width,
-		zIndex: 2,
-		flexDirection: 'row',
-		justifyContent: 'flex-start',
-		alignItems: 'center',
-		marginTop: 10,
-		backgroundColor: '#fff',
-	},
-	headerTitle: {
-		fontSize: 21,
-		fontFamily: 'FuturaPT-Medium',
-		fontWeight: '500',
-		color: '#000',
 	},
 	editItem: {
 		marginTop: 20,
@@ -441,14 +434,10 @@ const styles = StyleSheet.create({
 		lineHeight: 25,
 		color: '#000',
 		fontFamily: 'FuturaPT-Medium',
-		fontWeight: '600',
+		fontWeight: 'bold',
 	},
 	cardHeader: {
 		flexDirection: 'column',
-		justifyContent: 'center',
-		alignItems: 'center',
-		paddingTop: 20,
-		paddingBottom: 20,
 	},
 	cardHeaderSecond: {
 		borderTopWidth: 1,
@@ -456,7 +445,7 @@ const styles = StyleSheet.create({
 	},
 	cardExerciseName: {
 		width: '65%',
-		color: '#0C0C0C',
+		color: '#696969',
 		fontSize: 13,
 		textAlign: 'left',
 	},
@@ -477,16 +466,29 @@ const styles = StyleSheet.create({
 		borderRadius: 9,
 	},
 	defaultText: {
-		fontSize: 27,
+		fontSize: 22,
+		lineHeight: 25,
 		fontFamily: 'FuturaPT-Book',
 		fontWeight: 'bold',
 		color: '#1010FE',
-		textAlign: 'center',
+	},
+	placeholder: {
+		color: '#9d9d9d',
+		fontSize: 16,
+		lineHeight: 18,
+		fontFamily: 'FuturaPT-Book',
+		fontWeight: 'normal',
 	},
 	defaultBtn: {
-		width: '30%',
-		borderBottomWidth: 1,
-		borderBottomColor: '#1010FE',
+		height: 36,
+		width: '40%',
+		borderWidth: 1,
+		borderColor: '#1010FE',
+		borderRadius: 16,
+		marginTop: 8,
+		flexDirection: 'column',
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 	cardButtons: {
 		width: '100%',
@@ -499,11 +501,9 @@ const styles = StyleSheet.create({
 		fontFamily: 'FuturaPT-Book',
 		opacity: 0.5,
 	},
-
 	cardTitle: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		marginTop: 20,
 	},
 	rest: {
 		marginTop: 10,

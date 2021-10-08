@@ -17,7 +17,7 @@ import AboutTab from './subTabs/AboutTab';
 import WeightTab from './subTabs/WeightTab';
 import LessonTab from './subTabs/LessonTab';
 
-const {height, width} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 const TabContent = ({name, exercise, trainingDay, trainingCycle, setWeightInput}) => {
 	const [activeTab, setActiveTab] = useState(2);

@@ -8,8 +8,9 @@ import {
 	Text,
 	TextInput,
 	TouchableOpacity,
-	View
+	View,
 } from 'react-native';
+
 import CloseIcon from '../../../assets/formTab/closemdpi.svg';
 import UpArr from '../../../assets/formTab/up.svg';
 import DownArr from '../../../assets/formTab/down.svg';
@@ -33,8 +34,8 @@ export default function({weightInput, onClose}) {
 	return (
 		<Modal
 			animationType="slide"
-			transparent={true}
-			visible={true}
+			transparent
+			visible
 			onRequestClose={onClose}
 		>
 			<KeyboardAvoidingView
@@ -62,10 +63,11 @@ export default function({weightInput, onClose}) {
 								<UpArr/>
 							</TouchableOpacity>
 							<TextInput
-								style={styles.lastItem}
+								autoFocus
+								keyboardType="numeric"
 								onChangeText={value => setValue(Number(value))}
 								value={value ? value.toString() : ''}
-								keyboardType="numeric"
+								style={styles.lastItem}
 							/>
 							<TouchableOpacity
 								style={styles.modalArrDown}
@@ -169,9 +171,11 @@ const styles = StyleSheet.create({
 		lineHeight: 25,
 	},
 	modalSubtitle: {
-		fontSize: 22,
+		fontSize: 18,
 		fontFamily: 'FuturaPT-Medium',
-		fontWeight: '500',
-		lineHeight: 25,
+		fontWeight: '200',
+		fontStyle: 'italic',
+		color: '#A9A9A9',
+		lineHeight: 20,
 	},
 });
