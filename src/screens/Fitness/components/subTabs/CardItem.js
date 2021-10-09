@@ -45,8 +45,12 @@ const CardItem = props => {
 				<Text style={styles.title}>Статистика</Text>
 				{setsData.map((setItem, setItemCount) => (
 					<View
-						style={setItemCount ? styles.cardItemSecond : styles.cardItemFirst}
-						key={setItem.id}>
+						style={[
+							styles.statsCard,
+							setItemCount && styles.statsCardOther,
+						]}
+						key={setItem.id}
+					>
 						<Text style={styles.cardItemExerciseName}>{setItem.name}</Text>
 						<View style={styles.statsData}>
 							{setItem.sets.map((weight, setCount) => (
@@ -63,32 +67,24 @@ const CardItem = props => {
 				))}
 			</View>
 		</View>
-	)
-}
+	);
+};
+
 const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',
 		backgroundColor: 'white',
+		width: '100%',
+		overflow: 'hidden',
 	},
 	circleNumber: {
-		borderTopLeftRadius: 17,
-		borderBottomLeftRadius: 17,
-		marginLeft: 5,
+		borderTopLeftRadius: 16,
+		borderBottomLeftRadius: 16,
 		width: 40,
 		justifyContent: 'center',
 		alignItems: 'center',
 		opacity: 1,
 		backgroundColor: 'rgba(13, 28, 113, 0.06);',
-	},
-	circleNumberClose: {
-		borderTopLeftRadius: 17,
-		borderBottomLeftRadius: 17,
-		display: 'none',
-		width: 0,
-		justifyContent: 'center',
-		alignItems: 'center',
-		backgroundColor: 'rgba(13, 28, 113, 0.06);',
-		opacity: 0,
 	},
 	circleText: {
 		transform: [{rotate: '-90deg'}],
@@ -100,37 +96,33 @@ const styles = StyleSheet.create({
 		color: '#0E1D7A',
 		marginLeft: -15,
 	},
+
 	statsWrapper: {
+		flex: 1,
 		marginLeft: -10,
 		backgroundColor: 'white',
 		justifyContent: 'space-between',
-		width: width - 25,
 		zIndex: 33,
-		borderTopLeftRadius: 17,
-		borderTopRightRadius: 17,
-		paddingTop: 10,
+		borderTopLeftRadius: 16,
+		borderBottomLeftRadius: 16,
+		padding: 8,
 	},
 	title: {
 		fontSize: 22,
 		fontFamily: 'FuturaPT-Medium',
 		fontWeight: '500',
 		color: '#000',
-		paddingLeft: 13,
 	},
-	cardItemFirst: {
-		marginLeft: 15,
-		marginRight: 15,
-		marginTop: 20,
-		borderBottomWidth: 1,
-		borderBottomColor: 'rgba(0, 0, 0, 0.14)',
+	statsCard: {
 	},
-	cardItemSecond: {
-		marginLeft: 20,
-		marginRight: 20,
-		marginTop: 20,
+	statsCardOther: {
+		borderTopWidth: 1,
+		borderTopColor: 'rgba(0, 0, 0, 0.14)',
+		marginTop: 4,
+		paddingTop: 4,
 	},
 	cardItemExerciseName: {
-		color: '#0C0C0C',
+		color: '#696969',
 		fontSize: 15,
 		fontFamily: 'FuturaPT-Medium',
 	},
@@ -138,7 +130,6 @@ const styles = StyleSheet.create({
 		width: '100%',
 		flexDirection: 'row',
 		flexWrap: 'wrap',
-		paddingBottom: 15,
 	},
 	statsItem: {
 		borderBottomWidth: 1,
@@ -176,11 +167,12 @@ const styles = StyleSheet.create({
 		fontSize: 10,
 		marginTop: 6,
 	},
-	statsEdit: {},
+	statsEdit: {
+	},
 	sufix: {
 		marginLeft: 5,
 	},
-})
+});
 
-export default CardItem
+export default CardItem;
 

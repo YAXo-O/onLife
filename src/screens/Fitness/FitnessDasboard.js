@@ -23,7 +23,7 @@ const { width } = Dimensions.get('window');
 
 const PickMe = ({ name, values, value, style, onSelect }) => {
 	const valueText = React.useMemo(() => {
-		const v = values.find(item => item.id == value);
+		const v = values.find(item => item.id === value);
 		return v ? v.name : '';
 	}, [ value, values ]);
 

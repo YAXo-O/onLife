@@ -12,7 +12,6 @@ import {
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { useNavigation } from '@react-navigation/native';
 import { v4 as uuidv4 } from 'uuid';
 
 import useProfiledData from '@app/hooks/useProfiledData';
@@ -61,7 +60,6 @@ const Timer = props => {
 };
 
 const EditStats = ({route}) => {
-	const navigation = useNavigation();
 	const dispatch = useDispatch();
 	const currentSession = useProfiledData('training.currentSession');
 	const {exercises, trainingDay, trainingCycle} = route.params;
@@ -72,17 +70,17 @@ const EditStats = ({route}) => {
 
 	const existingSession = React.useMemo(() => {
 		return sessions.find(
-			item => item.dayId === trainingDay.id && item.cycle == trainingCycle,
+			item => item.dayId === trainingDay.id && item.cycle === trainingCycle,
 		);
 	}, [sessions, trainingCycle, trainingDay]);
 	const session = existingSession || currentSession;
 
 	const doneSets = React.useMemo(() => {
-		const doneSets = {};
+		const items = {};
 
 		if (session) {
 			exercises.forEach(exercise => {
-				doneSets[exercise.id] = {
+				items[exercise.id] = {
 					active: true,
 					sets: session.items
 						.filter(item => item.exerciseId === exercise.id)
@@ -91,7 +89,7 @@ const EditStats = ({route}) => {
 			});
 		}
 
-		return doneSets;
+		return items;
 	}, [exercises, session]);
 
 	const sets = React.useMemo(() => {
@@ -244,7 +242,10 @@ const EditStats = ({route}) => {
 			>
 				{
 					sets.map((item, index) => (
-						<View style={styles.editItem} key={`set${index}`}>
+						<View style={[
+							styles.cardTurn,
+							index && styles.cardTurnOther,
+						]} key={`set${index}`}>
 							<Text style={styles.title}>{index + 1}-й подход</Text>
 							{
 								exercises.map((exercise, exerciseIndex) => {
@@ -254,7 +255,7 @@ const EditStats = ({route}) => {
 										<View
 											style={[
 												styles.cardHeader,
-												exerciseIndex ? styles.cardHeaderSecond : null,
+												exerciseIndex && styles.cardHeaderOther,
 											]}
 											key={exercise.id}
 										>
@@ -424,10 +425,14 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		paddingBottom: 145,
 	},
-	editItem: {
-		marginTop: 20,
+	// First turn card
+	cardTurn: {
 		flexDirection: 'column',
 		justifyContent: 'flex-start',
+	},
+	// Every other turn card
+	cardTurnOther: {
+		marginTop: 20,
 	},
 	title: {
 		fontSize: 21,
@@ -436,10 +441,13 @@ const styles = StyleSheet.create({
 		fontFamily: 'FuturaPT-Medium',
 		fontWeight: 'bold',
 	},
+	// First card
 	cardHeader: {
 		flexDirection: 'column',
 	},
-	cardHeaderSecond: {
+	// Every other card
+	cardHeaderOther: {
+		paddingTop: 8,
 		borderTopWidth: 1,
 		borderTopColor: 'rgba(0, 0, 0, 0.13)',
 	},
@@ -485,7 +493,6 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		borderColor: '#1010FE',
 		borderRadius: 16,
-		marginTop: 8,
 		flexDirection: 'column',
 		justifyContent: 'center',
 		alignItems: 'center',
@@ -494,6 +501,8 @@ const styles = StyleSheet.create({
 		width: '100%',
 		flexDirection: 'row',
 		justifyContent: 'center',
+		marginTop: 8,
+		marginBottom: 8,
 	},
 	lastTitle: {
 		color: '#000',
@@ -506,8 +515,6 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 	},
 	rest: {
-		marginTop: 10,
-		marginBottom: 10,
 		backgroundColor: '#6B1E57',
 		height: 45,
 		borderRadius: 12,

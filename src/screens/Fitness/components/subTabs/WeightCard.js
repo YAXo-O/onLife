@@ -8,9 +8,9 @@ import {
 	addTrainingSessionItem,
 	setCurrentTrainingDay,
 	updateTrainingSessionItem,
-} from '../../../../redux/action-creators';
+} from '@app/redux/action-creators';
 import useCurrentProgram from '../../../../hooks/useCurrentProgram';
-import {extractParam} from '../../../../utils';
+import {extractParam} from '@app/utils';
 import {v4 as uuidv4} from 'uuid';
 
 const fixRest = rest => {
@@ -23,43 +23,26 @@ const fixRest = rest => {
 };
 
 const WeightCard = ({
-	                    item,
-	                    trainingDay,
-	                    trainingCycle,
-	                    withStats,
-	                    setWeightInput,
-                    }) => {
+	item,
+	trainingDay,
+	trainingCycle,
+	withStats,
+	setWeightInput,
+}) => {
 	const {exercise} = item;
 	const navigation = useNavigation();
 	const dispatch = useDispatch();
 	const currentSession = useProfiledData('training.currentSession');
 	const program = useCurrentProgram();
 	const sessions = useSelector(state => state.training.sessions || []);
-	// const firstSum = props.firstTrain.reduce((a, b) => a + b, 0);
-	// const secondSum = props.secondTrain.reduce((a, b) => a + b, 0);
-
-	const handleStartNew = async () => {
-		await dispatch(
-			addTrainingSession({
-				programId: program.id,
-				dayId: trainingDay.id,
-				cycle: trainingCycle,
-			}),
-		);
-
-		navigation.navigate('EditStats', {exercises, trainingDay});
-	};
 
 	const existingSession = useMemo(() => {
 		return sessions.find(
-			item => item.dayId === trainingDay.id && item.cycle == trainingCycle,
+			item => item.dayId === trainingDay.id && item.cycle === trainingCycle,
 		);
 	}, [sessions, trainingCycle, trainingDay]);
 
 	const session = existingSession || currentSession;
-	const handleContinueOld = () => {
-		dispatch(setCurrentTrainingDay(session.dayId, session.cycle || 1));
-	};
 
 	const startSession = async action => {
 		if (session) {
@@ -187,23 +170,6 @@ const WeightCard = ({
 		});
 	}, [exercise, session]);
 
-	const doneSets = useMemo(() => {
-		const doneSets = {};
-
-		if (session) {
-			exercises.forEach(exercise => {
-				doneSets[exercise.id] = {
-					active: true,
-					sets: session.items
-						.filter(item => item.exerciseId === exercise.id)
-						.sort((a, b) => (a.setId < b.setId ? -1 : 1)),
-				};
-			});
-		}
-
-		return doneSets;
-	}, [exercises, session]);
-
 	const handleAddWeight = () => {
 		// Давайте попробуем понять, что именно мы сейчас добавляем
 		let foundCandidate = null;
@@ -290,17 +256,6 @@ const WeightCard = ({
 					]}
 					key={exercise.id}>
 					<View style={styles.cardContainer}>
-						{/*
-            {exerciseCount ? (
-              <View style={styles.cardIconContainer} />
-            ) : (
-              <TouchableOpacity
-                style={styles.cardIconContainer}
-                onPress={handleEditSetStats}>
-                <PlayIcon style={styles.cardPlayIcon} />
-              </TouchableOpacity>
-            )}
-            */}
 						<View style={styles.cardSetsContainer}>
 							<View style={styles.cardNameRepsContainer}>
 								<Text style={styles.cardSetsText}>{exercise.name}</Text>
