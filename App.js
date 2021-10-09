@@ -1,7 +1,12 @@
 import * as React from 'react';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 
-import { AppState, Linking } from 'react-native';
+import {
+	AppState,
+	Linking,
+	SafeAreaView,
+	StyleSheet,
+} from 'react-native';
 import 'react-native-gesture-handler';
 import 'react-native-get-random-values';
 
@@ -108,13 +113,21 @@ const NavigationComponent = () => {
 
 export const App = () => {
 	return (
-		<Provider store={store}>
-			<PersistGate loading={null} persistor={persistor}>
-				<NavigationContainer ref={navigationRef}>
-					<NavigationComponent />
-				</NavigationContainer>
-			</PersistGate>
-		</Provider>
+		<SafeAreaView style={styles.container}>
+			<Provider store={store}>
+				<PersistGate loading={null} persistor={persistor}>
+					<NavigationContainer ref={navigationRef}>
+						<NavigationComponent />
+					</NavigationContainer>
+				</PersistGate>
+			</Provider>
+		</SafeAreaView>
 	);
 };
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+	},
+});
 

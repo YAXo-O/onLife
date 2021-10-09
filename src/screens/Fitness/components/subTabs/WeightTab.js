@@ -1,10 +1,9 @@
-import React, {useMemo, useState} from 'react';
-import {StyleSheet} from 'react-native';
+import React from 'react';
+import { useSelector } from 'react-redux';
+
 import Swiper from 'react-native-swiper';
 import CardItem from './CardItem';
 import WeightCard from './WeightCard';
-import {useNavigation} from '@react-navigation/native';
-import {useSelector} from 'react-redux';
 
 const TabbedComponent = ({
 	item,
@@ -35,49 +34,12 @@ export default function({
 	trainingCycle,
 	setWeightInput,
 }) {
-	const navigation = useNavigation();
-	const allSessions = useSelector(state => state.training.sessions || []); // useProfiledData('training.sessions');
+	const allSessions = useSelector(state => state.training.sessions || []);
 
-	const previousSessions = useMemo(() => {
-		return [];
-	}, []);
+	const screens = React.useMemo(() => {
+		const items = [];
 
-	const [listData, setListData] = useState(
-		Array(1)
-			.fill('')
-			.map((_, i) => ({key: `${i}`, text: '1-й круг'})),
-	);
-
-	const [statOpen, setStatOpen] = useState(false);
-	const [firstTrain, setFirstTrain] = useState([0, 0, 0, 0]);
-	const [secondTrain, setSecondTrain] = useState([0, 0, 0, 0]);
-
-	const onChangeNumber = (approach, number) => {
-		const newTrain = [...firstTrain];
-		newTrain[approach] = number;
-		setFirstTrain(newTrain);
-		navigation.goBack();
-	};
-
-	const onChangeSecondNumber = (approach, number) => {
-		const newTrain = [...secondTrain];
-		newTrain[approach] = number;
-		setSecondTrain(newTrain);
-		navigation.goBack();
-	};
-
-	const navigatorOptions = ({route, navigation}) => {
-		navigation.addListener('state', e => {
-			const {index} = e.data.state;
-			// if (typeof index !== 'undefined') setActiveTab(index);
-		});
-		return {tabBar: () => null};
-	};
-
-	const screens = useMemo(() => {
-		const screens = [];
-
-		screens.push({
+		items.push({
 			type: 'active',
 			name: 'Упражнение',
 			exercise,
@@ -88,7 +50,7 @@ export default function({
 				.filter(session => session.dayId === trainingDay.id)
 				.sort((a, b) => (a.cycle < b.cycle ? -1 : 1))
 				.forEach(session => {
-					screens.push({
+					items.push({
 						type: 'history',
 						name: `${session.cycle}-й круг`,
 						exercise,
@@ -97,7 +59,7 @@ export default function({
 				});
 		}
 
-		return screens;
+		return items;
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [allSessions, trainingDay]);
 
@@ -119,14 +81,3 @@ export default function({
 		</Swiper>
 	);
 }
-
-const styles = StyleSheet.create({
-	wrapper: {
-		marginLeft: 0,
-	},
-	itemWrapper: {
-		flexDirection: 'row',
-		marginBottom: 40,
-		backgroundColor: '#fff',
-	},
-});
