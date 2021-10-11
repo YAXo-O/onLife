@@ -222,7 +222,6 @@ const EditStats = ({route}) => {
 					start: Math.round(new Date().getTime() / 1000),
 					comment: false,
 					params: [
-						// {code: 'reps', value: repsDone},
 						{code: 'weight', value},
 					],
 				}),
@@ -242,10 +241,13 @@ const EditStats = ({route}) => {
 			>
 				{
 					sets.map((item, index) => (
-						<View style={[
-							styles.cardTurn,
-							index && styles.cardTurnOther,
-						]} key={`set${index}`}>
+						<View
+							style={[
+								styles.cardTurn,
+								index && styles.cardTurnOther,
+							]}
+							key={`set${index}`}
+						>
 							<Text style={styles.title}>{index + 1}-й подход</Text>
 							{
 								exercises.map((exercise, exerciseIndex) => {
@@ -422,13 +424,12 @@ const styles = StyleSheet.create({
 	},
 	tabsWrapper: {
 		flexDirection: 'column',
-		alignItems: 'center',
-		paddingBottom: 145,
+		marginLeft: 12,
+		marginRight: 12,
 	},
 	// First turn card
 	cardTurn: {
 		flexDirection: 'column',
-		justifyContent: 'flex-start',
 	},
 	// Every other turn card
 	cardTurnOther: {
@@ -488,14 +489,17 @@ const styles = StyleSheet.create({
 		fontWeight: 'normal',
 	},
 	defaultBtn: {
-		height: 36,
-		width: '40%',
+		paddingLeft: 8,
+		paddingRight: 8,
+		paddingTop: 4,
+		paddingBottom: 4,
 		borderWidth: 1,
 		borderColor: '#1010FE',
 		borderRadius: 16,
 		flexDirection: 'column',
 		justifyContent: 'center',
 		alignItems: 'center',
+		minWidth: '40%',
 	},
 	cardButtons: {
 		width: '100%',

@@ -17,14 +17,15 @@ import Logo from '@app/assets/logotype.svg';
 import SelectArr from '@app/assets/formTab/select-arr.svg';
 import useCurrentProgram from '@app/hooks/useCurrentProgram';
 import {logout, setCurrentTrainingDay} from '@app/redux/action-creators';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const { width } = Dimensions.get('window');
 
-
 const PickMe = ({ name, values, value, style, onSelect }) => {
 	const valueText = React.useMemo(() => {
-		const v = values.find(item => item.id === value);
-		return v ? v.name : '';
+		// 'id' and 'value' might be long or uuid
+		// and 'id' values come as number from server
+		return values.find(item => String(item.id) === String(value))?.name ?? '';
 	}, [ value, values ]);
 
 	if (Platform.OS === 'ios') {
@@ -35,9 +36,9 @@ const PickMe = ({ name, values, value, style, onSelect }) => {
 				},
 				buttonIndex => {
 					onSelect(values[buttonIndex].id);
-				}
+				},
 			);
-		}
+		};
 
 		return (
 			<TouchableOpacity style={style} onPress={handleOpenSelect}>
@@ -45,7 +46,7 @@ const PickMe = ({ name, values, value, style, onSelect }) => {
 				<Text style={styles.selectedOption}>{valueText}</Text>
 				<SelectArr style={styles.selectArr} />
 			</TouchableOpacity>
-		)
+		);
 	} else {
 		return (
 			<View style={style}>
@@ -66,17 +67,16 @@ const PickMe = ({ name, values, value, style, onSelect }) => {
 				</Picker>
 				<SelectArr style={styles.selectArr} />
 			</View>
-		)
+		);
 	}
-}
+};
 
-const FitnesDashboard = ({navigation}) => {
+const FitnesDashboard = () => {
 	const dispatch = useDispatch();
 	const [trainingCycle, setTrainingCycle] = React.useState('1');
 	const [trainingDayId, setTrainingDayId] = React.useState(null);
 	const program = useCurrentProgram();
-	const {sessions} = useSelector(state => state.training);
-	const {token} = useSelector(state => state.auth);
+	const { sessions } = useSelector(state => state.training);
 
 	const trainingCycles = React.useMemo(() => {
 		const cycles = [];
@@ -162,45 +162,51 @@ const FitnesDashboard = ({navigation}) => {
 
 	const handleLogout = () => {
 		dispatch(logout());
-	}
+	};
 
 	return (
 		<View style={styles.container}>
 			<ImageBackground source={MainBG} style={styles.image}>
-				<View style={styles.mainContainer}>
-					<TouchableOpacity onPress={handleRefresh}>
-						<Logo />
+				<View style={styles.headerBar}>
+					<TouchableOpacity style={styles.logoutContainer} onPress={handleLogout}>
+						<FontAwesome5 style={styles.logout} name="chevron-left" />
+						<Text style={[styles.logout]}>Сменить пользователя</Text>
 					</TouchableOpacity>
-					<View style={styles.inputWrapper}>
-						<PickMe
-							name="Номер круга"
-							style={styles.inputBlock}
-							values={pickerNames.cycles}
-							value={trainingCycle}
-							onSelect={value => setTrainingCycle(value)}
-						/>
-						<PickMe
-							name="Тренировка"
-							style={styles.inputBlockBottom}
-							values={pickerNames.days}
-							value={trainingDayId}
-							onSelect={value => setTrainingDayId(value)}
-						/>
-					</View>
-					<View style={styles.startWrapper}>
-						<TouchableOpacity
-							style={styles.startBtn}
-							onPress={handleStartTraining}>
-							<Text style={styles.startBtnText}>Start</Text>
-						</TouchableOpacity>
-						<Text style={styles.startText}>Начать тренировку</Text>
-					</View>
 				</View>
-
-				<View style={styles.logoutContainer}>
-					<TouchableOpacity onPress={handleLogout}>
-						<Text>Выйти</Text>
-					</TouchableOpacity>
+				<View style={styles.mainContainer}>
+					<View style={[styles.cell, styles.cellTop]}>
+						<TouchableOpacity onPress={handleRefresh}>
+							<Logo />
+						</TouchableOpacity>
+					</View>
+					<View style={styles.cell}>
+						<View style={styles.inputWrapper}>
+							<PickMe
+								name="Номер круга"
+								style={styles.inputBlock}
+								values={pickerNames.cycles}
+								value={trainingCycle}
+								onSelect={value => setTrainingCycle(value)}
+							/>
+							<PickMe
+								name="Тренировка"
+								style={styles.inputBlockBottom}
+								values={pickerNames.days}
+								value={trainingDayId}
+								onSelect={value => setTrainingDayId(value)}
+							/>
+						</View>
+					</View>
+					<View style={[styles.cell, styles.cellBottom]}>
+						<View style={styles.startWrapper}>
+							<TouchableOpacity
+								style={styles.startBtn}
+								onPress={handleStartTraining}>
+								<Text style={styles.startBtnText}>Start</Text>
+							</TouchableOpacity>
+							<Text style={styles.startText}>Начать тренировку</Text>
+						</View>
+					</View>
 				</View>
 			</ImageBackground>
 		</View>
@@ -213,28 +219,26 @@ const styles = StyleSheet.create({
 		flexDirection: 'column',
 	},
 	mainContainer: {
-		flex: 0.7,
+		marginTop: 'auto',
+		marginBottom: 'auto',
 		alignItems: 'center',
-		borderRadius: 14,
-		padding: 20,
-		justifyContent: 'space-between',
 		flexDirection: 'column',
-		top: '-5%',
 	},
-	logoutContainer: {
-		position: 'absolute',
-		bottom: 25,
-		backgroundColor: '#696969',
-		padding: 8,
-		paddingLeft: 16,
-		paddingRight: 16,
-		borderRadius: 16,
+	cell: {
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
+	cellTop: {
+		alignItems: 'flex-end',
+		paddingBottom: 8,
+	},
+	cellBottom: {
+		paddingTop: 8,
+		alignItems: 'flex-start',
 	},
 	image: {
 		flex: 1,
-		paddingTop: 10,
 		resizeMode: 'center',
-		justifyContent: 'center',
 		alignItems: 'center',
 	},
 	selectArr: {
@@ -320,6 +324,25 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		letterSpacing: 0.04,
 		color: '#fff',
+	},
+	headerBar: {
+		flexDirection: 'row',
+		backgroundColor: '#E8E8E840',
+		padding: 8,
+		minHeight: 50,
+		width: '100%',
+	},
+	logoutContainer: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'flex-start',
+	},
+	logout: {
+		fontFamily: 'FuturaPT-Book',
+		fontSize: 16,
+		paddingRight: 4,
+		fontWeight: 'normal',
+		color: '#007bff',
 	},
 });
 

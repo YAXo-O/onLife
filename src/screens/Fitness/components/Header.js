@@ -12,7 +12,14 @@ export function Header({ backCaption = 'Назад', title, subtitle }) {
 			<View style={{...styles.headerColumn, ...styles.column}}>
 				<View style={styles.headerRow} onTouchEnd={() => navigation.goBack()}>
 					<FontAwesome5 style={styles.headerBack} name="chevron-left" />
-					<Text style={{...styles.headerBack, ...styles.headerBackCaption}}>{backCaption}</Text>
+					<Text
+						style={[
+							styles.headerBack,
+							styles.headerBackCaption,
+						]}
+					>
+						{backCaption}
+					</Text>
 				</View>
 			</View>
 			<View style={{...styles.headerColumn, ...styles.column2}}>
