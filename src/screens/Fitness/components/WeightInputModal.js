@@ -18,7 +18,7 @@ import DoneIcon from '../../../assets/formTab/done.svg';
 
 const {width} = Dimensions.get('window');
 
-export default function({weightInput, onClose}) {
+export default function({ weightInput, onClose }) {
 	const [value, setValue] = useState(0);
 
 	useEffect(() => {
