@@ -13,6 +13,32 @@ import OpenArr from '../../../assets/formTab/Expand.svg';
 import CloseArr from '../../../assets/formTab/ExpandClose.svg';
 import TabContent from './TabContent';
 
+import { isArray } from '@app/utils/array';
+
+/** Max number of lines in total per description */
+const maxLines = 1;
+
+const TabDescription = ({ text, visible }) => {
+	if (!visible) return null;
+	if (!text) return null;
+
+	const lines = isArray(text) ? text : [text];
+
+	return (
+		<>
+			{lines.map((line, index) => (
+				<Text
+					key={index}
+					style={index === 0 ? [styles.desc, styles.descFirst] : styles.desc}
+					numberOfLines={maxLines}
+				>
+					{line}
+				</Text>
+			))}
+		</>
+	);
+};
+
 const Tab = ({
 	name, count, exercise, trainingDay,
 	trainingCycle, desc, setWeightInput,
@@ -40,7 +66,7 @@ const Tab = ({
 									{name}
 								</Text>
 							</View>
-							{openTab ? null : <Text style={styles.desc} numberOfLines={2}>{desc}</Text>}
+							<TabDescription text={desc} visible={!openTab} />
 						</View>
 						{openTab ? <OpenArr/> : <CloseArr/>}
 					</View>
@@ -77,11 +103,11 @@ const styles = StyleSheet.create({
 		paddingLeft: 20,
 		paddingRight: 20,
 		height: 112,
+
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
 	},
-
 	leftTitle: {
 		flexDirection: 'column',
 		justifyContent: 'flex-start',
@@ -117,12 +143,14 @@ const styles = StyleSheet.create({
 		flexShrink: 1,
 	},
 	desc: {
-		paddingTop: 7,
 		fontFamily: 'FuturaPT-Medium',
 		fontWeight: '400',
 		color: '#fff',
 		fontSize: 14,
 	},
+	descFirst: {
+		paddingTop: 7,
+	}
 });
 
 export default Tab;

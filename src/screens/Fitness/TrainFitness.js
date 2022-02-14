@@ -45,8 +45,7 @@ const TrainFitness = props => {
 					++i;
 				}
 				supersetBlock.intro = supersetBlock.exercises
-					.map(exercise => exercise.name)
-					.join(', ');
+					.map(exercise => exercise.name);
 				exercises.push(supersetBlock);
 			} else {
 				exercises.push(e);

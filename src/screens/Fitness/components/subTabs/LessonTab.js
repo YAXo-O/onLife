@@ -146,7 +146,7 @@ const LessonTab = ({exercise}) => {
 	const [soundMin, setSoundMin] = useState(null);
 	const [soundSec, setSoundSec] = useState(null);
 	const [currentPosition, setCurrentPosition] = useState(0);
-	const [onTrackClick, setOnTrackclick] = useState(null);
+	const [onTrackClick, setOnTrackClick] = useState(null);
 	const [trackLength, setTrackLength] = useState(null);
 
 	useEffect(() => {
@@ -186,65 +186,104 @@ const LessonTab = ({exercise}) => {
 		}, 100);
 	};
 
-	const onSlideСlick = value => {
+	const onSlideClick = value => {
 		const newValue = sound.getDuration() - value;
 		sound.setCurrentTime(soundSec - newValue);
 
-		setOnTrackclick(Math.round(value));
+		setOnTrackClick(Math.round(value));
 		setCurrentPosition(Math.round(value));
 	};
+
+	const list = exercise.superset ? exercise.exercises : [exercise];
+	const superset = list.length > 1;
+
 	return (
-		<View style={styles.lessonTab}>
-			{exercise.audio ? (
-				<React.Fragment>
-					<View style={styles.flexView}>
-						<Text style={styles.title}>Аудио</Text>
-						<WarningIcon/>
-					</View>
-					<View style={styles.soundBlock}>
-						<TouchableOpacity style={styles.playBtn} onPress={() => Play()}>
-							{startTimer ? <PauseIcon width={20} height={20}/> : <PlayIcon/>}
-						</TouchableOpacity>
-						<View style={styles.rightContent}>
-							<Text style={styles.soundText}>
-								Жим гантелей лёжа на наклонной скамье 45 градусов
-							</Text>
-							{soundSec !== null && (
-								<Timer
-									onTrackClick={onTrackClick}
-									setTrackLength={setTrackLength}
-									setCurrentPosition={setCurrentPosition}
-									setStartTimer={setStartTimer}
-									startTimer={startTimer}
-									initialMinute={soundMin}
-									initialSeconds={soundSec}
-								/>
-							)}
-							<SeekBar
-								trackLength={trackLength}
-								currentPosition={currentPosition}
-								onSlideСlick={onSlideСlick}
-							/>
-						</View>
-					</View>
-				</React.Fragment>
-			) : null}
+		<>
+			{
+				list.map((item, index) => (
+					<View
+						style={index === list.length - 1 ? [styles.lessonTab, styles.lessonTabLast] : styles.lessonTab}
+						key={item.id}
+					>
+						{
+							superset
+								? <Text style={styles.exerciseTitle}>{item.name}</Text>
+								: null
+						}
+						{item.audio ? (
+							<React.Fragment>
+								<View style={styles.flexView}>
+									<Text style={styles.title}>Аудио</Text>
+									<WarningIcon/>
+								</View>
+								<View style={styles.soundBlock}>
+									<TouchableOpacity style={styles.playBtn} onPress={() => Play()}>
+										{startTimer ? <PauseIcon width={20} height={20}/> : <PlayIcon/>}
+									</TouchableOpacity>
+									<View style={styles.rightContent}>
+										<Text style={styles.soundText}>
+											Жим гантелей лёжа на наклонной скамье 45 градусов
+										</Text>
+										{soundSec !== null && (
+											<Timer
+												onTrackClick={onTrackClick}
+												setTrackLength={setTrackLength}
+												setCurrentPosition={setCurrentPosition}
+												setStartTimer={setStartTimer}
+												startTimer={startTimer}
+												initialMinute={soundMin}
+												initialSeconds={soundSec}
+											/>
+										)}
+										<SeekBar
+											trackLength={trackLength}
+											currentPosition={currentPosition}
+											onSlideСlick={onSlideClick}
+										/>
+									</View>
+								</View>
+							</React.Fragment>
+						) : null}
 
-			{exercise.video ? (
-				<React.Fragment>
-					<Text style={styles.videoTitle}>Видеоматериалы</Text>
-					<Video video={exercise.video}/>
-				</React.Fragment>
-			) : null}
+						{item.video ? (
+							<React.Fragment>
+								<Text style={styles.videoTitle}>Видеоматериалы</Text>
+								<Video video={item.video}/>
+							</React.Fragment>
+						) : null}
 
-			{exercise.text ? <HtmlView html={renderExerciseHTML(exercise)} autoHeight={true}/> : null}
-		</View>
+						{item.text ? <HtmlView html={renderExerciseHTML(item)} autoHeight={true}/> : null}
+					</View>
+				))
+			}
+		</>
 	);
 };
 const styles = StyleSheet.create({
 	lessonTab: {
-		margin: 14,
+		marginLeft: 14,
+		marginRight: 14,
+		marginTop: 6,
+		marginBottom: 6,
+	},
+	lessonTabLast: {
 		paddingBottom: 150,
+	},
+	exerciseTitle: {
+		fontSize: 22,
+		marginRight: 10,
+		lineHeight: 26,
+		fontFamily: 'FuturaPT-Medium',
+		fontWeight: 'bold',
+		color: '#101010',
+
+		width: '100%',
+		marginBottom: 8,
+		paddingBottom: 8,
+
+		borderBottomWidth: 1,
+		borderColor: 'lightgray',
+		borderStyle: 'solid',
 	},
 	videoWrapper: {
 		backgroundColor: 'red',
