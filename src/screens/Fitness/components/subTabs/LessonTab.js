@@ -284,7 +284,6 @@ const styles = StyleSheet.create({
 		color: '#101010',
 
 		width: '100%',
-		marginBottom: 8,
 		paddingBottom: 8,
 	},
 	// Border for <Text /> doesn't on iOS
@@ -292,6 +291,8 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 1,
 		borderColor: '#d3d3d3',
 		borderStyle: 'solid',
+
+		marginBottom: 8,
 	},
 	videoWrapper: {
 		backgroundColor: 'red',
