@@ -283,7 +283,7 @@ const styles = StyleSheet.create({
 		paddingBottom: 8,
 
 		borderBottomWidth: 1,
-		borderColor: 'lightgray',
+		borderColor: '#d3d3d3',
 		borderStyle: 'solid',
 	},
 	videoWrapper: {
