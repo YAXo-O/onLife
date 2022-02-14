@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {
 	Text,
 	View,
@@ -23,26 +23,24 @@ Sound.setCategory('Playback');
 const sound = new Sound('fileexample.mp3', Sound.MAIN_BUNDLE, error => {
 	console.log(error, 'error');
 });
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
-const Video = ({video}) => {
-	if (!video.key) {
-		return null;
-	}
+const Video = ({ video }) => {
+	if (!video.key) return null;
 
 	return (
 		<View style={styles.videoWrapper}>
 			<WebView
-				style={{width: '100%', marginTop: Platform.OS == 'ios' ? 20 : 0}}
-				javaScriptEnabled={true}
-				allowsFullscreenVideo={true}
-				domStorageEnabled={true}
+				style={{width: '100%', marginTop: Platform.OS === 'ios' ? 20 : 0}}
 				source={{uri: `https://www.youtube.com/embed/${video.key}`}}
+
+				javaScriptEnabled
+				allowsFullscreenVideo
+				domStorageEnabled
 			/>
-			{/*<Image style={styles.videoBg} resizeMode={'contain'} source={videoBg} />*/}
 		</View>
 	);
-}
+};
 
 const renderExerciseHTML = (exercise) => {
 	let coverImage = '';
@@ -52,117 +50,120 @@ const renderExerciseHTML = (exercise) => {
 
 	let howToDo = '';
 	if (exercise.text) {
-		howToDo = `<div class="header">Как выполнять</div>
-     		<div class="text">${exercise.text.replace(/&nbsp;/g, ' ')}</div>`;
+		howToDo = `
+			<div class="header">Как выполнять</div>
+			<div class="text">${exercise.text.replace(/&nbsp;/g, ' ')}</div>
+		`;
 	}
 
 	let scheme = '';
 	if (exercise.scheme) {
-		scheme = `<div class="header">Схема</div>
-			<img class="scheme" src="${asset(exercise.scheme)}">`;
+		scheme = `
+			<div class="header">Схема</div>
+			<img class="scheme" src="${asset(exercise.scheme)}">
+		`;
 	}
 
-	return `<html>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
+	return `
+<html>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style>
+		html {
+			font-size: 14px;
+			padding: 0;
+			margin: 0;
+		}
 
-html {
-    font-size: 14px;
-    padding: 0;
-    margin: 0;
-}
+		body { 
+			padding: 0;
+			margin: 0;
+			font-family: ${Platform.select({ios: 'Arial', android: 'Roboto'})};
+			background-color: #ededed;
+			color: black;
+		}
 
-body { 
-    padding: 0;
-    margin: 0;
-    font-family: ${Platform.select({ios: 'Arial', android: 'Roboto'})};
-    background-color: #ededed;
-    color: black;
-}
+		h1 {
+			font-size: 18px;
+		}
 
-h1 {
-    font-size: 18px;
-}
+		p {
+			font-weight: 400;
+			font-size: 15px;
+			line-height: 20px;
+			margin-bottom: 15px;
+		}
 
-p {
-    font-weight: 400;    
-    font-size: 15px;
-    line-height: 20px;
-    margin-bottom: 15px;
-}
+		img {
+			max-width: 100%;
+		}
 
-img {
-    max-width: 100%;
-}
+		.header {
+			background-color: #ededed;
+			padding: 15px;
+			font-size: 16px;
+			font-weight: 500;
+			text-align: center; 
+		}
+		
+		.text {
+			padding: 15px 0 10px 0;
+			background-color: white;
+		}
 
-.header {
-    background-color: #ededed;
-    padding: 15px;
-    font-size: 16px;
-    font-weight: 500;
-    text-align: center;    
-}
+		.text ul {
+			list-style-type: disc;
+			margin-block-start: 1em;
+			margin-block-end: 1em;
+			margin-inline-start: 0;
+			margin-inline-end: 0;
+		}
 
-.text {
-  padding: 15px;
-  background-color: white;
-  border-bottom: 1px solid #d5d5d5;
-}
-.text ul {
-  list-style-type: disc;
-  margin-block-start: 1em;
-  margin-block-end: 1em;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
-}
+		.text ol {
+			margin-inline-start: 0;
+			margin-inline-end: ;
+			margin-block-start: 1em;
+			margin-block-end: 1em;
+			padding-left: 15px;
+		}
 
-.text ol {
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
-  margin-block-start: 1em;
-  margin-block-end: 1em;
-  padding-left: 15px;
-}
-
-.text ol li {
-  margin-bottom: 10px;
-}
-
-
-.text ul li {
-  list-style: disc;
-}
-
-</style>
-${coverImage}
-${howToDo}
-${scheme}
-</html>`;
-}
+		.text ol li {
+			margin-bottom: 10px;
+		}
 
 
-const LessonTab = ({exercise}) => {
-	const [startTimer, setStartTimer] = useState(false);
-	const [soundMin, setSoundMin] = useState(null);
-	const [soundSec, setSoundSec] = useState(null);
-	const [currentPosition, setCurrentPosition] = useState(0);
-	const [onTrackClick, setOnTrackClick] = useState(null);
-	const [trackLength, setTrackLength] = useState(null);
+		.text ul li {
+			list-style: disc;
+		}
+	</style>
+	${coverImage}
+	${howToDo}
+	${scheme}
+</html>
+`;
+};
 
-	useEffect(() => {
+
+const LessonTab = ({ exercise }) => {
+	const [startTimer, setStartTimer] = React.useState(false);
+	const [soundMin, setSoundMin] = React.useState(null);
+	const [soundSec, setSoundSec] = React.useState(null);
+	const [currentPosition, setCurrentPosition] = React.useState(0);
+	const [onTrackClick, setOnTrackClick] = React.useState(null);
+	const [trackLength, setTrackLength] = React.useState(null);
+
+	React.useEffect(() => {
 		secondsToTime(sound.getDuration());
 		setTrackLength(Math.round(sound.getDuration()));
 		setCurrentPosition(-Math.round(sound.getDuration()));
 	}, []);
 
-	useEffect(() => {
-		if (currentPosition == 0) {
+	React.useEffect(() => {
+		if (currentPosition === 0) {
 			setCurrentPosition(-Math.round(sound.getDuration()));
 		}
 	}, [currentPosition]);
 
 	const secondsToTime = secs => {
-		let hours = Math.floor(secs / (60 * 60));
 		let divisor_for_minutes = secs % (60 * 60);
 		let minutes = Math.floor(divisor_for_minutes / 60);
 		let divisor_for_seconds = divisor_for_minutes % 60;

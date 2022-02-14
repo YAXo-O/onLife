@@ -12,7 +12,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 
 import Tab from '@app/screens/Fitness/components/Tab';
-import WeightInputModal from '@app/screens/Fitness/components/WeightInputModal';
+import { WeightInputModal } from '@app/screens/Fitness/components/WeightInputModal';
 
 import useProfiledData from '@app/hooks/useProfiledData';
 import { saveSession } from '@app/redux/action-creators';

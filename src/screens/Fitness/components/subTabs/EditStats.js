@@ -6,9 +6,6 @@ import {
 	TouchableOpacity,
 	Dimensions,
 	ScrollView,
-	Modal,
-	TextInput, Platform,
-	KeyboardAvoidingView,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -19,13 +16,10 @@ import { extractParam, timer } from '@app/utils';
 import { addTrainingSessionItem, updateTrainingSessionItem } from '@app/redux/action-creators';
 import { Header } from '@app/screens/Fitness/components/Header';
 
-import UpArr from '@app/assets/formTab/up.svg';
-import DownArr from '@app/assets/formTab/down.svg';
-import DoneIcon from '@app/assets/formTab/done.svg';
-import CloseIcon from '@app/assets/formTab/closemdpi.svg';
 import TimerIcon from '@app/assets/formTab/Timer.svg';
+import { WeightInput } from '@app/screens/Fitness/components/subTabs/WeightInput';
 
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 const getTimeLeft = (timerSettings) => timerSettings.time;
 
 const Timer = props => {
@@ -64,7 +58,7 @@ const EditStats = ({route}) => {
 	const currentSession = useProfiledData('training.currentSession');
 	const {exercises, trainingDay, trainingCycle} = route.params;
 	const [modalVisible, setModalVisible] = React.useState(false);
-	const [value, setValue] = React.useState(0);
+	const [value, setValue] = React.useState('0');
 	const [setData, setSetData] = React.useState(null);
 	const sessions = useSelector(state => state.training.sessions || []);
 
@@ -289,55 +283,14 @@ const EditStats = ({route}) => {
 				}
 			</ScrollView>
 
-			<Modal
-				animationType="slide"
-				transparent
+			<WeightInput
+				value={value}
+				onChange={setValue}
+				onComplete={handleSetDone}
+
 				visible={modalVisible}
-				onRequestClose={() => {
-					setModalVisible(!modalVisible);
-				}}
-			>
-				<KeyboardAvoidingView
-					behavior={Platform.OS === 'ios' ? 'height' : null}
-					style={{ flex: 1}}
-					enabled
-				>
-					<View style={styles.centeredView}>
-						<TouchableOpacity
-							onPress={() => setModalVisible(false)}
-							style={styles.topTouchable}>
-							<View style={styles.closeIcon}>
-								<CloseIcon/>
-							</View>
-						</TouchableOpacity>
-						<View style={styles.modalView}>
-							<Text style={styles.modalTitle}>Выполнен вес</Text>
-							<View style={styles.inputView}>
-								<TouchableOpacity
-									style={styles.modalArrUp}
-									onPress={() => setValue(value + 0.5)}>
-									<UpArr/>
-								</TouchableOpacity>
-								<TextInput
-									autoFocus
-									keyboardType="numeric"
-									style={styles.lastItem}
-									onChangeText={value => setValue(Number(value))}
-									value={value ? value.toString() : ''}
-								/>
-								<TouchableOpacity
-									style={styles.modalArrDown}
-									onPress={() => setValue(value - 0.5)}>
-									<DownArr/>
-								</TouchableOpacity>
-							</View>
-							<TouchableOpacity onPress={handleSetDone} style={styles.doneBtn}>
-								<DoneIcon/>
-							</TouchableOpacity>
-						</View>
-					</View>
-				</KeyboardAvoidingView>
-			</Modal>
+				setVisible={setModalVisible}
+			/>
 		</View>
 	);
 };
@@ -349,79 +302,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-start',
 		backgroundColor: '#fff',
 	},
-	modalTitle: {
-		fontSize: 22,
-		fontFamily: 'FuturaPT-Medium',
-		fontWeight: '500',
-		lineHeight: 25,
-	},
-	centeredView: {
-		backgroundColor: 'rgba(0,0,0, .7)',
-		flex: 1,
-		flexDirection: 'column',
-		justifyContent: 'flex-end',
-		alignItems: 'center',
-		marginTop: 0,
-	},
-	topTouchable: {
-		flexGrow: 1,
-		flexDirection: 'column',
-		position: 'relative',
-		width: '100%',
-	},
-	closeIcon: {
-		position: 'absolute',
-		width: width,
-		justifyContent: 'flex-end',
-		alignItems: 'flex-end',
-		bottom: 15,
-		right: 15,
-	},
 
-	modalView: {
-		backgroundColor: 'white',
-		borderTopRightRadius: 20,
-		borderTopLeftRadius: 20,
-		width: width,
-		padding: 20,
-		paddingBottom: 0,
-		alignItems: 'center',
-		justifyContent: 'flex-end',
-		flexDirection: 'column',
-		shadowColor: '#000',
-		shadowOffset: {
-			width: 0,
-			height: 2,
-		},
-		shadowOpacity: 0.25,
-		shadowRadius: 4,
-		elevation: 5,
-	},
-	inputView: {
-		width: width,
-		paddingTop: 10,
-		paddingBottom: 20,
-		flexDirection: 'row',
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-	modalArrUp: {
-		justifyContent: 'center',
-		alignItems: 'center',
-		right: 20,
-	},
-	modalArrDown: {
-		justifyContent: 'center',
-		alignItems: 'center',
-		left: 20,
-	},
-	doneBtn: {
-		justifyContent: 'center',
-		alignItems: 'center',
-		height: 50,
-		backgroundColor: '#1317CE',
-		width: width,
-	},
 	tabsWrapper: {
 		flexDirection: 'column',
 		marginLeft: 12,
@@ -463,16 +344,6 @@ const styles = StyleSheet.create({
 		color: '#0C0C0C',
 		fontSize: 13,
 		textAlign: 'right',
-	},
-	lastItem: {
-		width: '35%',
-		height: 50,
-		fontSize: 27,
-		borderWidth: 1,
-		borderColor: 'rgba(0, 0, 0, 0.13)   ',
-		color: '#1010FE',
-		textAlign: 'center',
-		borderRadius: 9,
 	},
 	defaultText: {
 		fontSize: 22,
