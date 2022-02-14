@@ -208,8 +208,13 @@ const LessonTab = ({ exercise }) => {
 					>
 						{
 							superset
-								? <Text style={styles.exerciseTitle}>{item.name}</Text>
-								: null
+								? (
+									<View style={styles.exerciseTitleWrapper}>
+										<Text style={styles.exerciseTitle}>
+											{item.name}
+										</Text>
+									</View>
+								) : null
 						}
 						{item.audio ? (
 							<React.Fragment>
@@ -281,7 +286,9 @@ const styles = StyleSheet.create({
 		width: '100%',
 		marginBottom: 8,
 		paddingBottom: 8,
-
+	},
+	// Border for <Text /> doesn't on iOS
+	exerciseTitleWrapper: {
 		borderBottomWidth: 1,
 		borderColor: '#d3d3d3',
 		borderStyle: 'solid',
