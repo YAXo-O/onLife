@@ -20,17 +20,19 @@ export const WeightInputModal: React.VFC<WeightInputModalProps> = (props: Weight
 		if (props.weightInput) {
 			setValue(props.weightInput.value);
 		}
-	}, [props.weightInput]);
+	}, [props.weightInput?.value]);
 
 	const onComplete = () => {
-		if (props.weightInput) {
-			props.weightInput.onSubmit(value);
-		}
+		const handler = props.weightInput?.onSubmit;
+
+		if (handler) handler(value);
 	};
 
 	const setVisible = (visible: boolean) => {
-		if (!visible) props.close();
-	};
+		const handler = props.close;
+
+		if (!visible && handler) handler();
+	}
 
 	return (
 		<WeightInput

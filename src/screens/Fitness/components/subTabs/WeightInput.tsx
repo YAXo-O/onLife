@@ -29,7 +29,7 @@ interface WeightInputProps {
 const { width } = Dimensions.get('window');
 
 export const WeightInput: React.VFC<WeightInputProps> = (props: WeightInputProps) => {
-	const [str, setStr] = React.useState<string>();
+	const [str, setStr] = React.useState<string>(() => '0.0');
 	const hide = () => props.setVisible(false);
 
 	React.useEffect(() => {
@@ -39,7 +39,7 @@ export const WeightInput: React.VFC<WeightInputProps> = (props: WeightInputProps
 	React.useEffect(() => {
 		const val = Number(str);
 
-		if (val.toString() === str) {
+		if (!Number.isNaN(val)) {
 			props.onChange(val);
 		}
 	}, [str]);
@@ -53,7 +53,7 @@ export const WeightInput: React.VFC<WeightInputProps> = (props: WeightInputProps
 			transparent
 		>
 			<KeyboardAvoidingView
-				behavior={Platform.OS === 'ios' ? 'height' : null}
+				behavior={Platform.OS === 'ios' ? 'height' : undefined}
 				style={styles.keyboardAvoidingView}
 				enabled
 			>
@@ -82,7 +82,7 @@ export const WeightInput: React.VFC<WeightInputProps> = (props: WeightInputProps
 								autoFocus
 								keyboardType="numeric"
 								style={styles.lastItem}
-								onChangeText={(val: string) => setStr(val)}
+								onChangeText={(val: string) => setStr(val.replace(',', '.'))}
 								value={str}
 							/>
 							<TouchableOpacity
