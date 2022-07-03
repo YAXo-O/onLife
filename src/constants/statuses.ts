@@ -1,3 +1,0 @@
-export const TRAINING_SESSION_ACTIVE = 1;
-export const TRAINING_SESSION_DONE = 2;
-export const TRAINING_SESSION_DELETED = 5;
