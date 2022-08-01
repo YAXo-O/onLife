@@ -10,7 +10,9 @@ export enum Gender {
 export interface User extends WithId {
 	firstName: string;
 	lastName: string;
+
 	gender: Gender;
+	birthDate: number;
 
 	phone: string;
 	email: string;

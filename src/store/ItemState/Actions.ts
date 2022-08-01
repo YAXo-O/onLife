@@ -1,6 +1,6 @@
 import { IState } from '../IState';
-import { WithId } from '../../objects/utility/WithId';
 import { Action } from 'redux';
+import { Nullable } from '../../objects/utility/Nullable';
 
 export enum ItemActionType {
 	Load = 'IA_LOAD',
@@ -15,10 +15,11 @@ export interface ItemAction<Type extends ItemActionType = ItemActionType, Payloa
 }
 
 export type LoadItemAction = ItemAction<ItemActionType.Load>;
-export type SetItemAction<T extends WithId> = ItemAction<ItemActionType.Set, T>;
+export type SetItemAction<T> = ItemAction<ItemActionType.Set, Nullable<T>>;
 export type FailItemAction = ItemAction<ItemActionType.Fail, string>;
 
-export type ItemDispatchType = (action: ItemAction) => ItemAction;
+export type AvailableItemAction<T> = LoadItemAction | SetItemAction<T> | FailItemAction;
+export type ItemDispatchType<T> = (action: AvailableItemAction<T>) => AvailableItemAction<T>;
 
 export function isItemAction(action: Action): action is ItemAction {
 	if (typeof action.type !== 'string') return false;

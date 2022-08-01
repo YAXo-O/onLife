@@ -5,6 +5,6 @@ export interface IState {
 	user: ItemState<User>;
 }
 
-export const initialStore: IState = {
+export const initialState: IState = {
 	user: initState<User>(),
 };

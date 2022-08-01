@@ -3,18 +3,26 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android": "react-native run-android",
+    "android": "react-native run-android --deviceId=Pixel_5_API_27",
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
+    "@react-navigation/native": "^6.0.11",
+    "@react-navigation/native-stack": "^6.7.0",
+    "formik": "^2.2.9",
     "react": "18.0.0",
     "react-native": "0.69.0",
+    "react-native-encrypted-storage": "^4.0.2",
+    "react-native-safe-area-context": "^4.3.1",
+    "react-native-screens": "^3.15.0",
     "react-redux": "^8.0.2",
     "redux": "^4.2.0",
-    "uuid": "^8.3.2"
+    "redux-thunk": "^2.4.1",
+    "uuid": "^8.3.2",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

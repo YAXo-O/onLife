@@ -1,4 +1,3 @@
-import { WithId } from '../../objects/utility/WithId';
 import { Nullable } from '../../objects/utility/Nullable';
 
 enum State {
@@ -7,13 +6,13 @@ enum State {
 	Failure = 2,
 }
 
-export interface ItemState<T extends WithId> {
+export interface ItemState<T> {
 	item: Nullable<T>;
 	state: State;
 	message: Nullable<string>;
 }
 
-export function initState<T extends WithId>(): ItemState<T> {
+export function initState<T>(): ItemState<T> {
 	return {
 		item: null,
 		state: State.Ok,
