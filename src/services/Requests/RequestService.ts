@@ -42,7 +42,7 @@ interface BodyDescriptor {
 const config = {
 	backend: {
 		protocol: 'http',
-		host: 'localhost',
+		host: '192.168.8.116',
 		port: '5000',
 	},
 };
@@ -157,7 +157,7 @@ export class RequestManager {
 				}
 			})
 			.catch((error) => console.warn('<RequestService> failed to load token: ', error))
-			.finally() // Get a new promise for fetch
+			.finally(() => console.log('Resetting promise')) // Get a new promise for fetch
 			.then(() => fetch(this.url, {
 				method,
 				credentials: 'include',

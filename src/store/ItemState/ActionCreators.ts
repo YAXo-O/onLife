@@ -12,7 +12,7 @@ export interface ItemEndpointList {
 	update: string;
 }
 
-function setAction<T>(item: Nullable<T>, store: keyof IState): SetItemAction<T> {
+export function setAction<T>(item: Nullable<T>, store: keyof IState): SetItemAction<T> {
 	return {
 		type: ItemActionType.Set,
 		store,

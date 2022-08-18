@@ -1,5 +1,27 @@
 import { StyleSheet } from 'react-native';
 
+export const formTypography = StyleSheet.create({
+	label: {
+		fontFamily: 'AlegreyaSans-Regular',
+		fontSize: 14,
+		lineHeight: 18,
+	},
+	input: {
+		fontFamily: 'AlegreyaSans-Light',
+		fontSize: 14,
+		lineHeight: 16,
+		// textAlign: 'left',
+	},
+	action: {
+		fontFamily: 'AlegreyaSans-Light',
+		fontSize: 14,
+		lienHeight: 16,
+	},
+	text: {
+		fontFamily: 'AlegreyaSans-Light',
+	},
+});
+
 export const formStyles = StyleSheet.create({
 	background: {
 		flex: 1,
@@ -41,6 +63,11 @@ export const formStyles = StyleSheet.create({
 		borderRadius: 4,
 		paddingHorizontal: 6,
 		paddingVertical: 2,
+		textAlignVertical: 'center',
+		height: 32,
+	},
+	inputText: {
+		color: 'rgba(255, 255, 255, 0.6)',
 	},
 	btnRow: {
 		flexDirection: 'row',

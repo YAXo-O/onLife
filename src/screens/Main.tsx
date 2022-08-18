@@ -1,10 +1,7 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import {
-	StyleSheet,
-	View,
-	ActivityIndicator,
-	Text,
+	ImageBackground,
 } from 'react-native';
 
 import { IState } from '../store/IState';
@@ -13,6 +10,10 @@ import { User } from '../objects/User';
 import { AuthScreen } from './Auth/Auth';
 import { PrivateKeys } from '../services/Privacy/PrivateKeys';
 import { usePrivateStorage } from '../usePrivateStorage';
+import { formStyles } from './Auth/FormStyle';
+import { Spinner } from '../components/spinner/Spinner';
+
+import Background from '../../assets/images/background.png';
 
 interface OwnProps {
 }
@@ -21,35 +22,14 @@ interface OwnProps {
 export const MainScreen: React.FC<OwnProps> = (props: OwnProps) => {
 	const session = usePrivateStorage(PrivateKeys.Session);
 	const user = useSelector<IState, ItemState<User>>((state: IState) => state.user);
+	const loading = Boolean(session.loading || session.item && !user.item);
 
-	if (session.loading) return <ActivityIndicator />;
-	if (session.item === null) return <AuthScreen />;
-	if (user.item === null) return <ActivityIndicator />;
+	if (session.item === null && !loading) return <AuthScreen />;
 
 	return (
-		<View style={styles.container}>
-			<Text style={styles.label}>
-				Пользователь:
-			</Text>
-			<Text style={styles.text}>
-				{user.item.firstName} {user.item.lastName}
-			</Text>
-		</View>
+		<ImageBackground source={Background} style={formStyles.background}>
+			<Spinner loading={loading} />
+		</ImageBackground>
 	);
 };
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		padding: '16px',
-	},
-	label: {
-		fontSize: 16,
-		lineHeight: 20,
-		fontWeight: 'bold',
-	},
-	text: {
-		fontSize: 16,
-		lineHeight: 20,
-	},
-});

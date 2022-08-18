@@ -1,6 +1,7 @@
-import { IState } from '../IState';
 import { Action } from 'redux';
+
 import { Nullable } from '../../objects/utility/Nullable';
+import { IState } from '../IState';
 
 export enum ItemActionType {
 	Load = 'IA_LOAD',
@@ -11,7 +12,7 @@ export enum ItemActionType {
 export interface ItemAction<Type extends ItemActionType = ItemActionType, Payload = null> {
 	type: Type;
 	payload: Payload;
-	store: keyof IState; // Should be keyof IStore where typeof IStore[keyof IStore] === 'ItemState<T>'
+	store: keyof IState;
 }
 
 export type LoadItemAction = ItemAction<ItemActionType.Load>;
