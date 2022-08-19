@@ -10,11 +10,12 @@
 		00E356F31AD99517003FC87E /* onLifeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* onLifeTests.m */; };
 		0C80B921A6F3F58F76C31292 /* libPods-onLife.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-onLife.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
-		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-onLife-onLifeTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-onLife-onLifeTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8B6F4EDD28AFD7C1002CA15F /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B6F4EDC28AFD7C1002CA15F /* background.png */; };
+		8B6F4EE228AFE7CF002CA15F /* appstore.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B6F4EE028AFE7CF002CA15F /* appstore.png */; };
+		8B6F4EE328AFE7CF002CA15F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B6F4EE128AFE7CF002CA15F /* Assets.xcassets */; };
 		8BED0C9228AFD2EE00DFE2FF /* AlegreyaSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BED0C8428AFD2EE00DFE2FF /* AlegreyaSans-LightItalic.ttf */; };
 		8BED0C9328AFD2EE00DFE2FF /* AlegreyaSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BED0C8528AFD2EE00DFE2FF /* AlegreyaSans-ExtraBoldItalic.ttf */; };
 		8BED0C9428AFD2EE00DFE2FF /* AlegreyaSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BED0C8628AFD2EE00DFE2FF /* AlegreyaSans-ExtraBold.ttf */; };
@@ -48,7 +49,6 @@
 		13B07F961A680F5B00A75B9A /* onLife.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = onLife.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = onLife/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = onLife/AppDelegate.mm; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = onLife/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = onLife/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = onLife/main.m; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-onLife-onLifeTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-onLife-onLifeTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -59,6 +59,8 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = onLife/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-onLife-onLifeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-onLife-onLifeTests.release.xcconfig"; path = "Target Support Files/Pods-onLife-onLifeTests/Pods-onLife-onLifeTests.release.xcconfig"; sourceTree = "<group>"; };
 		8B6F4EDC28AFD7C1002CA15F /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = background.png; path = ../../../assets/images/background.png; sourceTree = "<group>"; };
+		8B6F4EE028AFE7CF002CA15F /* appstore.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = appstore.png; path = onLife/appstore.png; sourceTree = "<group>"; };
+		8B6F4EE128AFE7CF002CA15F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = onLife/Assets.xcassets; sourceTree = "<group>"; };
 		8BED0C8428AFD2EE00DFE2FF /* AlegreyaSans-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "AlegreyaSans-LightItalic.ttf"; path = "../../../assets/fonts/AlegreyaSans-LightItalic.ttf"; sourceTree = "<group>"; };
 		8BED0C8528AFD2EE00DFE2FF /* AlegreyaSans-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "AlegreyaSans-ExtraBoldItalic.ttf"; path = "../../../assets/fonts/AlegreyaSans-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
 		8BED0C8628AFD2EE00DFE2FF /* AlegreyaSans-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "AlegreyaSans-ExtraBold.ttf"; path = "../../../assets/fonts/AlegreyaSans-ExtraBold.ttf"; sourceTree = "<group>"; };
@@ -116,9 +118,10 @@
 		13B07FAE1A68108700A75B9A /* onLife */ = {
 			isa = PBXGroup;
 			children = (
+				8B6F4EE028AFE7CF002CA15F /* appstore.png */,
+				8B6F4EE128AFE7CF002CA15F /* Assets.xcassets */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
-				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
@@ -315,7 +318,7 @@
 				8BED0C9428AFD2EE00DFE2FF /* AlegreyaSans-ExtraBold.ttf in Resources */,
 				8B6F4EDD28AFD7C1002CA15F /* background.png in Resources */,
 				8BED0C9628AFD2EE00DFE2FF /* AlegreyaSans-Regular.ttf in Resources */,
-				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				8B6F4EE228AFE7CF002CA15F /* appstore.png in Resources */,
 				8BED0C9A28AFD2EE00DFE2FF /* AlegreyaSans-MediumItalic.ttf in Resources */,
 				8BED0C9828AFD2EE00DFE2FF /* AlegreyaSans-Light.ttf in Resources */,
 				8BED0C9D28AFD2EE00DFE2FF /* AlegreyaSans-Thin.ttf in Resources */,
@@ -327,6 +330,7 @@
 				8BED0C9528AFD2EE00DFE2FF /* AlegreyaSans-ThinItalic.ttf in Resources */,
 				8BED0C9B28AFD2EE00DFE2FF /* AlegreyaSans-Italic.ttf in Resources */,
 				8BED0C9728AFD2EE00DFE2FF /* AlegreyaSans-Bold.ttf in Resources */,
+				8B6F4EE328AFE7CF002CA15F /* Assets.xcassets in Resources */,
 				8BED0C9228AFD2EE00DFE2FF /* AlegreyaSans-LightItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
