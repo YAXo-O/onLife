@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
@@ -48,6 +48,23 @@
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>AlegreyaSans-Black.ttf</string>
+		<string>AlegreyaSans-BlackItalic.ttf</string>
+		<string>AlegreyaSans-Bold.ttf</string>
+		<string>AlegreyaSans-BoldItalic.ttf</string>
+		<string>AlegreyaSans-ExtraBold.ttf</string>
+		<string>AlegreyaSans-ExtraBoldItalic.ttf</string>
+		<string>AlegreyaSans-Italic.ttf</string>
+		<string>AlegreyaSans-Light.ttf</string>
+		<string>AlegreyaSans-LightItalic.ttf</string>
+		<string>AlegreyaSans-Medium.ttf</string>
+		<string>AlegreyaSans-MediumItalic.ttf</string>
+		<string>AlegreyaSans-Regular.ttf</string>
+		<string>AlegreyaSans-Thin.ttf</string>
+		<string>AlegreyaSans-ThinItalic.ttf</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>

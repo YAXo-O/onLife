@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { SignInScreen } from './SignIn';
@@ -13,7 +13,7 @@ const AuthNavigation = createNativeStackNavigator();
 
 export const AuthScreen: React.FC<OwnProps> = (props: OwnProps) => {
 	return (
-		<View style={{ flex: 1 }}>
+		<SafeAreaView style={{ flex: 1, }}>
 			<AuthNavigation.Navigator
 				initialRouteName="SignIn"
 				screenOptions={{
@@ -38,6 +38,6 @@ export const AuthScreen: React.FC<OwnProps> = (props: OwnProps) => {
 					component={SignUpScreen}
 				/>
 			</AuthNavigation.Navigator>
-		</View>
+		</SafeAreaView>
 	);
 };

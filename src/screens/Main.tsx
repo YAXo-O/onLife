@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 import {
 	ImageBackground,
+	Text,
 } from 'react-native';
 
 import { IState } from '../store/IState';
@@ -24,7 +25,13 @@ export const MainScreen: React.FC<OwnProps> = (props: OwnProps) => {
 	const user = useSelector<IState, ItemState<User>>((state: IState) => state.user);
 	const loading = Boolean(session.loading || session.item && !user.item);
 
-	if (session.item === null && !loading) return <AuthScreen />;
+	if (!session.item && !loading) {
+		return (
+			<ImageBackground source={Background} style={formStyles.background}>
+				<AuthScreen />
+			</ImageBackground>
+		);
+	}
 
 	return (
 		<ImageBackground source={Background} style={formStyles.background}>

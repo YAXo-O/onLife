@@ -14,6 +14,21 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-onLife-onLifeTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-onLife-onLifeTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		8B6F4EDD28AFD7C1002CA15F /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B6F4EDC28AFD7C1002CA15F /* background.png */; };
+		8BED0C9228AFD2EE00DFE2FF /* AlegreyaSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BED0C8428AFD2EE00DFE2FF /* AlegreyaSans-LightItalic.ttf */; };
+		8BED0C9328AFD2EE00DFE2FF /* AlegreyaSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BED0C8528AFD2EE00DFE2FF /* AlegreyaSans-ExtraBoldItalic.ttf */; };
+		8BED0C9428AFD2EE00DFE2FF /* AlegreyaSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BED0C8628AFD2EE00DFE2FF /* AlegreyaSans-ExtraBold.ttf */; };
+		8BED0C9528AFD2EE00DFE2FF /* AlegreyaSans-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BED0C8728AFD2EE00DFE2FF /* AlegreyaSans-ThinItalic.ttf */; };
+		8BED0C9628AFD2EE00DFE2FF /* AlegreyaSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BED0C8828AFD2EE00DFE2FF /* AlegreyaSans-Regular.ttf */; };
+		8BED0C9728AFD2EE00DFE2FF /* AlegreyaSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BED0C8928AFD2EE00DFE2FF /* AlegreyaSans-Bold.ttf */; };
+		8BED0C9828AFD2EE00DFE2FF /* AlegreyaSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BED0C8A28AFD2EE00DFE2FF /* AlegreyaSans-Light.ttf */; };
+		8BED0C9928AFD2EE00DFE2FF /* AlegreyaSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BED0C8B28AFD2EE00DFE2FF /* AlegreyaSans-Medium.ttf */; };
+		8BED0C9A28AFD2EE00DFE2FF /* AlegreyaSans-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BED0C8C28AFD2EE00DFE2FF /* AlegreyaSans-MediumItalic.ttf */; };
+		8BED0C9B28AFD2EE00DFE2FF /* AlegreyaSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BED0C8D28AFD2EE00DFE2FF /* AlegreyaSans-Italic.ttf */; };
+		8BED0C9C28AFD2EE00DFE2FF /* AlegreyaSans-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BED0C8E28AFD2EE00DFE2FF /* AlegreyaSans-Black.ttf */; };
+		8BED0C9D28AFD2EE00DFE2FF /* AlegreyaSans-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BED0C8F28AFD2EE00DFE2FF /* AlegreyaSans-Thin.ttf */; };
+		8BED0C9E28AFD2EE00DFE2FF /* AlegreyaSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BED0C9028AFD2EE00DFE2FF /* AlegreyaSans-BoldItalic.ttf */; };
+		8BED0C9F28AFD2EE00DFE2FF /* AlegreyaSans-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BED0C9128AFD2EE00DFE2FF /* AlegreyaSans-BlackItalic.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +58,21 @@
 		5DCACB8F33CDC322A6C60F78 /* libPods-onLife.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-onLife.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = onLife/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-onLife-onLifeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-onLife-onLifeTests.release.xcconfig"; path = "Target Support Files/Pods-onLife-onLifeTests/Pods-onLife-onLifeTests.release.xcconfig"; sourceTree = "<group>"; };
+		8B6F4EDC28AFD7C1002CA15F /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = background.png; path = ../../../assets/images/background.png; sourceTree = "<group>"; };
+		8BED0C8428AFD2EE00DFE2FF /* AlegreyaSans-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "AlegreyaSans-LightItalic.ttf"; path = "../../../assets/fonts/AlegreyaSans-LightItalic.ttf"; sourceTree = "<group>"; };
+		8BED0C8528AFD2EE00DFE2FF /* AlegreyaSans-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "AlegreyaSans-ExtraBoldItalic.ttf"; path = "../../../assets/fonts/AlegreyaSans-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
+		8BED0C8628AFD2EE00DFE2FF /* AlegreyaSans-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "AlegreyaSans-ExtraBold.ttf"; path = "../../../assets/fonts/AlegreyaSans-ExtraBold.ttf"; sourceTree = "<group>"; };
+		8BED0C8728AFD2EE00DFE2FF /* AlegreyaSans-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "AlegreyaSans-ThinItalic.ttf"; path = "../../../assets/fonts/AlegreyaSans-ThinItalic.ttf"; sourceTree = "<group>"; };
+		8BED0C8828AFD2EE00DFE2FF /* AlegreyaSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "AlegreyaSans-Regular.ttf"; path = "../../../assets/fonts/AlegreyaSans-Regular.ttf"; sourceTree = "<group>"; };
+		8BED0C8928AFD2EE00DFE2FF /* AlegreyaSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "AlegreyaSans-Bold.ttf"; path = "../../../assets/fonts/AlegreyaSans-Bold.ttf"; sourceTree = "<group>"; };
+		8BED0C8A28AFD2EE00DFE2FF /* AlegreyaSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "AlegreyaSans-Light.ttf"; path = "../../../assets/fonts/AlegreyaSans-Light.ttf"; sourceTree = "<group>"; };
+		8BED0C8B28AFD2EE00DFE2FF /* AlegreyaSans-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "AlegreyaSans-Medium.ttf"; path = "../../../assets/fonts/AlegreyaSans-Medium.ttf"; sourceTree = "<group>"; };
+		8BED0C8C28AFD2EE00DFE2FF /* AlegreyaSans-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "AlegreyaSans-MediumItalic.ttf"; path = "../../../assets/fonts/AlegreyaSans-MediumItalic.ttf"; sourceTree = "<group>"; };
+		8BED0C8D28AFD2EE00DFE2FF /* AlegreyaSans-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "AlegreyaSans-Italic.ttf"; path = "../../../assets/fonts/AlegreyaSans-Italic.ttf"; sourceTree = "<group>"; };
+		8BED0C8E28AFD2EE00DFE2FF /* AlegreyaSans-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "AlegreyaSans-Black.ttf"; path = "../../../assets/fonts/AlegreyaSans-Black.ttf"; sourceTree = "<group>"; };
+		8BED0C8F28AFD2EE00DFE2FF /* AlegreyaSans-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "AlegreyaSans-Thin.ttf"; path = "../../../assets/fonts/AlegreyaSans-Thin.ttf"; sourceTree = "<group>"; };
+		8BED0C9028AFD2EE00DFE2FF /* AlegreyaSans-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "AlegreyaSans-BoldItalic.ttf"; path = "../../../assets/fonts/AlegreyaSans-BoldItalic.ttf"; sourceTree = "<group>"; };
+		8BED0C9128AFD2EE00DFE2FF /* AlegreyaSans-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "AlegreyaSans-BlackItalic.ttf"; path = "../../../assets/fonts/AlegreyaSans-BlackItalic.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -116,6 +146,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				8BED0C8228AFD2B200DFE2FF /* Assets */,
 				13B07FAE1A68108700A75B9A /* onLife */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* onLifeTests */,
@@ -135,6 +166,44 @@
 				00E356EE1AD99517003FC87E /* onLifeTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		8B6F4EDB28AFD7AB002CA15F /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				8B6F4EDC28AFD7C1002CA15F /* background.png */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		8BED0C8228AFD2B200DFE2FF /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				8B6F4EDB28AFD7AB002CA15F /* Images */,
+				8BED0C8328AFD2CF00DFE2FF /* Fonts */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		8BED0C8328AFD2CF00DFE2FF /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				8BED0C8E28AFD2EE00DFE2FF /* AlegreyaSans-Black.ttf */,
+				8BED0C9128AFD2EE00DFE2FF /* AlegreyaSans-BlackItalic.ttf */,
+				8BED0C8928AFD2EE00DFE2FF /* AlegreyaSans-Bold.ttf */,
+				8BED0C9028AFD2EE00DFE2FF /* AlegreyaSans-BoldItalic.ttf */,
+				8BED0C8628AFD2EE00DFE2FF /* AlegreyaSans-ExtraBold.ttf */,
+				8BED0C8528AFD2EE00DFE2FF /* AlegreyaSans-ExtraBoldItalic.ttf */,
+				8BED0C8D28AFD2EE00DFE2FF /* AlegreyaSans-Italic.ttf */,
+				8BED0C8A28AFD2EE00DFE2FF /* AlegreyaSans-Light.ttf */,
+				8BED0C8428AFD2EE00DFE2FF /* AlegreyaSans-LightItalic.ttf */,
+				8BED0C8B28AFD2EE00DFE2FF /* AlegreyaSans-Medium.ttf */,
+				8BED0C8C28AFD2EE00DFE2FF /* AlegreyaSans-MediumItalic.ttf */,
+				8BED0C8828AFD2EE00DFE2FF /* AlegreyaSans-Regular.ttf */,
+				8BED0C8F28AFD2EE00DFE2FF /* AlegreyaSans-Thin.ttf */,
+				8BED0C8728AFD2EE00DFE2FF /* AlegreyaSans-ThinItalic.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
@@ -243,7 +312,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				8BED0C9428AFD2EE00DFE2FF /* AlegreyaSans-ExtraBold.ttf in Resources */,
+				8B6F4EDD28AFD7C1002CA15F /* background.png in Resources */,
+				8BED0C9628AFD2EE00DFE2FF /* AlegreyaSans-Regular.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				8BED0C9A28AFD2EE00DFE2FF /* AlegreyaSans-MediumItalic.ttf in Resources */,
+				8BED0C9828AFD2EE00DFE2FF /* AlegreyaSans-Light.ttf in Resources */,
+				8BED0C9D28AFD2EE00DFE2FF /* AlegreyaSans-Thin.ttf in Resources */,
+				8BED0C9F28AFD2EE00DFE2FF /* AlegreyaSans-BlackItalic.ttf in Resources */,
+				8BED0C9328AFD2EE00DFE2FF /* AlegreyaSans-ExtraBoldItalic.ttf in Resources */,
+				8BED0C9E28AFD2EE00DFE2FF /* AlegreyaSans-BoldItalic.ttf in Resources */,
+				8BED0C9928AFD2EE00DFE2FF /* AlegreyaSans-Medium.ttf in Resources */,
+				8BED0C9C28AFD2EE00DFE2FF /* AlegreyaSans-Black.ttf in Resources */,
+				8BED0C9528AFD2EE00DFE2FF /* AlegreyaSans-ThinItalic.ttf in Resources */,
+				8BED0C9B28AFD2EE00DFE2FF /* AlegreyaSans-Italic.ttf in Resources */,
+				8BED0C9728AFD2EE00DFE2FF /* AlegreyaSans-Bold.ttf in Resources */,
+				8BED0C9228AFD2EE00DFE2FF /* AlegreyaSans-LightItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -486,18 +570,20 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8FZ3CH7FRR;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = onLife/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.4;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.on-life";
 				PRODUCT_NAME = onLife;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -512,17 +598,19 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8FZ3CH7FRR;
 				INFOPLIST_FILE = onLife/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.4;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.on-life";
 				PRODUCT_NAME = onLife;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -596,6 +684,7 @@
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -659,6 +748,7 @@
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};

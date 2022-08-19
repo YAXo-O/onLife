@@ -89,54 +89,54 @@ export const SignInScreen: React.FC<Props> = (props: Props) => {
 					errors,
 					touched,
 				 }) => (
-					<ImageBackground source={Background} style={formStyles.background}>
-						<ScrollView contentContainerStyle={formStyles.scrollContainer}>
-							<View style={formStyles.screen}>
-								<View style={formStyles.container}>
-									<View style={formStyles.row}>
-										<Text style={[formStyles.label, formTypography.label]}>Логин: </Text>
-										<TextInput
-											style={[formStyles.input, formTypography.input]}
-											textContentType="emailAddress"
-											keyboardType="email-address"
-											value={values.email}
-											onChangeText={handleChange('email')}
-											onBlur={handleBlur('email')}
-										/>
-										<ErrorComponent error={errors.email ?? null} touched={touched.email} />
-									</View>
-									<View style={formStyles.row}>
-										<Text style={[formStyles.label, formTypography.label]}>Пароль: </Text>
-										<TextInput
-											style={[formStyles.input, formTypography.input]}
-											textContentType="password"
-											secureTextEntry
-											value={values.password}
-											onChangeText={handleChange('password')}
-											onBlur={handleBlur('password')}
-										/>
-										<ErrorComponent error={errors.password ?? null} touched={touched.password} />
-									</View>
-									<View style={[formStyles.btnRow, formStyles.row]}>
-										<TouchableOpacity
-											style={[formStyles.btn]}
-											onPress={register}
-										>
-											<Text style={formStyles.action}>Создать аккаунт</Text>
-										</TouchableOpacity>
-										<TouchableOpacity
-											style={[formStyles.btn]}
-											onPress={handleSubmit}
-										>
-											<Text style={formStyles.action}>Войти</Text>
-										</TouchableOpacity>
-									</View>
+				 <>
+					<ScrollView contentContainerStyle={formStyles.scrollContainer}>
+						<View style={formStyles.screen}>
+							<View style={formStyles.container}>
+								<View style={formStyles.row}>
+									<Text style={[formStyles.label, formTypography.label]}>Логин: </Text>
+									<TextInput
+										style={[formStyles.input, formTypography.input]}
+										textContentType="emailAddress"
+										keyboardType="email-address"
+										value={values.email}
+										onChangeText={handleChange('email')}
+										onBlur={handleBlur('email')}
+									/>
+									<ErrorComponent error={errors.email ?? null} touched={touched.email} />
+								</View>
+								<View style={formStyles.row}>
+									<Text style={[formStyles.label, formTypography.label]}>Пароль: </Text>
+									<TextInput
+										style={[formStyles.input, formTypography.input]}
+										textContentType="password"
+										secureTextEntry
+										value={values.password}
+										onChangeText={handleChange('password')}
+										onBlur={handleBlur('password')}
+									/>
+									<ErrorComponent error={errors.password ?? null} touched={touched.password} />
+								</View>
+								<View style={[formStyles.btnRow, formStyles.row]}>
+									<TouchableOpacity
+										style={[formStyles.btn]}
+										onPress={register}
+									>
+										<Text style={formStyles.action}>Создать аккаунт</Text>
+									</TouchableOpacity>
+									<TouchableOpacity
+										style={[formStyles.btn]}
+										onPress={handleSubmit}
+									>
+										<Text style={formStyles.action}>Войти</Text>
+									</TouchableOpacity>
 								</View>
 							</View>
-						</ScrollView>
-						<Spinner loading={progress} />
-						<AlertBox message={error} />
-					</ImageBackground>
+						</View>
+					</ScrollView>
+					<Spinner loading={progress} />
+					<AlertBox message={error} />
+				 </>
 				)
 			}
 		</Formik>

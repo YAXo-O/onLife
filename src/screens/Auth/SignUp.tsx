@@ -134,7 +134,7 @@ export const SignUpScreen: React.FC<Props> = (props: Props) => {
 					errors,
 					touched,
 				}) => (
-					<ImageBackground source={Background} style={formStyles.background}>
+					<>
 						<ScrollView contentContainerStyle={formStyles.scrollContainer}>
 							<View style={formStyles.screen}>
 								<View style={formStyles.container}>
@@ -235,7 +235,8 @@ export const SignUpScreen: React.FC<Props> = (props: Props) => {
 												onChange={(value: number) => setFieldValue('birthDate', value, true)}
 												title="Выберите дату рождения"
 												caption="Выберите дату"
-												style={{ ...formStyles.input, ...formTypography.input }}
+												containerStyle={[formStyles.input, { justifyContent: 'center', }]}
+												textStyle={formTypography.input}
 											/>
 										</View>
 									</View>
@@ -259,7 +260,7 @@ export const SignUpScreen: React.FC<Props> = (props: Props) => {
 						</ScrollView>
 						<Spinner loading={progress} />
 						<AlertBox message={error} />
-					</ImageBackground>
+					</>
 				)
 			}
 		</Formik>

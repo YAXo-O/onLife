@@ -10,7 +10,9 @@ export const formTypography = StyleSheet.create({
 		fontFamily: 'AlegreyaSans-Light',
 		fontSize: 14,
 		lineHeight: 16,
-		// textAlign: 'left',
+		color: 'rgba(255, 255, 255, 0.6)',
+		textAlignVertical: 'center',
+		textAlign: 'left',
 	},
 	action: {
 		fontFamily: 'AlegreyaSans-Light',
@@ -55,7 +57,6 @@ export const formStyles = StyleSheet.create({
 		color: 'rgba(193, 222, 245, 0.9)',
 	},
 	input: {
-		color: 'rgba(255, 255, 255, 0.6)',
 		backgroundColor: 'rgba(200, 200, 200, 0.2)',
 		borderStyle: 'solid',
 		borderColor: 'rgba(255, 255, 255, 0.5)',
@@ -63,7 +64,6 @@ export const formStyles = StyleSheet.create({
 		borderRadius: 4,
 		paddingHorizontal: 6,
 		paddingVertical: 2,
-		textAlignVertical: 'center',
 		height: 32,
 	},
 	inputText: {

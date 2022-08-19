@@ -4,8 +4,8 @@ import {
 	Text,
 	TouchableOpacity,
 	ViewStyle,
-	StyleProp,
-} from 'react-native';
+	StyleProp, TextStyle,
+} from "react-native";
 import RNDatePicker from 'react-native-date-picker';
 
 import { Nullable } from '../../objects/utility/Nullable';
@@ -18,20 +18,22 @@ interface OwnProps {
 	caption?: string;
 	title?: string;
 
-	style?: StyleProp<ViewStyle>;
+	containerStyle?: StyleProp<ViewStyle>;
+	textStyle?: StyleProp<TextStyle>;
 }
 
 export const DatePicker: React.FC<OwnProps> = (props: OwnProps) => {
 	const [visible, setVisible] = React.useState(() => false);
 	const value = props.value ? new Date(props.value) : new Date();
-	const caption = props.value ? format(props.value) : props.caption!
+	const caption = props.value ? format(props.value) : props.caption!;
 
 	return (
 		<View>
 			<TouchableOpacity
 				onPress={() => setVisible(true)}
+				style={props.containerStyle}
 			>
-				<Text style={props.style}>{caption}</Text>
+				<Text style={props.textStyle}>{caption}</Text>
 			</TouchableOpacity>
 			<RNDatePicker
 				modal
