@@ -15,3 +15,13 @@ export function format(date: number, format: string = 'dd/MM/yyyy'): string {
 
 	return `${day}/${month}/${year}`;
 }
+
+// Cast from server-side date (seconds from epoch) to client-side Date
+export function toDate(date: number): Date {
+	return new Date(date * 1000)
+}
+
+// Cast from client-side date to server-side date (seconds from epoch)
+export function fromDate(date: Date): number {
+	return (+date) / 1000;
+}

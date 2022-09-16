@@ -18,14 +18,12 @@ import { formStyles, formTypography } from './FormStyle';
 
 import { Spinner } from '../../components/spinner/Spinner';
 
-import { logIn, test } from '../../services/Requests/AppRequests/UserRequests';
+import { logIn } from '../../services/Requests/AppRequests/UserRequests';
 import { User } from '../../objects/User';
 import { Nullable } from '../../objects/utility/Nullable';
 import { useDispatch } from 'react-redux';
 import { setAction } from '../../store/ItemState/ActionCreators';
 import { AlertBox } from '../../components/alertbox/AlertBox';
-
-import Background from '../../../assets/images/background.png';
 
 interface OwnProps {
 }
@@ -57,12 +55,10 @@ export const SignInScreen: React.FC<Props> = (props: Props) => {
 		setProgress(true);
 		logIn(values.email, values.password)
 			.then((user: User) => {
-				console.log('User: ', user);
 				dispatch(setAction(user, 'user'));
 				setError(null);
 			})
 			.catch((error: string | Error) => {
-				console.error(error);
 				if (typeof error === 'string') {
 					setError(error);
 				} else if ((error as Error).message) {
@@ -94,7 +90,7 @@ export const SignInScreen: React.FC<Props> = (props: Props) => {
 						<View style={formStyles.screen}>
 							<View style={formStyles.container}>
 								<View style={formStyles.row}>
-									<Text style={[formStyles.label, formTypography.label]}>Логин: </Text>
+									<Text style={[formStyles.label, formTypography.label]}>Email: </Text>
 									<TextInput
 										style={[formStyles.input, formTypography.input]}
 										textContentType="emailAddress"

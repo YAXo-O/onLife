@@ -27,8 +27,6 @@ import { register } from '../../services/Requests/AppRequests/UserRequests';
 import { useDispatch } from 'react-redux';
 import { setAction } from '../../store/ItemState/ActionCreators';
 
-import Background from '../../../assets/images/background.png';
-
 interface OwnProps {
 }
 
@@ -96,16 +94,16 @@ export const SignUpScreen: React.FC<Props> = (props: Props) => {
 			gender: values.gender!,
 			height: values.height!,
 			weight: values.weight!,
-			birthDate: values.birthDate!,
+			birthDate: values.birthDate! / 1000,
 		};
 
 		register(model)
 			.then((user: User) => {
-				console.log('User: ', user);
-				dispatch(setAction(values, 'user'));
+				dispatch(setAction(user, 'user'));
+				setError(null);
+				authorize();
 			})
 			.catch((error: string | Error) => {
-				console.error(error);
 				if (typeof error === 'string') {
 					setError(error);
 				} else if ((error as Error).message) {
@@ -139,7 +137,7 @@ export const SignUpScreen: React.FC<Props> = (props: Props) => {
 							<View style={formStyles.screen}>
 								<View style={formStyles.container}>
 									<View style={formStyles.row}>
-										<Text style={[formStyles.label, formTypography.label]}>Логин: </Text>
+										<Text style={[formStyles.label, formTypography.label]}>Email: </Text>
 										<TextInput
 											style={[formStyles.input, formTypography.input]}
 											textContentType="emailAddress"

@@ -2,6 +2,7 @@ import { Nullable } from '../../objects/utility/Nullable';
 import { RequestError } from './RequestError';
 import { PrivateKeys } from '../Privacy/PrivateKeys';
 import { PrivateStorage } from '../Privacy/PrivateStorage';
+import { CookieParser } from './CookieParser';
 
 export enum RequestMethod {
 	GET = 'GET',
@@ -42,7 +43,7 @@ interface BodyDescriptor {
 const config = {
 	backend: {
 		protocol: 'http',
-		host: '192.168.8.116',
+		host: '192.168.25.40',
 		port: '5000',
 	},
 };
@@ -147,33 +148,31 @@ export class RequestManager {
 		return this;
 	}
 
-	public request<TResult>(method: RequestMethod): Promise<TResult> {
+	public async request<TResult>(method: RequestMethod): Promise<TResult> {
 		this.state = RequestState.Busy;
 
-		return PrivateStorage.get(PrivateKeys.Session)
-			.then((token: Nullable<string>) => {
-				if (token != null) {
-					this.withHeader(RequestHeader.SessionToken, token);
-				}
-			})
-			.catch((error) => console.warn('<RequestService> failed to load token: ', error))
-			.finally(() => console.log('Resetting promise')) // Get a new promise for fetch
-			.then(() => fetch(this.url, {
+		try {
+			const token = await this.setCredentials();
+
+			const response = await fetch(this.url, {
 				method,
 				credentials: 'include',
 				headers: this.headers,
 				body: this.getBody(),
-			}))
-			.then((response: Response) => {
-				// Update token here
-				if (!response.ok) throw new RequestError(response.status, response.statusText);
-				if (this.responseType === ResponseType.JSON) return response.json();
-
-				return null;
-			})
-			.finally(() => {
-				this.state = RequestState.Idle;
 			});
+
+			if (!response.ok) {
+				const text = await response.text();
+
+				throw new RequestError(response.status, text);
+			}
+
+			await this.updateCredentials(response, token);
+
+			if (this.responseType === ResponseType.JSON) return await response.json();
+		} finally {
+			this.state = RequestState.Idle;
+		}
 	}
 
 	public get<TResult>(): Promise<TResult> {
@@ -194,5 +193,28 @@ export class RequestManager {
 
 	public delete<TResult>(): Promise<TResult> {
 		return this.request<TResult>(RequestMethod.DELETE);
+	}
+
+	private async setCredentials(): Promise<Nullable<string>> {
+		const token = await PrivateStorage.get(PrivateKeys.Session);
+		if (token != null) {
+			this.withHeader(RequestHeader.SessionToken, token);
+		}
+
+		return token;
+	}
+
+	private async updateCredentials(response: Response, oldToken: Nullable<string>): Promise<void> {
+		const cookie = response.headers.get('set-cookie');
+		const parser = new CookieParser(cookie ?? '');
+		const newToken = parser.get('X-Access-Token');
+
+		if (newToken !== oldToken) {
+			if (newToken !== null) {
+				await PrivateStorage.set(PrivateKeys.Session, newToken);
+			} else {
+				await PrivateStorage.clear(PrivateKeys.Session);
+			}
+		}
 	}
 }

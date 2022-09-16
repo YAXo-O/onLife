@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { Nullable } from './objects/utility/Nullable';
-import { PrivateKeys } from './services/Privacy/PrivateKeys';
-import { PrivateStorage } from './services/Privacy/PrivateStorage';
+import { Nullable } from '../objects/utility/Nullable';
+import { PrivateKeys } from '../services/Privacy/PrivateKeys';
+import { PrivateStorage } from '../services/Privacy/PrivateStorage';
 
 interface StorageState {
 	loading: boolean;

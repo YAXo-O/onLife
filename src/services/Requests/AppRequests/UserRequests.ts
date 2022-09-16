@@ -19,10 +19,10 @@ interface RegisterModel {
 	birthDate: number;
 }
 
-export function logIn(login: string, password: string): Promise<User> {
+export function logIn(email: string, password: string): Promise<User> {
 	const service = new RequestManager('app/login/sign-in');
 
-	return service.withBody({ login, password })
+	return service.withBody({ email, password })
 		.post<LoginResponse>()
 		.then((response: LoginResponse) => response.client);
 }
@@ -31,4 +31,10 @@ export function register(model: RegisterModel): Promise<User> {
 	const service = new RequestManager('app/login/sign-up');
 
 	return service.withBody(model).post<User>();
+}
+
+export function getUser(): Promise<User> {
+	const service = new RequestManager('app/login');
+
+	return service.get<User>();
 }

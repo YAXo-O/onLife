@@ -1,6 +1,6 @@
 import { Nullable } from '../../objects/utility/Nullable';
 
-enum State {
+export enum State {
 	Ok = 0,
 	Loading = 1,
 	Failure = 2,
