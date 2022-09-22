@@ -29,7 +29,7 @@ const CardIcon: React.FC<IconProps> = (props: IconProps) => {
 
 export const ExerciseCard: React.FC<OwnProps> = (props: OwnProps) => {
 	const [collapsed, setCollapsed] = React.useState<boolean>(() => true);
-	const [tab, setTab] = React.useState<ExerciseTabs>(() => ExerciseTabs.Brief)
+	const [tab, setTab] = React.useState<ExerciseTabs>(() => ExerciseTabs.Training)
 
 	return (
 		<View>

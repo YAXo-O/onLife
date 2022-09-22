@@ -17,6 +17,7 @@ import {
 } from '../../../../objects/program/TrainingProgram';
 import { WeightInput } from '../../../input/WeightInput';
 import { LocalActionCreators } from '../../../../store/LocalState/ActionCreators';
+import { Timer } from '../../../timer/Timer';
 
 interface TabPaneProps {
 	tab: number;
@@ -60,35 +61,45 @@ const BriefDescriptionTab: React.FC<BaseTabProps> = (props: BaseTabProps) => {
 const TrainingTab: React.FC<BaseTabProps> = (props: BaseTabProps) => {
 	const program = useSelector((state: IState) => state.user.item?.trainingProgram);
 	const training = useSelector((state: IState) => state.training.item);
+	const curDay = program?.days?.find((q => q.id === training?.day));
 	const cur = training?.exercises?.find(q => q.exerciseId === props.exercise.id);
 	const rounds: Array<ExerciseRoundParams> = program?.days.find((day: TrainingProgramDay) => day.id === training?.day)?.exercises
 		.find((exercise: TrainingProgramDayExercise) => exercise.exerciseId === props.exercise.id)?.rounds ?? [];
-	const completed = rounds.map((round) => cur?.rounds.find(q => q.roundId === round.id)).filter(q => q);
+	const completed = rounds.map((round: ExerciseRoundParams, index: number) => {
+		const res = cur?.rounds.find(q => q.roundId === round.id);
+		if (res) return res;
 
-	console.log('<Training> training: ', training);
+		return { roundId: round.id, weight: 0, timestamp: 0 };
+	});
 
 	const dispatch = useDispatch();
 
-	const onAdd = (value: number) => {
-		const id = completed.length;
+	const onSet = (value: number, id: number) => {
 		if (id >= rounds.length) return;
 		if (value <= 0) return;
 
 		const reference = rounds[id];
 		const newRound = { roundId: reference.id, weight: value, timestamp: +(new Date) }
-		const newRounds = [...completed, newRound];
-		const newExercises = (training?.exercises ?? [{ exerciseId: props.exercise.id, rounds: [] }]).map(q => {
-			if (q.exerciseId === props.exercise.id) {
+		const newRounds = [...completed];
+		newRounds[id] = newRound;
+		const newExercises = (curDay?.exercises ?? []).map((item: TrainingProgramDayExercise) => {
+			let cur = training?.exercises?.find(q => q.exerciseId === item.exerciseId);
+			if (!cur) cur = { exerciseId: item.exerciseId, rounds: [] }
+
+			if (item.exerciseId === props.exercise.id) {
 				return {
-					...q,
+					...cur,
 					rounds: newRounds,
 				};
 			}
 
-			return q;
+			return cur;
 		});
 		const newTraining = { ...training, exercises: newExercises };
 		const creator = new LocalActionCreators<'training'>('training');
+
+		console.log('Id: ', id, '; value: ', value);
+		console.log(newTraining.exercises[1].rounds.map(q => ({ id: q.roundId, value: q.weight })));
 
 		dispatch(creator.set(newTraining));
 	};
@@ -98,52 +109,33 @@ const TrainingTab: React.FC<BaseTabProps> = (props: BaseTabProps) => {
 			<View style={{ marginBottom: completed.length ? 4 : 0 }}>
 				{
 					completed.map((q, id) => (
-						<View key={q?.roundId} style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
-							<Text
-								style={[styles.text, { textAlign: 'left', fontWeight: 'bold' }]}
-							>
-								{id + 1} подход
-							</Text>
-
-							<View style={{ flex: 1, flexDirection: 'column' }}>
-								<Text style={[ styles.text, { textAlign: 'right' } ]}>
-									{rounds[id].repeats} повторений по {rounds[id].weight} (кг)
-								</Text>
+						<View key={q.roundId}>
+							<View key={q?.roundId} style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
 								<Text
-									style={[styles.text, { textAlign: 'right' }]}
+									style={[styles.text, { textAlign: 'left', fontWeight: 'bold' }]}
 								>
-									выполненный вес: {q?.weight.toFixed(1)} (кг)
+									{id + 1} подход
 								</Text>
+
+								<View style={{ flex: 1, flexDirection: 'column' }}>
+									<Text style={[ styles.text, { textAlign: 'right' } ]}>
+										{rounds[id].repeats} повторений
+									</Text>
+								</View>
 							</View>
+							<WeightInput
+								value={completed[id].weight}
+								onChange={(value: number) => onSet(value, id)}
+							/>
+							{
+								id < completed.length - 1 ? (
+									<Timer />
+								) : null
+							}
 						</View>
 					))
 				}
 			</View>
-			{
-				completed.length < rounds.length ? (
-					<View>
-						<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
-							<Text
-								style={[styles.text, { textAlign: 'left', fontWeight: 'bold' }]}
-							>
-								{completed.length + 1} подход
-							</Text>
-
-							<View style={{ flex: 1, flexDirection: 'column' }}>
-								<Text style={[ styles.text, { textAlign: 'right' } ]}>
-									{rounds[completed.length].repeats} повторений по {rounds[completed.length].weight} (кг)
-								</Text>
-								<Text
-									style={[styles.text, { textAlign: 'right' }]}
-								>
-									выполненный вес: -
-								</Text>
-							</View>
-						</View>
-						<WeightInput onAdd={onAdd} />
-					</View>
-				) : null
-			}
 		</View>
 	);
 };

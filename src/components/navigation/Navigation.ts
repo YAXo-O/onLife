@@ -14,7 +14,7 @@ interface ScreenOptions {
 export const options: ScreenOptions = {
 	headerTitleAlign: 'center',
 	gestureEnabled: false,
-	headerTransparent: true,
+	headerTransparent: false,
 	headerStyle: {
 		backgroundColor: 'rgba(0, 0, 0, 0.3)',
 	},

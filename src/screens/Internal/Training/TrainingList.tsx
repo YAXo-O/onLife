@@ -25,8 +25,9 @@ export const TrainingList: React.FC<Props> = (props: Props) => {
 			<ScrollView
 				contentContainerStyle={{
 					flexDirection: 'column',
-					justifyContent: 'center',
-					flexGrow: 1,
+					justifyContent: 'flex-start',
+					paddingTop: 8,
+					paddingBottom: 54,
 				}}
 			>
 				<View style={styles.listContainer}>
@@ -51,6 +52,7 @@ export const TrainingList: React.FC<Props> = (props: Props) => {
 					right: 0,
 					bottom: 0,
 					paddingVertical: 8,
+					maxHeight: 38,
 				}}
 			>
 				<TouchableOpacity onPress={() => props.navigation.pop()}>

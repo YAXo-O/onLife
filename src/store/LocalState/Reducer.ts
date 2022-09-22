@@ -12,14 +12,14 @@ export function localReducer<T extends keyof IState>(state: IState[T] | undefine
 	const localAction: AvailableLocalAction<unknown> = action as AvailableLocalAction<unknown>;
 	switch (localAction.type) {
 		case LocalActionType.Set: {
-			console.log('Current state: ', state);
 			let payload = action.payload
 			if (typeof payload === 'object' && typeof (state as { item: unknown }).item === 'object') {
 				payload = {
-					...payload,
 					...state.item,
+					...payload,
 				};
 			}
+
 			return {
 				...state,
 				item: payload,
