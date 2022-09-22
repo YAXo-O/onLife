@@ -40,6 +40,6 @@ export function itemReducer<T extends keyof IState>(state: IState[T] | undefined
 	}
 }
 
-export function getReducer<TStore extends keyof IState>(store: TStore): Reducer<TStore> {
+export function getItemReducer<TStore extends keyof IState>(store: TStore): Reducer<TStore> {
 	return (state: IState[TStore] | undefined, action: Action) => itemReducer(state, action, store);
 }

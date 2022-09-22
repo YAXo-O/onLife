@@ -1,31 +1,20 @@
 import * as React from 'react';
-import { SafeAreaView } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { SignInScreen } from './SignIn';
 import { SignUpScreen } from './SignUp';
-import { Routes, names } from '../../navigation';
-
-interface OwnProps {
-}
+import { Routes, names } from '../../../navigation';
+import { options } from '../../../components/navigation/Navigation';
 
 const AuthNavigation = createNativeStackNavigator();
 
-export const AuthScreen: React.FC<OwnProps> = (props: OwnProps) => {
+export const AuthScreen: React.FC = () => {
 	return (
 		<SafeAreaView style={{ flex: 1, }}>
 			<AuthNavigation.Navigator
 				initialRouteName="SignIn"
-				screenOptions={{
-					headerTitleAlign: 'center',
-					gestureEnabled: false,
-					headerTransparent: true,
-					headerStyle: {
-						backgroundColor: 'rgba(0, 0, 0, 0.15)',
-					},
-					headerTintColor: 'rgba(255, 255, 255, 0.6)',
-					headerLeft: () => null,
-				}}
+				screenOptions={options}
 			>
 				<AuthNavigation.Screen
 					name={Routes.SignIn}

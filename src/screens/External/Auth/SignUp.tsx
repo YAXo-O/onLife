@@ -3,7 +3,6 @@ import {
 	View,
 	Text,
 	TextInput,
-	ImageBackground,
 	ScrollView,
 	TouchableOpacity,
 } from 'react-native';
@@ -14,23 +13,20 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import { formStyles, formTypography } from './FormStyle';
-import { ErrorComponent } from '../../components/validation/Error';
-import { DatePicker } from '../../components/date/DatePicker';
-import { Gender, User } from '../../objects/User';
-import { Nullable } from '../../objects/utility/Nullable';
-import { Routes } from '../../navigation';
+import { ErrorComponent } from '../../../components/validation/Error';
+import { DatePicker } from '../../../components/date/DatePicker';
+import { Gender, User } from '../../../objects/User';
+import { Nullable } from '../../../objects/utility/Nullable';
+import { Routes } from '../../../navigation';
 
-import { Spinner } from '../../components/spinner/Spinner';
-import { AlertBox } from '../../components/alertbox/AlertBox';
+import { Spinner } from '../../../components/spinner/Spinner';
+import { AlertBox } from '../../../components/alertbox/AlertBox';
 
-import { register } from '../../services/Requests/AppRequests/UserRequests';
+import { register } from '../../../services/Requests/AppRequests/UserRequests';
 import { useDispatch } from 'react-redux';
-import { setAction } from '../../store/ItemState/ActionCreators';
+import { setAction } from '../../../store/ItemState/ActionCreators';
 
-interface OwnProps {
-}
-
-type Props = OwnProps & NativeStackScreenProps<never>;
+type Props = NativeStackScreenProps<never>;
 
 interface FormValues {
 	email: string;

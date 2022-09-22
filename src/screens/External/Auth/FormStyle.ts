@@ -17,7 +17,7 @@ export const formTypography = StyleSheet.create({
 	action: {
 		fontFamily: 'AlegreyaSans-Light',
 		fontSize: 14,
-		lienHeight: 16,
+		lineHeight: 16,
 	},
 	text: {
 		fontFamily: 'AlegreyaSans-Light',

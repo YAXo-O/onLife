@@ -1,12 +1,10 @@
 import * as React from 'react';
-import {
-	ImageBackground,
-} from 'react-native';
+import { ImageBackground } from 'react-native';
 
-import { AuthScreen } from './Auth/Auth';
-import { formStyles } from './Auth/FormStyle';
+import { AuthScreen } from './External/Auth/Auth';
+import { formStyles } from './External/Auth/FormStyle';
 import { Spinner } from '../components/spinner/Spinner';
-import { TrainingMain } from './Training/TrainingMain';
+import { TrainingMain } from './Internal/Training/TrainingMain';
 
 import { withUser } from '../hooks/withUser';
 

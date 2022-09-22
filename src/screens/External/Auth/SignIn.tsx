@@ -5,30 +5,26 @@ import {
 	TextInput,
 	TouchableOpacity,
 	ScrollView,
-	ImageBackground,
 } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-import { ErrorComponent } from '../../components/validation/Error';
-import { Routes } from '../../navigation';
+import { ErrorComponent } from '../../../components/validation/Error';
+import { Routes } from '../../../navigation';
 import { formStyles, formTypography } from './FormStyle';
 
-import { Spinner } from '../../components/spinner/Spinner';
+import { Spinner } from '../../../components/spinner/Spinner';
 
-import { logIn } from '../../services/Requests/AppRequests/UserRequests';
-import { User } from '../../objects/User';
-import { Nullable } from '../../objects/utility/Nullable';
+import { logIn } from '../../../services/Requests/AppRequests/UserRequests';
+import { User } from '../../../objects/User';
+import { Nullable } from '../../../objects/utility/Nullable';
 import { useDispatch } from 'react-redux';
-import { setAction } from '../../store/ItemState/ActionCreators';
-import { AlertBox } from '../../components/alertbox/AlertBox';
+import { setAction } from '../../../store/ItemState/ActionCreators';
+import { AlertBox } from '../../../components/alertbox/AlertBox';
 
-interface OwnProps {
-}
-
-type Props = OwnProps & NativeStackScreenProps<never>;
+type Props = NativeStackScreenProps<never>;
 
 interface FormValues {
 	email: string;

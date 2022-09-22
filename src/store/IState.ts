@@ -9,26 +9,32 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { persistReducer, persistStore } from 'redux-persist';
 import { PersistConfig, Persistor } from 'redux-persist/es/types';
 
-import { ItemState, initState } from './ItemState/State';
+import { ItemState, initItemState } from './ItemState/State';
 import { User } from '../objects/User';
-import { getReducer } from './ItemState/Reducer';
+import { getItemReducer } from './ItemState/Reducer';
 import thunk from 'redux-thunk';
 import { Nullable } from '../objects/utility/Nullable';
 import { CounterState } from './CounterState/State';
 import { counterReducer } from './CounterState/Reducer';
+import { CurrentTraining } from './Types';
+import { LocalState, initLocalState } from './LocalState/State';
+import { getLocalReducer } from './LocalState/Reducer';
 
 export interface IState {
 	user: ItemState<User>;
+	training: LocalState<CurrentTraining>;
 	counter: CounterState;
 }
 
 export const initialState: IState = {
-	user: initState<User>(),
+	user: initItemState<User>(),
+	training: initLocalState<CurrentTraining>(),
 	counter: { counter: 0 },
 };
 
 export const rootReducer: ReducersMapObject<IState> = {
-	user: getReducer<'user'>('user'),
+	user: getItemReducer<'user'>('user'),
+	training: getLocalReducer<'training'>('training'),
 	counter: counterReducer,
 };
 

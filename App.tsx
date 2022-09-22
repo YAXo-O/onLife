@@ -13,6 +13,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 
 import { MainScreen } from './src/screens/Main';
 import { getStore, IState, getPersistor } from './src/store/IState';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 // Store should never be changed - so it's ok to call getStore() and getPersistor() only once
 const store: Store<IState> = getStore();
@@ -21,22 +22,24 @@ const persistor: Persistor = getPersistor();
 const theme = {
 	...DefaultTheme,
 	colors: {
-		...DefaultTheme,
+		...DefaultTheme.colors,
 		background: 'transparent',
 	},
 };
 
 const App = () => (
-	<View style={styles.app}>
-		<NavigationContainer theme={theme}>
-			<StatusBar barStyle="dark-content" />
-			<Provider store={store}>
-				<PersistGate loading={<ActivityIndicator />} persistor={persistor}>
-					<MainScreen />
-				</PersistGate>
-			</Provider>
-		</NavigationContainer>
-	</View>
+	<SafeAreaProvider>
+		<View style={styles.app}>
+			<NavigationContainer theme={theme}>
+				<StatusBar barStyle="dark-content" />
+				<Provider store={store}>
+					<PersistGate loading={<ActivityIndicator />} persistor={persistor}>
+						<MainScreen />
+					</PersistGate>
+				</Provider>
+			</NavigationContainer>
+		</View>
+	</SafeAreaProvider>
 );
 
 const styles = StyleSheet.create({

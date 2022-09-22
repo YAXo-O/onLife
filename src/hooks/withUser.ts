@@ -8,7 +8,6 @@ import { PrivateKeys } from '../services/Privacy/PrivateKeys';
 import { IState } from '../store/IState';
 import { ItemState, State } from '../store/ItemState/State';
 import { ItemActionCreators, ItemEndpointList } from '../store/ItemState/ActionCreators';
-import { bindActionCreators } from 'redux';
 import { PrivateStorage } from '../services/Privacy/PrivateStorage';
 
 interface UserInfo {
@@ -34,8 +33,7 @@ export function withUser(): UserInfo {
 		PrivateStorage.clear(PrivateKeys.Session)
 			.then(() => {
 				const creator = new ItemActionCreators<User>('user', endpoints);
-				const bound = bindActionCreators(creator, dispatch);
-				bound.clear();
+				dispatch(creator.clear());
 			});
 	};
 	const [info, setInfo] = React.useState<UserInfo>(() => ({
@@ -69,8 +67,7 @@ export function withUser(): UserInfo {
 			});
 		} else if (user.item === null) {
 			const creator = new ItemActionCreators<User>('user', endpoints);
-			const bound = bindActionCreators(creator, dispatch);
-			bound.load();
+			dispatch(creator.load());
 		} else {
 			setInfo({
 				user: user.item,

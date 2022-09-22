@@ -1,19 +1,24 @@
 import * as React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Select from 'react-native-select-dropdown';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-import { withUser } from '../../hooks/withUser';
-import { TrainingProgramDay } from '../../objects/program/TrainingProgram';
-
-interface OwnProps {
-}
+import { withUser } from '../../../hooks/withUser';
+import { TrainingProgramDay } from '../../../objects/program/TrainingProgram';
+import { LocalActionCreators } from '../../../store/LocalState/ActionCreators';
+import { Routes } from '../../../navigation';
+import { formStyles } from '../../External/Auth/FormStyle';
+import { IState } from '../../../store/IState';
+import { CurrentTraining } from '../../../store/Types';
+import { LocalState } from '../../../store/LocalState/State';
 
 interface FormValues {
 	cycle?: number;
-	day?: number;
+	day?: string;
 }
 
 interface SelectItem<T> {
@@ -28,10 +33,11 @@ const initialValues: FormValues = {
 
 const schema = Yup.object().shape({
 	cycle: Yup.number().required(),
-	day: Yup.number().required(),
+	day: Yup.string().required(),
 });
 
 type DaySet = Record<number, Array<TrainingProgramDay>>;
+type Props = NativeStackScreenProps<never>;
 
 function getCycles(set: DaySet): Array<SelectItem<number>> {
 	return Object.keys(set).map((key: string) => ({ label: `Цикл ${+key + 1}`, value: +key }));
@@ -43,9 +49,19 @@ function getDays(set: DaySet, cycle: number | undefined): Array<SelectItem<strin
 	return set[cycle].map((item: TrainingProgramDay) => ({ label: item.name, value: item.id }));
 }
 
-export const TrainingMain: React.FC<OwnProps> = (props: OwnProps) => {
+function getInitialValues(selection: LocalState<CurrentTraining>): FormValues {
+	return {
+		cycle: selection.item?.cycle ?? undefined,
+		day: selection.item?.day ?? undefined,
+	};
+}
+
+export const TrainingSelect: React.FC<Props> = (props: Props) => {
 	const user = withUser();
 	const program = user.user?.trainingProgram;
+	const selection = useSelector((state: IState) => state.training);
+	const ref = React.useRef<Select>(null);
+	const dispatch = useDispatch();
 
 	if (program == null) {
 		return (
@@ -71,23 +87,32 @@ export const TrainingMain: React.FC<OwnProps> = (props: OwnProps) => {
 
 	return (
 		<Formik
-			initialValues={initialValues}
+			initialValues={getInitialValues(selection)}
 			validationSchema={schema}
-			onSubmit={({ day, cycle }) => console.log('Picked: ', day, cycle)}
+			onSubmit={(selection) => {
+				const creator = new LocalActionCreators<'training'>('training');
+				dispatch(creator.set(selection));
+				props.navigation.navigate(Routes.TrainingList);
+			}}
 		>
 			{
-				({ setFieldValue, setFieldTouched, values }) => (
+				({ setFieldValue, setFieldTouched, values, handleSubmit }) => (
 					<View style={styles.container}>
 						<View style={styles.card}>
 							<Select
 								data={cycles}
 								buttonTextAfterSelection={(item: SelectItem<number>) => item.label}
 								rowTextForSelection={(item: SelectItem<number>) => item.label}
-								onSelect={(value: SelectItem<number>) => setFieldValue('cycle', value.value, false)}
+								onSelect={(value: SelectItem<number>) => {
+									setFieldValue('cycle', value.value, false);
+									setFieldValue('day', undefined, false);
+									ref.current?.reset();
+								}}
 								onBlur={() => setFieldTouched('gender', true, true)}
 								buttonStyle={styles.select}
 								buttonTextStyle={styles.selectText}
 								defaultButtonText="Выберите цикл"
+								defaultValueByIndex={cycles.findIndex((item: SelectItem<number>) => item.value === selection.item?.cycle)}
 							/>
 							<Select
 								data={getDays(data, values.cycle)}
@@ -98,14 +123,26 @@ export const TrainingMain: React.FC<OwnProps> = (props: OwnProps) => {
 								buttonStyle={styles.select}
 								buttonTextStyle={styles.selectText}
 								defaultButtonText="Выберите день"
+								defaultValueByIndex={getDays(data, values.cycle).findIndex((item: SelectItem<string>) => item.value === selection.item?.day)}
+								ref={ref}
 							/>
+						</View>
+						<View style={styles.btnContainer}>
+							<TouchableOpacity
+								onPress={handleSubmit}
+								style={formStyles.btn}
+							>
+								<Text style={formStyles.action}>
+									Начать тренировку
+								</Text>
+							</TouchableOpacity>
 						</View>
 					</View>
 				)
 			}
 		</Formik>
 	);
-}
+};
 
 const styles = StyleSheet.create({
 	container: {
@@ -157,5 +194,8 @@ const styles = StyleSheet.create({
 		color: '#d0d0d0',
 		fontSize: 14,
 		lineHeight: 18,
+	},
+	btnContainer: {
+		alignItems: 'center',
 	},
 });

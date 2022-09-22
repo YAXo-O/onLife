@@ -42,9 +42,12 @@ interface BodyDescriptor {
 
 const config = {
 	backend: {
-		protocol: 'http',
-		host: '192.168.25.40',
-		port: '5000',
+		// protocol: 'http',
+		// host: '192.168.214.219',
+		// port: '5000',
+		protocol: 'https',
+		host: 'api.onlife.pro',
+		port: '80',
 	},
 };
 
@@ -153,6 +156,7 @@ export class RequestManager {
 
 		try {
 			const token = await this.setCredentials();
+			console.log('url: ', this.url);
 
 			const response = await fetch(this.url, {
 				method,
@@ -208,6 +212,8 @@ export class RequestManager {
 		const cookie = response.headers.get('set-cookie');
 		const parser = new CookieParser(cookie ?? '');
 		const newToken = parser.get('X-Access-Token');
+
+		console.log('<RequestService> token: ', newToken);
 
 		if (newToken !== oldToken) {
 			if (newToken !== null) {

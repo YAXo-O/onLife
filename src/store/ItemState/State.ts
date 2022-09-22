@@ -12,7 +12,7 @@ export interface ItemState<T> {
 	message: Nullable<string>;
 }
 
-export function initState<T>(): ItemState<T> {
+export function initItemState<T>(): ItemState<T> {
 	return {
 		item: null,
 		state: State.Ok,

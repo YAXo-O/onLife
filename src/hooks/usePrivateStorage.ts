@@ -21,6 +21,14 @@ export function usePrivateStorage(key: PrivateKeys): StorageState {
 			.then((item: Nullable<string>) => setItem(item))
 			.catch((error: string) => setError(error))
 			.finally(() => setLoading(false));
+
+		const id = PrivateStorage.subscribe((key: string, value: Nullable<string>) => {
+			if (key === PrivateKeys.Session) {
+				setItem(value);
+			}
+		});
+
+		return () => PrivateStorage.unsubscribe(id);
 	}, [key]);
 
 	return {
