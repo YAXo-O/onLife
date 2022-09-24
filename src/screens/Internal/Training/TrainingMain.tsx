@@ -1,27 +1,26 @@
 import * as React from 'react';
-import { SafeAreaView, TouchableOpacity, Image } from 'react-native';
+import { SafeAreaView, TouchableOpacity, Image, Text } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { options, getOptions } from '../../../components/navigation/Navigation';
+import { options } from '../../../components/navigation/Navigation';
 import { Routes, names } from '../../../navigation';
 
 import { TrainingSelect } from './TrainingSelect';
 import { TrainingList } from './TrainingList';
 import { withUser } from '../../../hooks/withUser';
 
-import LogOutImage from '../../../../assets/icons/logout.png';
-
 const TrainingStack = createNativeStackNavigator();
 
-const LogOut: React.FC = ({ color }: { color: string }) => {
+interface LogOutProps {
+	color: string;
+}
+
+const LogOut: React.FC<LogOutProps> = (props: LogOutProps) => {
 	const { logOut } = withUser();
 
 	return (
 		<TouchableOpacity onPress={logOut}>
-			<Image
-				source={LogOutImage} style={{ width: 16, height: 16 }}
-				tintColor={color}
-			/>
+			<Text style={{ color: props.color }}>Выйти</Text>
 		</TouchableOpacity>
 	);
 };

@@ -15,9 +15,9 @@ import {
 	TrainingProgramDayExercise,
 	ExerciseRoundParams
 } from '../../../../objects/program/TrainingProgram';
-import { WeightInput } from '../../../input/WeightInput';
 import { LocalActionCreators } from '../../../../store/LocalState/ActionCreators';
-import { Timer } from '../../../timer/Timer';
+import { CurrentTrainingRound } from '../../../../store/Types';
+import { RoundList } from './components/RoundList';
 
 interface TabPaneProps {
 	tab: number;
@@ -65,11 +65,11 @@ const TrainingTab: React.FC<BaseTabProps> = (props: BaseTabProps) => {
 	const cur = training?.exercises?.find(q => q.exerciseId === props.exercise.id);
 	const rounds: Array<ExerciseRoundParams> = program?.days.find((day: TrainingProgramDay) => day.id === training?.day)?.exercises
 		.find((exercise: TrainingProgramDayExercise) => exercise.exerciseId === props.exercise.id)?.rounds ?? [];
-	const completed = rounds.map((round: ExerciseRoundParams, index: number) => {
+	const completed: Array<CurrentTrainingRound> = rounds.map((round: ExerciseRoundParams, index: number) => {
 		const res = cur?.rounds.find(q => q.roundId === round.id);
 		if (res) return res;
 
-		return { roundId: round.id, weight: 0, timestamp: 0 };
+		return { roundId: round.id, weight: 0, timestamp: undefined };
 	});
 
 	const dispatch = useDispatch();
@@ -98,45 +98,15 @@ const TrainingTab: React.FC<BaseTabProps> = (props: BaseTabProps) => {
 		const newTraining = { ...training, exercises: newExercises };
 		const creator = new LocalActionCreators<'training'>('training');
 
-		console.log('Id: ', id, '; value: ', value);
-		console.log(newTraining.exercises[1].rounds.map(q => ({ id: q.roundId, value: q.weight })));
-
 		dispatch(creator.set(newTraining));
 	};
 
 	return (
-		<View style={styles.container}>
-			<View style={{ marginBottom: completed.length ? 4 : 0 }}>
-				{
-					completed.map((q, id) => (
-						<View key={q.roundId}>
-							<View key={q?.roundId} style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
-								<Text
-									style={[styles.text, { textAlign: 'left', fontWeight: 'bold' }]}
-								>
-									{id + 1} подход
-								</Text>
-
-								<View style={{ flex: 1, flexDirection: 'column' }}>
-									<Text style={[ styles.text, { textAlign: 'right' } ]}>
-										{rounds[id].repeats} повторений
-									</Text>
-								</View>
-							</View>
-							<WeightInput
-								value={completed[id].weight}
-								onChange={(value: number) => onSet(value, id)}
-							/>
-							{
-								id < completed.length - 1 ? (
-									<Timer />
-								) : null
-							}
-						</View>
-					))
-				}
-			</View>
-		</View>
+		<RoundList
+			completed={completed}
+			rounds={rounds}
+			onSet={onSet}
+		/>
 	);
 };
 

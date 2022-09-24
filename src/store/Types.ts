@@ -1,4 +1,4 @@
-export interface CurrentTraining {
+export interface CurrentTrainingDay {
 	cycle: number;
 	day: string;
 
@@ -13,5 +13,5 @@ export interface CurrentTrainingExercise {
 export interface CurrentTrainingRound {
 	roundId: string;
 	weight: number;
-	timestamp: number;
+	timestamp?: number; // When was round finished (only first edit is valid)
 }

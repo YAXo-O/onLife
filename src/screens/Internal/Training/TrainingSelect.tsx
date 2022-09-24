@@ -13,7 +13,7 @@ import { LocalActionCreators } from '../../../store/LocalState/ActionCreators';
 import { Routes } from '../../../navigation';
 import { formStyles } from '../../External/Auth/FormStyle';
 import { IState } from '../../../store/IState';
-import { CurrentTraining } from '../../../store/Types';
+import { CurrentTrainingDay } from '../../../store/Types';
 import { LocalState } from '../../../store/LocalState/State';
 
 interface FormValues {
@@ -49,7 +49,7 @@ function getDays(set: DaySet, cycle: number | undefined): Array<SelectItem<strin
 	return set[cycle].map((item: TrainingProgramDay) => ({ label: item.name, value: item.id }));
 }
 
-function getInitialValues(selection: LocalState<CurrentTraining>): FormValues {
+function getInitialValues(selection: LocalState<CurrentTrainingDay>): FormValues {
 	return {
 		cycle: selection.item?.cycle ?? undefined,
 		day: selection.item?.day ?? undefined,
