@@ -35,7 +35,9 @@ export const ExerciseCard: React.FC<OwnProps> = (props: OwnProps) => {
 		<View>
 			<TouchableOpacity onPress={() => setCollapsed(!collapsed)}>
 				<View style={[styles.container, props.style, !collapsed ? styles.expandedContainer : undefined]}>
-					<Text style={styles.badge}>{props.order + 1}</Text>
+					<View style={styles.badge}>
+						<Text style={styles.badgeText}>{props.order + 1}</Text>
+					</View>
 					<Text style={styles.text}>{props.exercise?.exercise?.name ?? 'Unknown name'}</Text>
 					<View style={styles.iconContainer}>
 						<CardIcon collapsed={collapsed} />
@@ -81,10 +83,12 @@ const styles = StyleSheet.create({
 	},
 	badge: {
 		backgroundColor: '#eee',
-		color: '#0b2267',
 		width: 20,
 		height: 20,
 		borderRadius: 10,
+	},
+	badgeText: {
+		color: '#0b2267',
 		fontSize: 18,
 		lineHeight: 20,
 		textAlign: 'center',
