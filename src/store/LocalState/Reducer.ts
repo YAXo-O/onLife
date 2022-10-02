@@ -26,6 +26,13 @@ export function localReducer<T extends keyof IState>(state: IState[T] | undefine
 			};
 		}
 
+		case LocalActionType.Clear: {
+			return {
+				...state,
+				item: null,
+			};
+		}
+
 		default:
 			return state;
 	}

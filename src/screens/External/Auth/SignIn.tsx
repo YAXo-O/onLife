@@ -17,12 +17,13 @@ import { formStyles, formTypography } from './FormStyle';
 
 import { Spinner } from '../../../components/spinner/Spinner';
 
-import { logIn } from '../../../services/Requests/AppRequests/UserRequests';
-import { User } from '../../../objects/User';
+import { logIn, LoginResponse } from '../../../services/Requests/AppRequests/UserRequests';
 import { Nullable } from '../../../objects/utility/Nullable';
 import { useDispatch } from 'react-redux';
-import { setAction } from '../../../store/ItemState/ActionCreators';
+import { setAction as itemSetAction } from '../../../store/ItemState/ActionCreators';
 import { AlertBox } from '../../../components/alertbox/AlertBox';
+import { LocalActionCreators } from '../../../store/LocalState/ActionCreators';
+import { PasswordInput } from '../../../components/input/PasswordInput';
 
 type Props = NativeStackScreenProps<never>;
 
@@ -50,8 +51,10 @@ export const SignInScreen: React.FC<Props> = (props: Props) => {
 	const submit = (values: FormValues) => {
 		setProgress(true);
 		logIn(values.email, values.password)
-			.then((user: User) => {
-				dispatch(setAction(user, 'user'));
+			.then((response: LoginResponse) => {
+				const factory = new LocalActionCreators('training');
+				dispatch(itemSetAction(response.client, 'user'));
+				dispatch(factory.set({ training: response.training }));
 				setError(null);
 			})
 			.catch((error: string | Error) => {
@@ -60,7 +63,7 @@ export const SignInScreen: React.FC<Props> = (props: Props) => {
 				} else if ((error as Error).message) {
 					setError(error.message);
 				} else {
-					setError('Something went wrong');
+					setError('Что-то пошло не так');
 				}
 			})
 			.finally(() => setProgress(false));
@@ -99,13 +102,11 @@ export const SignInScreen: React.FC<Props> = (props: Props) => {
 								</View>
 								<View style={formStyles.row}>
 									<Text style={[formStyles.label, formTypography.label]}>Пароль: </Text>
-									<TextInput
-										style={[formStyles.input, formTypography.input]}
-										textContentType="password"
-										secureTextEntry
+									<PasswordInput
 										value={values.password}
-										onChangeText={handleChange('password')}
+										onChange={handleChange('password')}
 										onBlur={handleBlur('password')}
+										style={[formStyles.input, formTypography.input]}
 									/>
 									<ErrorComponent error={errors.password ?? null} touched={touched.password} />
 								</View>

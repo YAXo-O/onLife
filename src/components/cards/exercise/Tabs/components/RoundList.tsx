@@ -3,14 +3,15 @@ import { View, Text, StyleSheet } from 'react-native';
 
 import { WeightInput } from '../../../../input/WeightInput';
 import { Timer } from '../../../../timer/Timer';
-import { CurrentTrainingRound } from '../../../../../store/Types';
 import { ExerciseRoundParams } from '../../../../../objects/program/TrainingProgram';
 import { useTimer } from '../../../../../hooks/useTimer';
+import { TrainingRound } from '../../../../../objects/training/TrainingRound';
 
 interface OwnProps {
-	completed: Array<CurrentTrainingRound>;
+	completed: Array<TrainingRound>;
 	rounds: Array<ExerciseRoundParams>;
 	onSet: (value: number, id: number) => void;
+	disabled?: boolean;
 }
 
 export const RoundList: React.FC<OwnProps> = (props: OwnProps) => {
@@ -22,8 +23,8 @@ export const RoundList: React.FC<OwnProps> = (props: OwnProps) => {
 			<View style={{ marginBottom: props.completed.length ? 4 : 0 }}>
 				{
 					props.completed.map((q, id) => (
-						<View key={q.roundId}>
-							<View key={q?.roundId} style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+						<View key={q.roundParamsId}>
+							<View key={q?.roundParamsId} style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
 								<Text
 									style={[styles.text, { textAlign: 'left', fontWeight: 'bold' }]}
 								>
@@ -37,16 +38,17 @@ export const RoundList: React.FC<OwnProps> = (props: OwnProps) => {
 								</View>
 							</View>
 							<WeightInput
-								value={props.completed[id].weight}
+								value={props.completed[id].weight ?? undefined}
 								onChange={(value: number) => props.onSet(value, id)}
+								disabled={props.disabled}
 							/>
 							{
 								id < props.completed.length - 1 ? (
 									<Timer
 										time={props.rounds[id].interval}
-										start={q.timestamp}
+										start={q.time}
 										clock={clock}
-										stop={props.completed[id + 1].timestamp}
+										stop={props.completed[id + 1].time}
 									/>
 								) : null
 							}

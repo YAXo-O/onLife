@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Text, StyleSheet, View } from 'react-native';
 import VideoPlayer from 'react-native-video-controls';
 import WebView from 'react-native-autoheight-webview';
+import uuid from 'react-native-uuid';
 
 import { Exercise } from '../../../../objects/program/Exercise';
 import { ExerciseTabs } from './TabBar';
@@ -16,8 +17,11 @@ import {
 	ExerciseRoundParams
 } from '../../../../objects/program/TrainingProgram';
 import { LocalActionCreators } from '../../../../store/LocalState/ActionCreators';
-import { CurrentTrainingRound } from '../../../../store/Types';
 import { RoundList } from './components/RoundList';
+import { TrainingRound } from '../../../../objects/training/TrainingRound';
+import { TrainingDay } from '../../../../objects/training/TrainingDay';
+import { TrainingExercise } from '../../../../objects/training/TrainingExercise';
+import { CurrentTraining } from '../../../../store/Types';
 
 interface TabPaneProps {
 	tab: number;
@@ -60,31 +64,39 @@ const BriefDescriptionTab: React.FC<BaseTabProps> = (props: BaseTabProps) => {
 
 const TrainingTab: React.FC<BaseTabProps> = (props: BaseTabProps) => {
 	const program = useSelector((state: IState) => state.user.item?.trainingProgram);
-	const training = useSelector((state: IState) => state.training.item);
-	const curDay = program?.days?.find((q => q.id === training?.day));
-	const cur = training?.exercises?.find(q => q.exerciseId === props.exercise.id);
+	const training: Nullable<CurrentTraining> = useSelector((state: IState) => state.training.item);
+
+	const programDay: TrainingProgramDay | undefined = program?.days?.find(q => q.id === training?.day);
+	const trainingDay: TrainingDay | undefined = training?.training?.days.find(q => q.programDayId === training?.day);
+
+	const programExercise: TrainingProgramDayExercise | undefined = programDay?.exercises?.find(q => q.exerciseId === props.exercise.id);
+	const cur: TrainingExercise | undefined = trainingDay?.exercises?.find(q => q.exerciseId === programExercise?.id);
+
 	const rounds: Array<ExerciseRoundParams> = program?.days.find((day: TrainingProgramDay) => day.id === training?.day)?.exercises
 		.find((exercise: TrainingProgramDayExercise) => exercise.exerciseId === props.exercise.id)?.rounds ?? [];
-	const completed: Array<CurrentTrainingRound> = rounds.map((round: ExerciseRoundParams, index: number) => {
-		const res = cur?.rounds.find(q => q.roundId === round.id);
+	const completed: Array<TrainingRound> = rounds.map((round: ExerciseRoundParams) => {
+		const res = cur?.rounds.find(q => q.roundParamsId === round.id);
 		if (res) return res;
 
-		return { roundId: round.id, weight: 0, timestamp: undefined };
+		return { id: uuid.v4().toString(), roundParamsId: round.id, weight: 0, time: null };
 	});
 
 	const dispatch = useDispatch();
 
 	const onSet = (value: number, id: number) => {
+		if (!training) return;
+		if (!training.training) return;
 		if (id >= rounds.length) return;
 		if (value <= 0) return;
 
 		const reference = rounds[id];
-		const newRound = { roundId: reference.id, weight: value, timestamp: +(new Date) }
-		const newRounds = [...completed];
+		const newRound: TrainingRound = { id: uuid.v4().toString(), roundParamsId: reference.id, weight: value, time: +(new Date) }
+		const newRounds: Array<TrainingRound> = [...completed];
 		newRounds[id] = newRound;
-		const newExercises = (curDay?.exercises ?? []).map((item: TrainingProgramDayExercise) => {
-			let cur = training?.exercises?.find(q => q.exerciseId === item.exerciseId);
-			if (!cur) cur = { exerciseId: item.exerciseId, rounds: [] }
+
+		const newExercises: Array<TrainingExercise> = (programDay?.exercises ?? []).map((item: TrainingProgramDayExercise) => {
+			let cur: TrainingExercise | undefined = trainingDay?.exercises?.find(q => q.exerciseId === item.id);
+			if (!cur) cur = { id: uuid.v4().toString(), exerciseId: item.id, rounds: [], time: null, }
 
 			if (item.exerciseId === props.exercise.id) {
 				return {
@@ -95,7 +107,21 @@ const TrainingTab: React.FC<BaseTabProps> = (props: BaseTabProps) => {
 
 			return cur;
 		});
-		const newTraining = { ...training, exercises: newExercises };
+		const newDays: Array<TrainingDay> = (program?.days ?? []).map((item: TrainingProgramDay) => {
+			let cur: TrainingDay | undefined = training?.training?.days?.find(q => q.programDayId === item.id);
+			if (!cur) cur = { id: uuid.v4().toString(), trainingId: training.training.id, programDayId: item.id, exercises: [], time: null };
+
+			if (cur.programDayId === training?.day) {
+				return {
+					...cur,
+					exercises: newExercises,
+				};
+			}
+
+			return cur;
+		});
+
+		const newTraining: CurrentTraining = { ...training, training: { ...training.training, days: newDays, } };
 		const creator = new LocalActionCreators<'training'>('training');
 
 		dispatch(creator.set(newTraining));
@@ -106,6 +132,7 @@ const TrainingTab: React.FC<BaseTabProps> = (props: BaseTabProps) => {
 			completed={completed}
 			rounds={rounds}
 			onSet={onSet}
+			disabled={!Boolean(trainingDay?.time)}
 		/>
 	);
 };

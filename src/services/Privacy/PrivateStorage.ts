@@ -49,7 +49,7 @@ export abstract class PrivateStorage {
 	}
 
 	static subscribe(handler: Notification): string {
-		const id: string = uuid.v4();
+		const id: string = uuid.v4().toString();
 		this._subscribers[id] = handler;
 
 		return id;

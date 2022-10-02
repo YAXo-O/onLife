@@ -4,6 +4,7 @@ import { IState } from '../IState';
 
 export enum LocalActionType {
 	Set = 'LA_SET',
+	Clear = 'LA_CLEAR',
 }
 
 export interface LocalAction<Type extends LocalActionType = LocalActionType, Payload = null> {
@@ -13,8 +14,9 @@ export interface LocalAction<Type extends LocalActionType = LocalActionType, Pay
 }
 
 export type SetLocalAction<T> = LocalAction<LocalActionType.Set, T>;
+export type ClearLocalAction = Omit<LocalAction<LocalActionType.Clear, never>, 'payload'>;
 
-export type AvailableLocalAction<T> = SetLocalAction<T>;
+export type AvailableLocalAction<T> = SetLocalAction<T> | ClearLocalAction;
 export type LocalDispatchType<T> = (action: AvailableLocalAction<T>) => AvailableLocalAction<T>;
 
 export function isLocalAction(action: Action): action is LocalAction {
@@ -22,5 +24,6 @@ export function isLocalAction(action: Action): action is LocalAction {
 
 	return [
 		LocalActionType.Set.toString(),
+		LocalActionType.Clear.toString(),
 	].includes(action.type);
 }

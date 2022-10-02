@@ -13,8 +13,10 @@ import { LocalActionCreators } from '../../../store/LocalState/ActionCreators';
 import { Routes } from '../../../navigation';
 import { formStyles } from '../../External/Auth/FormStyle';
 import { IState } from '../../../store/IState';
-import { CurrentTrainingDay } from '../../../store/Types';
 import { LocalState } from '../../../store/LocalState/State';
+import { Nullable } from '../../../objects/utility/Nullable';
+import { Training } from '../../../objects/training/Training';
+import { CurrentTraining } from '../../../store/Types';
 
 interface FormValues {
 	cycle?: number;
@@ -39,17 +41,46 @@ const schema = Yup.object().shape({
 type DaySet = Record<number, Array<TrainingProgramDay>>;
 type Props = NativeStackScreenProps<never>;
 
-function getCycles(set: DaySet): Array<SelectItem<number>> {
-	return Object.keys(set).map((key: string) => ({ label: `Цикл ${+key + 1}`, value: +key }));
+const checkmark = '\u2713';
+// const checkmark = '\u2713';
+
+function isDayComplete(day: TrainingProgramDay, training: Nullable<Training>): boolean {
+	if (training === null || training === undefined) return false;
+
+	const ref = training.days.find(q => q.programDayId === day.id);
+	if (!ref) return false;
+
+	return Boolean(ref.time);
 }
 
-function getDays(set: DaySet, cycle: number | undefined): Array<SelectItem<string>> {
+function isCycleComplete(days: Array<TrainingProgramDay>, training: Nullable<Training>): boolean {
+	return days.reduce((acc, cur) => acc && isDayComplete(cur, training), true);
+}
+
+function getCycles(set: DaySet, training: Nullable<Training>): Array<SelectItem<number>> {
+	return Object.keys(set).map((key: string) => {
+		const num = Number(key);
+		const isComplete = isCycleComplete(set[num], training);
+
+		return {
+			label: `Цикл ${num + 1} ${isComplete ? checkmark : ''}`,
+			value: +key,
+		};
+	});
+}
+
+function getDays(set: DaySet, cycle: number | undefined, training: Nullable<Training>): Array<SelectItem<string>> {
 	if (cycle === undefined || !set[cycle]) return [];
 
-	return set[cycle].map((item: TrainingProgramDay) => ({ label: item.name, value: item.id }));
+	return set[cycle].map((item: TrainingProgramDay) => {
+		return {
+			label: `${item.name} ${isDayComplete(item, training) ? checkmark : ''}`,
+			value: item.id,
+		};
+	});
 }
 
-function getInitialValues(selection: LocalState<CurrentTrainingDay>): FormValues {
+function getInitialValues(selection: LocalState<CurrentTraining>): FormValues {
 	return {
 		cycle: selection.item?.cycle ?? undefined,
 		day: selection.item?.day ?? undefined,
@@ -59,7 +90,9 @@ function getInitialValues(selection: LocalState<CurrentTrainingDay>): FormValues
 export const TrainingSelect: React.FC<Props> = (props: Props) => {
 	const user = withUser();
 	const program = user.user?.trainingProgram;
-	const selection = useSelector((state: IState) => state.training);
+	const current = useSelector((state: IState) => state.training);
+	const training = current.item?.training ?? null;
+
 	const ref = React.useRef<Select>(null);
 	const dispatch = useDispatch();
 
@@ -83,11 +116,11 @@ export const TrainingSelect: React.FC<Props> = (props: Props) => {
 			data[day.cycle] = [day];
 		}
 	});
-	const cycles: Array<SelectItem<number>> = getCycles(data);
+	const cycles: Array<SelectItem<number>> = getCycles(data, training);
 
 	return (
 		<Formik
-			initialValues={getInitialValues(selection)}
+			initialValues={getInitialValues(current)}
 			validationSchema={schema}
 			onSubmit={(selection) => {
 				const creator = new LocalActionCreators<'training'>('training');
@@ -112,10 +145,16 @@ export const TrainingSelect: React.FC<Props> = (props: Props) => {
 								buttonStyle={styles.select}
 								buttonTextStyle={styles.selectText}
 								defaultButtonText="Выберите цикл"
-								defaultValueByIndex={cycles.findIndex((item: SelectItem<number>) => item.value === selection.item?.cycle)}
+								defaultValueByIndex={cycles.findIndex((item: SelectItem<number>) => item.value === current.item?.cycle)}
+								dropdownStyle={{
+									borderBottomLeftRadius: 8,
+									borderBottomRightRadius: 8,
+								}}
+								dropdownOverlayColor="rgba(5, 5, 5, .8)"
 							/>
 							<Select
-								data={getDays(data, values.cycle)}
+								disabled={values.cycle === undefined}
+								data={getDays(data, values.cycle, training)}
 								buttonTextAfterSelection={(item: SelectItem<string>) => item.label}
 								rowTextForSelection={(item: SelectItem<string>) => item.label}
 								onSelect={(value: SelectItem<string>) => setFieldValue('day', value.value, false)}
@@ -123,7 +162,12 @@ export const TrainingSelect: React.FC<Props> = (props: Props) => {
 								buttonStyle={styles.select}
 								buttonTextStyle={styles.selectText}
 								defaultButtonText="Выберите день"
-								defaultValueByIndex={getDays(data, values.cycle).findIndex((item: SelectItem<string>) => item.value === selection.item?.day)}
+								defaultValueByIndex={getDays(data, values.cycle, training).findIndex((item: SelectItem<string>) => item.value === current.item?.day)}
+								dropdownStyle={{
+									borderBottomLeftRadius: 8,
+									borderBottomRightRadius: 8,
+								}}
+								dropdownOverlayColor="rgba(5, 5, 5, .8)"
 								ref={ref}
 							/>
 						</View>

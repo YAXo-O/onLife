@@ -4,7 +4,7 @@ import {
 	Text,
 	TextInput,
 	ScrollView,
-	TouchableOpacity,
+	TouchableOpacity, KeyboardAvoidingView,
 } from 'react-native';
 import Select from 'react-native-select-dropdown';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -25,6 +25,7 @@ import { AlertBox } from '../../../components/alertbox/AlertBox';
 import { register } from '../../../services/Requests/AppRequests/UserRequests';
 import { useDispatch } from 'react-redux';
 import { setAction } from '../../../store/ItemState/ActionCreators';
+import { PasswordInput } from '../../../components/input/PasswordInput';
 
 type Props = NativeStackScreenProps<never>;
 
@@ -90,7 +91,7 @@ export const SignUpScreen: React.FC<Props> = (props: Props) => {
 			gender: values.gender!,
 			height: values.height!,
 			weight: values.weight!,
-			birthDate: values.birthDate! / 1000,
+			birthDate: values.birthDate!,
 		};
 
 		register(model)
@@ -105,7 +106,7 @@ export const SignUpScreen: React.FC<Props> = (props: Props) => {
 				} else if ((error as Error).message) {
 					setError(error.message);
 				} else {
-					setError('Something went wrong');
+					setError('Что-то пошло не так');
 				}
 			})
 			.finally(() => setProgress(false));
@@ -129,129 +130,129 @@ export const SignUpScreen: React.FC<Props> = (props: Props) => {
 					touched,
 				}) => (
 					<>
-						<ScrollView contentContainerStyle={formStyles.scrollContainer}>
-							<View style={formStyles.screen}>
-								<View style={formStyles.container}>
-									<View style={formStyles.row}>
-										<Text style={[formStyles.label, formTypography.label]}>Email: </Text>
-										<TextInput
-											style={[formStyles.input, formTypography.input]}
-											textContentType="emailAddress"
-											keyboardType="email-address"
-											value={values.email}
-											onChangeText={handleChange('email')}
-											onBlur={handleBlur('email')}
-										/>
-										<ErrorComponent error={errors.email ?? null} touched={touched.email} />
-									</View>
-									<View style={formStyles.row}>
-										<Text style={[formStyles.label, formTypography.label]}>Пароль: </Text>
-										<TextInput
-											style={[formStyles.input, formTypography.input]}
-											textContentType="password"
-											secureTextEntry
-											value={values.password}
-											onChangeText={handleChange('password')}
-											onBlur={handleBlur('password')}
-										/>
-										<ErrorComponent error={errors.password ?? null} touched={touched.password} />
-									</View>
-									<View style={[formStyles.row, formStyles.rowHorizontal]}>
-										<View style={formStyles.column}>
-											<Text style={[formStyles.label, formTypography.label]}>Имя: </Text>
+						<KeyboardAvoidingView style={{ flex: 1 }}>
+							<ScrollView contentContainerStyle={formStyles.scrollContainer}>
+								<View style={formStyles.screen}>
+									<View style={formStyles.container}>
+										<View style={formStyles.row}>
+											<Text style={[formStyles.label, formTypography.label]}>Email: </Text>
 											<TextInput
 												style={[formStyles.input, formTypography.input]}
-												textContentType="username"
-												value={values.firstName}
-												onChangeText={handleChange('firstName')}
-												onBlur={handleBlur('firstName')}
+												textContentType="emailAddress"
+												keyboardType="email-address"
+												value={values.email}
+												onChangeText={handleChange('email')}
+												onBlur={handleBlur('email')}
 											/>
-											<ErrorComponent error={errors.firstName ?? null} touched={touched.firstName} />
+											<ErrorComponent error={errors.email ?? null} touched={touched.email} />
 										</View>
-										<View style={formStyles.column}>
-											<Text style={[formStyles.label, formTypography.label]}>Фамилия: </Text>
-											<TextInput
+										<View style={formStyles.row}>
+											<Text style={[formStyles.label, formTypography.label]}>Пароль: </Text>
+											<PasswordInput
+												value={values.password}
+												onChange={handleChange('password')}
+												onBlur={handleBlur('password')}
 												style={[formStyles.input, formTypography.input]}
-												textContentType="username"
-												value={values.lastName}
-												onChangeText={handleChange('lastName')}
-												onBlur={handleBlur('lastName')}
 											/>
-											<ErrorComponent error={errors.lastName ?? null} touched={touched.lastName} />
+											<ErrorComponent error={errors.password ?? null} touched={touched.password} />
 										</View>
-									</View>
-									<View style={[formStyles.row, formStyles.rowHorizontal]}>
-										<View style={formStyles.column}>
-											<Text style={[formStyles.label, formTypography.label]}>Рост: </Text>
-											<TextInput
-												style={[formStyles.input, formTypography.input]}
-												keyboardType="number-pad"
-												value={values.height !== null ? values.height.toString() : ''}
-												onChangeText={handleChange('height')}
-												onBlur={handleBlur('height')}
-											/>
-											<ErrorComponent error={errors.height ?? null} touched={touched.height} />
+										<View style={[formStyles.row, formStyles.rowHorizontal]}>
+											<View style={formStyles.column}>
+												<Text style={[formStyles.label, formTypography.label]}>Имя: </Text>
+												<TextInput
+													style={[formStyles.input, formTypography.input]}
+													textContentType="username"
+													value={values.firstName}
+													onChangeText={handleChange('firstName')}
+													onBlur={handleBlur('firstName')}
+												/>
+												<ErrorComponent error={errors.firstName ?? null} touched={touched.firstName} />
+											</View>
+											<View style={formStyles.column}>
+												<Text style={[formStyles.label, formTypography.label]}>Фамилия: </Text>
+												<TextInput
+													style={[formStyles.input, formTypography.input]}
+													textContentType="username"
+													value={values.lastName}
+													onChangeText={handleChange('lastName')}
+													onBlur={handleBlur('lastName')}
+												/>
+												<ErrorComponent error={errors.lastName ?? null} touched={touched.lastName} />
+											</View>
 										</View>
-										<View style={formStyles.column}>
-											<Text style={[formStyles.label, formTypography.label]}>Вес: </Text>
-											<TextInput
-												style={[formStyles.input, formTypography.input]}
-												keyboardType="number-pad"
-												value={values.weight !== null ? values.weight.toString() : ''}
-												onChangeText={handleChange('weight')}
-												onBlur={handleBlur('weight')}
-											/>
-											<ErrorComponent error={errors.weight ?? null} touched={touched.weight} />
+										<View style={[formStyles.row, formStyles.rowHorizontal]}>
+											<View style={formStyles.column}>
+												<Text style={[formStyles.label, formTypography.label]}>Рост: </Text>
+												<TextInput
+													style={[formStyles.input, formTypography.input]}
+													keyboardType="number-pad"
+													value={values.height !== null ? values.height.toString() : ''}
+													onChangeText={handleChange('height')}
+													onBlur={handleBlur('height')}
+												/>
+												<ErrorComponent error={errors.height ?? null} touched={touched.height} />
+											</View>
+											<View style={formStyles.column}>
+												<Text style={[formStyles.label, formTypography.label]}>Вес: </Text>
+												<TextInput
+													style={[formStyles.input, formTypography.input]}
+													keyboardType="number-pad"
+													value={values.weight !== null ? values.weight.toString() : ''}
+													onChangeText={handleChange('weight')}
+													onBlur={handleBlur('weight')}
+												/>
+												<ErrorComponent error={errors.weight ?? null} touched={touched.weight} />
+											</View>
 										</View>
-									</View>
-									<View style={[formStyles.row, formStyles.rowHorizontal]}>
-										<View style={formStyles.column}>
-											<Text style={[formStyles.label, formTypography.label]}>Пол: </Text>
-											<Select
-												data={[
-													{ label: 'Мужской', value: Gender.Male },
-													{ label: 'Женский', value: Gender.Female },
-												]}
-												buttonTextAfterSelection={(item: { label: string }) => item.label}
-												rowTextForSelection={(item: { label: string }) => item.label}
-												onSelect={(value: { value: Gender }) => setFieldValue('gender', value.value, true)}
-												onBlur={() => setFieldTouched('gender', true, true)}
-												buttonStyle={{ ...formStyles.input, width: '100%' }}
-												buttonTextStyle={{ ...formTypography.input, ...formStyles.inputText }}
-												defaultButtonText="Выберите пол"
-											/>
-											<ErrorComponent error={errors.gender ?? null} touched={touched.gender} />
+										<View style={[formStyles.row, formStyles.rowHorizontal]}>
+											<View style={formStyles.column}>
+												<Text style={[formStyles.label, formTypography.label]}>Пол: </Text>
+												<Select
+													data={[
+														{ label: 'Мужской', value: Gender.Male },
+														{ label: 'Женский', value: Gender.Female },
+													]}
+													buttonTextAfterSelection={(item: { label: string }) => item.label}
+													rowTextForSelection={(item: { label: string }) => item.label}
+													onSelect={(value: { value: Gender }) => setFieldValue('gender', value.value, true)}
+													onBlur={() => setFieldTouched('gender', true, true)}
+													buttonStyle={{ ...formStyles.input, width: '100%' }}
+													buttonTextStyle={{ ...formTypography.input, ...formStyles.inputText }}
+													defaultButtonText="Выберите пол"
+												/>
+												<ErrorComponent error={errors.gender ?? null} touched={touched.gender} />
+											</View>
+											<View style={formStyles.column}>
+												<Text style={[formStyles.label, formTypography.label]}>Дата рождения: </Text>
+												<DatePicker
+													value={values.birthDate}
+													onChange={(value: number) => setFieldValue('birthDate', value, true)}
+													title="Выберите дату рождения"
+													caption="Выберите дату"
+													containerStyle={[formStyles.input, { justifyContent: 'center', }]}
+													textStyle={formTypography.input}
+												/>
+											</View>
 										</View>
-										<View style={formStyles.column}>
-											<Text style={[formStyles.label, formTypography.label]}>Дата рождения: </Text>
-											<DatePicker
-												value={values.birthDate}
-												onChange={(value: number) => setFieldValue('birthDate', value, true)}
-												title="Выберите дату рождения"
-												caption="Выберите дату"
-												containerStyle={[formStyles.input, { justifyContent: 'center', }]}
-												textStyle={formTypography.input}
-											/>
-										</View>
-									</View>
 
-									<View style={[formStyles.btnRow, formStyles.row]}>
-										<TouchableOpacity
-											style={[formStyles.btn]}
-											onPress={authorize}
-										>
-											<Text style={[[formStyles.action, formTypography.action], formTypography.action]}>Уже есть аккаунт?</Text>
-										</TouchableOpacity>
-										<TouchableOpacity
-											style={[formStyles.btn]}
-											onPress={handleSubmit}
-										>
-											<Text style={[[formStyles.action, formTypography.action], formTypography.action]}>Создать аккаунт</Text>
-										</TouchableOpacity>
+										<View style={[formStyles.btnRow, formStyles.row]}>
+											<TouchableOpacity
+												style={[formStyles.btn]}
+												onPress={authorize}
+											>
+												<Text style={[[formStyles.action, formTypography.action], formTypography.action]}>Уже есть аккаунт?</Text>
+											</TouchableOpacity>
+											<TouchableOpacity
+												style={[formStyles.btn]}
+												onPress={handleSubmit}
+											>
+												<Text style={[[formStyles.action, formTypography.action], formTypography.action]}>Создать аккаунт</Text>
+											</TouchableOpacity>
+										</View>
 									</View>
 								</View>
-							</View>
-						</ScrollView>
+							</ScrollView>
+						</KeyboardAvoidingView>
 						<Spinner loading={progress} />
 						<AlertBox message={error} />
 					</>

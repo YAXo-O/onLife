@@ -16,19 +16,19 @@ import thunk from 'redux-thunk';
 import { Nullable } from '../objects/utility/Nullable';
 import { CounterState } from './CounterState/State';
 import { counterReducer } from './CounterState/Reducer';
-import { CurrentTrainingDay } from './Types';
 import { LocalState, initLocalState } from './LocalState/State';
 import { getLocalReducer } from './LocalState/Reducer';
+import { CurrentTraining } from './Types';
 
 export interface IState {
 	user: ItemState<User>;
-	training: LocalState<CurrentTrainingDay>;
+	training: LocalState<CurrentTraining>;
 	counter: CounterState;
 }
 
 export const initialState: IState = {
 	user: initItemState<User>(),
-	training: initLocalState<CurrentTrainingDay>(),
+	training: initLocalState<CurrentTraining>(),
 	counter: { counter: 0 },
 };
 

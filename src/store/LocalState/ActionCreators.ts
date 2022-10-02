@@ -1,5 +1,5 @@
 import { IState } from '../IState';
-import { LocalDispatchType, LocalActionType, SetLocalAction } from './Actions';
+import { LocalDispatchType, LocalActionType, SetLocalAction, ClearLocalAction } from './Actions';
 
 type GetState = () => IState;
 type LocalThunk<T, TResult = void> = (dispatch: LocalDispatchType<T>, getState: GetState) => TResult;
@@ -20,5 +20,14 @@ export class LocalActionCreators<TStore extends keyof IState> {
 		};
 
 		return (dispatch: LocalDispatchType<T>) => dispatch(action);
+	}
+
+	clear(): LocalThunk<void> {
+		const action: ClearLocalAction = {
+			type: LocalActionType.Clear,
+			store: this.store,
+		};
+
+		return (dispatch: LocalDispatchType<void>) => dispatch(action);
 	}
 }

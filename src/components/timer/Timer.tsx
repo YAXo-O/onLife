@@ -4,8 +4,8 @@ import { StyleSheet, View, Text } from 'react-native';
 import TimerIcon from '../../../assets/icons/timer.svg';
 
 interface TimerProps {
-	start: number | undefined; // When timer was launched
-	stop: number | undefined;
+	start: number | undefined | null; // When timer was launched
+	stop: number | undefined | null;
 	time: number; // What is timer's duration (in seconds)
 	clock: number; // Current time
 }
@@ -15,14 +15,14 @@ interface TimerProps {
  * @param time - time (in seconds)
  */
 function format(time: number): string {
-	const minutes = Math.abs(Math.round(time / 60)).toString(10);
+	const minutes = Math.abs(Math.floor(time / 60)).toString(10);
 	const seconds = Math.abs(time % 60).toString(10);
 
 	return `${time < 0 ? '-' : ''}${minutes.padStart(2, '0')}:${seconds.padStart(2, '0')}`;
 }
 
-function getTime(time: number, start: number | undefined, stop: number | undefined): number {
-	if (start === undefined) return time;
+function getTime(time: number, start: number | undefined | null, stop: number | undefined | null): number {
+	if (start === undefined || start === null) return time;
 
 	const end = stop ?? (+new Date());
 	const diff = (end - start) / 1000;

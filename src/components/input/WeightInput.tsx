@@ -5,7 +5,7 @@ import {
 	View,
 	TouchableOpacity,
 	Text,
-	Modal
+	Modal, ScrollView, KeyboardAvoidingView
 } from 'react-native';
 
 import Done from '../../../assets/icons/done.svg';
@@ -16,6 +16,7 @@ import Up from '../../../assets/icons/up.svg';
 interface OwnProps {
 	value: number | undefined;
 	onChange: (value: number) => void;
+	disabled?: boolean;
 }
 
 function getValue(rawValue: string): number {
@@ -54,41 +55,42 @@ const Overlay: React.FC<OverlayProps> = (props: OverlayProps) => {
 			transparent
 			onRequestClose={props.onCancel}
 		>
-			<View style={styles.keyboard.overlay}>
-				<View style={styles.keyboard.container}>
-					<TouchableOpacity style={styles.keyboard.close} onPress={props.onCancel}>
-						<Close />
-					</TouchableOpacity>
-					<View
-						style={styles.keyboard.card}
-					>
-						<Text style={styles.keyboard.label}>
-							Выполнен вес
-						</Text>
-						<View style={styles.keyboard.row}>
-							<TouchableOpacity onPress={() => adjust(-0.5)}>
-								<Down />
-							</TouchableOpacity>
-							<TextInput
-								style={[styles.keyboard.text, styles.input.text]}
-								keyboardType="numeric"
-								autoFocus
-								value={rawValue}
-								onChangeText={setRawValue}
-							/>
-							<TouchableOpacity onPress={() => adjust(0.5)}>
-								<Up />
+			<KeyboardAvoidingView>
+				<View style={styles.keyboard.overlay}>
+					<View style={styles.keyboard.container}>
+						<TouchableOpacity style={styles.keyboard.close} onPress={props.onCancel}>
+							<Close />
+						</TouchableOpacity>
+						<View
+							style={styles.keyboard.card}
+						>
+							<Text style={styles.keyboard.label}>
+								Выполнен вес
+							</Text>
+							<View style={styles.keyboard.row}>
+								<TouchableOpacity onPress={() => adjust(-0.5)}>
+									<Down />
+								</TouchableOpacity>
+								<TextInput
+									style={[styles.keyboard.text, styles.input.text]}
+									keyboardType="numeric"
+									value={rawValue}
+									onChangeText={setRawValue}
+								/>
+								<TouchableOpacity onPress={() => adjust(0.5)}>
+									<Up />
+								</TouchableOpacity>
+							</View>
+							<TouchableOpacity
+								onPress={() => props.onOk(rawValue)}
+								style={styles.keyboard.action}
+							>
+								<Done />
 							</TouchableOpacity>
 						</View>
-						<TouchableOpacity
-							onPress={() => props.onOk(rawValue)}
-							style={styles.keyboard.action}
-						>
-							<Done />
-						</TouchableOpacity>
 					</View>
 				</View>
-			</View>
+			</KeyboardAvoidingView>
 		</Modal>
 	);
 };
@@ -96,21 +98,21 @@ const Overlay: React.FC<OverlayProps> = (props: OverlayProps) => {
 export const WeightInput: React.FC<OwnProps> = (props: OwnProps) => {
 	const [active, setActive] = React.useState<boolean>(() => false);
 	const value = props.value?.toFixed(1) ?? '';
-	const ref = React.useRef(null);
 
 	return (
 		<View style={styles.input.row}>
 			<View style={[styles.input.container]}>
-				<TextInput
-					value={value}
-					placeholder="Выполненный вес"
-					style={[styles.input.component, styles.input.text]}
-					placeholderTextColor="gray"
-					onFocus={() => {
+				<TouchableOpacity
+					onPress={() => {
+						if (props.disabled === false) return;
+
 						setActive(true);
 					}}
-					ref={ref}
-				/>
+				>
+					<View style={styles.input.component}>
+						<Text style={styles.input.text}>{value ? value : 'Выполненный вес'}</Text>
+					</View>
+				</TouchableOpacity>
 			</View>
 			<Overlay
 				visible={active}
@@ -153,11 +155,12 @@ const _input = StyleSheet.create({
 		borderColor: 'blue',
 		borderStyle: 'solid',
 		borderRadius: 14,
-		paddingVertical: 0,
+		paddingVertical: 2,
 		paddingHorizontal: 4,
 		fontSize: 12,
 		lineHeight: 12,
 		textAlign: 'center',
+		minWidth: 100,
 		maxWidth: 150,
 		marginHorizontal: 8,
 	},
@@ -174,6 +177,7 @@ const _input = StyleSheet.create({
 	},
 	text: {
 		color: 'gray',
+		textAlign: 'center',
 	},
 
 });

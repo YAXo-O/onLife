@@ -1,8 +1,10 @@
 import { User, Gender } from '../../../objects/User';
 import { RequestManager } from '../RequestService';
+import { Training } from '../../../objects/training/Training';
 
-interface LoginResponse {
+export interface LoginResponse {
 	client: User;
+	training: Training;
 }
 
 interface RegisterModel {
@@ -19,12 +21,11 @@ interface RegisterModel {
 	birthDate: number;
 }
 
-export function logIn(email: string, password: string): Promise<User> {
+export function logIn(email: string, password: string): Promise<LoginResponse> {
 	const service = new RequestManager('app/login/sign-in');
 
 	return service.withBody({ email, password })
-		.post<LoginResponse>()
-		.then((response: LoginResponse) => response.client);
+		.post<LoginResponse>();
 }
 
 export function register(model: RegisterModel): Promise<User> {

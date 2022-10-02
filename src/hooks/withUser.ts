@@ -9,6 +9,7 @@ import { IState } from '../store/IState';
 import { ItemState, State } from '../store/ItemState/State';
 import { ItemActionCreators, ItemEndpointList } from '../store/ItemState/ActionCreators';
 import { PrivateStorage } from '../services/Privacy/PrivateStorage';
+import { LocalActionCreators } from '../store/LocalState/ActionCreators';
 
 interface UserInfo {
 	user: Nullable<User>;
@@ -32,8 +33,11 @@ export function withUser(): UserInfo {
 	const logOut = () => {
 		PrivateStorage.clear(PrivateKeys.Session)
 			.then(() => {
-				const creator = new ItemActionCreators<User>('user', endpoints);
+				const creator = new ItemActionCreators('user', endpoints);
+				const factory = new LocalActionCreators('training');
+
 				dispatch(creator.clear());
+				dispatch(factory.clear());
 			});
 	};
 	const [info, setInfo] = React.useState<UserInfo>(() => ({
