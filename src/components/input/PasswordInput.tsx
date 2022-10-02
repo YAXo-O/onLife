@@ -33,7 +33,7 @@ export const PasswordInput: React.FC<OwnProps> = (props: OwnProps) => {
 				onBlur={props.onBlur}
 			/>
 			<TouchableOpacity style={styles.container} onPress={() => setSecured(state => !state)}>
-				<Image tintColor="rgba(255, 255, 255, 0.4)" source={secured ? Show : Hide} style={{ width: 24, height: 24 }}  />
+				<Image source={secured ? Show : Hide} style={{ width: 24, height: 24, tintColor: 'rgba(255, 255, 255, 0.4)', }}  />
 			</TouchableOpacity>
 		</View>
 	);
