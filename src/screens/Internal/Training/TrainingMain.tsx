@@ -76,6 +76,8 @@ export const TrainingMain: React.FC = () => {
 						},
 						headerTintColor: 'rgba(80, 80, 80, 1)',
 						headerRight: () => <LogOut color='rgba(80, 80, 80, 1)' />,
+						headerBackVisible: true,
+						headerLeftTitle: '',
 					}}
 					component={TrainingList}
 				/>

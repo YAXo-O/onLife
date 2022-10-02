@@ -9,6 +9,8 @@ interface ScreenOptions {
 	},
 	headerTintColor?: string;
 	headerLeft?: () => ReactNode;
+	headerLeftTitle?: string;
+	headerBackVisible?: boolean;
 }
 
 export const options: ScreenOptions = {
@@ -20,4 +22,5 @@ export const options: ScreenOptions = {
 	},
 	headerTintColor: 'rgba(255, 255, 255, 0.6)',
 	headerLeft: () => null,
+	headerBackVisible: false,
 };
