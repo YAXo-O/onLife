@@ -42,12 +42,12 @@ interface BodyDescriptor {
 
 const config = {
 	backend: {
-		protocol: 'http',
-		host: '192.168.228.219',
-		port: '5000',
-		// protocol: 'https',
-		// host: 'api.onlife.pro',
-		// port: '',
+		// protocol: 'http',
+		// host: '192.168.228.219',
+		// port: '5000',
+		protocol: 'https',
+		host: 'api.onlife.pro',
+		port: '',
 	},
 };
 
