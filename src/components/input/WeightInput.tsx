@@ -5,7 +5,8 @@ import {
 	View,
 	TouchableOpacity,
 	Text,
-	Modal, ScrollView, KeyboardAvoidingView
+	Modal,
+	KeyboardAvoidingView,
 } from 'react-native';
 
 import Done from '../../../assets/icons/done.svg';
