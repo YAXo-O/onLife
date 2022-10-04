@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import Select from 'react-native-select-dropdown';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,6 +17,8 @@ import { LocalState } from '../../../store/LocalState/State';
 import { Nullable } from '../../../objects/utility/Nullable';
 import { Training } from '../../../objects/training/Training';
 import { CurrentTraining } from '../../../store/Types';
+import { removeUser } from '../../../services/Requests/AppRequests/UserRequests';
+import { Spinner } from '../../../components/spinner/Spinner';
 
 interface FormValues {
 	cycle?: number;
@@ -93,8 +95,31 @@ export const TrainingSelect: React.FC<Props> = (props: Props) => {
 	const current = useSelector((state: IState) => state.training);
 	const training = current.item?.training ?? null;
 
+	const [progress, setProgress] = React.useState(false);
 	const ref = React.useRef<Select>(null);
 	const dispatch = useDispatch();
+
+	const handleDelete = () => {
+		Alert.alert(
+			'Удаление данных пользователя',
+			'Все данные о текущем пользователе, включая аккаунт, будут удалены. Продолжить?',
+			[
+				{
+					text: 'Отмена',
+					style: 'cancel',
+				},
+				{
+					text: 'Удалить',
+					onPress: () => {
+						setProgress(true);
+						removeUser()
+							.then(() => user.logOut())
+							.finally(() => setProgress(false));
+					},
+				},
+			],
+		);
+	};
 
 	if (program == null) {
 		return (
@@ -181,6 +206,14 @@ export const TrainingSelect: React.FC<Props> = (props: Props) => {
 								</Text>
 							</TouchableOpacity>
 						</View>
+						<View style={styles.btnDanger}>
+							<TouchableOpacity onPress={handleDelete}>
+								<Text style={styles.actionDanger}>
+									Удалить аккаунт
+								</Text>
+							</TouchableOpacity>
+						</View>
+						<Spinner loading={progress} />
 					</View>
 				)
 			}
@@ -220,6 +253,11 @@ const styles = StyleSheet.create({
 	action: {
 		color: '#b8b8ff',
 	},
+	actionDanger: {
+		color: '#dd0000',
+		textAlign: 'center',
+		paddingVertical: 8,
+	},
 	divider: {
 		width: '100%',
 		height: 1,
@@ -242,5 +280,11 @@ const styles = StyleSheet.create({
 	},
 	btnContainer: {
 		alignItems: 'center',
+	},
+	btnDanger: {
+		position: 'absolute',
+		bottom: 0,
+		left: 0,
+		right: 0,
 	},
 });
