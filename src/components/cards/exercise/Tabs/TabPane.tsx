@@ -132,7 +132,7 @@ const TrainingTab: React.FC<BaseTabProps> = (props: BaseTabProps) => {
 			completed={completed}
 			rounds={rounds}
 			onSet={onSet}
-			disabled={!Boolean(trainingDay?.time)}
+			disabled={Boolean(trainingDay?.time)}
 		/>
 	);
 };

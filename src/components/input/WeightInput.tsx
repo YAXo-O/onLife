@@ -105,7 +105,7 @@ export const WeightInput: React.FC<OwnProps> = (props: OwnProps) => {
 			<View style={[styles.input.container]}>
 				<TouchableOpacity
 					onPress={() => {
-						if (props.disabled === false) return;
+						if (props.disabled) return;
 
 						setActive(true);
 					}}
