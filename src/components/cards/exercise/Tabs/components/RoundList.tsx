@@ -44,6 +44,7 @@ export const RoundList: React.FC<OwnProps> = (props: OwnProps) => {
 								</View>
 								<WeightInput
 									value={props.completed[id].weight ?? undefined}
+									defaultValue={!disabled && id > 0 ? (props.completed[id - 1].weight ?? undefined) : undefined}
 									onChange={(value: number) => props.onSet(value, id)}
 									disabled={disabled}
 								/>

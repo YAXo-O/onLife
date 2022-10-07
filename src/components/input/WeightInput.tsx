@@ -6,8 +6,9 @@ import {
 	TouchableOpacity,
 	Text,
 	Modal,
-	KeyboardAvoidingView,
 } from 'react-native';
+
+import { KeyboardSpacer } from '../keyboard/KeyboardSpacer';
 
 import Done from '../../../assets/icons/done.svg';
 import Close from '../../../assets/icons/close.svg';
@@ -16,6 +17,7 @@ import Up from '../../../assets/icons/up.svg';
 
 interface OwnProps {
 	value: number | undefined;
+	defaultValue: number | undefined;
 	onChange: (value: number) => void;
 	disabled?: boolean;
 }
@@ -34,12 +36,15 @@ function getValue(rawValue: string): number {
 interface OverlayProps {
 	visible: boolean;
 	value: string;
+	defaultValue: string | undefined;
 	onOk: (value: string) => void;
 	onCancel: () => void;
 }
 
 const Overlay: React.FC<OverlayProps> = (props: OverlayProps) => {
+	const ref = React.useRef(null);
 	const [rawValue, setRawValue] = React.useState<string>(() => props.value);
+
 	React.useEffect(() => {
 		setRawValue(props.value);
 	}, [props.value]);
@@ -49,6 +54,21 @@ const Overlay: React.FC<OverlayProps> = (props: OverlayProps) => {
 		setRawValue(value.toFixed(1));
 	}
 
+	function focus(): void {
+		if (props.visible) {
+			ref.current?.focus();
+		}
+	}
+
+	React.useEffect(() => {
+		if (props.visible) {
+			focus();
+			if (props.defaultValue) {
+				setRawValue(props.defaultValue);
+			}
+		}
+	}, [props.visible]);
+
 	return (
 		<Modal
 			visible={props.visible}
@@ -56,42 +76,42 @@ const Overlay: React.FC<OverlayProps> = (props: OverlayProps) => {
 			transparent
 			onRequestClose={props.onCancel}
 		>
-			<KeyboardAvoidingView>
 				<View style={styles.keyboard.overlay}>
 					<View style={styles.keyboard.container}>
 						<TouchableOpacity style={styles.keyboard.close} onPress={props.onCancel}>
 							<Close />
 						</TouchableOpacity>
-						<View
-							style={styles.keyboard.card}
-						>
-							<Text style={styles.keyboard.label}>
-								Выполнен вес
-							</Text>
-							<View style={styles.keyboard.row}>
-								<TouchableOpacity onPress={() => adjust(-0.5)}>
-									<Down />
-								</TouchableOpacity>
-								<TextInput
-									style={[styles.keyboard.text, styles.input.text]}
-									keyboardType="numeric"
-									value={rawValue}
-									onChangeText={setRawValue}
-								/>
-								<TouchableOpacity onPress={() => adjust(0.5)}>
-									<Up />
-								</TouchableOpacity>
-							</View>
-							<TouchableOpacity
-								onPress={() => props.onOk(rawValue)}
-								style={styles.keyboard.action}
+							<View
+								style={styles.keyboard.card}
 							>
-								<Done />
-							</TouchableOpacity>
-						</View>
+								<Text style={styles.keyboard.label}>
+									Выполнен вес
+								</Text>
+								<View style={styles.keyboard.row}>
+									<TouchableOpacity onPress={() => adjust(-0.5)}>
+										<Down />
+									</TouchableOpacity>
+									<TextInput
+										style={[styles.keyboard.text, styles.input.text]}
+										keyboardType="numeric"
+										value={rawValue}
+										onChangeText={setRawValue}
+										ref={ref}
+									/>
+									<TouchableOpacity onPress={() => adjust(0.5)}>
+										<Up />
+									</TouchableOpacity>
+								</View>
+								<TouchableOpacity
+									onPress={() => props.onOk(rawValue)}
+									style={styles.keyboard.action}
+								>
+									<Done />
+								</TouchableOpacity>
+								<KeyboardSpacer />
+							</View>
 					</View>
 				</View>
-			</KeyboardAvoidingView>
 		</Modal>
 	);
 };
@@ -116,8 +136,9 @@ export const WeightInput: React.FC<OwnProps> = (props: OwnProps) => {
 				</TouchableOpacity>
 			</View>
 			<Overlay
-				visible={active}
 				value={value}
+				defaultValue={props.defaultValue?.toFixed(1)}
+				visible={active}
 				onOk={(value: string) => {
 					props.onChange(getValue(value));
 					setActive(false);
