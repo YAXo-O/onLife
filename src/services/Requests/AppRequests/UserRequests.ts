@@ -61,8 +61,6 @@ export function logIn(email: string, password: string): Promise<LoginResponse> {
 	return service.withBody({ email, password })
 		.post<LoginResponse>()
 		.then((response: LoginResponse) => {
-			console.log('Response: ', response);
-
 			order(response.client.trainingProgram);
 
 			return response;

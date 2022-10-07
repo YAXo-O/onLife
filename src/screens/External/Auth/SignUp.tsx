@@ -61,7 +61,9 @@ const initialValues: FormValues = {
 
 const validationSchema = Yup.object().shape({
 	email: Yup.string().email('Некорректный формат email').required('Обязательное поле'),
-	password: Yup.string().required('Обязательное поле').min(8, 'Пароль должен содержать не менее 8 символов'),
+	password: Yup.string().required('Обязательное поле')
+	  .min(8, 'Пароль должен содержать не менее 8 символов')
+	  .matches(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/, 'Пароль должен содержать хотя бы одну заглавную и строчную букву, а также цифру'),
 
 	firstName: Yup.string().required('Обязательно поле'),
 	lastName: Yup.string().required('Обязательно поле'),
@@ -130,8 +132,8 @@ export const SignUpScreen: React.FC<Props> = (props: Props) => {
 					touched,
 				}) => (
 					<>
-						<KeyboardAvoidingView style={{ flex: 1 }}>
-							<ScrollView contentContainerStyle={formStyles.scrollContainer}>
+						<ScrollView contentContainerStyle={formStyles.scrollContainer}>
+							<KeyboardAvoidingView behavior="padding">
 								<View style={formStyles.screen}>
 									<View style={formStyles.container}>
 										<View style={formStyles.row}>
@@ -251,8 +253,8 @@ export const SignUpScreen: React.FC<Props> = (props: Props) => {
 										</View>
 									</View>
 								</View>
-							</ScrollView>
-						</KeyboardAvoidingView>
+							</KeyboardAvoidingView>
+						</ScrollView>
 						<Spinner loading={progress} />
 						<AlertBox message={error} />
 					</>
