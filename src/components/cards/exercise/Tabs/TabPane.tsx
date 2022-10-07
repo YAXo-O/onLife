@@ -162,9 +162,9 @@ const MaterialTab: React.FC<BaseTabProps> = (props: BaseTabProps) => {
 				<Text style={styles.title}>Как выполнять</Text>
 				{
 					props.exercise.description ? (
-						<View style={{ flex: 1 }}>
+						<View style={{ flex: 1, }}>
 							<WebView
-								style={{ backgroundColor: 'transparent', height }}
+								style={{ backgroundColor: 'transparent', height, width: '100%', }}
 								source={{ html, baseUrl: '', }}
 								originWhitelist={['*']}
 								onSizeUpdated={({ height }) => setHeight(height)}
