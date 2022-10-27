@@ -186,7 +186,7 @@ const _input = StyleSheet.create({
 		maxWidth: 150,
 		marginHorizontal: 8,
 	},
-	icon: {
+	iconContainer: {
 		width: 12,
 		height: 12,
 	},

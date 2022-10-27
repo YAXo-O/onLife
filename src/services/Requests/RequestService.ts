@@ -1,8 +1,8 @@
-import { Nullable } from '../../objects/utility/Nullable';
-import { RequestError } from './RequestError';
-import { PrivateKeys } from '../Privacy/PrivateKeys';
-import { PrivateStorage } from '../Privacy/PrivateStorage';
-import { CookieParser } from './CookieParser';
+import { Nullable } from '@app/objects/utility/Nullable';
+import { RequestError } from '@app/services/Requests/RequestError';
+import { PrivateKeys } from '@app/services/Privacy/PrivateKeys';
+import { PrivateStorage } from '@app/services/Privacy/PrivateStorage';
+import { CookieParser } from '@app/services/Requests/CookieParser';
 
 export enum RequestMethod {
 	GET = 'GET',
@@ -42,10 +42,10 @@ interface BodyDescriptor {
 
 const config = {
 	backend: {
-		// host: '192.168.162.219',
 		protocol: 'http',
-		host: '100.65.86.140',
+		host: '192.168.162.219',
 		port: '5000',
+		// host: '100.65.86.140',
 		// protocol: 'https',
 		// host: 'api.onlife.pro',
 		// port: '',

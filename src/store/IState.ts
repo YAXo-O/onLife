@@ -24,23 +24,27 @@ export interface IState {
 	user: ItemState<User>;
 	training: LocalState<CurrentTraining>;
 	counter: CounterState;
+	loading: LocalState<boolean>;
 }
 
 export const initialState: IState = {
 	user: initItemState<User>(),
 	training: initLocalState<CurrentTraining>(),
 	counter: { counter: 0 },
+	loading: initLocalState<boolean>(),
 };
 
 export const rootReducer: ReducersMapObject<IState> = {
 	user: getItemReducer<'user'>('user'),
 	training: getLocalReducer<'training'>('training'),
+	loading: getLocalReducer<'loading'>('loading'),
 	counter: counterReducer,
 };
 
 const persistConfig: PersistConfig<IState> = {
 	key: 'root',
 	storage: AsyncStorage,
+	blacklist: ['loading'],
 };
 
 // Cache store - we only need one instance in the app

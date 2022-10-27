@@ -36,23 +36,31 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>AlegreyaSans-Black.ttf</string>
-		<string>AlegreyaSans-BlackItalic.ttf</string>
-		<string>AlegreyaSans-Bold.ttf</string>
-		<string>AlegreyaSans-BoldItalic.ttf</string>
-		<string>AlegreyaSans-ExtraBold.ttf</string>
-		<string>AlegreyaSans-ExtraBoldItalic.ttf</string>
-		<string>AlegreyaSans-Italic.ttf</string>
-		<string>AlegreyaSans-Light.ttf</string>
-		<string>AlegreyaSans-LightItalic.ttf</string>
-		<string>AlegreyaSans-Medium.ttf</string>
-		<string>AlegreyaSans-MediumItalic.ttf</string>
-		<string>AlegreyaSans-Regular.ttf</string>
-		<string>AlegreyaSans-Thin.ttf</string>
-		<string>AlegreyaSans-ThinItalic.ttf</string>
+		<string>Gluten-Black.ttf</string>
+		<string>Gluten-Bold.ttf</string>
+		<string>Gluten-ExtraBold.ttf</string>
+		<string>Gluten-ExtraLight.ttf</string>
+		<string>Gluten-Light.ttf</string>
+		<string>Gluten-Medium.ttf</string>
+		<string>Gluten-Regular.ttf</string>
+		<string>Gluten-SemiBold.ttf</string>
+		<string>Gluten-Thin.ttf</string>
+		<string>Inter-Black.ttf</string>
+		<string>Inter-Bold.ttf</string>
+		<string>Inter-ExtraBold.ttf</string>
+		<string>Inter-ExtraLight.ttf</string>
+		<string>Inter-Light.ttf</string>
+		<string>Inter-Medium.ttf</string>
+		<string>Inter-Regular.ttf</string>
+		<string>Inter-SemiBold.ttf</string>
+		<string>Inter-Thin.ttf</string>
+		<string>AGaramondPro-Bold.otf</string>
+		<string>AGaramondPro-BoldItalic.otf</string>
+		<string>AGaramondPro-Italic.otf</string>
+		<string>AGaramondPro-Regular.otf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

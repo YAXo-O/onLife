@@ -12,6 +12,7 @@ import { PrivateStorage } from '../services/Privacy/PrivateStorage';
 import { LocalActionCreators } from '../store/LocalState/ActionCreators';
 
 interface UserInfo {
+	id: Nullable<string>;
 	user: Nullable<User>;
 	session: Nullable<string>;
 	loading: boolean;
@@ -41,6 +42,7 @@ export function withUser(): UserInfo {
 			});
 	};
 	const [info, setInfo] = React.useState<UserInfo>(() => ({
+		id: user.item?.id ?? null,
 		user: user.item,
 		session: session.item,
 		loading: user.state === State.Loading || session.loading,
@@ -50,6 +52,7 @@ export function withUser(): UserInfo {
 	React.useEffect(() => {
 		if (session.loading) {
 			setInfo({
+				id: user.item?.id ?? null,
 				user: user.item,
 				session: session.item,
 				loading: true,
@@ -57,6 +60,7 @@ export function withUser(): UserInfo {
 			});
 		} else if (!session.item) {
 			setInfo({
+				id: user.item?.id ?? null,
 				user: null,
 				session: null,
 				loading: false,
@@ -64,6 +68,7 @@ export function withUser(): UserInfo {
 			});
 		} else if (user.state === State.Loading) {
 			setInfo({
+				id: user.item?.id ?? null,
 				user: null,
 				session: session.item,
 				loading: true,
@@ -74,6 +79,7 @@ export function withUser(): UserInfo {
 			dispatch(creator.load());
 		} else {
 			setInfo({
+				id: user.item?.id ?? null,
 				user: user.item,
 				session: session.item,
 				loading: session.loading || user.state === State.Loading,

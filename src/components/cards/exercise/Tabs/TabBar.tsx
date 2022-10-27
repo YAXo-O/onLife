@@ -28,7 +28,7 @@ interface TabBarProps {
 const size = { width: 16, height: 16 };
 
 const TabButton: React.FC<TabButtonProps> = (props: TabButtonProps) => {
-	const Icon = props.icon;
+	const Icon = props.iconContainer;
 
 	return (
 		<TouchableOpacity

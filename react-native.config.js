@@ -4,8 +4,10 @@ module.exports = {
 		android: {},
 	},
 	assets: [
-		'./assets/fonts/',
-		'./assets/images/',
-		'./assets/icons/',
+		'./assets/fonts/Gluten',
+		'./assets/fonts/Inter',
+		'./assets/fonts/AdobeGaramondPro',
+		'./assets/images',
+		'./assets/icons',
 	],
 }
