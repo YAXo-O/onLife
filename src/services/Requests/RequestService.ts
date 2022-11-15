@@ -43,7 +43,7 @@ interface BodyDescriptor {
 const config = {
 	backend: {
 		protocol: 'http',
-		host: '192.168.162.219',
+		host: '192.168.1.2',
 		port: '5000',
 		// host: '100.65.86.140',
 		// protocol: 'https',

@@ -6,7 +6,7 @@ const headerNoBack = {
 	headerBackVisible: false,
 };
 
-function getHeaderBase(background: string): Record<string, unknown> {
+function getHeaderBase(background: string, color: string): Record<string, unknown> {
 	return {
 		headerStyle: {
 			backgroundColor: background,
@@ -19,15 +19,15 @@ function getHeaderBase(background: string): Record<string, unknown> {
 			fontSize: 18,
 			lineHeight: 24,
 		},
-		headerTintColor: 'white',
+		headerTintColor: color,
 		headerShadowVisible: false,
 		headerTitleAlign: 'left',
 	};
 }
 
-export function getOptions(title: string, withGoBack: boolean = true, background: string = palette.cyan['40']): Record<string, unknown> {
+export function getOptions(title: string, withGoBack: boolean = true, background: string = palette.cyan['40'], color: string = 'white'): Record<string, unknown> {
 	return {
-		...getHeaderBase(background),
+		...getHeaderBase(background, color),
 		...(withGoBack ? undefined : headerNoBack),
 		title,
 	};

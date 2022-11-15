@@ -9,18 +9,22 @@ import {
 	Image, StyleSheet, TouchableOpacity,
 } from 'react-native';
 
-import Hide from '../../../assets/icons/hide.png';
-import Show from '../../../assets/icons/show.png';
+import Hide from '@assets/icons/hide.png';
+import Show from '@assets/icons/show.png';
 
 interface OwnProps {
 	value: string;
 	onChange?: (text: string) => void;
 	onBlur?: ((e: NativeSyntheticEvent<TextInputFocusEventData>) => void);
 	style?: StyleProp<TextStyle>;
+	tint?: string;
+	placeholder?: string;
+	placeholderTextColor?: string;
 }
 
 export const PasswordInput: React.FC<OwnProps> = (props: OwnProps) => {
 	const [secured, setSecured] = React.useState(true);
+	const tint = props.tint ?? '#000';
 
 	return (
 		<View style={{ position: 'relative' }}>
@@ -31,9 +35,15 @@ export const PasswordInput: React.FC<OwnProps> = (props: OwnProps) => {
 				value={props.value}
 				onChangeText={props.onChange}
 				onBlur={props.onBlur}
+				placeholder={props.placeholder}
+				placeholderTextColor={props.placeholderTextColor}
 			/>
 			<TouchableOpacity style={styles.container} onPress={() => setSecured(state => !state)}>
-				<Image source={secured ? Show : Hide} style={{ width: 24, height: 24, tintColor: 'rgba(255, 255, 255, 0.4)', }}  />
+				<Image
+					source={secured ? Show : Hide}
+					style={{ width: 24, height: 24, tintColor: tint, }}
+					tintColor={tint}
+				/>
 			</TouchableOpacity>
 		</View>
 	);

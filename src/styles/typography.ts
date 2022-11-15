@@ -76,4 +76,19 @@ export const typography: Record<string, StyleProp<TextStyle>> = {
 		fontSize: 16,
 		lineHeight: 19,
 	},
+	header: {
+		fontFamily: 'Inter-Bold',
+		fontSize: 20,
+		lineHeight: 24,
+	},
+	notification: {
+		fontFamily: 'Inter',
+		fontSize: 20,
+		lineHeight: 24,
+	},
+	modalTitle: {
+		fontFamily: 'Montserrat-Bold',
+		fontSize: 20,
+		lineHeight: 24,
+	},
 };

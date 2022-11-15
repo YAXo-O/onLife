@@ -4,14 +4,16 @@ import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { AuthScreen } from '@app/screens/External/Auth/Auth';
-import { withUser } from '@app/hooks/withUser';
 import { MainScreen } from '@app/screens/Internal/MainScreen';
-
-import { getOptions } from '@app/navigation/options';
-import { Routes } from '@app/navigation/routes';
+import { ProfileMenuScreen } from '@app/screens/Internal/Profile/ProfileMenuScreen';
 import { TrainingListScreen } from '@app/screens/Internal/TrainingListScreen';
 import { TrainingScreen } from '@app/screens/Internal/TrainingScreen';
+
+import { withUser } from '@app/hooks/withUser';
+import { getOptions } from '@app/navigation/options';
+import { Routes } from '@app/navigation/routes';
 import { palette } from '@app/styles/palette';
+import { DeleteProfileScreen } from '@app/screens/Internal/Profile/DeleteProfileScreen';
 
 const NavigationStack = createNativeStackNavigator();
 
@@ -49,6 +51,16 @@ export const Navigation: React.FC = () => {
 					name={Routes.Training}
 					options={getOptions('Тренировка', true, palette.cyan['100'])}
 					component={TrainingScreen}
+				/>
+				<NavigationStack.Screen
+					name={Routes.ProfileMenu}
+					options={getOptions('Личный кабинет', true, '#F2F4F7', '#010101')}
+					component={ProfileMenuScreen}
+				/>
+				<NavigationStack.Screen
+					name={Routes.ProfileDelete}
+					options={getOptions('Удаление учётной записи', true, '#F2F4F7', '#010101')}
+					component={DeleteProfileScreen}
 				/>
 			</NavigationStack.Navigator>
 		</SafeAreaView>

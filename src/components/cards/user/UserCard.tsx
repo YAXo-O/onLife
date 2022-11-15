@@ -5,12 +5,15 @@ import {
 	StyleSheet,
 	View,
 	Text,
+	TouchableOpacity,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import { withUser } from '@app/hooks/withUser';
 import { palette } from '@app/styles/palette';
 import { typography } from '@app/styles/typography';
 import { formatName, formatAge } from '@app/utils/formatting';
+import { Routes } from '@app/navigation/routes';
 
 import Dots from '@assets/icons/dots.svg';
 import User from '@assets/icons/user.svg';
@@ -53,17 +56,18 @@ const handleDelete = () => {
 
 export const UserCard: React.FC<OwnProps> = (props: OwnProps) => {
 	const user = withUser();
+	const navigation = useNavigation();
 
 	return (
 		<View style={[styles.container, props.style]} >
-			<View style={styles.row}>
+			<TouchableOpacity style={styles.row} onPress={() => navigation.navigate(Routes.ProfileMenu)}>
 				<View style={[styles.avatar, { marginRight: 10 }]}>
 					<User width={23} height={23} fillPrimary={palette.blue['20']} />
 				</View>
 				<Text style={[typography.cardTitle, styles.text]}>{formatName(user.user)}</Text>
 				<View style={{ flex: 1 }} />
 				<Dots width={18} height={4} fillPrimary={palette.white['100']} />
-			</View>
+			</TouchableOpacity>
 			<View style={[styles.row, { marginTop: 30 }]}>
 				<View style={{flex: 1}} />
 				<View style={styles.column}>
