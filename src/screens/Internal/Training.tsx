@@ -12,6 +12,7 @@ import {
 	ScrollView, useWindowDimensions,
 } from 'react-native';
 import { useSelector } from 'react-redux';
+import Video from 'react-native-video-controls';
 
 import { palette } from '@app/styles/palette';
 import { typography } from '@app/styles/typography';
@@ -216,8 +217,20 @@ const Tabs: React.FC<TabsProps> = (props: TabsProps) => {
 			);
 
 		case ExerciseTab.Video:
+			const source = current?.exercise?.video;
+
 			return (
 				<View style={{ padding: 22 }}>
+					{
+						source ? (
+							<Video
+								source={{ uri: source }}
+							/>
+						) : null
+					}
+					<Text style={{ color: '#000' }}>
+						{source}
+					</Text>
 					<View>
 						<Text style={{ color: '#000', fontFamily: 'Inter-Medium', fontSize: 16, lineHeight: 24 }}>
 							{current?.exercise?.name ?? 'Упражнение'}
