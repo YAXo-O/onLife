@@ -8,6 +8,7 @@ import {
 	TouchableOpacity,
 	FlatList, ListRenderItemInfo,
 } from 'react-native';
+import { useSelector } from 'react-redux';
 
 import { palette } from '@app/styles/palette';
 import { typography } from '@app/styles/typography';
@@ -16,6 +17,12 @@ import { Progress } from '@app/components/display/progress/Progress';
 import Locked from '@assets/icons/locked.svg'
 import Unlocked from '@assets/icons/unlocked.svg';
 import ChevronRight from '@assets/icons/chevron-right.svg';
+import { IState } from '@app/store/IState';
+import { Training } from '@app/objects/training/Training';
+import { TrainingBlock } from '@app/objects/training/TrainingBlock';
+import { TrainingDay } from '@app/objects/training/TrainingDay';
+import { withUser } from '@app/hooks/withUser';
+import { Nullable } from '@app/objects/utility/Nullable';
 
 interface OwnProps {
 	header?: React.ReactElement;
@@ -32,44 +39,22 @@ interface ItemProps {
 	onPress?: () => void;
 }
 
-function getMock(): Array<ItemProps> {
-	return [{
-		id: '0',
-		title: '1 блок тренировок',
-		total: 5,
-		done: 5,
-		disabled: false,
-	}, {
-		id: '1',
-		title: '2 блок тренировок',
-		total: 5,
-		done: 2,
-		disabled: false,
-	}, {
-		id: '2',
-		title: '3 блок тренировок',
-		total: 5,
-		done: 0,
-		disabled: true,
-	},  {
-		id: '3',
-		title: '4 блок тренировок',
-		total: 5,
-		done: 0,
-		disabled: true,
-	},  {
-		id: '4',
-		title: '5 блок тренировок',
-		total: 5,
-		done: 0,
-		disabled: true,
-	}, ];
+function getList(training: Nullable<Training> | undefined): Array<ItemProps> {
+	return (training?.blocks ?? []).map((item: TrainingBlock) => ({
+		id: item.id,
+		title: `Блок тренировок №${item.order + 1}`,
+		done: (item.days ?? [])
+			.filter((item: TrainingDay) => Boolean(item.time))
+			.reduce((acc: number) => acc + 1, 0),
+		total: item.days?.length ?? 0,
+		disabled: !item.available,
+	}));
 }
 
 const CycleItem: React.FC<ItemProps> = (props: ItemProps) => {
 	const Icon = props.disabled ? Locked : Unlocked;
 	const handleTouch = () => {
-		if (props.disabled || !props.onPress) return;
+		if (!props.onPress) return;
 
 		props.onPress();
 	};
@@ -88,15 +73,15 @@ const CycleItem: React.FC<ItemProps> = (props: ItemProps) => {
 						</View>
 					</View>
 					<Text style={[typography.text, styles.caption]}>
-						{props.disabled ? 'недоступен' : 'доступен'}
+						{props.disabled ? 'недоступен' : props.done >= props.total ? 'выполнен' : 'доступен'}
 					</Text>
 					<Progress
 						primaryColor={palette.white['60']}
 						secondaryColor={palette.cyan['20']}
 						progress={props.done / props.total}
-						style={{ marginTop: 32 }}
+						style={{ marginTop: 30 }}
 					>
-						<View style={[styles.row, { height: 45, marginBottom: 4, marginTop: 20 }]}>
+						<View style={[styles.row, { marginBottom: 20 }]}>
 							<Text style={[typography.text, styles.caption]}>кол-во тренировок</Text>
 							<View style={styles.spacer} />
 							<Text style={[typography.text, styles.caption]}>{props.done} из {props.total}</Text>
@@ -114,7 +99,9 @@ const CycleItem: React.FC<ItemProps> = (props: ItemProps) => {
 };
 
 export const CycleCollection: React.FC<OwnProps> = (props: OwnProps) => {
-	const render = ({ item, index }: ListRenderItemInfo<ItemProps>) => {
+	const { user } = withUser();
+
+	const render = ({ item }: ListRenderItemInfo<ItemProps>) => {
 		return (
 			<CycleItem
 				id={item.id}
@@ -130,7 +117,7 @@ export const CycleCollection: React.FC<OwnProps> = (props: OwnProps) => {
 	return (
 		<FlatList
 			ListHeaderComponent={props.header}
-			data={getMock()}
+			data={getList(user?.training)}
 			renderItem={render}
 			keyExtractor={item => item.id}
 		/>
@@ -195,15 +182,13 @@ const styles = StyleSheet.create({
 	content: {
 		borderTopLeftRadius: 16,
 		borderTopRightRadius: 16,
-		padding: 15,
-		paddingLeft: 30,
-		paddingBottom: 30,
+		padding: 30,
 	},
 	bottom: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		padding: 15,
-		paddingLeft: 30,
+		paddingVertical: 20,
+		paddingHorizontal: 30,
 		backgroundColor: palette.white['40'],
 	},
 });

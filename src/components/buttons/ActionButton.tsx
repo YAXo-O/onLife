@@ -5,10 +5,12 @@ import { typography } from '@app/styles/typography';
 import { palette } from '@app/styles/palette';
 
 interface OwnProps {
-	text: string;
+	text?: string;
+	children?: React.ReactNode;
 	onPress: () => void;
 	style?: StyleProp<ViewStyle>;
 	type?: ActionType;
+	disabled?: boolean;
 }
 
 export enum ActionType {
@@ -16,7 +18,9 @@ export enum ActionType {
 	Secondary = 1,
 }
 
-function getStyle(type?: ActionType): StyleProp<ViewStyle> {
+function getStyle(type: ActionType | undefined, touching: boolean, disabled: boolean | undefined): StyleProp<ViewStyle> {
+	if (disabled) return styles.actionDisabled;
+	if (touching) return styles.actionPressed;
 	if (type === undefined || type === ActionType.Primary) return styles.actionPrimary;
 
 	return styles.actionSecondary;
@@ -30,17 +34,37 @@ function getTextStyle(type?: ActionType): StyleProp<TextStyle> {
 
 export const ActionButton: React.FC<OwnProps> = (props: OwnProps) => {
 	const [touching, setTouching] = React.useState(() => false);
+	const onPress = () => {
+		if (props.disabled) return;
+
+		props.onPress();
+	};
 
 	return (
 		<TouchableOpacity
-			style={[styles.action, touching ? styles.actionPressed : getStyle(props.type), props.style]}
-			onPress={props.onPress}
+			style={[
+				styles.action,
+				getStyle(props.type, touching, props.disabled),
+				props.style,
+			]}
+			onPress={onPress}
 			onPressIn={() => setTouching(true)}
 			onPressOut={() => setTouching(false)}
 		>
-			<Text style={[styles.actionText, touching ? undefined : getTextStyle(props.type), typography.action]}>
-				{props.text}
-			</Text>
+			{props.children ?? null}
+			{
+				props.text ? (
+					<Text
+						style={[
+							styles.actionText,
+							touching ? undefined : getTextStyle(props.type),
+							typography.action
+						]}
+					>
+						{props.text}
+					</Text>
+				) : null
+			}
 		</TouchableOpacity>
 	);
 };
@@ -73,5 +97,8 @@ const styles = StyleSheet.create({
 	},
 	actionTextSecondary: {
 		color: palette.cyan['40'],
+	},
+	actionDisabled: {
+		backgroundColor: palette.blue['50'],
 	},
 });

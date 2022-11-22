@@ -97,7 +97,7 @@ export const SignUp: React.FC<OwnProps> = (props: OwnProps) => {
 								type={WavyFormRowType.Left}
 								placeholder="Фамилия"
 								textContentType="familyName"
-								icon={<Home fillPrimary={data.errors.lastName ? palette.regular.red : palette.white['100']} />}
+								icon={<Home fillPrimary={palette.white['100']} />}
 								leading
 							/>
 							<WavyFormRow
@@ -108,7 +108,7 @@ export const SignUp: React.FC<OwnProps> = (props: OwnProps) => {
 								type={WavyFormRowType.Right}
 								placeholder="Имя"
 								textContentType="name"
-								icon={<User fillPrimary={data.errors.firstName ? palette.regular.red : palette.white['100']} />}
+								icon={<User fillPrimary={palette.white['100']} />}
 							/>
 							<WavyFormRow
 								value={data.values.email}
@@ -119,7 +119,7 @@ export const SignUp: React.FC<OwnProps> = (props: OwnProps) => {
 								placeholder="Email"
 								textContentType="username"
 								keyboardType="email-address"
-								icon={<Email fillPrimary={data.errors.email ? palette.regular.red : palette.white['100']} />}
+								icon={<Email fillPrimary={palette.white['100']} />}
 							/>
 							<WavyFormRow
 								value={data.values.phone}
@@ -130,7 +130,7 @@ export const SignUp: React.FC<OwnProps> = (props: OwnProps) => {
 								placeholder="Телефон"
 								textContentType="telephoneNumber"
 								keyboardType="phone-pad"
-								icon={<Phone fillPrimary={data.errors.phone ? palette.regular.red : palette.white['100']} />}
+								icon={<Phone fillPrimary={palette.white['100']} />}
 							/>
 							<WavyFormRow
 								value={data.values.password}
@@ -142,7 +142,7 @@ export const SignUp: React.FC<OwnProps> = (props: OwnProps) => {
 								textContentType="newPassword"
 								secureTextEntry
 								trailing
-								icon={<Key fillPrimary={data.errors.password ? palette.regular.red : palette.white['100']} />}
+								icon={<Key fillPrimary={palette.white['100']} />}
 							/>
 							<TouchableOpacity onPress={openRules}>
 								<Text style={styles.rules}>
@@ -181,6 +181,6 @@ const styles = StyleSheet.create({
 	},
 	rulesHighlight: {
 		fontFamily: 'Roboto',
-		color: palette.cyan['100'],
+		color: palette.cyan['40'],
 	},
 });

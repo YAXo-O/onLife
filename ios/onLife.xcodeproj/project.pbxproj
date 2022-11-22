@@ -47,16 +47,34 @@
 		6C3945DC5BD24580A7D2D4A6 /* Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DD4CEFDE0B24539A1EAF997 /* Inter-Regular.ttf */; };
 		650C94361B614D8CAA2F1D95 /* Inter-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9A5C68BA35FD4EA8B8387DC8 /* Inter-SemiBold.ttf */; };
 		CC2C45FC13BD4310BFA2DCA6 /* Inter-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2322A4967A2E44C6A8D78FC0 /* Inter-Thin.ttf */; };
-		3AEB2B17196041E2B098889F /* backgroung.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E6EEC2A5748A423E98C83FE0 /* backgroung.jpg */; };
-		47538B6318784CE1A065F5D6 /* email.svg in Resources */ = {isa = PBXBuildFile; fileRef = 3730BDCB117C4585ADACFA29 /* email.svg */; };
-		3126B64B9DBF4822917B89C5 /* home.svg in Resources */ = {isa = PBXBuildFile; fileRef = 65DDF17FC9D74CB68C27C6F9 /* home.svg */; };
-		43ABBF7FE62749DBB53B2763 /* key.svg in Resources */ = {isa = PBXBuildFile; fileRef = 35E2BA71330449DD9F7E3B71 /* key.svg */; };
-		6CA07E64C324422985AAA735 /* phone.svg in Resources */ = {isa = PBXBuildFile; fileRef = F9901AE9B58C46A191640D19 /* phone.svg */; };
-		1051E493357B498F868E9627 /* user.svg in Resources */ = {isa = PBXBuildFile; fileRef = 2BDF9DC5A6EA4D15B3A34C81 /* user.svg */; };
 		E3B3481D415F45EEAD1807C5 /* AGaramondPro-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 37807ED5CC224955AE074CDE /* AGaramondPro-Bold.otf */; };
 		C4C2B3F41E6C4F27A4E652C8 /* AGaramondPro-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = AE4C15EADE844ABAA86BD694 /* AGaramondPro-BoldItalic.otf */; };
 		951D5FA5E7F141D0B099A1F1 /* AGaramondPro-Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = D0DCC560B6D44049A03E68F9 /* AGaramondPro-Italic.otf */; };
 		EF332C7224B24385A0588731 /* AGaramondPro-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 79A170C8EAB048D6B6F3C7C9 /* AGaramondPro-Regular.otf */; };
+		616CEDC0307945B68AEFADA8 /* attention.svg in Resources */ = {isa = PBXBuildFile; fileRef = FD62E25384484784942FD338 /* attention.svg */; };
+		DC0FD5447FF84629B11A130D /* chevron-right.svg in Resources */ = {isa = PBXBuildFile; fileRef = E51DCB9389934A7EA93170F5 /* chevron-right.svg */; };
+		6062C7C018DE4C1E851166FE /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 259CE0144CBC48BFB8EEA5CE /* delete.png */; };
+		D11714FC6FB54CFB9B3EB0E6 /* dots.svg in Resources */ = {isa = PBXBuildFile; fileRef = 079CE34961F84C219618F263 /* dots.svg */; };
+		41AC0D180A044A30B6E9FBFF /* edit.svg in Resources */ = {isa = PBXBuildFile; fileRef = FC7D6CEDCD5B4DDB946E7B07 /* edit.svg */; };
+		D37B945D6FFE494F95821DB1 /* email.svg in Resources */ = {isa = PBXBuildFile; fileRef = CF6BA9CF9665460689B83E4F /* email.svg */; };
+		2B81E051511947E886849E83 /* exit.svg in Resources */ = {isa = PBXBuildFile; fileRef = C498AC21DB2E4509AC189516 /* exit.svg */; };
+		E58494C4B9BA4C1AB760788C /* home.svg in Resources */ = {isa = PBXBuildFile; fileRef = A932A8F1139E4CAA91BB094D /* home.svg */; };
+		B5DC9A1C05FB4D9892857B38 /* key.svg in Resources */ = {isa = PBXBuildFile; fileRef = 05085BFB3BA947C39A163AF3 /* key.svg */; };
+		BFD26A155AEF4FF19D63B6E3 /* locked.svg in Resources */ = {isa = PBXBuildFile; fileRef = 01D0B8A3E5B5473C825B78CF /* locked.svg */; };
+		877DC1AF82A540FC80F10D6F /* logout.png in Resources */ = {isa = PBXBuildFile; fileRef = BB6E1A57EEDB447EB78E7C84 /* logout.png */; };
+		662DEDAC2FEE4F1C8058EC55 /* phone.svg in Resources */ = {isa = PBXBuildFile; fileRef = B33B117438714EA4AF8FB8E3 /* phone.svg */; };
+		9775EE5A8E2348168473C4B5 /* play.svg in Resources */ = {isa = PBXBuildFile; fileRef = 08217500AAA640018AEFD229 /* play.svg */; };
+		BA403AA6B90C4F4B923CD270 /* trash.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1C003BD8FAB544A89C5BA59A /* trash.svg */; };
+		BDE8C7E5482E46E1A3E1C025 /* unlocked.svg in Resources */ = {isa = PBXBuildFile; fileRef = CCE6F099E4594795B8854ACD /* unlocked.svg */; };
+		967B2B4EE5DB45099AD51415 /* user.svg in Resources */ = {isa = PBXBuildFile; fileRef = 208B85805FF6430386FC3599 /* user.svg */; };
+		EAE387D1C33A4C1DAEF386FF /* training_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E3051B0A3604DC7A6C54A11 /* training_background.png */; };
+		390CD26934954146BF2A0ED7 /* dumbbell.svg in Resources */ = {isa = PBXBuildFile; fileRef = 45A6FAAB146F4A529F497303 /* dumbbell.svg */; };
+		249B222647BB4818B9A729FB /* eye.svg in Resources */ = {isa = PBXBuildFile; fileRef = A06263184F6948298E5C96A6 /* eye.svg */; };
+		94F942F9712A4524B54B2584 /* rounds.svg in Resources */ = {isa = PBXBuildFile; fileRef = F77A63A0AA5C427790274773 /* rounds.svg */; };
+		76EE9DC695904E3781625DF1 /* training_dumbbell.svg in Resources */ = {isa = PBXBuildFile; fileRef = 2BF78AD8A48949C2A75D7182 /* training_dumbbell.svg */; };
+		D24E951573A941D6992D999C /* training_material.svg in Resources */ = {isa = PBXBuildFile; fileRef = 7ABA5F6407454AF0933F6B13 /* training_material.svg */; };
+		1991026588EB475392AA162A /* training_stats.svg in Resources */ = {isa = PBXBuildFile; fileRef = D9B19100630840E488A6E944 /* training_stats.svg */; };
+		62AF691114CC4263835BFF70 /* training_video.svg in Resources */ = {isa = PBXBuildFile; fileRef = 0A49EBD3B257457397E9FC6A /* training_video.svg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -134,16 +152,34 @@
 		8DD4CEFDE0B24539A1EAF997 /* Inter-Regular.ttf */ = {isa = PBXFileReference; name = "Inter-Regular.ttf"; path = "../assets/fonts/Inter/Inter-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		9A5C68BA35FD4EA8B8387DC8 /* Inter-SemiBold.ttf */ = {isa = PBXFileReference; name = "Inter-SemiBold.ttf"; path = "../assets/fonts/Inter/Inter-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		2322A4967A2E44C6A8D78FC0 /* Inter-Thin.ttf */ = {isa = PBXFileReference; name = "Inter-Thin.ttf"; path = "../assets/fonts/Inter/Inter-Thin.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		E6EEC2A5748A423E98C83FE0 /* backgroung.jpg */ = {isa = PBXFileReference; name = "backgroung.jpg"; path = "../assets/images/backgroung.jpg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		3730BDCB117C4585ADACFA29 /* email.svg */ = {isa = PBXFileReference; name = "email.svg"; path = "../assets/icons/email.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		65DDF17FC9D74CB68C27C6F9 /* home.svg */ = {isa = PBXFileReference; name = "home.svg"; path = "../assets/icons/home.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		35E2BA71330449DD9F7E3B71 /* key.svg */ = {isa = PBXFileReference; name = "key.svg"; path = "../assets/icons/key.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		F9901AE9B58C46A191640D19 /* phone.svg */ = {isa = PBXFileReference; name = "phone.svg"; path = "../assets/icons/phone.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		2BDF9DC5A6EA4D15B3A34C81 /* user.svg */ = {isa = PBXFileReference; name = "user.svg"; path = "../assets/icons/user.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		37807ED5CC224955AE074CDE /* AGaramondPro-Bold.otf */ = {isa = PBXFileReference; name = "AGaramondPro-Bold.otf"; path = "../assets/fonts/AdobeGaramondPro/AGaramondPro-Bold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		AE4C15EADE844ABAA86BD694 /* AGaramondPro-BoldItalic.otf */ = {isa = PBXFileReference; name = "AGaramondPro-BoldItalic.otf"; path = "../assets/fonts/AdobeGaramondPro/AGaramondPro-BoldItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		D0DCC560B6D44049A03E68F9 /* AGaramondPro-Italic.otf */ = {isa = PBXFileReference; name = "AGaramondPro-Italic.otf"; path = "../assets/fonts/AdobeGaramondPro/AGaramondPro-Italic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		79A170C8EAB048D6B6F3C7C9 /* AGaramondPro-Regular.otf */ = {isa = PBXFileReference; name = "AGaramondPro-Regular.otf"; path = "../assets/fonts/AdobeGaramondPro/AGaramondPro-Regular.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		FD62E25384484784942FD338 /* attention.svg */ = {isa = PBXFileReference; name = "attention.svg"; path = "../assets/icons/attention.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E51DCB9389934A7EA93170F5 /* chevron-right.svg */ = {isa = PBXFileReference; name = "chevron-right.svg"; path = "../assets/icons/chevron-right.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		259CE0144CBC48BFB8EEA5CE /* delete.png */ = {isa = PBXFileReference; name = "delete.png"; path = "../assets/icons/delete.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		079CE34961F84C219618F263 /* dots.svg */ = {isa = PBXFileReference; name = "dots.svg"; path = "../assets/icons/dots.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		FC7D6CEDCD5B4DDB946E7B07 /* edit.svg */ = {isa = PBXFileReference; name = "edit.svg"; path = "../assets/icons/edit.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		CF6BA9CF9665460689B83E4F /* email.svg */ = {isa = PBXFileReference; name = "email.svg"; path = "../assets/icons/email.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C498AC21DB2E4509AC189516 /* exit.svg */ = {isa = PBXFileReference; name = "exit.svg"; path = "../assets/icons/exit.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A932A8F1139E4CAA91BB094D /* home.svg */ = {isa = PBXFileReference; name = "home.svg"; path = "../assets/icons/home.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		05085BFB3BA947C39A163AF3 /* key.svg */ = {isa = PBXFileReference; name = "key.svg"; path = "../assets/icons/key.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		01D0B8A3E5B5473C825B78CF /* locked.svg */ = {isa = PBXFileReference; name = "locked.svg"; path = "../assets/icons/locked.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		BB6E1A57EEDB447EB78E7C84 /* logout.png */ = {isa = PBXFileReference; name = "logout.png"; path = "../assets/icons/logout.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		B33B117438714EA4AF8FB8E3 /* phone.svg */ = {isa = PBXFileReference; name = "phone.svg"; path = "../assets/icons/phone.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		08217500AAA640018AEFD229 /* play.svg */ = {isa = PBXFileReference; name = "play.svg"; path = "../assets/icons/play.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		1C003BD8FAB544A89C5BA59A /* trash.svg */ = {isa = PBXFileReference; name = "trash.svg"; path = "../assets/icons/trash.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		CCE6F099E4594795B8854ACD /* unlocked.svg */ = {isa = PBXFileReference; name = "unlocked.svg"; path = "../assets/icons/unlocked.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		208B85805FF6430386FC3599 /* user.svg */ = {isa = PBXFileReference; name = "user.svg"; path = "../assets/icons/user.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0E3051B0A3604DC7A6C54A11 /* training_background.png */ = {isa = PBXFileReference; name = "training_background.png"; path = "../assets/images/training_background.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		45A6FAAB146F4A529F497303 /* dumbbell.svg */ = {isa = PBXFileReference; name = "dumbbell.svg"; path = "../assets/icons/dumbbell.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A06263184F6948298E5C96A6 /* eye.svg */ = {isa = PBXFileReference; name = "eye.svg"; path = "../assets/icons/eye.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F77A63A0AA5C427790274773 /* rounds.svg */ = {isa = PBXFileReference; name = "rounds.svg"; path = "../assets/icons/rounds.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2BF78AD8A48949C2A75D7182 /* training_dumbbell.svg */ = {isa = PBXFileReference; name = "training_dumbbell.svg"; path = "../assets/icons/training_dumbbell.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7ABA5F6407454AF0933F6B13 /* training_material.svg */ = {isa = PBXFileReference; name = "training_material.svg"; path = "../assets/icons/training_material.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D9B19100630840E488A6E944 /* training_stats.svg */ = {isa = PBXFileReference; name = "training_stats.svg"; path = "../assets/icons/training_stats.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0A49EBD3B257457397E9FC6A /* training_video.svg */ = {isa = PBXFileReference; name = "training_video.svg"; path = "../assets/icons/training_video.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -337,16 +373,34 @@
 				8DD4CEFDE0B24539A1EAF997 /* Inter-Regular.ttf */,
 				9A5C68BA35FD4EA8B8387DC8 /* Inter-SemiBold.ttf */,
 				2322A4967A2E44C6A8D78FC0 /* Inter-Thin.ttf */,
-				E6EEC2A5748A423E98C83FE0 /* backgroung.jpg */,
-				3730BDCB117C4585ADACFA29 /* email.svg */,
-				65DDF17FC9D74CB68C27C6F9 /* home.svg */,
-				35E2BA71330449DD9F7E3B71 /* key.svg */,
-				F9901AE9B58C46A191640D19 /* phone.svg */,
-				2BDF9DC5A6EA4D15B3A34C81 /* user.svg */,
 				37807ED5CC224955AE074CDE /* AGaramondPro-Bold.otf */,
 				AE4C15EADE844ABAA86BD694 /* AGaramondPro-BoldItalic.otf */,
 				D0DCC560B6D44049A03E68F9 /* AGaramondPro-Italic.otf */,
 				79A170C8EAB048D6B6F3C7C9 /* AGaramondPro-Regular.otf */,
+				FD62E25384484784942FD338 /* attention.svg */,
+				E51DCB9389934A7EA93170F5 /* chevron-right.svg */,
+				259CE0144CBC48BFB8EEA5CE /* delete.png */,
+				079CE34961F84C219618F263 /* dots.svg */,
+				FC7D6CEDCD5B4DDB946E7B07 /* edit.svg */,
+				CF6BA9CF9665460689B83E4F /* email.svg */,
+				C498AC21DB2E4509AC189516 /* exit.svg */,
+				A932A8F1139E4CAA91BB094D /* home.svg */,
+				05085BFB3BA947C39A163AF3 /* key.svg */,
+				01D0B8A3E5B5473C825B78CF /* locked.svg */,
+				BB6E1A57EEDB447EB78E7C84 /* logout.png */,
+				B33B117438714EA4AF8FB8E3 /* phone.svg */,
+				08217500AAA640018AEFD229 /* play.svg */,
+				1C003BD8FAB544A89C5BA59A /* trash.svg */,
+				CCE6F099E4594795B8854ACD /* unlocked.svg */,
+				208B85805FF6430386FC3599 /* user.svg */,
+				0E3051B0A3604DC7A6C54A11 /* training_background.png */,
+				45A6FAAB146F4A529F497303 /* dumbbell.svg */,
+				A06263184F6948298E5C96A6 /* eye.svg */,
+				F77A63A0AA5C427790274773 /* rounds.svg */,
+				2BF78AD8A48949C2A75D7182 /* training_dumbbell.svg */,
+				7ABA5F6407454AF0933F6B13 /* training_material.svg */,
+				D9B19100630840E488A6E944 /* training_stats.svg */,
+				0A49EBD3B257457397E9FC6A /* training_video.svg */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -495,16 +549,34 @@
 				6C3945DC5BD24580A7D2D4A6 /* Inter-Regular.ttf in Resources */,
 				650C94361B614D8CAA2F1D95 /* Inter-SemiBold.ttf in Resources */,
 				CC2C45FC13BD4310BFA2DCA6 /* Inter-Thin.ttf in Resources */,
-				3AEB2B17196041E2B098889F /* backgroung.jpg in Resources */,
-				47538B6318784CE1A065F5D6 /* email.svg in Resources */,
-				3126B64B9DBF4822917B89C5 /* home.svg in Resources */,
-				43ABBF7FE62749DBB53B2763 /* key.svg in Resources */,
-				6CA07E64C324422985AAA735 /* phone.svg in Resources */,
-				1051E493357B498F868E9627 /* user.svg in Resources */,
 				E3B3481D415F45EEAD1807C5 /* AGaramondPro-Bold.otf in Resources */,
 				C4C2B3F41E6C4F27A4E652C8 /* AGaramondPro-BoldItalic.otf in Resources */,
 				951D5FA5E7F141D0B099A1F1 /* AGaramondPro-Italic.otf in Resources */,
 				EF332C7224B24385A0588731 /* AGaramondPro-Regular.otf in Resources */,
+				616CEDC0307945B68AEFADA8 /* attention.svg in Resources */,
+				DC0FD5447FF84629B11A130D /* chevron-right.svg in Resources */,
+				6062C7C018DE4C1E851166FE /* delete.png in Resources */,
+				D11714FC6FB54CFB9B3EB0E6 /* dots.svg in Resources */,
+				41AC0D180A044A30B6E9FBFF /* edit.svg in Resources */,
+				D37B945D6FFE494F95821DB1 /* email.svg in Resources */,
+				2B81E051511947E886849E83 /* exit.svg in Resources */,
+				E58494C4B9BA4C1AB760788C /* home.svg in Resources */,
+				B5DC9A1C05FB4D9892857B38 /* key.svg in Resources */,
+				BFD26A155AEF4FF19D63B6E3 /* locked.svg in Resources */,
+				877DC1AF82A540FC80F10D6F /* logout.png in Resources */,
+				662DEDAC2FEE4F1C8058EC55 /* phone.svg in Resources */,
+				9775EE5A8E2348168473C4B5 /* play.svg in Resources */,
+				BA403AA6B90C4F4B923CD270 /* trash.svg in Resources */,
+				BDE8C7E5482E46E1A3E1C025 /* unlocked.svg in Resources */,
+				967B2B4EE5DB45099AD51415 /* user.svg in Resources */,
+				EAE387D1C33A4C1DAEF386FF /* training_background.png in Resources */,
+				390CD26934954146BF2A0ED7 /* dumbbell.svg in Resources */,
+				249B222647BB4818B9A729FB /* eye.svg in Resources */,
+				94F942F9712A4524B54B2584 /* rounds.svg in Resources */,
+				76EE9DC695904E3781625DF1 /* training_dumbbell.svg in Resources */,
+				D24E951573A941D6992D999C /* training_material.svg in Resources */,
+				1991026588EB475392AA162A /* training_stats.svg in Resources */,
+				62AF691114CC4263835BFF70 /* training_video.svg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

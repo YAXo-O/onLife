@@ -76,8 +76,8 @@ export const WavyFormRow: React.FC<WavyFormRowProps> = (props: WavyFormRowProps)
 					value={props.value}
 					onChangeText={props.onChange}
 					placeholder={props.placeholder}
-					placeholderTextColor={props.error ? palette.light.red : palette.white['70']}
-					style={[typography.input, styles.input, props.error ? styles.error : null]}
+					placeholderTextColor={palette.white['70']}
+					style={[typography.input, styles.input]}
 					keyboardType={props.keyboardType}
 					textContentType={props.textContentType}
 					secureTextEntry={props.secureTextEntry}
@@ -140,9 +140,6 @@ const styles = StyleSheet.create({
 	input: {
 		paddingHorizontal: 0,
 		color: palette.white['90'],
-	},
-	error: {
-		color: palette.light.red,
 	},
 	iconContainer: {
 		width: 40,

@@ -3,7 +3,7 @@ import {
 	View,
 	StyleSheet,
 	ViewStyle,
-	StyleProp,
+	StyleProp, Text, TouchableOpacity, Linking,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 
@@ -19,11 +19,10 @@ import { palette } from '@app/styles/palette';
 
 import { logIn, LoginResponse } from '@app/services/Requests/AppRequests/UserRequests';
 import { Nullable } from '@app/objects/utility/Nullable';
+import { setAction as itemSetAction } from '@app/store/ItemState/ActionCreators';
 
 import Key from '@assets/icons/key.svg';
 import Email from '@assets/icons/email.svg';
-import { LocalActionCreators } from '@app/store/LocalState/ActionCreators';
-import { setAction as itemSetAction } from '@app/store/ItemState/ActionCreators';
 
 interface OwnProps {
 	style?: StyleProp<ViewStyle>;
@@ -49,6 +48,16 @@ const translation: Translator<FormValues> = {
 	password: 'Пароль',
 };
 
+const url = 'https://onlife.pro/privacy-policy';
+function openRules(): void {
+	Linking.canOpenURL(url)
+		.then((can: boolean) => {
+			if (can) {
+				return Linking.openURL(url);
+			}
+		})
+}
+
 export const SignIn: React.FC<OwnProps> = (props: OwnProps) => {
 	const dispatch = useDispatch();
 	const [error, setError] = React.useState<Nullable<string>>(() => null);
@@ -61,9 +70,7 @@ export const SignIn: React.FC<OwnProps> = (props: OwnProps) => {
 			.then((response: LoginResponse) => {
 				setError(null);
 
-				const factory = new LocalActionCreators('training');
 				dispatch(itemSetAction(response.client, 'user'));
-				dispatch(factory.set({ training: response.training }));
 			})
 			.catch((error: string | Error) => {
 				console.warn('<SignIn> login error: ', error);
@@ -91,7 +98,7 @@ export const SignIn: React.FC<OwnProps> = (props: OwnProps) => {
 								keyboardType="email-address"
 								textContentType="username"
 								placeholder="Email"
-								icon={<Email fillPrimary={data.errors.login ? palette.regular.red : palette.white['100']} />}
+								icon={<Email fillPrimary={palette.white['100']} />}
 								leading
 							/>
 							<WavyFormRow
@@ -102,11 +109,16 @@ export const SignIn: React.FC<OwnProps> = (props: OwnProps) => {
 								type={WavyFormRowType.Right}
 								placeholder="Пароль"
 								textContentType="password"
-								icon={<Key fillPrimary={data.errors.password ? palette.regular.red : palette.white['100']} />}
+								icon={<Key fillPrimary={palette.white['100']} />}
 								secureTextEntry
 								trailing
 							/>
 						</View>
+						<TouchableOpacity onPress={openRules}>
+							<Text style={styles.rules}>
+								Нажимая «Войти», я принимаю<Text style={styles.rulesHighlight}> Правила</Text> предоставления услуг
+							</Text>
+						</TouchableOpacity>
 						<View style={styles.actionContainer}>
 							<ActionButton
 								text="Войти"
@@ -124,5 +136,17 @@ const styles = StyleSheet.create({
 	actionContainer: {
 		marginHorizontal: 30,
 		marginBottom: 75,
+	},
+	rules: {
+		fontFamily: 'Inter-Regular',
+		color: palette.white['50'],
+		fontSize: 12,
+		lineHeight: 15,
+		paddingHorizontal: 30,
+		marginTop: 30,
+	},
+	rulesHighlight: {
+		fontFamily: 'Roboto',
+		color: palette.cyan['40'],
 	},
 });

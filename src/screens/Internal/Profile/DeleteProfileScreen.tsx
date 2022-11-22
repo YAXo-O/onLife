@@ -12,7 +12,7 @@ export const DeleteProfileScreen: React.FC = () => {
 	return (
 		<View style={styles.screen}>
 			<View style={styles.headerContainer}>
-				<Text style={[typography.header, styles.text]}>Удалить учётную запись</Text>
+				<Text style={[typography.modalTitle, styles.text]}>Удалить учётную запись</Text>
 			</View>
 			<View style={styles.textContainer}>
 				<Text style={[typography.text, styles.text]}>

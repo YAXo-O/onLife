@@ -60,7 +60,7 @@ const style = StyleSheet.create({
 	},
 	barLine: {
 		height: 3,
-		backgroundColor: palette.cyan['100'],
+		backgroundColor: palette.cyan['40'],
 		borderRadius: 1,
 	}
 });

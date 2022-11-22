@@ -1,6 +1,7 @@
 import { WithId } from './utility/WithId';
 import { Nullable } from './utility/Nullable';
 import { TrainingProgram } from './program/TrainingProgram';
+import { Training } from '@app/objects/training/Training';
 
 export enum Gender {
 	Male = 0,
@@ -22,4 +23,7 @@ export interface User extends WithId {
 
 	trainingProgramId: Nullable<string>;
 	trainingProgram: Nullable<TrainingProgram>;
+
+	training: Nullable<Training>;
+	trainingId: Nullable<string>;
 }

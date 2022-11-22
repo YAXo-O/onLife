@@ -1,311 +1,148 @@
 import * as React from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, FlatList } from 'react-native';
-import { useRoute } from '@react-navigation/native';
+import {
+	StyleSheet,
+	View,
+	FlatList,
+	ListRenderItemInfo,
+	Text,
+} from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { palette } from '@app/styles/palette';
+
+import { IState } from '@app/store/IState';
+import { TrainingBlock } from '@app/objects/training/TrainingBlock';
+
+import { TrainingDay } from '@app/objects/training/TrainingDay';
+import { withUser } from '@app/hooks/withUser';
 import { typography } from '@app/styles/typography';
 
+import { LocalActionCreators } from '@app/store/LocalState/ActionCreators';
+import { useNavigation } from '@react-navigation/native';
+import { Routes } from '@app/navigation/routes';
+
+import Eye from '@assets/icons/eye.svg';
 import Play from '@assets/icons/play.svg';
+import Hide from '@assets/icons/hide.svg';
+import { ActionButton } from '@app/components/buttons/ActionButton';
 
 enum AvailabilityStatus {
 	Available = 0,
 	Complete = 1,
-	Locked = 2,
-}
-
-interface CycleInfo {
-	id: string;
-	status: AvailabilityStatus;
-	days: Array<DayInfo>;
-}
-
-interface DayInfo {
-	id: string;
-	title: string;
-	status: AvailabilityStatus;
-}
-
-const info: Array<CycleInfo> = [
-	{
-		id: '0',
-		status: AvailabilityStatus.Complete,
-		days: [
-			{
-				id: '0',
-				title: 'Спина',
-				status: AvailabilityStatus.Complete,
-			},
-			{
-				id: '1',
-				title: 'Грудь',
-				status: AvailabilityStatus.Complete,
-			},
-			{
-				id: '2',
-				title: 'Плечи',
-				status: AvailabilityStatus.Complete,
-			},
-			{
-				id: '3',
-				title: 'Руки',
-				status: AvailabilityStatus.Complete,
-			},
-			{
-				id: '4',
-				title: 'Ноги',
-				status: AvailabilityStatus.Complete,
-			},
-		],
-	},
-	{
-		id: '1',
-		status: AvailabilityStatus.Available,
-		days: [
-			{
-				id: '0',
-				title: 'Спина',
-				status: AvailabilityStatus.Complete,
-			},
-			{
-				id: '1',
-				title: 'Грудь',
-				status: AvailabilityStatus.Complete,
-			},
-			{
-				id: '2',
-				title: 'Плечи',
-				status: AvailabilityStatus.Available,
-			},
-			{
-				id: '3',
-				title: 'Руки',
-				status: AvailabilityStatus.Available,
-			},
-			{
-				id: '4',
-				title: 'Ноги',
-				status: AvailabilityStatus.Available,
-			},
-		]
-	},
-	{
-		id: '2',
-		status: AvailabilityStatus.Locked,
-		days: [
-			{
-				id: '0',
-				title: 'Спина',
-				status: AvailabilityStatus.Locked,
-			},
-			{
-				id: '1',
-				title: 'Грудь',
-				status: AvailabilityStatus.Locked,
-			},
-			{
-				id: '2',
-				title: 'Плечи',
-				status: AvailabilityStatus.Locked,
-			},
-			{
-				id: '3',
-				title: 'Руки',
-				status: AvailabilityStatus.Locked,
-			},
-			{
-				id: '4',
-				title: 'Ноги',
-				status: AvailabilityStatus.Locked,
-			},
-		],
-	},
-	{
-		id: '3',
-		status: AvailabilityStatus.Locked,
-		days: [
-			{
-				id: '0',
-				title: 'Спина',
-				status: AvailabilityStatus.Locked,
-			},
-			{
-				id: '1',
-				title: 'Грудь',
-				status: AvailabilityStatus.Locked,
-			},
-			{
-				id: '2',
-				title: 'Плечи',
-				status: AvailabilityStatus.Locked,
-			},
-			{
-				id: '3',
-				title: 'Руки',
-				status: AvailabilityStatus.Locked,
-			},
-			{
-				id: '4',
-				title: 'Ноги',
-				status: AvailabilityStatus.Locked,
-			},
-		],
-	},
-	{
-		id: '4',
-		status: AvailabilityStatus.Locked,
-		days: [
-			{
-				id: '0',
-				title: 'Спина',
-				status: AvailabilityStatus.Locked,
-			},
-			{
-				id: '1',
-				title: 'Грудь',
-				status: AvailabilityStatus.Locked,
-			},
-			{
-				id: '2',
-				title: 'Плечи',
-				status: AvailabilityStatus.Locked,
-			},
-			{
-				id: '3',
-				title: 'Руки',
-				status: AvailabilityStatus.Locked,
-			},
-			{
-				id: '4',
-				title: 'Ноги',
-				status: AvailabilityStatus.Locked,
-			},
-		],
-	},
-];
-
-interface TabBarProps {
-	value: string;
-	onChange: (value: string) => void;
-}
-
-const TabBar: React.FC<TabBarProps> = (props: TabBarProps) => {
-	return (
-		<View style={styles.barContent}>
-			<ScrollView contentContainerStyle={styles.bar} horizontal>
-				{
-					info.map((item: CycleInfo, id: number) => (
-						<TouchableOpacity
-							style={[styles.barItem, item.id === props.value ? styles.barItemActive : undefined]}
-							key={item.id}
-							onPress={() => item.status !== AvailabilityStatus.Locked && props.onChange(item.id)}
-						>
-							<Text style={[typography.tabBar, styles.tabBarText]}>Блок {id + 1}</Text>
-						</TouchableOpacity>
-					))
-				}
-			</ScrollView>
-		</View>
-	);
+	Current = 2,
+	Locked = 3,
 }
 
 interface ListItemProps {
+	id: string;
 	title: string;
 	subtitle: string;
 	status: AvailabilityStatus;
 }
 
-const ListItem1: React.FC<ListItemProps> = (props: ListItemProps) => {
-	return (
-		<View style={styles.listItem}>
-			<View style={styles.row}>
-				<View>
-					<Text style={{ fontFamily: 'Inter-SemiBold', fontSize: 20, lineHeight: 28, color: 'black', }}>
-						{props.title}
-					</Text>
-					<Text style={{ fontFamily: 'Inter', fontSize: 13, lineHeight: 20, color: '#7188AC'}}>
-						{props.subtitle}
-					</Text>
-				</View>
-				<View style={styles.image}>
-					<Play width={8} height={10} />
-				</View>
-			</View>
-		</View>
-	);
-};
+function getIcon(status: AvailabilityStatus): React.ReactNode {
+	switch (status) {
+		case AvailabilityStatus.Available:
+			return <Eye/>;
 
-const ListItem2: React.FC<ListItemProps> = (props: ListItemProps) => {
-	return (
-		<View style={[styles.row, { paddingVertical: 8, paddingHorizontal: 14 }]}>
-			<Text>
-				<Text style={{ fontFamily: 'Inter-SemiBold', fontSize: 16, lineHeight: 20, color: 'black', }}>{props.title}. </Text>
-				<Text style={{ fontFamily: 'Inter', fontSize: 16, lineHeight: 20, color: 'black', }}>{props.subtitle}</Text>
-			</Text>
-			<View style={styles.image}>
-				<Play width={8} height={10} />
-			</View>
-		</View>
-	);
-};
+		case AvailabilityStatus.Complete:
+		case AvailabilityStatus.Current:
+			return <Play/>;
 
-const ListDesign1: React.FC<{id: string}> = (props) => {
-	return (
-		<FlatList
-			style={styles.list}
-			data={info.find(q => q.id === props.id)?.days ?? []}
-			keyExtractor={item => item.id}
-			renderItem={item => (
-				<ListItem1
-					title={`Тренировка ${item.index + 1}.`}
-					subtitle={item.item.title}
-					status={item.item.status}
-				/>
-			)}
-		/>
-	);
-};
+		case AvailabilityStatus.Locked:
+			return <Hide/>;
+	}
+}
 
-const ListDesign2: React.FC<{id: string}> = (props) => {
-	return (
-		<FlatList
-			style={styles.list}
-			data={info.find(q => q.id === props.id)?.days ?? []}
-			keyExtractor={item => item.id}
-			ItemSeparatorComponent={() => <View style={{ height: 2, backgroundColor: 'rgba(118, 118, 128, 0.12)', }} />}
-			renderItem={item => (
-				<ListItem2
-					title={`${item.index + 1}`}
-					subtitle={item.item.title}
-					status={item.item.status}
-				/>
-			)}
-		/>
-	);
+function getTrainings(block?: TrainingBlock): Array<ListItemProps> {
+	if (!block) return [];
+	if (!block.days?.length) return [];
+
+	let cur = block.days?.find((item: TrainingDay) => !item.time);
+	if (cur == null) {
+		cur = block.days[0];
+	}
+
+	return (block?.days ?? []).map((item: TrainingDay) => {
+		let status = AvailabilityStatus.Available;
+		if (!block.available) {
+			status = AvailabilityStatus.Locked;
+		} else if (item.order === cur!.order) {
+			status = AvailabilityStatus.Current;
+		} else if (item.time) {
+			status = AvailabilityStatus.Complete;
+		}
+
+		return {
+			id: item.id,
+			title: `${(item?.order ?? 0) + 1} тренировка`,
+			subtitle: item?.name ?? '',
+			status,
+		};
+	});
 }
 
 export const TrainingListScreen: React.FC = () => {
-	const route = useRoute();
-	const [id, setId] = React.useState<string>(() => route.params.id);
-	const [design, setDesign] = React.useState<0 | 1>(() => 0);
+	const info = useSelector((state: IState) => state.training.item);
+	const { user } = withUser();
+	const dispatch = useDispatch();
+	const { navigate } = useNavigation();
+
+	const blockId = info?.block;
+	if (!blockId) return null;
+
+	const block = user?.training?.blocks.find((item: TrainingBlock) => item.id === blockId);
+	if (!block) return null;
+
+	const onPress = (id: string) => {
+		const creator = new LocalActionCreators('training');
+		dispatch(creator.set({ day: id }));
+		navigate(Routes.TrainingView);
+	}
+
+	const render = (info: ListRenderItemInfo<ListItemProps>) => {
+		return (
+			<View style={styles.item}>
+				<View>
+					<Text style={[styles.title, typography.cardTitle]}>{info.item.title}</Text>
+					<Text style={[styles.subtitle, typography.placeholder]}>{info.item.subtitle}</Text>
+				</View>
+				<ActionButton
+					style={styles.icon}
+					onPress={() => onPress(info.item.id)}
+					disabled={!block.available}
+				>
+					<View style={styles.icon}>
+						{getIcon(info.item.status)}
+					</View>
+				</ActionButton>
+			</View>
+		);
+	};
 
 	return (
 		<View style={styles.screen}>
-			<TabBar value={id} onChange={setId} />
-			{ design === 0 ? <ListDesign1 id={id} /> : <ListDesign2 id={id} /> }
-			<View style={[styles.row, { margin: 16 }]}>
-				<TouchableOpacity
-					onPress={() => setDesign(0)}
-					style={{ borderBottomWidth: design === 0 ? 2 : 0, borderStyle: 'solid', paddingVertical: 2, borderColor: palette.blue['0'], }}
-				>
-					<Text style={{ color: palette.blue['0'] }}>Вариант 1</Text>
-				</TouchableOpacity>
-				<TouchableOpacity
-					onPress={() => setDesign(1)}
-					style={{ borderBottomWidth: design === 1 ? 2 : 0, borderStyle: 'solid', paddingVertical: 2, borderColor:palette.blue['0'],  }}
-				>
-					<Text style={{ color: palette.blue['0'] }}>Вариант 2</Text>
-				</TouchableOpacity>
-			</View>
+			<FlatList
+				data={getTrainings(block)}
+				renderItem={render}
+				ListHeaderComponent={() => (
+					<View
+						style={styles.header}
+					>
+						<Text
+							style={[
+								styles.title,
+								typography.cardMediumTitle,
+							]}
+						>
+							Блок тренировок №{block.order + 1}
+						</Text>
+					</View>
+				)}
+				keyExtractor={item => item.id}
+				style={styles.container}
+				ItemSeparatorComponent={() => <View style={{ height: 16, }} />}
+			/>
 		</View>
 	);
 };
@@ -315,50 +152,33 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: palette.white['100'],
 	},
-	bar: {
-		flexDirection: 'row',
+	header: {
+		paddingHorizontal: 18,
+		paddingTop: 12,
+		paddingBottom: 24,
 	},
-	barContent: {
-		padding: 4,
-		height: 32,
-		backgroundColor: 'rgba(118, 118, 128, 0.12)',
-		borderRadius: 8,
-		margin: 8,
+	container: {
+		margin: 10,
 	},
-	barItem: {
-		justifyContent: 'center',
-		alignItems: 'center',
-		minWidth: 128,
-		paddingHorizontal: 12,
-	},
-	barItemActive: {
-		borderRadius: 8,
-		backgroundColor: palette.white['100'],
-	},
-	tabBarText: {
-		color: palette.white['0'],
-	},
-	list: {
-		marginHorizontal: 8,
-	},
-	listItem: {
+	item: {
+		paddingVertical: 12,
+		paddingLeft: 18,
+		paddingRight: 14,
 		backgroundColor: '#F3F2F7B2',
-		marginVertical: 8,
-		paddingHorizontal: 16,
-		paddingVertical: 8,
 		borderRadius: 10,
-	},
-	row: {
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'space-between',
 	},
-	image: {
+	title: {
+		color: palette.blue['0'],
+	},
+	subtitle: {
+		color: palette.blue['50'],
+	},
+	icon: {
 		width: 40,
 		height: 40,
-		backgroundColor: palette.cyan['40'],
-		borderRadius: 10,
-		overflow: 'hidden',
 		alignItems: 'center',
 		justifyContent: 'center',
 	},

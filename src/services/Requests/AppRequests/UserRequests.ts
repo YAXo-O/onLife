@@ -1,12 +1,10 @@
-import { User, Gender } from '../../../objects/User';
-import { RequestManager } from '../RequestService';
-import { Training } from '../../../objects/training/Training';
-import {
-	TrainingProgram,
-	TrainingProgramDay,
-	TrainingProgramDayExercise
-} from '../../../objects/program/TrainingProgram';
-import { Nullable } from '../../../objects/utility/Nullable';
+import { User, Gender } from '@app/objects/User';
+import { RequestManager } from '@app/services/Requests/RequestService';
+import { Training } from '@app/objects/training/Training';
+import { Nullable } from '@app/objects/utility/Nullable';
+import { OrderService } from '@app/services/Utilities/OrderService';
+import { TrainingRound } from '@app/objects/training/TrainingRound';
+import { TrainingExercise } from '@app/objects/training/TrainingExercise';
 
 export interface LoginResponse {
 	client: User;
@@ -27,30 +25,12 @@ interface RegisterModel {
 	birthDate: number;
 }
 
-interface IWithOrder {
-	order: number;
-}
+function order(program: Nullable<Training>): Nullable<Training> {
+	if (!program) return null;
 
-function sortDays(a: TrainingProgramDay, b: TrainingProgramDay): number {
-	if (a.cycle !== b.cycle) return a.cycle - b.cycle;
-
-	return a.order - b.order;
-}
-
-function sort(a: IWithOrder, b: IWithOrder): number {
-	return a.order - b.order;
-}
-
-function order(program: Nullable<TrainingProgram>): Nullable<TrainingProgram> {
-	if (program?.days) {
-		program.days.sort(sortDays);
-		program.days.forEach((day: TrainingProgramDay) => {
-			day.exercises.sort(sort);
-			day.exercises.forEach((exc: TrainingProgramDayExercise) => {
-				exc.rounds.sort(sort);
-			});
-		});
-	}
+	program.blocks = OrderService.sort(program.blocks, 20);
+	console.log(program.blocks[0].days[0].exercises.map((item: TrainingExercise) => ({ order: item.order, exercise: item.exercise?.name ?? '-' })));
+	console.log(program.blocks[0].days[0].exercises[0].rounds.map((item: TrainingRound) => ({ order: item.order, repeats: item.repeats })));
 
 	return program;
 }
@@ -61,7 +41,7 @@ export function logIn(email: string, password: string): Promise<LoginResponse> {
 	return service.withBody({ email, password })
 		.post<LoginResponse>()
 		.then((response: LoginResponse) => {
-			order(response.client.trainingProgram);
+			order(response.client?.training);
 
 			return response;
 		});
@@ -76,7 +56,12 @@ export function register(model: RegisterModel): Promise<User> {
 export function getUser(): Promise<User> {
 	const service = new RequestManager('app/login');
 
-	return service.get<User>();
+	return service.get<User>()
+		.then((item: User) => {
+			order(item?.training);
+
+			return item;
+		});
 }
 
 export function removeUser(): Promise<void> {

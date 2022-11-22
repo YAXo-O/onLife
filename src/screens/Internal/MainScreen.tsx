@@ -1,17 +1,35 @@
 import * as React from 'react';
+import { useNavigation } from '@react-navigation/native';
 import {
-	StyleSheet, View,
+	StyleSheet,
+	View,
 } from 'react-native';
+import { useDispatch } from 'react-redux';
 
 import { palette } from '@app/styles/palette';
 import { UserCard } from '@app/components/cards/user/UserCard';
 import { CycleCollection } from '@app/components/collections/cycles/CycleCollection';
+import { Routes } from '@app/navigation/routes';
+import { LocalActionCreators } from '@app/store/LocalState/ActionCreators';
 
 export const MainScreen: React.FC = () => {
+	const { navigate } = useNavigation();
+	const dispatch = useDispatch();
+
+	const onPress = (id?: string) => {
+		const creator = new LocalActionCreators('training');
+		dispatch(creator.set({ block: id }));
+
+		if (id) {
+			navigate(Routes.TrainingList);
+		}
+	}
+
 	return (
 		<View style={styles.screen}>
 			<CycleCollection
 				header={<UserCard style={styles.card} />}
+				onPress={onPress}
 			/>
 		</View>
 	);

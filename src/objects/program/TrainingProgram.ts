@@ -2,22 +2,10 @@ import { Nullable } from '../utility/Nullable';
 import { WithId } from '../utility/WithId';
 import { Exercise } from './Exercise';
 
-export interface TrainingProgramDay extends WithId {
-	name: string;
-	description: string;
-
-	trainingProgram: Nullable<TrainingProgram>;
-	trainingProgramId: string;
-
-	order: number;
-	cycle: number;
-
-	exercises: Array<TrainingProgramDayExercise>;
-}
-
-export enum ExerciseRoundType {
-	Regular = 0,
-	DropSet = 1,
+export enum TrainingProgramType
+{
+	Regular = 0, // Regular coach-guided training
+	Marathon = 1, // A marathon training
 }
 
 export interface ExerciseRoundParams extends WithId {
@@ -27,7 +15,9 @@ export interface ExerciseRoundParams extends WithId {
 	weight: string;
 	interval: number;
 
-	type: ExerciseRoundType;
+	parent: Nullable<ExerciseRoundParams>;
+	parentId: Nullable<string>;
+	children: Nullable<Array<ExerciseRoundParams>>;
 }
 
 export interface TrainingProgramDayExercise extends WithId {
@@ -39,8 +29,32 @@ export interface TrainingProgramDayExercise extends WithId {
 	trainingProgramDay: Nullable<TrainingProgramDay>;
 	trainingProgramDayId: string;
 
-	isSuperset: boolean;
+	parent: Nullable<TrainingProgramDayExercise>;
+	parentId: Nullable<string>;
+	children: Nullable<Array<TrainingProgramDayExercise>>;
+
 	rounds: Array<ExerciseRoundParams>;
+}
+
+export interface TrainingProgramDay extends WithId {
+	name: string;
+	description: string;
+
+	trainingProgramBlock: Nullable<TrainingProgramBlock>;
+	trainingProgramBlockId: string;
+
+	order: number;
+	exercises: Array<TrainingProgramDayExercise>;
+}
+
+export interface TrainingProgramBlock extends WithId {
+	order: number;
+	description: string;
+
+	trainingProgram: Nullable<TrainingProgram>;
+	trainingProgramId: string;
+
+	days: Array<TrainingProgramDay>;
 }
 
 export interface TrainingProgram extends WithId {
@@ -48,8 +62,8 @@ export interface TrainingProgram extends WithId {
 	description: string;
 
 	draft: boolean;
-	cycles: number;
-
 	createdDate: number;
-	days: Array<TrainingProgramDay>;
+	type: TrainingProgramType;
+
+	blocks: Array<TrainingProgramBlock>;
 }

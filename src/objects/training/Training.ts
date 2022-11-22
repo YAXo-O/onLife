@@ -1,10 +1,22 @@
-import { WithId } from '../utility/WithId';
-import { Nullable } from '../utility/Nullable';
-import { TrainingDay } from './TrainingDay';
+import { WithId } from '@app/objects/utility/WithId';
+import { TrainingProgramType, TrainingProgram } from '@app/objects/program/TrainingProgram';
+import { User } from '@app/objects/User';
+import { Nullable } from '@app/objects/utility/Nullable';
+import { TrainingBlock } from '@app/objects/training/TrainingBlock';
 
 export interface Training extends WithId {
-	programId: string;
-	time: Nullable<number>;
+	name: string;
+	description: string;
+	type: TrainingProgramType;
 
-	days: Array<TrainingDay>;
+	client: Nullable<User>;
+	clientId: string;
+
+	program: Nullable<TrainingProgram>;
+	programId: string;
+
+	blocks: Array<TrainingBlock>;
+
+	time: Nullable<number>;
+	created: number;
 }

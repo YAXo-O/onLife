@@ -1,8 +1,9 @@
-import { Training } from '../objects/training/Training';
+import { Nullable } from '@app/objects/utility/Nullable';
+import { Training } from '@app/objects/training/Training';
 
 export interface CurrentTraining {
-	cycle: number;
-	day: string;
+	block: Nullable<string>;
+	day: Nullable<string>;
 
 	training: Training;
 }

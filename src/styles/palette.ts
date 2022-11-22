@@ -44,7 +44,7 @@ export const palette: Palette = {
 		red: '#FAA',
 	},
 	regular: {
-		red: '#A00',
+		red: '#FF1A1A',
 		green: '#88D026',
 	},
 	white: {
