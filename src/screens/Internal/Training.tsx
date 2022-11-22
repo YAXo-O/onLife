@@ -9,10 +9,11 @@ import {
 	TouchableOpacity,
 	TextInput,
 	KeyboardAvoidingView,
-	ScrollView, useWindowDimensions,
+	ScrollView,
 } from 'react-native';
 import { useSelector } from 'react-redux';
-import Video from 'react-native-video-controls';
+import VideoPlayer from 'react-native-video-controls';
+import WebView from 'react-native-autoheight-webview';
 
 import { palette } from '@app/styles/palette';
 import { typography } from '@app/styles/typography';
@@ -34,6 +35,7 @@ import TrainingVideo from '@assets/icons/training_video.svg';
 import TrainingMaterial from '@assets/icons/training_material.svg';
 import TrainingStats from '@assets/icons/training_stats.svg';
 import { WithOrder } from '@app/objects/utility/WithOrder';
+import { ImageFit } from '@app/components/image/ImageFit';
 
 function getList(training: Nullable<Training> | undefined, info: Nullable<CurrentTraining> | undefined): Array<TrainingExercise> {
 	if (!training || !info) return [];
@@ -63,10 +65,30 @@ enum ExerciseTab {
 interface TabsProps {
 	tab: ExerciseTab;
 	item?: Nullable<TrainingExercise>;
+	training?: Nullable<Training>;
+}
+
+function getStats(training: Nullable<Training> | undefined, exerciseId: Nullable<string> | undefined): Array<TrainingExercise> {
+	if (!training || !exerciseId) return [];
+
+	const result: Array<TrainingExercise> = [];
+
+	training.blocks.forEach((block: TrainingBlock) => {
+		block.days.forEach((day: TrainingDay) => {
+			day.exercises.forEach((exercise: TrainingExercise) => {
+				if (exercise.exerciseId === exerciseId) {
+					result.push(exercise);
+				}
+			});
+		});
+	});
+
+	return result;
 }
 
 const Tabs: React.FC<TabsProps> = (props: TabsProps) => {
 	const current = props.item;
+	const [height, setHeight] = React.useState<number | undefined>(() => undefined);
 
 	switch (props.tab) {
 		case ExerciseTab.Training:
@@ -74,12 +96,13 @@ const Tabs: React.FC<TabsProps> = (props: TabsProps) => {
 				<View>
 					<Text
 						style={{
-							fontFamily: 'Inter-SemiBold',
+							fontFamily: 'Inter-Medium',
 							lineHeight: 24,
 							fontSize: 20,
 							color: '#000',
 							marginBottom: 30,
 							paddingHorizontal: 22,
+							textAlign: 'center',
 						}}
 					>
 						{current?.exercise?.name}
@@ -135,9 +158,12 @@ const Tabs: React.FC<TabsProps> = (props: TabsProps) => {
 												fontFamily: 'Inter-Light',
 												fontSize: 20,
 												lineHeight: 24,
-												color: '#000'
+												color: '#000',
+												textAlign: 'center',
 											}}
-										>{item.item.repeats}</Text>
+										>
+											{item.item.repeats}
+										</Text>
 									</View>
 									<Text
 										style={{
@@ -171,6 +197,7 @@ const Tabs: React.FC<TabsProps> = (props: TabsProps) => {
 											backgroundColor: '#fff',
 											alignItems: 'center',
 											justifyContent: 'center',
+											textAlign: 'center',
 											paddingHorizontal: 22,
 											paddingVertical: 13,
 											marginHorizontal: 10,
@@ -217,20 +244,27 @@ const Tabs: React.FC<TabsProps> = (props: TabsProps) => {
 			);
 
 		case ExerciseTab.Video:
-			const source = current?.exercise?.video;
+			const video = current?.exercise?.video;
 
 			return (
-				<View style={{ padding: 22 }}>
+				<View style={{ paddingHorizontal: 22 }}>
 					{
-						source ? (
-							<Video
-								source={{ uri: source }}
-							/>
+						video ? (
+							<View style={{
+								padding: 0,
+								marginBottom: 10,
+								width: '100%',
+								aspectRatio: 16 / 9,
+							}}>
+								<VideoPlayer
+									style={styles.video}
+									source={{ uri: video }}
+									resizeMode="contain"
+									playInBackground
+								/>
+							</View>
 						) : null
 					}
-					<Text style={{ color: '#000' }}>
-						{source}
-					</Text>
 					<View>
 						<Text style={{ color: '#000', fontFamily: 'Inter-Medium', fontSize: 16, lineHeight: 24 }}>
 							{current?.exercise?.name ?? 'Упражнение'}
@@ -240,17 +274,156 @@ const Tabs: React.FC<TabsProps> = (props: TabsProps) => {
 			);
 
 		case ExerciseTab.Material:
-			return null;
+			const image = current?.exercise?.image;
+			const text = current?.exercise?.description ?? '';
+
+			return (
+				<View style={{ paddingHorizontal: 22 }}>
+					<Text
+						style={{
+							color: '#000',
+							fontFamily: 'Inter-Medium',
+							fontSize: 20,
+							lineHeight: 24,
+							textAlign: 'center',
+						}}
+					>
+						{current?.exercise?.name ?? 'Упражнение'}
+					</Text>
+					{
+						image ? (
+							<ImageFit
+								source={{
+									uri: image
+								}}
+								style={{
+									marginTop: 15,
+									width: '100%',
+								}}
+							/>
+						) : null
+					}
+					{
+						text ? (
+							<View style={{ width: '100%', height, marginVertical: 25 }}>
+								<WebView
+									style={{
+										backgroundColor: 'transparent',
+										width: '100%',
+									}}
+									source={{ html: text, baseUrl: '', }}
+									originWhitelist={['*']}
+									onSizeUpdated={({ height }) => setHeight(height)}
+									javaScriptEnabled={true}
+									scrollEnabled={false}
+									scalesPageToFit={false}
+									automaticallyAdjustContentInsets={false}
+									viewportContent="width=device-width, user-scalable=no"
+								/>
+							</View>
+						) : null
+					}
+					<View style={{ height: 25 }} />
+				</View>
+			);
 
 		case ExerciseTab.Stats:
-			return null;
+			return (
+				<FlatList
+					snapToInterval={335}
+					snapToAlignment="start"
+					decelerationRate="fast"
+					contentContainerStyle={styles.setCollection}
+					showsHorizontalScrollIndicator={false}
+					data={getStats(props.training, props.item?.exerciseId)}
+					renderItem={(item: ListRenderItemInfo<TrainingExercise>) => (
+						<View
+							style={{
+								backgroundColor: palette.cyan['40'],
+								borderRadius: 8,
+								width: 320,
+							}}
+						>
+							<View
+								style={{
+									backgroundColor: '#F2F4F7',
+									borderRadius: 8,
+									marginLeft: 24,
+								}}
+							>
+								<Text
+									style={{
+										color: '#112A50',
+										fontSize: 16,
+										lineHeight: 20,
+										marginHorizontal: 15,
+										marginTop: 15,
+									}}
+								>
+									{item.item.exercise?.name ?? '-'}
+								</Text>
+								<View
+									style={{
+										marginHorizontal: 40,
+										marginVertical: 15,
+										flexDirection: 'row',
+										flexWrap: 'wrap',
+									}}
+								>
+									{
+										item.item.rounds.map((round: TrainingRound, index: number) => (
+											<View
+												key={round.id}
+												style={{
+													flexDirection: 'column',
+													marginLeft: index % 2 === 0 ? undefined : 30,
+													marginTop: index <= 1 ? undefined : 20,
+													width: 90,
+													overflow: 'hidden',
+												}}
+											>
+												<Text
+													style={{
+														color: '#112A50BF',
+														fontFamily: 'Inter-Regular',
+														fontSize: 14,
+														lineHeight: 22,
+													}}
+												>
+													{round.order + 1}-й подход
+												</Text>
+												<View
+													style={{
+														backgroundColor: '#fff',
+														borderRadius: 8,
+														alignItems: 'center',
+														justifyContent: 'center',
+														width: 90,
+														height: 40,
+													}}
+												>
+													<Text>
+														{round.performedWeight ?? ''}{round.performedWeight ? ' кг' : ''}
+													</Text>
+												</View>
+											</View>
+										))
+									}
+								</View>
+							</View>
+						</View>
+					)}
+					keyExtractor={(item: TrainingExercise) => item.id}
+					ItemSeparatorComponent={() => <View style={{ width: 15 }} />}
+					horizontal
+				/>
+			);
 	}
 };
 
 export const TrainingScreen: React.FC = () => {
 	const { user } = withUser();
 	const info = useSelector((state: IState) => state.training.item);
-	const height = useWindowDimensions().height;
 
 	const list: Array<TrainingExercise> = getList(user?.training, info);
 	const [value, setValue] = React.useState(() => list[0].id);
@@ -304,17 +477,15 @@ export const TrainingScreen: React.FC = () => {
 					<Text style={[styles.placeholderText]}>* не забудьте завершить тренировку</Text>
 				</View>
 			</ImageBackground>
-			<View style={{ height: 60 }} />
-			<KeyboardAvoidingView>
+			<KeyboardAvoidingView behavior="padding">
 				<ScrollView
 					showsVerticalScrollIndicator={false}
-					style={{ paddingTop: 120 }}
+					style={{ marginTop: -10, }}
 					contentContainerStyle={{
-						paddingBottom: 25,
 						backgroundColor: 'transparent',
 					}}
 				>
-					<View style={[styles.bottom, { height: height - 180, }]}>
+					<View style={[styles.bottom, { minHeight: '100%' }]}>
 						<View style={styles.row}>
 							<TouchableOpacity
 								style={styles.bullet}
@@ -348,7 +519,10 @@ export const TrainingScreen: React.FC = () => {
 								</View>
 								<Text style={styles.bulletText}>Видео</Text>
 							</TouchableOpacity>
-							<TouchableOpacity style={styles.bullet}>
+							<TouchableOpacity
+								style={styles.bullet}
+								onPress={() => setTab(ExerciseTab.Material)}
+							>
 								<View
 									style={[
 										styles.bulletIcon,
@@ -361,7 +535,10 @@ export const TrainingScreen: React.FC = () => {
 								</View>
 								<Text style={styles.bulletText}>Техника</Text>
 							</TouchableOpacity>
-							<TouchableOpacity style={styles.bullet}>
+							<TouchableOpacity
+								style={styles.bullet}
+								onPress={() => setTab(ExerciseTab.Stats)}
+							>
 								<View
 									style={[
 										styles.bulletIcon,
@@ -376,11 +553,12 @@ export const TrainingScreen: React.FC = () => {
 							</TouchableOpacity>
 						</View>
 						<View style={styles.container}>
-							<Tabs tab={tab} item={current} />
+							<Tabs tab={tab} item={current} training={user?.training} />
 						</View>
 					</View>
 				</ScrollView>
 			</KeyboardAvoidingView>
+			<View style={{ backgroundColor: 'white', flex: 1 }} />
 		</View>
 	);
 };
@@ -391,7 +569,7 @@ const styles = StyleSheet.create({
 	},
 	top: {
 		height: 190,
-		position: 'absolute',
+		// position: 'absolute',
 		left: 0,
 		right: 0,
 		top: 0,
@@ -476,5 +654,11 @@ const styles = StyleSheet.create({
 		padding: 20,
 		borderRadius: 8,
 		width: 300,
+	},
+	video: {
+		width: '100%',
+		height: 200,
+		backgroundColor: 'black',
+		borderRadius: 8,
 	},
 });
