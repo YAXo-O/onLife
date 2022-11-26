@@ -43,12 +43,8 @@ interface BodyDescriptor {
 const config = {
 	backend: {
 		protocol: 'http',
-		host: '192.168.43.219',
+		host: '192.168.1.4',
 		port: '5000',
-		// protocol: 'http',
-		// host: '192.168.1.2',
-		// port: '5000',
-		// host: '100.65.86.140',
 		// protocol: 'https',
 		// host: 'api.onlife.pro',
 		// port: '',
@@ -71,6 +67,7 @@ export class RequestManager {
 
 	private state: RequestState = RequestState.Idle;
 	private responseType: ResponseType = ResponseType.JSON;
+	private timeout: number = 10000; // Time in ms before request fails
 
 	protected get queryString(): string {
 		return Object.keys(this.query)
@@ -163,13 +160,17 @@ export class RequestManager {
 
 		try {
 			const token = await this.setCredentials();
+			const controller = new AbortController();
+			const id = setTimeout(controller.abort.bind(controller), this.timeout);
 
 			const response = await fetch(this.url, {
 				method,
 				credentials: 'include',
 				headers: this.headers,
 				body: this.getBody(),
+				signal: controller.signal,
 			});
+			clearTimeout(id);
 
 			if (!response.ok) {
 				const text = await response.text();

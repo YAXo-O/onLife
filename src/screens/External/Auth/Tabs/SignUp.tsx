@@ -1,16 +1,7 @@
 import * as React from 'react';
-import {
-	View,
-	ScrollView,
-	Text,
-	TouchableOpacity,
-	StyleSheet,
-	StyleProp,
-	ViewStyle,
-	Linking,
-} from 'react-native';
+import { View, ScrollView, Text, TouchableOpacity, StyleSheet, StyleProp, ViewStyle, Linking, } from 'react-native';
 
-import { Formik, FormikProps } from 'formik';
+import { Formik, FormikProps, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 
 import { palette } from '@app/styles/palette';
@@ -23,8 +14,10 @@ import User from '@assets/icons/user.svg';
 import Email from '@assets/icons/email.svg';
 import Phone from '@assets/icons/phone.svg';
 import Key from '@assets/icons/key.svg';
-import { AlertBox } from '@app/components/alertbox/AlertBox';
-import { Translator } from '@app/utils/validation';
+import { AlertBox, AlertType } from '@app/components/alertbox/AlertBox';
+import { Translator, toString } from '@app/utils/validation';
+import { Nullable } from '@app/objects/utility/Nullable';
+import { register } from '@app/services/Requests/AppRequests/UserRequests';
 
 interface OwnProps {
 	style?: StyleProp<ViewStyle>;
@@ -73,10 +66,24 @@ function openRules(): void {
 }
 
 export const SignUp: React.FC<OwnProps> = (props: OwnProps) => {
-	const { start } = useLoader();
+	const [error, setError] = React.useState<Nullable<string>>(() => null);
+	const [message, setMessage] = React.useState<Nullable<string>>(() => null);
+	const { start, finish } = useLoader();
 
-	const submit = () => {
+	const submit = (values: FormValues, helpers: FormikHelpers<FormValues>) => {
 		start();
+
+		register(values)
+			.then(() => {
+				setError(null);
+				setMessage('Теперь вы можете авторизоваться, используя указанные при регистрации email и пароль');
+				helpers.resetForm();
+			})
+			.catch((error: string | Error) => {
+				console.warn('<SignUp> register error: ', error);
+				setError(toString(error));
+			})
+			.finally(finish);
 	};
 
 	return (
@@ -92,7 +99,7 @@ export const SignUp: React.FC<OwnProps> = (props: OwnProps) => {
 							<WavyFormRow
 								value={data.values.lastName}
 								error={data.errors.lastName}
-								onChange={data.handleChange('lastName')}
+								onChange={(value: string) => data.setFieldValue('lastName', value, false)}
 								onBlur={data.handleBlur('lastName')}
 								type={WavyFormRowType.Left}
 								placeholder="Фамилия"
@@ -103,7 +110,7 @@ export const SignUp: React.FC<OwnProps> = (props: OwnProps) => {
 							<WavyFormRow
 								value={data.values.firstName}
 								error={data.errors.firstName}
-								onChange={data.handleChange('firstName')}
+								onChange={(value: string) => data.setFieldValue('firstName', value, false)}
 								onBlur={data.handleBlur('firstName')}
 								type={WavyFormRowType.Right}
 								placeholder="Имя"
@@ -113,7 +120,7 @@ export const SignUp: React.FC<OwnProps> = (props: OwnProps) => {
 							<WavyFormRow
 								value={data.values.email}
 								error={data.errors.email}
-								onChange={data.handleChange('email')}
+								onChange={(value: string) => data.setFieldValue('email', value, false)}
 								onBlur={data.handleBlur('email')}
 								type={WavyFormRowType.Left}
 								placeholder="Email"
@@ -124,7 +131,7 @@ export const SignUp: React.FC<OwnProps> = (props: OwnProps) => {
 							<WavyFormRow
 								value={data.values.phone}
 								error={data.errors.phone}
-								onChange={data.handleChange('phone')}
+								onChange={(value: string) => data.setFieldValue('phone', value, false)}
 								onBlur={data.handleBlur('phone')}
 								type={WavyFormRowType.Right}
 								placeholder="Телефон"
@@ -135,7 +142,7 @@ export const SignUp: React.FC<OwnProps> = (props: OwnProps) => {
 							<WavyFormRow
 								value={data.values.password}
 								error={data.errors.password}
-								onChange={data.handleChange('password')}
+								onChange={(value: string) => data.setFieldValue('password', value, false)}
 								onBlur={data.handleBlur('password')}
 								type={WavyFormRowType.Left}
 								placeholder="Создать пароль"
@@ -157,7 +164,18 @@ export const SignUp: React.FC<OwnProps> = (props: OwnProps) => {
 								onPress={data.handleSubmit}
 							/>
 						</View>
-						<AlertBox message={data.errors} translation={translation} />
+						<AlertBox
+							key={data.submitCount ?? -1}
+							title="Ошибка регистрации"
+							type={AlertType.error}
+							message={data.errors || error}
+							translation={translation}
+						/>
+						<AlertBox
+							title="Пользователь зарегистрирован"
+							message={message}
+							type={AlertType.info}
+						/>
 					</View>
 				)
 			}

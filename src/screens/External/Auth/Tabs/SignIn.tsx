@@ -13,7 +13,7 @@ import * as Yup from 'yup';
 import { WavyFormRow, WavyFormRowType } from '@app/components/form/WavyForm';
 import { ActionButton } from '@app/components/buttons/ActionButton';
 import { useLoader } from '@app/hooks/useLoader';
-import { AlertBox } from '@app/components/alertbox/AlertBox';
+import { AlertBox, AlertType } from '@app/components/alertbox/AlertBox';
 import { Translator, toString } from '@app/utils/validation';
 import { palette } from '@app/styles/palette';
 
@@ -124,7 +124,13 @@ export const SignIn: React.FC<OwnProps> = (props: OwnProps) => {
 								text="Войти"
 								onPress={data.handleSubmit} />
 						</View>
-						<AlertBox message={error ?? data.errors} translation={translation} />
+						<AlertBox
+							key={data.submitCount ?? -1}
+							title="Ошибка авторизации"
+							type={AlertType.error}
+							message={error ?? data.errors}
+							translation={translation}
+						/>
 					</View>
 				)
 			}

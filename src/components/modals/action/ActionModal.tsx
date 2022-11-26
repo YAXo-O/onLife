@@ -1,11 +1,18 @@
 import * as React from 'react';
 import { Modal, StyleSheet, View } from 'react-native';
+
 import { palette } from '@app/styles/palette';
+
+export enum ActionModalType {
+	Floating = 0,
+	Docked = 1,
+}
 
 interface OwnProps {
 	children?: React.ReactNode;
 	visible: boolean;
 	onChange: (visible: boolean) => void;
+	type?: ActionModalType;
 }
 
 export const ActionModal: React.FC<OwnProps> = (props: OwnProps) => {
@@ -17,7 +24,7 @@ export const ActionModal: React.FC<OwnProps> = (props: OwnProps) => {
 			transparent
 		>
 			<View style={styles.container}>
-				<View style={styles.card}>
+				<View style={[styles.card, props.type === ActionModalType.Docked ? styles.docked : styles.floating]}>
 					{props.children}
 				</View>
 			</View>
@@ -37,8 +44,18 @@ const styles = StyleSheet.create({
 	},
 	card: {
 		backgroundColor: palette.white['100'],
-		borderRadius: 10,
 		paddingHorizontal: 25,
 		paddingVertical: 30,
+	},
+	floating: {
+		borderRadius: 15,
+	},
+	docked: {
+		position: 'absolute',
+		left: 0,
+		right: 0,
+		bottom: 0,
+		borderTopLeftRadius: 15,
+		borderTopRightRadius: 15,
 	},
 });

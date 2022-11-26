@@ -1,5 +1,5 @@
-import { User, Gender } from '@app/objects/User';
-import { RequestManager } from '@app/services/Requests/RequestService';
+import { User } from '@app/objects/User';
+import { RequestManager, ResponseType } from '@app/services/Requests/RequestService';
 import { Training } from '@app/objects/training/Training';
 import { Nullable } from '@app/objects/utility/Nullable';
 import { OrderService } from '@app/services/Utilities/OrderService';
@@ -13,16 +13,11 @@ export interface LoginResponse {
 
 interface RegisterModel {
 	email: string;
+	phone: string;
 	password: string;
 
 	firstName: string;
 	lastName: string;
-
-	height: number;
-	weight: number;
-
-	gender: Gender;
-	birthDate: number;
 }
 
 function order(program: Nullable<Training>): Nullable<Training> {
@@ -47,10 +42,12 @@ export function logIn(email: string, password: string): Promise<LoginResponse> {
 		});
 }
 
-export function register(model: RegisterModel): Promise<User> {
+export function register(model: RegisterModel): Promise<void> {
 	const service = new RequestManager('app/login/sign-up');
 
-	return service.withBody(model).post<User>();
+	return service.withResponse(ResponseType.None)
+		.withBody(model)
+		.post<void>();
 }
 
 export function getUser(): Promise<User> {

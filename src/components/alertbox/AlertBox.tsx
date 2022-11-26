@@ -1,11 +1,16 @@
 import * as React from 'react';
-import { View, StyleSheet, Text, StyleProp, ViewStyle, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, StyleProp, ViewStyle, TextStyle, View, TouchableOpacity } from 'react-native';
 
 import { FormikErrors } from 'formik';
 
 import { Nullable } from '@app/objects/utility/Nullable';
 import { palette } from '@app/styles/palette';
 import { Translator, errorsToString } from '@app/utils/validation';
+import { ActionModal, ActionModalType } from '@app/components/modals/action/ActionModal';
+
+import CheckCircle from '@assets/icons/check_circle.svg';
+import ErrorCircle from '@assets/icons/error_circle.svg';
+import Cross from '@assets/icons/cross.svg';
 
 export enum AlertType {
 	info = 0,
@@ -16,44 +21,108 @@ export enum AlertType {
 
 interface OwnProps<FormValues = never> {
 	type?: AlertType;
+	title: string;
 	message: Nullable<string> | Nullable<FormikErrors<FormValues>>;
 	translation?: Translator<FormValues>;
 	style?: StyleProp<ViewStyle>;
 }
 
-export const AlertBox = <FormValues, >(props: OwnProps<FormValues>) => {
-	const [expanded, setExpanded] = React.useState<boolean>(() => false);
-	if (!props.message) return null;
+function getTextStyle(type: AlertType = AlertType.info): StyleProp<TextStyle> {
+	switch (type) {
+		case AlertType.warning:
+		case AlertType.danger:
+		case AlertType.info:
+			return { ...styles.text, ...styles.infoText };
 
-	const message: string | null = typeof (props.message) === 'object' ? errorsToString<FormValues>(props.message, props.translation, expanded ? 0 : 1) : props.message;
-	if (!message) return null;
+		case AlertType.error:
+			return { ...styles.text, ...styles.errorText };
+	}
+}
+
+function getIcon(type: AlertType = AlertType.info): React.ReactNode {
+	switch(type) {
+		case AlertType.info:
+			return <CheckCircle fillPrimary={palette.cyan['40']} width={54} height={54} />;
+
+		case AlertType.warning:
+		case AlertType.danger:
+		case AlertType.error:
+			return <ErrorCircle fillPrimary={palette.regular.red} width={54} height={54} />
+	}
+}
+
+export const AlertBox = <FormValues, >(props: OwnProps<FormValues>) => {
+	const [visible, setVisible] = React.useState<boolean>(() => false);
+	const [message, setMessage] = React.useState<Nullable<string>>(() => null);
+
+	React.useEffect(() => {
+		if (!props.message) {
+			setVisible(false);
+
+			return;
+		}
+
+		const message: string | null = typeof (props.message) === 'object'
+			? errorsToString<FormValues>(props.message, props.translation, 0)
+			: props.message;
+
+		if (!message) {
+			setVisible(false);
+
+			return;
+		}
+
+		setMessage(message);
+		setVisible(true);
+	}, [props.message]);
 
 	return (
-		<TouchableOpacity
-			style={[styles.container, props.style]}
-			onPress={() => setExpanded((value) => !value)}
+		<ActionModal
+			visible={visible}
+			onChange={setVisible}
+			type={ActionModalType.Docked}
 		>
-			<Text style={styles.text}>
-				{message}
-			</Text>
-		</TouchableOpacity>
+			<View style={styles.container}>
+				<View style={{ width: '100%', flexDirection: 'row', justifyContent: 'flex-end' }}>
+					<TouchableOpacity onPress={() => setVisible(false)}>
+						<Cross width={25} height={25} />
+					</TouchableOpacity>
+				</View>
+				{getIcon(props.type)}
+				<Text style={[getTextStyle(props.type), styles.title]}>
+					{props.title}
+				</Text>
+				{ props.title || message ? <View style={styles.spacer} /> : null }
+				<Text style={[getTextStyle(props.type), { color: palette.blue['20'] }]}>
+					{message}
+				</Text>
+			</View>
+		</ActionModal>
 	);
 };
 
 const styles = StyleSheet.create({
 	container: {
-		position: 'absolute',
-		left: 0,
-		right: 0,
-		bottom: 0,
-		width: '100%',
-		paddingHorizontal: 4,
-		paddingVertical: 6,
-		backgroundColor: palette.regular.red,
-		borderTopRightRadius: 8,
-		borderTopLeftRadius: 8,
+		flexDirection: 'column',
+		alignItems: 'center',
+	},
+	spacer: {
+		height: 10,
+	},
+	title: {
+		fontFamily: 'Inter-SemiBold',
+		fontSize: 20,
+		lineHeight: 24,
 	},
 	text: {
-		color: '#fff',
-	}
+		fontFamily: 'Inter-Regular',
+		fontSize: 14,
+		lineHeight: 16,
+	},
+	errorText: {
+		color: palette.regular.red,
+	},
+	infoText: {
+		color: palette.cyan['40'],
+	},
 });
