@@ -25,3 +25,14 @@ export function toDate(date: number): Date {
 export function fromDate(date: Date): number {
 	return (+date) / 1000;
 }
+
+// Format seconds to minutes:seconds (for video and audio)
+export function formatTime(time: number): string {
+	if (time < 0) return '00:00';
+
+	const value = Math.floor(time);
+	const minutes = Math.floor(value / 60).toFixed(0).padStart(2, '0');
+	const seconds = Math.floor(value % 60).toFixed(0).padStart(2, '0');
+
+	return `${minutes}:${seconds}`;
+}

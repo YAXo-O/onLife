@@ -8,11 +8,9 @@ import {
 	Text,
 	TouchableOpacity,
 	TextInput,
-	KeyboardAvoidingView,
 	ScrollView,
 } from 'react-native';
 import { useSelector } from 'react-redux';
-import VideoPlayer from 'react-native-video-controls';
 import WebView from 'react-native-autoheight-webview';
 
 import { palette } from '@app/styles/palette';
@@ -30,12 +28,15 @@ import { IState } from '@app/store/IState';
 import { CurrentTraining } from '@app/store/Types';
 import { Nullable } from '@app/objects/utility/Nullable';
 
+import { WithOrder } from '@app/objects/utility/WithOrder';
+import { ImageFit } from '@app/components/image/ImageFit';
+import { AudioPlayer } from '@app/components/audio/AudioPlayer';
+
 import TrainingDumbbell from '@assets/icons/training_dumbbell.svg';
 import TrainingVideo from '@assets/icons/training_video.svg';
 import TrainingMaterial from '@assets/icons/training_material.svg';
 import TrainingStats from '@assets/icons/training_stats.svg';
-import { WithOrder } from '@app/objects/utility/WithOrder';
-import { ImageFit } from '@app/components/image/ImageFit';
+import { VideoPlayer } from '@app/components/video/VideoPlayer';
 
 function getList(training: Nullable<Training> | undefined, info: Nullable<CurrentTraining> | undefined): Array<TrainingExercise> {
 	if (!training || !info) return [];
@@ -245,31 +246,40 @@ const Tabs: React.FC<TabsProps> = (props: TabsProps) => {
 
 		case ExerciseTab.Video:
 			const video = current?.exercise?.video;
+			const audio = current?.exercise?.audio;
 
 			return (
-				<View style={{ paddingHorizontal: 22 }}>
+				<View style={{ paddingHorizontal: 8, paddingVertical: 0 }}>
 					{
 						video ? (
 							<View style={{
-								padding: 0,
+								paddingHorizontal: 14,
+
 								marginBottom: 10,
 								width: '100%',
 								aspectRatio: 16 / 9,
 							}}>
 								<VideoPlayer
-									style={styles.video}
-									source={{ uri: video }}
-									resizeMode="contain"
-									playInBackground
+									source={video}
 								/>
 							</View>
 						) : null
 					}
-					<View>
+					<View style={{ paddingHorizontal: 14, }}>
 						<Text style={{ color: '#000', fontFamily: 'Inter-Medium', fontSize: 16, lineHeight: 24 }}>
 							{current?.exercise?.name ?? 'Упражнение'}
 						</Text>
 					</View>
+					{
+						audio ? (
+							<View style={{ marginVertical: 20 }}>
+								<AudioPlayer
+									title={current?.exercise?.name ?? 'Упражнение'}
+									source={audio}
+								/>
+							</View>
+						) : null
+					}
 				</View>
 			);
 
@@ -477,88 +487,89 @@ export const TrainingScreen: React.FC = () => {
 					<Text style={[styles.placeholderText]}>* не забудьте завершить тренировку</Text>
 				</View>
 			</ImageBackground>
-			<KeyboardAvoidingView behavior="padding">
-				<ScrollView
-					showsVerticalScrollIndicator={false}
-					style={{ marginTop: -10, }}
-					contentContainerStyle={{
-						backgroundColor: 'transparent',
-					}}
-				>
-					<View style={[styles.bottom, { minHeight: '100%' }]}>
-						<View style={styles.row}>
-							<TouchableOpacity
-								style={styles.bullet}
-								onPress={() => setTab(ExerciseTab.Training)}
+			<ScrollView
+				showsVerticalScrollIndicator={false}
+				style={{ marginTop: -10, }}
+				contentContainerStyle={{
+					backgroundColor: 'transparent',
+				}}
+			>
+				<View style={[styles.bottom, { minHeight: '100%' }]}>
+					<View style={styles.row}>
+						<TouchableOpacity
+							style={styles.bullet}
+							onPress={() => setTab(ExerciseTab.Training)}
+						>
+							<View
+								style={[
+									styles.bulletIcon,
+									tab === ExerciseTab.Training && styles.bulletIconActive,
+								]}
 							>
-								<View
-									style={[
-										styles.bulletIcon,
-										tab === ExerciseTab.Training && styles.bulletIconActive,
-									]}
-								>
-									<TrainingDumbbell
-										fillPrimary={tab === ExerciseTab.Training ? palette.white['100'] : palette.cyan['40']}
-									/>
-								</View>
-								<Text style={styles.bulletText}>Тренировка</Text>
-							</TouchableOpacity>
-							<TouchableOpacity
-								style={styles.bullet}
-								onPress={() => setTab(ExerciseTab.Video)}
+								<TrainingDumbbell
+									fillPrimary={tab === ExerciseTab.Training ? palette.white['100'] : palette.cyan['40']}
+								/>
+							</View>
+							<Text style={styles.bulletText}>Тренировка</Text>
+						</TouchableOpacity>
+						<TouchableOpacity
+							style={styles.bullet}
+							onPress={() => setTab(ExerciseTab.Video)}
+						>
+							<View
+								style={[
+									styles.bulletIcon,
+									tab === ExerciseTab.Video && styles.bulletIconActive,
+								]}
 							>
-								<View
-									style={[
-										styles.bulletIcon,
-										tab === ExerciseTab.Video && styles.bulletIconActive,
-									]}
-								>
-									<TrainingVideo
-										fillPrimary={tab === ExerciseTab.Video ? palette.white['100'] : palette.cyan['40']}
-									/>
-								</View>
-								<Text style={styles.bulletText}>Видео</Text>
-							</TouchableOpacity>
-							<TouchableOpacity
-								style={styles.bullet}
-								onPress={() => setTab(ExerciseTab.Material)}
+								<TrainingVideo
+									fillPrimary={tab === ExerciseTab.Video ? palette.white['100'] : palette.cyan['40']}
+								/>
+							</View>
+							<Text style={styles.bulletText}>Видео</Text>
+						</TouchableOpacity>
+						<TouchableOpacity
+							style={styles.bullet}
+							onPress={() => setTab(ExerciseTab.Material)}
+						>
+							<View
+								style={[
+									styles.bulletIcon,
+									tab === ExerciseTab.Material && styles.bulletIconActive,
+								]}
 							>
-								<View
-									style={[
-										styles.bulletIcon,
-										tab === ExerciseTab.Material && styles.bulletIconActive,
-									]}
-								>
-									<TrainingMaterial
-										fillPrimary={tab === ExerciseTab.Material ? palette.white['100'] : palette.cyan['40']}
-									/>
-								</View>
-								<Text style={styles.bulletText}>Техника</Text>
-							</TouchableOpacity>
-							<TouchableOpacity
-								style={styles.bullet}
-								onPress={() => setTab(ExerciseTab.Stats)}
+								<TrainingMaterial
+									fillPrimary={tab === ExerciseTab.Material ? palette.white['100'] : palette.cyan['40']}
+								/>
+							</View>
+							<Text style={styles.bulletText}>Техника</Text>
+						</TouchableOpacity>
+						<TouchableOpacity
+							style={styles.bullet}
+							onPress={() => setTab(ExerciseTab.Stats)}
+						>
+							<View
+								style={[
+									styles.bulletIcon,
+									tab === ExerciseTab.Stats && styles.bulletIconActive,
+								]}
 							>
-								<View
-									style={[
-										styles.bulletIcon,
-										tab === ExerciseTab.Stats && styles.bulletIconActive,
-									]}
-								>
-									<TrainingStats
-										fillPrimary={tab === ExerciseTab.Stats ? palette.white['100'] : palette.cyan['40']}
-									/>
-								</View>
-								<Text style={styles.bulletText}>Статистика</Text>
-							</TouchableOpacity>
-						</View>
-						<View style={styles.container}>
-							<Tabs tab={tab} item={current} training={user?.training} />
-						</View>
+								<TrainingStats
+									fillPrimary={tab === ExerciseTab.Stats ? palette.white['100'] : palette.cyan['40']}
+								/>
+							</View>
+							<Text style={styles.bulletText}>Статистика</Text>
+						</TouchableOpacity>
 					</View>
-				</ScrollView>
-			</KeyboardAvoidingView>
-			<View style={{ backgroundColor: 'white', flex: 1 }} />
+					<View style={styles.container}>
+						<Tabs
+							tab={tab}
+							item={current}
+							training={user?.training}
+						/>
+					</View>
+				</View>
+			</ScrollView>
 		</View>
 	);
 };
@@ -566,6 +577,7 @@ export const TrainingScreen: React.FC = () => {
 const styles = StyleSheet.create({
 	screen: {
 		flex: 1,
+		backgroundColor: '#fff',
 	},
 	top: {
 		height: 190,
