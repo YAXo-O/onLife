@@ -1,9 +1,9 @@
 import { Nullable } from '@app/objects/utility/Nullable';
-import { Training } from '@app/objects/training/Training';
+import { TrainingDay } from '@app/objects/training/TrainingDay';
 
 export interface CurrentTraining {
 	block: Nullable<string>;
 	day: Nullable<string>;
 
-	training: Training;
+	active: Nullable<TrainingDay>;
 }

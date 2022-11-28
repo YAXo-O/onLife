@@ -8,9 +8,9 @@ import {
 	Text,
 	TouchableOpacity,
 	TextInput,
-	ScrollView,
+	ScrollView, ViewStyle, StyleProp, TextStyle,
 } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import WebView from 'react-native-autoheight-webview';
 
 import { palette } from '@app/styles/palette';
@@ -37,6 +37,7 @@ import TrainingVideo from '@assets/icons/training_video.svg';
 import TrainingMaterial from '@assets/icons/training_material.svg';
 import TrainingStats from '@assets/icons/training_stats.svg';
 import { VideoPlayer } from '@app/components/video/VideoPlayer';
+import { LocalActionCreators } from '@app/store/LocalState/ActionCreators';
 
 function getList(training: Nullable<Training> | undefined, info: Nullable<CurrentTraining> | undefined): Array<TrainingExercise> {
 	if (!training || !info) return [];
@@ -87,162 +88,238 @@ function getStats(training: Nullable<Training> | undefined, exerciseId: Nullable
 	return result;
 }
 
+interface WeightInputProps {
+	value?: number | undefined;
+	onChange?: (value: number) => void;
+	onEnd?: (value: number) => void;
+	style?: StyleProp<TextStyle>;
+}
+
+const weightMask = /^\d*\.?\d?$/g;
+
+const WeightInput: React.FC<WeightInputProps> = (props: WeightInputProps) => {
+	const [value, setValue] = React.useState<string>(() => props.value?.toFixed(1) ?? '');
+
+	React.useEffect(() => {
+		setValue(props.value?.toFixed(1) ?? '')
+	}, [props.value]);
+
+	return (
+		<TextInput
+			value={value}
+			onChangeText={(value: string) => {
+				if (!weightMask.test(value)) return;
+
+				const num = Number.parseFloat(value);
+				if (value && Number.isNaN(num)) return;
+
+				setValue(value);
+				props.onChange?.(num);
+			}}
+			onEndEditing={() => {
+				const num = Number.parseFloat(value);
+				if (Number.isNaN(num)) props.onEnd?.(0);
+
+				props.onEnd?.(num);
+			}}
+			keyboardType="numeric"
+			style={props.style}
+		/>
+	);
+}
+
+type TrainingTabProps = Omit<TabsProps, 'tab'>;
+const TrainingTab: React.FC<TrainingTabProps> = (props: TrainingTabProps) => {
+	const dispatch = useDispatch();
+	const actions = new LocalActionCreators('training');
+	const day = useSelector((state: IState) => state.training.item?.active);
+	if (!day) return null;
+
+	const current = props.item;
+	const values = day.exercises.find((item: TrainingExercise) => item.id === current?.id);
+	if (!values) return null;
+
+	const onChange = (value: number, roundId: string) => {
+		if (!values) return;
+
+		const id = values.rounds.findIndex(q => q.id === roundId);
+		if (id < 0) return;
+
+		values.rounds[id] = {
+			...values.rounds[id],
+			performedWeight: value,
+		};
+
+		const exerciseId = day.exercises.findIndex((item: TrainingExercise) => item.id === values.id);
+		if (exerciseId < 0) return;
+
+		day.exercises[exerciseId] = {
+			...day.exercises[exerciseId],
+		};
+
+		dispatch(actions.set({ active: day }));
+	}
+
+	return (
+		<View>
+			<Text
+				style={{
+					fontFamily: 'Inter-Medium',
+					lineHeight: 24,
+					fontSize: 20,
+					color: '#000',
+					marginBottom: 30,
+					paddingHorizontal: 22,
+					textAlign: 'center',
+				}}
+			>
+				{current?.exercise?.name}
+			</Text>
+
+			<FlatList
+				snapToInterval={315}
+				snapToAlignment="start"
+				decelerationRate="fast"
+				contentContainerStyle={styles.setCollection}
+				data={getRounds(values)}
+				renderItem={(item: ListRenderItemInfo<TrainingRound>) => (
+					<View style={styles.setCard}>
+						<View>
+							<Text
+								style={{
+									fontFamily: 'Inter-ExtraBold',
+									fontSize: 20,
+									lineHeight: 24,
+									color: '#000',
+								}}
+							>
+								SET {item.item.order + 1}
+							</Text>
+						</View>
+
+						<View style={{ flexDirection: 'row', marginTop: 30, alignItems: 'center'  }}>
+							<Text
+								style={{
+									fontFamily: 'Inter-Medium',
+									fontSize: 16,
+									lineHeight: 20,
+									color: '#000',
+									width: 115,
+								}}
+							>
+								Повторения
+							</Text>
+							<View
+								style={{
+									borderRadius: 8,
+									backgroundColor: '#fff',
+									alignItems: 'flex-start',
+									justifyContent: 'center',
+									paddingHorizontal: 22,
+									paddingVertical: 13,
+									marginHorizontal: 10,
+									width: 100,
+								}}
+							>
+								<Text
+									style={{
+										fontFamily: 'Inter-Light',
+										fontSize: 20,
+										lineHeight: 24,
+										color: '#000',
+										textAlign: 'center',
+									}}
+								>
+									{item.item.repeats}
+								</Text>
+							</View>
+							<Text
+								style={{
+									fontFamily: 'Inter-Medium',
+									fontSize: 16,
+									lineHeight: 20,
+									color: '#000',
+									width: 100,
+								}}
+							>
+								раз
+							</Text>
+						</View>
+
+						<View style={{ flexDirection: 'row', marginTop: 30, alignItems: 'center'  }}>
+							<Text
+								style={{
+									fontFamily: 'Inter-Medium',
+									fontSize: 16,
+									lineHeight: 20,
+									color: '#63CDDA',
+									width: 115,
+								}}
+							>
+								Выполненный вес*
+							</Text>
+							<WeightInput
+								value={item.item.performedWeight ?? undefined}
+								onEnd={(value: number) => onChange(value, item.item.id)}
+								style={{
+									borderRadius: 8,
+									backgroundColor: '#fff',
+									alignItems: 'center',
+									justifyContent: 'center',
+									textAlign: 'center',
+									paddingHorizontal: 22,
+									paddingVertical: 13,
+									marginHorizontal: 10,
+									fontFamily: 'Inter-Light',
+									fontSize: 20,
+									lineHeight: 24,
+									color: '#000',
+									width: 100,
+								}}
+							/>
+							<Text
+								style={{
+									fontFamily: 'Inter-Medium',
+									fontSize: 16,
+									lineHeight: 20,
+									color: '#000',
+									width: 100,
+								}}
+							>
+								kg
+							</Text>
+						</View>
+					</View>
+				)}
+				keyExtractor={(item: TrainingRound) => item.id}
+				ItemSeparatorComponent={() => <View style={{ width: 15 }} />}
+				horizontal
+			/>
+			<View style={{ marginVertical: 25 }}>
+				<Text
+					style={{
+						color: '#112A50',
+						fontFamily: 'Inter-Medium',
+						fontSize: 12,
+						lineHeight: 16,
+						fontStyle: 'italic',
+						paddingHorizontal: 22,
+					}}
+				>
+					*Вес вносите после выполнения подхода
+				</Text>
+			</View>
+		</View>
+	);
+};
+
 const Tabs: React.FC<TabsProps> = (props: TabsProps) => {
 	const current = props.item;
 	const [height, setHeight] = React.useState<number | undefined>(() => undefined);
 
 	switch (props.tab) {
 		case ExerciseTab.Training:
-			return (
-				<View>
-					<Text
-						style={{
-							fontFamily: 'Inter-Medium',
-							lineHeight: 24,
-							fontSize: 20,
-							color: '#000',
-							marginBottom: 30,
-							paddingHorizontal: 22,
-							textAlign: 'center',
-						}}
-					>
-						{current?.exercise?.name}
-					</Text>
-
-					<FlatList
-						snapToInterval={315}
-						snapToAlignment="start"
-						decelerationRate="fast"
-						contentContainerStyle={styles.setCollection}
-						data={getRounds(current)}
-						renderItem={(item: ListRenderItemInfo<TrainingRound>) => (
-							<View style={styles.setCard}>
-								<View>
-									<Text
-										style={{
-											fontFamily: 'Inter-ExtraBold',
-											fontSize: 20,
-											lineHeight: 24,
-											color: '#000',
-										}}
-									>
-										SET {item.item.order + 1}
-									</Text>
-								</View>
-
-								<View style={{ flexDirection: 'row', marginTop: 30, alignItems: 'center'  }}>
-									<Text
-										style={{
-											fontFamily: 'Inter-Medium',
-											fontSize: 16,
-											lineHeight: 20,
-											color: '#000',
-											width: 115,
-										}}
-									>
-										Повторения
-									</Text>
-									<View
-										style={{
-											borderRadius: 8,
-											backgroundColor: '#fff',
-											alignItems: 'flex-start',
-											justifyContent: 'center',
-											paddingHorizontal: 22,
-											paddingVertical: 13,
-											marginHorizontal: 10,
-											width: 100,
-										}}
-									>
-										<Text
-											style={{
-												fontFamily: 'Inter-Light',
-												fontSize: 20,
-												lineHeight: 24,
-												color: '#000',
-												textAlign: 'center',
-											}}
-										>
-											{item.item.repeats}
-										</Text>
-									</View>
-									<Text
-										style={{
-											fontFamily: 'Inter-Medium',
-											fontSize: 16,
-											lineHeight: 20,
-											color: '#000',
-											width: 100,
-										}}
-									>
-										раз
-									</Text>
-								</View>
-
-								<View style={{ flexDirection: 'row', marginTop: 30, alignItems: 'center'  }}>
-									<Text
-										style={{
-											fontFamily: 'Inter-Medium',
-											fontSize: 16,
-											lineHeight: 20,
-											color: '#63CDDA',
-											width: 115,
-										}}
-									>
-										Выполненный вес*
-									</Text>
-									<TextInput
-										keyboardType="numeric"
-										style={{
-											borderRadius: 8,
-											backgroundColor: '#fff',
-											alignItems: 'center',
-											justifyContent: 'center',
-											textAlign: 'center',
-											paddingHorizontal: 22,
-											paddingVertical: 13,
-											marginHorizontal: 10,
-											fontFamily: 'Inter-Light',
-											fontSize: 20,
-											lineHeight: 24,
-											color: '#000',
-											width: 100,
-										}}
-									/>
-									<Text
-										style={{
-											fontFamily: 'Inter-Medium',
-											fontSize: 16,
-											lineHeight: 20,
-											color: '#000',
-											width: 100,
-										}}
-									>
-										kg
-									</Text>
-								</View>
-							</View>
-						)}
-						keyExtractor={(item: TrainingRound) => item.id}
-						ItemSeparatorComponent={() => <View style={{ width: 15 }} />}
-						horizontal
-					/>
-					<View style={{ marginVertical: 25 }}>
-						<Text
-							style={{
-								color: '#112A50',
-								fontFamily: 'Inter-Medium',
-								fontSize: 12,
-								lineHeight: 16,
-								fontStyle: 'italic',
-								paddingHorizontal: 22,
-							}}
-						>
-							*Вес вносите после выполнения подхода
-						</Text>
-					</View>
-				</View>
-			);
+			return <TrainingTab training={props.training} item={props.item} />
 
 		case ExerciseTab.Video:
 			const video = current?.exercise?.video;

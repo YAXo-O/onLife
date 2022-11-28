@@ -1,19 +1,13 @@
 import * as React from 'react';
-import { StyleSheet, View, ListRenderItemInfo, TouchableOpacity, Text, FlatList } from 'react-native';
+import { StyleSheet, View, ListRenderItemInfo, Text, FlatList } from 'react-native';
 
 import { palette } from '@app/styles/palette';
 import { typography } from '@app/styles/typography';
 
 import { TrainingDay } from '@app/objects/training/TrainingDay';
-import {
-	TrainingProgramDay,
-	TrainingProgramDayExercise,
-	TrainingProgram,
-	TrainingProgramBlock
-} from '@app/objects/program/TrainingProgram';
 import { TrainingExercise } from '@app/objects/training/TrainingExercise';
 import { withUser } from '@app/hooks/withUser';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { IState } from '@app/store/IState';
 import { CurrentTraining } from '@app/store/Types';
 import { Nullable } from '@app/objects/utility/Nullable';
@@ -25,6 +19,7 @@ import { ActionButton } from '@app/components/buttons/ActionButton';
 import { useNavigation } from '@react-navigation/native';
 import { Routes } from '@app/navigation/routes';
 import { Training } from '@app/objects/training/Training';
+import { LocalActionCreators } from '@app/store/LocalState/ActionCreators';
 
 interface ListItemProps {
 	id: string;
@@ -67,6 +62,7 @@ function getExercises(day?: Nullable<TrainingDay>): Array<ListItemProps> {
 export const TrainingViewScreen: React.FC = () => {
 	const { user } = withUser();
 	const info = useSelector((store: IState) => store.training.item);
+	const dispatch = useDispatch();
 	const { navigate } = useNavigation();
 
 	const day = getDay(user?.training, info);
@@ -110,7 +106,13 @@ export const TrainingViewScreen: React.FC = () => {
 			<View style={styles.actionContainer}>
 				<ActionButton
 					text="Начать"
-					onPress={() => navigate(Routes.Training)}
+					onPress={() => {
+						if (info?.active?.id !== day?.id) {
+							const creator = new LocalActionCreators('training');
+							dispatch(creator.set({ active: day }));
+						}
+						navigate(Routes.Training)
+					}}
 					style={styles.action}
 				/>
 			</View>

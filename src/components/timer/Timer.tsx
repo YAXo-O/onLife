@@ -2,41 +2,31 @@ import * as React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
 import TimerIcon from '../../../assets/icons/timer.svg';
+import { Nullable } from '@app/objects/utility/Nullable';
 
 interface TimerProps {
-	start: number | undefined | null; // When timer was launched
-	stop: number | undefined | null;
-	time: number; // What is timer's duration (in seconds)
-	clock: number; // Current time
-}
-
-/**
- * Format time from seconds to mm:ss
- * @param time - time (in seconds)
- */
-function format(time: number): string {
-	const minutes = Math.abs(Math.floor(time / 60)).toString(10);
-	const seconds = Math.abs(time % 60).toString(10);
-
-	return `${time < 0 ? '-' : ''}${minutes.padStart(2, '0')}:${seconds.padStart(2, '0')}`;
-}
-
-function getTime(time: number, start: number | undefined | null, stop: number | undefined | null): number {
-	if (start === undefined || start === null) return time;
-
-	const end = stop ?? (+new Date());
-	const diff = (end - start) / 1000;
-
-	return Math.round(time - diff);
+	// Time (in seconds)
+	time: number;
 }
 
 export const Timer: React.FC<TimerProps> = (props: TimerProps) => {
-	const [time, setTime] = React.useState(0);
+	const [time, setTime] = React.useState<number>(() => props.time);
+	const launch = React.useRef<Nullable<number>>(null);
 
 	React.useEffect(() => {
-		const value = getTime(props.time, props.start, props.stop);
-		setTime(value);
-	}, [props.time, props.start, props.clock]);
+		setTime(props.time);
+		if (launch.current) {
+			clearInterval(launch.current);
+		}
+
+		launch.current = setInterval(() => setTime((time: number) => time - 1), 1000);
+
+		return () => {
+			if (launch.current) {
+				clearInterval(launch.current);
+			}
+		};
+	}, [props.time]);
 
 	return (
 		<View style={styles.container}>
