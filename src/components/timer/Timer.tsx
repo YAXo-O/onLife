@@ -1,56 +1,106 @@
 import * as React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import {
+	StyleSheet,
+	View,
+	Text,
+	TouchableOpacity,
+	Vibration,
+} from 'react-native';
 
-import TimerIcon from '../../../assets/icons/timer.svg';
+import { formatTime } from '@app/utils/datetime';
+
+import Clock from '@assets/icons/timer/clock.svg';
+import Cross from '@assets/icons/cross.svg';
 import { Nullable } from '@app/objects/utility/Nullable';
 
-interface TimerProps {
-	// Time (in seconds)
-	time: number;
-}
+type FireTimer = (time: number) => void;
+type TimerComponent = React.FC & { fire: FireTimer };
 
-export const Timer: React.FC<TimerProps> = (props: TimerProps) => {
-	const [time, setTime] = React.useState<number>(() => props.time);
-	const launch = React.useRef<Nullable<number>>(null);
+const alertDuration = 5;
+const offBounce = 2 * alertDuration;
+let fire: FireTimer = (time: number) => console.log('Mock timer: ', time);
+
+export const Timer: TimerComponent = () => {
+	const [time, setTime] = React.useState<number>(() => -offBounce);
+	fire = setTime;
 
 	React.useEffect(() => {
-		setTime(props.time);
-		if (launch.current) {
-			clearInterval(launch.current);
+		let timer: Nullable<number> = null;
+		if (time >= -alertDuration) {
+			timer = setTimeout(() => setTime((time: number) => time - 1), 1000);
 		}
 
-		launch.current = setInterval(() => setTime((time: number) => time - 1), 1000);
+		if (time <= 0) {
+			Vibration.vibrate();
+		}
+
+		if (time <= -alertDuration) {
+			Vibration.cancel();
+		}
 
 		return () => {
-			if (launch.current) {
-				clearInterval(launch.current);
+			Vibration.cancel();
+
+			if (timer !== null) {
+				clearTimeout(timer);
 			}
-		};
-	}, [props.time]);
+		}
+	}, [time]);
+
+	if (time < -alertDuration) return null;
 
 	return (
 		<View style={styles.container}>
+			<Clock width={45} height={45} />
 			<Text style={styles.text}>Отдых</Text>
-			<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-				<TimerIcon width={16} height={16} />
-				<Text style={[styles.text, { marginLeft: 4 } ]}>{format(time)}</Text>
-			</View>
+			<Text style={styles.counter}>{formatTime(Math.max(time, 0))}</Text>
+			<TouchableOpacity
+				style={styles.action}
+				onPress={() => setTime(-offBounce)}
+			>
+				<Cross
+					width={20}
+					height={20}
+					fillPrimary="#fff"
+				/>
+			</TouchableOpacity>
 		</View>
 	);
 }
 
+Timer.fire = (value: number) => fire(value);
+
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: 'rgba(107, 30, 87, 1)',
-		paddingHorizontal: 8,
-		paddingVertical: 8,
-		borderRadius: 8,
-		marginTop: 8,
-		marginBottom: 16,
+		position: 'absolute',
+		left: 10,
+		right: 10,
+		top: 10,
+		height: 90,
+		backgroundColor: '#7A7A7AE5',
+		paddingHorizontal: 10,
+		paddingVertical: 22,
+		borderRadius: 10,
 		flexDirection: 'row',
-		justifyContent: 'space-between',
+		alignItems: 'center',
 	},
 	text: {
-		color: 'rgba(255, 255, 255, 0.8)'
+		fontFamily: 'Inter-SemiBold',
+		fontSize: 16,
+		lineHeight: 20,
+		color: '#fff',
+		marginLeft: 10,
+	},
+	counter: {
+		fontFamily: 'Inter-Bold',
+		fontSize: 32,
+		lineHeight: 43,
+		color: '#fff',
+		marginLeft: 30,
+	},
+	action: {
+		position: 'absolute',
+		right: 10,
+		top: 10,
 	}
 });

@@ -13,7 +13,7 @@ import { withUser } from '@app/hooks/withUser';
 import { getOptions } from '@app/navigation/options';
 import { Routes } from '@app/navigation/routes';
 import { DeleteProfileScreen } from '@app/screens/Internal/Profile/DeleteProfileScreen';
-import { TrainingScreen } from '@app/screens/Internal/Training';
+import { TrainingScreen } from '@app/screens/Internal/Training/Training';
 
 const NavigationStack = createNativeStackNavigator();
 

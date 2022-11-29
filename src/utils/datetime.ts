@@ -36,3 +36,8 @@ export function formatTime(time: number): string {
 
 	return `${minutes}:${seconds}`;
 }
+
+// Current timestamp
+export function now(): number {
+	return +(new Date());
+}

@@ -15,6 +15,8 @@ import { PersistGate } from 'redux-persist/integration/react';
 
 import { RootScreen } from '@app/screens/Root';
 import { getStore, IState, getPersistor } from '@app/store/IState';
+import { Timer } from '@app/components/timer/Timer';
+import { WeightKeyboard } from '@app/components/keyboard/WeightKeyboard';
 
 // Store should never be changed - so it's ok to call getStore() and getPersistor() only once
 const store: Store<IState> = getStore();
@@ -38,6 +40,9 @@ const App = () => (
 						<RootScreen />
 					</PersistGate>
 				</Provider>
+
+				<Timer />
+				<WeightKeyboard />
 			</NavigationContainer>
 		</View>
 	</SafeAreaProvider>
