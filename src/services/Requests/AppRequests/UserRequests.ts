@@ -5,6 +5,8 @@ import { Nullable } from '@app/objects/utility/Nullable';
 import { OrderService } from '@app/services/Utilities/OrderService';
 import { TrainingRound } from '@app/objects/training/TrainingRound';
 import { TrainingExercise } from '@app/objects/training/TrainingExercise';
+import { TrainingDay } from '@app/objects/training/TrainingDay';
+import { now } from '@app/utils/datetime';
 
 export interface LoginResponse {
 	client: User;
@@ -65,4 +67,44 @@ export function removeUser(): Promise<void> {
 	const service = new RequestManager('app/login');
 
 	return service.delete();
+}
+
+interface CompleteRoundMessage {
+	id: string;
+	weight: Nullable<number>;
+	time: number;
+}
+
+interface CompleteExerciseMessage {
+	id: string;
+	time: number;
+
+	rounds: Array<CompleteRoundMessage>;
+}
+
+interface CompleteDayMessage {
+	id: string;
+	exercises: Array<CompleteExerciseMessage>;
+}
+
+export function toCompleteMessage(day: TrainingDay): CompleteDayMessage {
+	return {
+		id: day.id,
+		exercises: day.exercises.map<CompleteExerciseMessage>((exc: TrainingExercise) => ({
+			id: exc.id,
+			time: exc.time ?? now(),
+			rounds: exc.rounds.map<CompleteRoundMessage>((round: TrainingRound) => ({
+				id: round.id,
+				weight: round.performedWeight,
+				time: round.time ?? now(),
+			})),
+		}))
+	};
+}
+
+export function completeTraining(model: TrainingDay): Promise<TrainingDay> {
+	const service = new RequestManager('app/training');
+
+	return service.withBody(toCompleteMessage(model))
+		.post<TrainingDay>();
 }

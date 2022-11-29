@@ -9,14 +9,11 @@ import {
 	TouchableOpacity,
 	ScrollView,
 } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { palette } from '@app/styles/palette';
 import { typography } from '@app/styles/typography';
 
-import { Training } from '@app/objects/training/Training';
-import { TrainingBlock } from '@app/objects/training/TrainingBlock';
-import { TrainingDay } from '@app/objects/training/TrainingDay';
 import { TrainingExercise } from '@app/objects/training/TrainingExercise';
 
 import { withUser } from '@app/hooks/withUser';
@@ -31,26 +28,102 @@ import TrainingDumbbell from '@assets/icons/training_dumbbell.svg';
 import TrainingVideo from '@assets/icons/training_video.svg';
 import TrainingMaterial from '@assets/icons/training_material.svg';
 import TrainingStats from '@assets/icons/training_stats.svg';
+import { useLoader } from '@app/hooks/useLoader';
+import { completeTraining } from '@app/services/Requests/AppRequests/UserRequests';
+import { TrainingDay } from '@app/objects/training/TrainingDay';
+import { toString } from '@app/utils/validation';
+import { LocalActionCreators } from '@app/store/LocalState/ActionCreators';
+import { setAction as itemSetAction } from '@app/store/ItemState/ActionCreators';
+import { useNavigation } from '@react-navigation/native';
+import { Routes } from '@app/navigation/routes';
+import { AlertBox, AlertType } from '@app/components/alertbox/AlertBox';
+import { Timer } from '@app/components/timer/Timer';
+import { OrderService } from '@app/services/Utilities/OrderService';
 
-function getList(info: Nullable<CurrentTraining> | undefined): Array<TrainingExercise> {
+interface HeaderItem {
+	id: string;
+	exercise: Nullable<TrainingExercise>;
+}
+
+function getList(info: Nullable<CurrentTraining> | undefined): Array<HeaderItem> {
 	if (!info) return [];
 	if (!info.active) return [];
 
-	return info.active.exercises ?? [];
+	const list = (info.active.exercises ?? []).map<HeaderItem>((item: TrainingExercise) => ({
+		id: item.id,
+		exercise: item,
+	}))
+	if (info.active.time) return list;
+
+	return list.concat({
+		id: 'action',
+		exercise: null,
+	});
 }
 
 export const TrainingScreen: React.FC = () => {
 	const { user } = withUser();
+	const { start, finish } = useLoader();
+	const [error, setError] = React.useState<Nullable<string>>(() => null);
+	const dispatch = useDispatch();
 	const info = useSelector((state: IState) => state.training.item);
+	const { navigate } = useNavigation();
 
-	const list: Array<TrainingExercise> = getList(info);
+	const day = info?.active;
+	const list: Array<HeaderItem> = getList(info);
 	const [value, setValue] = React.useState(() => list[0].id);
 	const [tab, setTab] = React.useState(() => ExerciseTab.Training);
 
-	const completeExercise = () => {
-		const id = list.findIndex((q: TrainingExercise) => q.id === value);
-		if (id < list.length - 1) setValue(list[id + 1].id);
+	const completeDay = () => {
+		if (!day) return;
+
+		if (day.time) {
+			const creator = new LocalActionCreators('training');
+			dispatch(creator.set({ day: null, block: null, active: null }));
+
+			navigate(Routes.Main);
+			Timer.stop();
+		}
+
+		setError(null);
+		start();
+		completeTraining(day)
+			.then((item: TrainingDay) => {
+				const creator = new LocalActionCreators('training');
+				dispatch(creator.set({ day: null, block: null, active: null }));
+
+				const training = user?.training;
+				if (!training) return;
+
+				const block = training.blocks.find(q => q.id === item.trainingBlockId);
+				if (!block) return;
+
+				const dayId = block.days.findIndex(q => q.id === item.id);
+				if (dayId < 0) return;
+
+				item.exercises = OrderService.sort(item.exercises);
+				block.days[dayId] = item;
+				dispatch(itemSetAction({ ...user }, 'user'));
+
+				navigate(Routes.Main);
+				Timer.stop();
+			})
+			.catch((error: string | Error) => {
+				console.warn('<Training> failed to complete training: ', error);
+				setError(toString(error));
+			})
+			.finally(finish);
 	};
+
+	const completeExercise = () => {
+		const id = list.findIndex((q: HeaderItem) => q.id === value);
+		if (id < list.length - 2){
+			setValue(list[id + 1].id);
+		} else {
+			completeDay();
+		}
+	};
+
 
 	return (
 		<View style={styles.screen}>
@@ -62,36 +135,62 @@ export const TrainingScreen: React.FC = () => {
 				<FlatList
 					style={styles.collection}
 					data={list}
-					renderItem={(item: ListRenderItemInfo<TrainingExercise>) => (
-						<TouchableOpacity
-							style={[
-								styles.item,
-								item.item.id === value && styles.activeItem,
-								Boolean(item.item.time) && styles.completeItem,
-							]}
-							onPress={() => setValue(item.item.id)}
-						>
-							<Text
+					renderItem={(item: ListRenderItemInfo<HeaderItem>) => {
+						const exercise = item.item.exercise;
+
+						if (exercise === null) {
+							return (
+								<TouchableOpacity
+									style={[
+										styles.item,
+										{ backgroundColor: '#D04A3A' }
+									]}
+									onPress={() => completeDay()}
+								>
+									<Text
+										style={[
+											typography.cardTitle,
+											styles.text,
+											styles.activeText,
+										]}
+									>
+										END
+									</Text>
+								</TouchableOpacity>
+							);
+						}
+
+						return (
+							<TouchableOpacity
 								style={[
-									typography.cardTitle,
-									styles.text,
-									(item.item.id === value || Boolean(item.item.time)) && styles.activeText,
+									styles.item,
+									Boolean(exercise.time) && styles.completeItem,
+									exercise.id === value && styles.activeItem,
 								]}
+								onPress={() => setValue(item.item.id)}
 							>
-								{item.item.order + 1}
-							</Text>
-							<Text
-								style={[
-									typography.cardTitle,
-									styles.text,
-									(item.item.id === value || Boolean(item.item.time)) && styles.activeText,
-								]}
-							>
-								упр
-							</Text>
-						</TouchableOpacity>
-					)}
-					keyExtractor={(item: TrainingExercise) => item.id}
+								<Text
+									style={[
+										typography.cardTitle,
+										styles.text,
+										(exercise.id === value || Boolean(exercise.time)) && styles.activeText,
+									]}
+								>
+									{exercise.order + 1}
+								</Text>
+								<Text
+									style={[
+										typography.cardTitle,
+										styles.text,
+										(item.item.id === value || Boolean(exercise.time)) && styles.activeText,
+									]}
+								>
+									упр
+								</Text>
+							</TouchableOpacity>
+						);
+					}}
+					keyExtractor={(item: HeaderItem) => item.id}
 					ItemSeparatorComponent={() => <View style={{ width: 15 }} />}
 					horizontal
 				/>
@@ -177,12 +276,17 @@ export const TrainingScreen: React.FC = () => {
 						<ExerciseTabs
 							tab={tab}
 							training={user?.training}
-							item={list.find((q: TrainingExercise) => q.id === value)}
+							item={list.find((q: HeaderItem) => q.id === value)?.exercise ?? null}
 							onComplete={completeExercise}
 						/>
 					</View>
 				</View>
 			</ScrollView>
+			<AlertBox
+				title="Ошибка завершения тренировки"
+				type={AlertType.error}
+				message={error}
+			/>
 		</View>
 	);
 };

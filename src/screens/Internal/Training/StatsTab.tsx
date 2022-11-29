@@ -150,7 +150,7 @@ const StatsCard: React.FC<StatsCardProps> = (props: StatsCardProps) => {
 										height: 40,
 									}}
 								>
-									<Text>
+									<Text style={{ fontFamily: 'Inter-Light', fontSize: 20, lineHeight: 24, color: '#000000' }}>
 										{round.performedWeight ?? ''}{round.performedWeight ? ' кг' : ''}
 									</Text>
 								</View>

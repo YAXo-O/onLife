@@ -17,6 +17,8 @@ import { RootScreen } from '@app/screens/Root';
 import { getStore, IState, getPersistor } from '@app/store/IState';
 import { Timer } from '@app/components/timer/Timer';
 import { WeightKeyboard } from '@app/components/keyboard/WeightKeyboard';
+import { useLoader } from '@app/hooks/useLoader';
+import { Spinner } from '@app/components/display/spinner/Spinner';
 
 // Store should never be changed - so it's ok to call getStore() and getPersistor() only once
 const store: Store<IState> = getStore();
@@ -30,6 +32,12 @@ const theme = {
 	},
 };
 
+const SpinnerHolder: React.FC = () => {
+	const { loading } = useLoader();
+
+	return <Spinner loading={loading} />;
+};
+
 const App = () => (
 	<SafeAreaProvider>
 		<View style={styles.app}>
@@ -38,11 +46,13 @@ const App = () => (
 				<Provider store={store}>
 					<PersistGate loading={<ActivityIndicator />} persistor={persistor}>
 						<RootScreen />
+
+						<Timer />
+						<WeightKeyboard />
+
+						<SpinnerHolder />
 					</PersistGate>
 				</Provider>
-
-				<Timer />
-				<WeightKeyboard />
 			</NavigationContainer>
 		</View>
 	</SafeAreaProvider>

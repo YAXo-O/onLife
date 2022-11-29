@@ -14,15 +14,19 @@ import Cross from '@assets/icons/cross.svg';
 import { Nullable } from '@app/objects/utility/Nullable';
 
 type FireTimer = (time: number) => void;
-type TimerComponent = React.FC & { fire: FireTimer };
+type TimerComponent = React.FC & { fire: FireTimer; stop: () => void };
 
 const alertDuration = 5;
 const offBounce = 2 * alertDuration;
+
 let fire: FireTimer = (time: number) => console.log('Mock timer: ', time);
+let stop: () => void = () => console.log('Stop timer');
 
 export const Timer: TimerComponent = () => {
 	const [time, setTime] = React.useState<number>(() => -offBounce);
+
 	fire = setTime;
+	stop = () => setTime(-offBounce);
 
 	React.useEffect(() => {
 		let timer: Nullable<number> = null;
@@ -69,6 +73,7 @@ export const Timer: TimerComponent = () => {
 }
 
 Timer.fire = (value: number) => fire(value);
+Timer.stop = () => stop();
 
 const styles = StyleSheet.create({
 	container: {

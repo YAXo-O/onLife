@@ -11,8 +11,6 @@ import { TabView } from '@app/components/tabview';
 
 import { SignIn } from '@app/screens/External/Auth/Tabs/SignIn';
 import { SignUp } from '@app/screens/External/Auth/Tabs/SignUp';
-import { Spinner } from '@app/components/display/spinner/Spinner';
-import { useLoader } from '@app/hooks/useLoader';
 
 import Background from '@assets/images/background.png';
 
@@ -20,7 +18,6 @@ const height = Dimensions.get('window').height;
 
 export const AuthScreen: React.FC = () => {
 	const [tab, setTab] = React.useState<string>('auth');
-	const { loading } = useLoader();
 
 	return (
 		<ImageBackground source={Background} style={{ height }} resizeMode="cover">
@@ -54,7 +51,6 @@ export const AuthScreen: React.FC = () => {
 					}
 				</TabView>
 			</View>
-			<Spinner loading={loading} />
 		</ImageBackground>
 	);
 };

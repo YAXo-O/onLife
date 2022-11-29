@@ -200,6 +200,7 @@ export const TrainingTab: React.FC<TrainingTabProps> = (props: TrainingTabProps)
 									color: '#000',
 									width: 100,
 								}}
+								disabled={Boolean(day?.time)}
 							/>
 							<Text
 								style={{

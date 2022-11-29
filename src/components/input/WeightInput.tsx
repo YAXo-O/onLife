@@ -11,10 +11,10 @@ interface WeightInputProps {
 	value?: number | undefined;
 	onEnd?: (value: number) => void;
 	style?: StyleProp<TextStyle>;
+	disabled?: boolean;
 }
 
 export const WeightInput: React.FC<WeightInputProps> = (props: WeightInputProps) => {
-
 	return (
 		<TextInput
 			value={props.value?.toFixed(1)}
@@ -29,6 +29,8 @@ export const WeightInput: React.FC<WeightInputProps> = (props: WeightInputProps)
 			}}
 			showSoftInputOnFocus={false}
 			selectionColor="transparent"
+
+			editable={!props.disabled}
 		/>
 	);
 }
