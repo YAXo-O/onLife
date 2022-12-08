@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
 		marginTop: 30,
 	},
 	rulesHighlight: {
-		fontFamily: 'Roboto',
+		fontFamily: 'Inter-Regular',
 		color: palette.cyan['40'],
 	},
 });
