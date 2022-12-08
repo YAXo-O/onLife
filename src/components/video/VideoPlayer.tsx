@@ -4,7 +4,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { Nullable } from '@app/objects/utility/Nullable';
 
-import Play from '@assets/icons/audio-player/play.svg'
+import Play from '@assets/icons/audio-player/audio-player.play.svg'
 import { formatTime } from '@app/utils/datetime';
 
 interface OwnProps {

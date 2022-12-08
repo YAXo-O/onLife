@@ -8,8 +8,8 @@ import {
 
 import { Nullable } from '@app/objects/utility/Nullable';
 
-import Remove from '@assets/icons/keyboard/remove.svg';
-import Apply from '@assets/icons/keyboard/apply.svg';
+import Remove from '@assets/icons/keyboard/keyboard.remove.svg';
+import Apply from '@assets/icons/keyboard/keyboardapply.svg';
 
 interface OwnProps {
 }

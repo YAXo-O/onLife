@@ -9,7 +9,7 @@ import {
 
 import { formatTime } from '@app/utils/datetime';
 
-import Clock from '@assets/icons/timer/clock.svg';
+import Clock from '@assets/icons/timer/timer.clock.svg';
 import Cross from '@assets/icons/cross.svg';
 import { Nullable } from '@app/objects/utility/Nullable';
 

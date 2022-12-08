@@ -6,12 +6,12 @@ import {
 } from 'react-native';
 import Sound from 'react-native-sound';
 
-import Play from '@assets/icons/audio-player/play.svg';
-import Pause from '@assets/icons/audio-player/pause.svg';
-import SkipLeft from '@assets/icons/audio-player/skip-left.svg';
-import SkipRight from '@assets/icons/audio-player/skip-right.svg';
-import VolumeDown from '@assets/icons/audio-player/volume-down.svg';
-import VolumeUp from '@assets/icons/audio-player/volume-up.svg';
+import Play from '@assets/icons/audio-player/audio-player.play.svg';
+import Pause from '@assets/icons/audio-player/audio-player.pause.svg';
+import SkipLeft from '@assets/icons/audio-player/audio-player.skip-left.svg';
+import SkipRight from '@assets/icons/audio-player/audio-player.skip-right.svg';
+import VolumeDown from '@assets/icons/audio-player/audio-player.volume-down.svg';
+import VolumeUp from '@assets/icons/audio-player/audio-player.volume-up.svg';
 
 import { Nullable } from '@app/objects/utility/Nullable';
 import { clamp } from '@app/utils/math';

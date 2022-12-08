@@ -15,8 +15,8 @@ import { Training } from '@app/objects/training/Training';
 import { TrainingBlock } from '@app/objects/training/TrainingBlock';
 import { TrainingDay } from '@app/objects/training/TrainingDay';
 
-import Up from '@assets/icons/stats/chevron_up.svg';
-import Down from '@assets/icons/stats/chevron_down.svg';
+import Up from '@assets/icons/stats/stats.chevron_up.svg';
+import Down from '@assets/icons/stats/stats.chevron_down.svg';
 
 function getBlocks(training: Nullable<Training> | undefined, exerciseId: Nullable<string> | undefined): Array<TrainingBlock> {
 	if (!training || !exerciseId) return [];
