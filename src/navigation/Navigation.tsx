@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { View } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 
@@ -13,7 +14,6 @@ import { getOptions } from '@app/navigation/options';
 import { Routes } from '@app/navigation/routes';
 import { DeleteProfileScreen } from '@app/screens/Internal/Profile/DeleteProfileScreen';
 import { TrainingScreen } from '@app/screens/Internal/Training/Training';
-import { View } from 'react-native';
 
 const NavigationStack = createNativeStackNavigator();
 
