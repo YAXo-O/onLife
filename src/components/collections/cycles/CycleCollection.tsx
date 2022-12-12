@@ -114,12 +114,14 @@ export const CycleCollection: React.FC<OwnProps> = (props: OwnProps) => {
 		);
 	};
 
+
 	return (
 		<FlatList
 			ListHeaderComponent={props.header}
 			data={getList(user?.training)}
 			renderItem={render}
 			keyExtractor={item => item.id}
+			style={props.style}
 		/>
 	);
 }

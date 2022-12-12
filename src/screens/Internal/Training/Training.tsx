@@ -10,7 +10,6 @@ import {
 	ScrollView,
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { palette } from '@app/styles/palette';
 import { typography } from '@app/styles/typography';
@@ -40,6 +39,7 @@ import { Routes } from '@app/navigation/routes';
 import { AlertBox, AlertType } from '@app/components/alertbox/AlertBox';
 import { Timer } from '@app/components/timer/Timer';
 import { OrderService } from '@app/services/Utilities/OrderService';
+import { SafeAreaView } from '@app/components/safearea/SafeAreaView';
 
 interface HeaderItem {
 	id: string;

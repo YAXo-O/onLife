@@ -40,8 +40,8 @@ const SpinnerHolder: React.FC = () => {
 
 const App = () => (
 	<SafeAreaProvider>
-		<View style={styles.app}>
-			<NavigationContainer theme={theme}>
+		<NavigationContainer theme={theme}>
+			<View style={styles.app}>
 				<StatusBar barStyle="dark-content" />
 				<Provider store={store}>
 					<PersistGate loading={<ActivityIndicator />} persistor={persistor}>
@@ -53,8 +53,8 @@ const App = () => (
 						<SpinnerHolder />
 					</PersistGate>
 				</Provider>
-			</NavigationContainer>
-		</View>
+			</View>
+		</NavigationContainer>
 	</SafeAreaProvider>
 );
 

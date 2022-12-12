@@ -8,7 +8,6 @@ import {
 	TouchableOpacity,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { palette } from '@app/styles/palette';
 import { typography } from '@app/styles/typography';
@@ -16,6 +15,7 @@ import { formatName } from '@app/utils/formatting';
 import { Routes } from '@app/navigation/routes';
 import { withUser } from '@app/hooks/withUser';
 import { LogoutModal } from '@app/components/modals/action/LogoutModal';
+import { SafeAreaView } from '@app/components/safearea/SafeAreaView';
 
 import ChevronRight from '@assets/icons/chevron-right.svg';
 import Key from '@assets/icons/key.svg';

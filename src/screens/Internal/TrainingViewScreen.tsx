@@ -6,7 +6,6 @@ import {
 	Text,
 	FlatList,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { palette } from '@app/styles/palette';
 import { typography } from '@app/styles/typography';
@@ -27,6 +26,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Routes } from '@app/navigation/routes';
 import { Training } from '@app/objects/training/Training';
 import { LocalActionCreators } from '@app/store/LocalState/ActionCreators';
+import { SafeAreaView } from '@app/components/safearea/SafeAreaView';
 
 interface ListItemProps {
 	id: string;

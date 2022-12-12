@@ -21,38 +21,6 @@ import User from '@assets/icons/user.svg';
 interface OwnProps {
 	style?: StyleProp<ViewStyle>;
 }
-/*
-const handleLogout = () => {
-	Alert.alert(
-		'Смена пользователя',
-		'Вы уверены, что хотите сменить пользователя? Все насохранённые данные о тренировке будут утеряны.',
-		[
-			{
-				text: 'Отмена',
-				style: 'cancel',
-			},
-			{
-				text: 'Сменить',
-				onPress: user.logOut,
-			},
-		],
-	);
-};
-const handleDelete = () => {
-	Alert.alert('Удаление аккаунта',
-		'Вы уверены, что хотите удалить аккаунт? Все данные о пользователе и тренировках будут утеряны.',
-		[
-			{
-				text: 'Отмена',
-				style: 'cancel',
-			},
-			{
-				text: 'Удалить',
-				onPress: () => removeUser().then(user.logOut)
-			}
-		]);
-};
- */
 
 export const UserCard: React.FC<OwnProps> = (props: OwnProps) => {
 	const user = withUser();

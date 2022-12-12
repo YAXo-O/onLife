@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { View, Text, StyleSheet, } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { palette } from '@app/styles/palette';
 import { typography } from '@app/styles/typography';
 import { PasswordInput } from '@app/components/input/PasswordInput';
 import { ActionButton, ActionType } from '@app/components/buttons/ActionButton';
 import { NotificationCard } from '@app/components/notifications/NotificationCard';
+import { SafeAreaView } from '@app/components/safearea/SafeAreaView';
 
 export const DeleteProfileScreen: React.FC = () => {
 	const [password, setPassword] = React.useState<string>(() => '');

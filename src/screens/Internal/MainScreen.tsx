@@ -3,7 +3,6 @@ import { useNavigation } from '@react-navigation/native';
 import {
 	StyleSheet,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 
 import { palette } from '@app/styles/palette';
@@ -11,6 +10,7 @@ import { UserCard } from '@app/components/cards/user/UserCard';
 import { CycleCollection } from '@app/components/collections/cycles/CycleCollection';
 import { Routes } from '@app/navigation/routes';
 import { LocalActionCreators } from '@app/store/LocalState/ActionCreators';
+import { SafeAreaView } from '@app/components/safearea/SafeAreaView';
 
 export const MainScreen: React.FC = () => {
 	const { navigate } = useNavigation();

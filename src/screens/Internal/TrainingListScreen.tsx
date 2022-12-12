@@ -6,7 +6,7 @@ import {
 	ListRenderItemInfo,
 	Text,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+
 import { useSelector, useDispatch } from 'react-redux';
 
 import { palette } from '@app/styles/palette';
@@ -22,6 +22,7 @@ import { LocalActionCreators } from '@app/store/LocalState/ActionCreators';
 import { ActionButton } from '@app/components/buttons/ActionButton';
 import { useNavigation } from '@react-navigation/native';
 import { Routes } from '@app/navigation/routes';
+import { SafeAreaView } from '@app/components/safearea/SafeAreaView';
 
 import Eye from '@assets/icons/eye.svg';
 import Play from '@assets/icons/play.svg';
