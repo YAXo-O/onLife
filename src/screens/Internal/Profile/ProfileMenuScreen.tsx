@@ -8,12 +8,14 @@ import {
 	TouchableOpacity,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { palette } from '@app/styles/palette';
 import { typography } from '@app/styles/typography';
 import { formatName } from '@app/utils/formatting';
 import { Routes } from '@app/navigation/routes';
 import { withUser } from '@app/hooks/withUser';
+import { LogoutModal } from '@app/components/modals/action/LogoutModal';
 
 import ChevronRight from '@assets/icons/chevron-right.svg';
 import Key from '@assets/icons/key.svg';
@@ -21,8 +23,6 @@ import Trash from '@assets/icons/trash.svg';
 import Edit from '@assets/icons/edit.svg';
 import Exit from '@assets/icons/exit.svg';
 import User from '@assets/icons/user.svg';
-import { ActionModal } from '@app/components/modals/action/ActionModal';
-import { LogoutModal } from '@app/components/modals/action/LogoutModal';
 
 interface ListItem {
 	id: number;
@@ -110,7 +110,7 @@ export const ProfileMenuScreen: React.FC = () => {
 	};
 
 	return (
-		<View style={styles.screen}>
+		<SafeAreaView style={styles.screen}>
 			<FlatList
 				data={getItems(navigate, setVisible)}
 				keyExtractor={item => item.id.toFixed()}
@@ -123,7 +123,7 @@ export const ProfileMenuScreen: React.FC = () => {
 				visible={visible}
 				onChange={() => setVisible(false)}
 			/>
-		</View>
+		</SafeAreaView>
 	);
 };
 

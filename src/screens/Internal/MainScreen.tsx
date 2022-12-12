@@ -2,8 +2,8 @@ import * as React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import {
 	StyleSheet,
-	View,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 
 import { palette } from '@app/styles/palette';
@@ -26,12 +26,12 @@ export const MainScreen: React.FC = () => {
 	}
 
 	return (
-		<View style={styles.screen}>
+		<SafeAreaView style={styles.screen}>
 			<CycleCollection
 				header={<UserCard style={styles.card} />}
 				onPress={onPress}
 			/>
-		</View>
+		</SafeAreaView>
 	);
 }
 

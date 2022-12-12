@@ -1,5 +1,12 @@
 import * as React from 'react';
-import { StyleSheet, View, ListRenderItemInfo, Text, FlatList } from 'react-native';
+import {
+	StyleSheet,
+	View,
+	ListRenderItemInfo,
+	Text,
+	FlatList,
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { palette } from '@app/styles/palette';
 import { typography } from '@app/styles/typography';
@@ -95,7 +102,7 @@ export const TrainingViewScreen: React.FC = () => {
 	};
 
 	return (
-		<View style={styles.screen}>
+		<SafeAreaView style={styles.screen}>
 			<FlatList
 				data={getExercises(day)}
 				renderItem={render}
@@ -116,7 +123,7 @@ export const TrainingViewScreen: React.FC = () => {
 					style={styles.action}
 				/>
 			</View>
-		</View>
+		</SafeAreaView>
 	);
 };
 

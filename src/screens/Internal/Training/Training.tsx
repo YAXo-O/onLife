@@ -10,6 +10,7 @@ import {
 	ScrollView,
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { palette } from '@app/styles/palette';
 import { typography } from '@app/styles/typography';
@@ -126,7 +127,7 @@ export const TrainingScreen: React.FC = () => {
 
 
 	return (
-		<View style={styles.screen}>
+		<SafeAreaView style={styles.screen}>
 			<ImageBackground
 				style={styles.top}
 				source={Background}
@@ -287,7 +288,7 @@ export const TrainingScreen: React.FC = () => {
 				type={AlertType.error}
 				message={error}
 			/>
-		</View>
+		</SafeAreaView>
 	);
 };
 

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { View, Text, StyleSheet, } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { palette } from '@app/styles/palette';
 import { typography } from '@app/styles/typography';
@@ -10,7 +11,7 @@ import { NotificationCard } from '@app/components/notifications/NotificationCard
 export const DeleteProfileScreen: React.FC = () => {
 	const [password, setPassword] = React.useState<string>(() => '');
 	return (
-		<View style={styles.screen}>
+		<SafeAreaView style={styles.screen}>
 			<View style={styles.headerContainer}>
 				<Text style={[typography.modalTitle, styles.text]}>Удалить учётную запись</Text>
 			</View>
@@ -49,7 +50,7 @@ export const DeleteProfileScreen: React.FC = () => {
 			<NotificationCard
 				text={null}
 			/>
-		</View>
+		</SafeAreaView>
 	);
 };
 

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { AuthScreen } from '@app/screens/External/Auth/Auth';
 import { MainScreen } from '@app/screens/Internal/MainScreen';
@@ -14,6 +13,7 @@ import { getOptions } from '@app/navigation/options';
 import { Routes } from '@app/navigation/routes';
 import { DeleteProfileScreen } from '@app/screens/Internal/Profile/DeleteProfileScreen';
 import { TrainingScreen } from '@app/screens/Internal/Training/Training';
+import { View } from 'react-native';
 
 const NavigationStack = createNativeStackNavigator();
 
@@ -30,7 +30,7 @@ export const Navigation: React.FC = () => {
 	}, [id]);
 
 	return (
-		<SafeAreaView style={{ flex: 1, }}>
+		<View style={{ flex: 1, }}>
 			<NavigationStack.Navigator>
 				<NavigationStack.Screen
 					name={Routes.Auth}
@@ -72,7 +72,7 @@ export const Navigation: React.FC = () => {
 					component={DeleteProfileScreen}
 				/>
 			</NavigationStack.Navigator>
-		</SafeAreaView>
+		</View>
 	);
 };
 

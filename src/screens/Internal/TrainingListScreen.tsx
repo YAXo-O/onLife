@@ -6,6 +6,7 @@ import {
 	ListRenderItemInfo,
 	Text,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { palette } from '@app/styles/palette';
@@ -18,13 +19,13 @@ import { withUser } from '@app/hooks/withUser';
 import { typography } from '@app/styles/typography';
 
 import { LocalActionCreators } from '@app/store/LocalState/ActionCreators';
+import { ActionButton } from '@app/components/buttons/ActionButton';
 import { useNavigation } from '@react-navigation/native';
 import { Routes } from '@app/navigation/routes';
 
 import Eye from '@assets/icons/eye.svg';
 import Play from '@assets/icons/play.svg';
 import Hide from '@assets/icons/hide.svg';
-import { ActionButton } from '@app/components/buttons/ActionButton';
 
 enum AvailabilityStatus {
 	Available = 0,
@@ -121,7 +122,7 @@ export const TrainingListScreen: React.FC = () => {
 	};
 
 	return (
-		<View style={styles.screen}>
+		<SafeAreaView style={styles.screen}>
 			<FlatList
 				data={getTrainings(block)}
 				renderItem={render}
@@ -143,7 +144,7 @@ export const TrainingListScreen: React.FC = () => {
 				style={styles.container}
 				ItemSeparatorComponent={() => <View style={{ height: 16, }} />}
 			/>
-		</View>
+		</SafeAreaView>
 	);
 };
 

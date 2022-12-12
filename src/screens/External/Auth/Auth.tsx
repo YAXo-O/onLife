@@ -3,8 +3,10 @@ import {
 	StyleSheet,
 	ImageBackground,
 	Text,
-	View, Dimensions,
+	View,
+	Dimensions,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { palette } from '@app/styles/palette';
 import { TabView } from '@app/components/tabview';
@@ -21,36 +23,38 @@ export const AuthScreen: React.FC = () => {
 
 	return (
 		<ImageBackground source={Background} style={{ height }} resizeMode="cover">
-			<View style={[styles.row, { marginTop: 52, }]}>
-				<Text style={styles.title}>
-					<Text style={[styles.title, { color: palette.cyan['40'] }]}>ON</Text>
-					<Text style={[styles.title, { color: palette.white['100'] }]}>LIFE</Text>
-				</Text>
-			</View>
-			<View style={{ flex: 1 }}>
-				<TabView
-					value={tab}
-					onChange={setTab}
-					barStyle={styles.tabBar}
-					containerStyle={styles.container}
-					panStyle={{ flex: 1 }}
-				>
-					{
-						[
-							{
-								key: 'auth',
-								title: 'АВТОРИЗАЦИЯ',
-								content: <SignIn style={styles.tabPane} />
-							},
-							{
-								key: 'register',
-								title: 'РЕГИСТРАЦИЯ',
-								content: <SignUp style={styles.tabPane} />
-							}
-						]
-					}
-				</TabView>
-			</View>
+			<SafeAreaView style={{ flex: 1 }}>
+				<View style={[styles.row, { marginTop: 52, }]}>
+					<Text style={styles.title}>
+						<Text style={[styles.title, { color: palette.cyan['40'] }]}>ON</Text>
+						<Text style={[styles.title, { color: palette.white['100'] }]}>LIFE</Text>
+					</Text>
+				</View>
+				<View style={{ flex: 1 }}>
+					<TabView
+						value={tab}
+						onChange={setTab}
+						barStyle={styles.tabBar}
+						containerStyle={styles.container}
+						panStyle={{ flex: 1 }}
+					>
+						{
+							[
+								{
+									key: 'auth',
+									title: 'АВТОРИЗАЦИЯ',
+									content: <SignIn style={styles.tabPane} />
+								},
+								{
+									key: 'register',
+									title: 'РЕГИСТРАЦИЯ',
+									content: <SignUp style={styles.tabPane} />
+								}
+							]
+						}
+					</TabView>
+				</View>
+			</SafeAreaView>
 		</ImageBackground>
 	);
 };
