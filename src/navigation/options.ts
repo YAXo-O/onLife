@@ -22,6 +22,7 @@ function getHeaderBase(background: string, color: string): Record<string, unknow
 		headerTintColor: color,
 		headerShadowVisible: false,
 		headerTitleAlign: 'left',
+		headerBackTitle: '',
 	};
 }
 
