@@ -2,12 +2,12 @@ import * as React from 'react';
 import {
 	View,
 	StyleSheet,
-	ImageBackground,
 	FlatList,
 	ListRenderItemInfo,
 	Text,
 	TouchableOpacity,
 	ScrollView,
+	Image, ImageBackground,
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -40,6 +40,7 @@ import { AlertBox, AlertType } from '@app/components/alertbox/AlertBox';
 import { Timer } from '@app/components/timer/Timer';
 import { OrderService } from '@app/services/Utilities/OrderService';
 import { SafeAreaView } from '@app/components/safearea/SafeAreaView';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface HeaderItem {
 	id: string;
@@ -69,6 +70,7 @@ export const TrainingScreen: React.FC = () => {
 	const dispatch = useDispatch();
 	const info = useSelector((state: IState) => state.training.item);
 	const { navigate } = useNavigation();
+	const insets = useSafeAreaInsets();
 
 	const day = info?.active;
 	const list: Array<HeaderItem> = getList(info);
@@ -125,13 +127,11 @@ export const TrainingScreen: React.FC = () => {
 		}
 	};
 
-
 	return (
 		<SafeAreaView style={styles.screen}>
 			<ImageBackground
-				style={styles.top}
+				style={styles.image}
 				source={Background}
-				resizeMode="cover"
 			>
 				<FlatList
 					style={styles.collection}
@@ -192,7 +192,7 @@ export const TrainingScreen: React.FC = () => {
 						);
 					}}
 					keyExtractor={(item: HeaderItem) => item.id}
-					ItemSeparatorComponent={() => <View style={{ width: 15 }} />}
+					ItemSeparatorComponent={() => <View style={{ height: 80, width: 15 }} />}
 					horizontal
 				/>
 				<View style={styles.placeholder}>
@@ -200,9 +200,14 @@ export const TrainingScreen: React.FC = () => {
 				</View>
 			</ImageBackground>
 			<ScrollView
+				bounces={false}
 				showsVerticalScrollIndicator={false}
-				style={{ marginTop: -10, }}
+				style={{
+					marginTop: -170,
+					marginBottom: -insets.bottom,
+				}}
 				contentContainerStyle={{
+					paddingTop: 150,
 					backgroundColor: 'transparent',
 				}}
 			>
@@ -295,24 +300,25 @@ export const TrainingScreen: React.FC = () => {
 const styles = StyleSheet.create({
 	screen: {
 		flex: 1,
-		backgroundColor: '#fff',
 	},
-	top: {
-		height: 190,
-		left: 0,
-		right: 0,
-		top: 0,
-		overflow: 'hidden',
+	image: {
+		width: '100%',
+		height: 270,
+		marginTop: -100,
+		paddingTop: 100,
+		paddingBottom: 35,
 	},
 	bottom: {
 		flex: 2,
+		paddingTop: 10,
 		borderTopLeftRadius: 20,
 		borderTopRightRadius: 20,
 		backgroundColor: palette.white['100'],
 	},
 	collection: {
+		marginTop: 10,
+		marginBottom: 15,
 		paddingHorizontal: 22,
-		marginTop: 64,
 	},
 	item: {
 		height: 80,
@@ -337,7 +343,6 @@ const styles = StyleSheet.create({
 	},
 	placeholder: {
 		marginHorizontal: 22,
-		marginBottom: 20,
 	},
 	placeholderText: {
 		color: '#fff',
