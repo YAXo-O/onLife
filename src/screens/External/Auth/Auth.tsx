@@ -5,6 +5,7 @@ import {
 	Text,
 	View,
 	Dimensions,
+	StatusBar,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -22,7 +23,7 @@ export const AuthScreen: React.FC = () => {
 	const [tab, setTab] = React.useState<string>('auth');
 
 	return (
-		<ImageBackground source={Background} style={{ height }} resizeMode="cover">
+		<ImageBackground source={Background} style={{ height: height + (StatusBar.currentHeight ?? 0), }} resizeMode="cover">
 			<SafeAreaView style={{ flex: 1 }}>
 				<View style={[styles.row, { marginTop: 52, }]}>
 					<Text style={styles.title}>

@@ -42,7 +42,11 @@ const App = () => (
 	<SafeAreaProvider>
 		<NavigationContainer theme={theme}>
 			<View style={styles.app}>
-				<StatusBar barStyle="dark-content" />
+				<StatusBar
+					barStyle="dark-content"
+					backgroundColor="rgba(0, 0, 0, 0)"
+					translucent
+				/>
 				<Provider store={store}>
 					<PersistGate loading={<ActivityIndicator />} persistor={persistor}>
 						<RootScreen />

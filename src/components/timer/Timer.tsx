@@ -12,6 +12,7 @@ import { Nullable } from '@app/objects/utility/Nullable';
 
 import Clock from '@assets/icons/timer/timer.clock.svg';
 import Cross from '@assets/icons/cross.svg';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type FireTimer = (time: number) => void;
 type TimerComponent = React.FC & { fire: FireTimer; stop: () => void };
@@ -31,6 +32,7 @@ function getDiff(time: number): number {
 export const Timer: TimerComponent = () => {
 	const [time, setTime] = React.useState<Nullable<number>>(null);
 	const [value, setValue] = React.useState<number>(() => 0);
+	const insets = useSafeAreaInsets();
 
 	fire = setTime;
 	stop = () => setTime(null);
@@ -68,7 +70,7 @@ export const Timer: TimerComponent = () => {
 	if (time === null) return null;
 
 	return (
-		<View style={styles.container}>
+		<View style={[styles.container, { top: 10 + insets.top }]}>
 			<Clock width={45} height={45} />
 			<Text style={styles.text}>Отдых</Text>
 			<Text style={styles.counter}>{formatTime(Math.max(value, 0))}</Text>
@@ -94,7 +96,6 @@ const styles = StyleSheet.create({
 		position: 'absolute',
 		left: 10,
 		right: 10,
-		top: 10,
 		height: 90,
 		backgroundColor: '#7A7A7AE5',
 		paddingHorizontal: 10,
