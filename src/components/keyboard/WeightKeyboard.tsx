@@ -10,6 +10,7 @@ import { Nullable } from '@app/objects/utility/Nullable';
 
 import Remove from '@assets/icons/keyboard/keyboard.remove.svg';
 import Apply from '@assets/icons/keyboard/keyboardapply.svg';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface OwnProps {
 }
@@ -141,6 +142,7 @@ function setAction(block: BlockProps, setValue: SetValue, dismiss: () => void): 
 export const WeightKeyboard: WeightKeyboardType = (props: OwnProps) => {
 	const [visible, setVisible] = React.useState(() => false);
 	const [value, setValue] = React.useState<string>(() => '');
+	const insets = useSafeAreaInsets();
 
 	present = (value?: number) => {
 		setVisible(true);
@@ -170,17 +172,20 @@ export const WeightKeyboard: WeightKeyboardType = (props: OwnProps) => {
 
 	return (
 		<View style={styles.container}>
-			<View style={{ flex: 1, backgroundColor: 'green' }} />
+			<TouchableOpacity
+				style={{ flex: 1 }}
+				onPress={dismiss}
+			/>
 			<View style={styles['keyboard-header']}>
-				<View style={{ flex: 1, padding: 5, }} />
-				<View style={[{ flex: 1, padding: 5, }, styles['keyboard-header__input']]}>
+				<View style={{ flex: 1, padding: 5 }} />
+				<View style={[{ flex: 1, padding: 5 }, styles['keyboard-header__input']]}>
 					<Text style={styles['keyboard-header__input-text']}>{value}</Text>
 				</View>
 				<View style={{ flex: 1, padding: 5, justifyContent: 'flex-start' }}>
 					<Text style={styles['keyboard-header__input-text']}>KG</Text>
 				</View>
 			</View>
-			<View style={styles['keyboard-container']}>
+			<View style={[styles['keyboard-container'], { paddingBottom: insets.bottom }]}>
 				{
 					keyboard.map(
 						(item: BlockProps) => (
@@ -207,6 +212,7 @@ const styles = StyleSheet.create({
 		left: 0,
 		right: 0,
 		bottom: 0,
+		top: 0,
 		flexDirection: 'column',
 	},
 	'keyboard-header': {
