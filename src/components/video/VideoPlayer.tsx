@@ -1,45 +1,27 @@
 import * as React from 'react';
-import Video, { OnProgressData } from 'react-native-video';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-
-import { Nullable } from '@app/objects/utility/Nullable';
-
-import Play from '@assets/icons/audio-player/audio-player.play.svg'
-import { formatTime } from '@app/utils/datetime';
+import Video, { LoadError, OnBufferData } from 'react-native-video';
+import { StyleSheet, View } from 'react-native';
 
 interface OwnProps {
 	source: string;
 }
 
 export const VideoPlayer: React.FC<OwnProps> = (props: OwnProps) => {
-	const ref = React.useRef<Nullable<Video>>(null);
-	const [play, setPlay] = React.useState<boolean>(() => false);
-	const [time, setTime] = React.useState<number>(() => 0);
+	const source = props.source.replace(':443', '');
 
 	return (
-		<TouchableOpacity
+		<View
 			style={styles.container}
-			onPress={() => setPlay(value => !value)}
 		>
 			<Video
-				ref={ref}
-				source={{ uri: props.source }}
+				controls
+				source={{ uri: source }}
 				resizeMode="cover"
 				style={styles.player}
-				paused={!play}
-				onProgress={(data: OnProgressData) => setTime(data.currentTime)}
+				onError={(error: LoadError) => console.log(error.error)}
+				onBuffer={(data: OnBufferData) => console.log(data.isBuffering)}
 			/>
-			<View
-				style={[styles.overlay, { opacity: play ? 0 : 1 }]}
-			>
-				<View style={styles.action}>
-					<Play width={45} height={55} />
-				</View>
-				<View style={styles.timer}>
-					<Text style={styles['timer-text']}>{formatTime(time)}</Text>
-				</View>
-			</View>
-		</TouchableOpacity>
+		</View>
 	);
 };
 

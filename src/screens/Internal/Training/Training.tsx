@@ -71,7 +71,6 @@ export const TrainingScreen: React.FC = () => {
 	const { user } = withUser();
 	const { start, finish } = useLoader();
 	const [error, setError] = React.useState<Nullable<string>>(() => null);
-	const [slide, setSlide] = React.useState<number>(() => 0);
 
 	const dispatch = useDispatch();
 	const info = useSelector((state: IState) => state.training.item);
@@ -150,11 +149,6 @@ export const TrainingScreen: React.FC = () => {
 				<FlatList
 					style={[
 						styles.collection,
-						{
-							zIndex: 1,
-							elevation: 1,
-							opacity: 1 - slide,
-						}
 					]}
 					data={list}
 					renderItem={(item: ListRenderItemInfo<HeaderItem>) => {
@@ -223,10 +217,6 @@ export const TrainingScreen: React.FC = () => {
 			<ScrollView
 				bounces={false}
 				showsVerticalScrollIndicator={false}
-				onScroll={(event) => {
-					const value = Math.max(Math.min(event.nativeEvent.contentOffset.y / 40, 1), 0);
-					setSlide(value);
-				}}
 				style={{
 					marginTop: -offset,
 					marginBottom: -insets.bottom,
@@ -339,8 +329,6 @@ const styles = StyleSheet.create({
 		borderTopLeftRadius: 20,
 		borderTopRightRadius: 20,
 		backgroundColor: palette.white['100'],
-		zIndex: -1,
-		elevation: -1,
 	},
 	collection: {
 		marginTop: 10,

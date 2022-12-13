@@ -156,7 +156,7 @@ export const AudioPlayer: React.FC<OwnProps> = (props: OwnProps) => {
 	React.useEffect(() => {
 		audio.current?.release();
 
-		const sound = new Sound(props.source, undefined, (error) => {
+		const sound = new Sound(props.source.replace(':443', ''), undefined, (error) => {
 			if (error) {
 				console.warn('Unable to play audio: ', error);
 			} else {
