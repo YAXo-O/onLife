@@ -4,6 +4,7 @@ import {
 	View,
 	TouchableOpacity,
 	Text,
+	Keyboard,
 } from 'react-native';
 
 import { Nullable } from '@app/objects/utility/Nullable';
@@ -17,7 +18,7 @@ interface OwnProps {
 
 type Present = (value?: number) => void;
 type Dismiss = () => void;
-type Event = (value: number) => void;
+type Event = (value?: number) => void;
 
 type Actions = {
 	present: Present;
@@ -155,8 +156,10 @@ export const WeightKeyboard: WeightKeyboardType = (props: OwnProps) => {
 		if (isValid(value) && !Number.isNaN(num)) {
 			WeightKeyboard.listen?.(num);
 		} else {
-			WeightKeyboard.listen?.(0);
+			WeightKeyboard.listen?.(undefined);
 		}
+
+		Keyboard.dismiss();
 	}
 
 	const onChange: SetValue = (action: (value: string) => string) => {

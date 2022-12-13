@@ -9,7 +9,7 @@ import { WeightKeyboard } from '@app/components/keyboard/WeightKeyboard';
 
 interface WeightInputProps {
 	value?: number | undefined;
-	onEnd?: (value: number) => void;
+	onEnd?: (value?: number) => void;
 	style?: StyleProp<TextStyle>;
 	disabled?: boolean;
 }
@@ -24,6 +24,7 @@ export const WeightInput: React.FC<WeightInputProps> = (props: WeightInputProps)
 			keyboardType="numeric"
 			style={props.style}
 			onFocus={() => {
+				console.log('Focused');
 				WeightKeyboard.present(props.value);
 				WeightKeyboard.listen = props.onEnd;
 			}}

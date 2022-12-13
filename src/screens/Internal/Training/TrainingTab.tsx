@@ -177,7 +177,9 @@ export const TrainingTab: React.FC<TrainingTabProps> = (props: TrainingTabProps)
 							</Text>
 							<WeightInput
 								value={item.item.performedWeight ?? undefined}
-								onEnd={(value: number) => {
+								onEnd={(value?: number) => {
+									if (value === undefined) return;
+
 									if (item.item.time === null) {
 										Timer.fire(item.item.interval);
 									}
