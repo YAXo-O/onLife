@@ -7,9 +7,11 @@ import {
 	Text,
 	TouchableOpacity,
 	ScrollView,
-	Image, ImageBackground,
+	ImageBackground,
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useHeaderHeight } from '@react-navigation/elements';
 
 import { palette } from '@app/styles/palette';
 import { typography } from '@app/styles/typography';
@@ -40,7 +42,6 @@ import { AlertBox, AlertType } from '@app/components/alertbox/AlertBox';
 import { Timer } from '@app/components/timer/Timer';
 import { OrderService } from '@app/services/Utilities/OrderService';
 import { SafeAreaView } from '@app/components/safearea/SafeAreaView';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface HeaderItem {
 	id: string;
@@ -63,6 +64,9 @@ function getList(info: Nullable<CurrentTraining> | undefined): Array<HeaderItem>
 	});
 }
 
+const collectionHeight = 150;
+const offset = collectionHeight + 15;
+
 export const TrainingScreen: React.FC = () => {
 	const { user } = withUser();
 	const { start, finish } = useLoader();
@@ -71,6 +75,8 @@ export const TrainingScreen: React.FC = () => {
 	const info = useSelector((state: IState) => state.training.item);
 	const { navigate } = useNavigation();
 	const insets = useSafeAreaInsets();
+	const headerHeight = useHeaderHeight();
+	const topHeight = headerHeight + collectionHeight;
 
 	const day = info?.active;
 	const list: Array<HeaderItem> = getList(info);
@@ -130,7 +136,7 @@ export const TrainingScreen: React.FC = () => {
 	return (
 		<SafeAreaView style={styles.screen}>
 			<ImageBackground
-				style={styles.image}
+				style={[styles.image, { height: topHeight, paddingTop: headerHeight }]}
 				source={Background}
 			>
 				<FlatList
@@ -203,12 +209,13 @@ export const TrainingScreen: React.FC = () => {
 				bounces={false}
 				showsVerticalScrollIndicator={false}
 				style={{
-					marginTop: -170,
+					marginTop: -offset,
 					marginBottom: -insets.bottom,
 				}}
 				contentContainerStyle={{
-					paddingTop: 150,
+					paddingTop: collectionHeight,
 					backgroundColor: 'transparent',
+					minHeight: '100%',
 				}}
 			>
 				<View style={[styles.bottom, { minHeight: '100%' }]}>
@@ -303,10 +310,7 @@ const styles = StyleSheet.create({
 	},
 	image: {
 		width: '100%',
-		height: 270,
-		marginTop: -100,
-		paddingTop: 100,
-		paddingBottom: 35,
+		paddingBottom: 25,
 	},
 	bottom: {
 		flex: 2,

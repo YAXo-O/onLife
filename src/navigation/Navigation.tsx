@@ -57,6 +57,7 @@ export const Navigation: React.FC = () => {
 					options={{
 						...getOptions('Тренировка', true, 'transparent'),
 						headerTintColor: '#fff',
+						headerTransparent: true,
 					}}
 					component={TrainingScreen}
 				/>
