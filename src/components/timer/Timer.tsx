@@ -22,6 +22,12 @@ const offBounce = 2 * alertDuration;
 let fire: FireTimer = (time: number) => console.log('Mock timer: ', time);
 let stop: () => void = () => console.log('Stop timer');
 
+function getDiff(time: number): number {
+	const now = +(new Date()) / 1000;
+
+	return time - now;
+}
+
 export const Timer: TimerComponent = () => {
 	const [time, setTime] = React.useState<Nullable<number>>(null);
 	const [value, setValue] = React.useState<number>(() => 0);
@@ -33,19 +39,21 @@ export const Timer: TimerComponent = () => {
 		let timer: Nullable<number> = null;
 
 		if (time !== null) {
-			timer = setInterval(() => {
-				const now = +(new Date()) / 1000;
-				const diff = time - now;
-				setValue(diff);
+			const handle = () => {
+				const diff = getDiff(time);
+				setValue(getDiff(time));
 
-				if (diff < 0 && diff > offBounce) {
+				if (diff < 0 && diff > -offBounce) {
 					Vibration.vibrate();
 				}
 
-				if (diff < offBounce) {
+				if (diff < -offBounce) {
 					setTime(null);
 				}
-			}, 1000);
+			};
+
+			handle();
+			timer = setInterval(handle, 1000);
 		}
 
 		return () => {
