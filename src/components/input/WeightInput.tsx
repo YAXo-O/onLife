@@ -24,7 +24,6 @@ export const WeightInput: React.FC<WeightInputProps> = (props: WeightInputProps)
 			keyboardType="numeric"
 			style={props.style}
 			onFocus={() => {
-				console.log('Focused');
 				WeightKeyboard.present(props.value);
 				WeightKeyboard.listen = props.onEnd;
 			}}

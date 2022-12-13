@@ -26,8 +26,6 @@ function order(program: Nullable<Training>): Nullable<Training> {
 	if (!program) return null;
 
 	program.blocks = OrderService.sort(program.blocks, 20);
-	console.log(program.blocks[0].days[0].exercises.map((item: TrainingExercise) => ({ order: item.order, exercise: item.exercise?.name ?? '-' })));
-	console.log(program.blocks[0].days[0].exercises[0].rounds.map((item: TrainingRound) => ({ order: item.order, repeats: item.repeats })));
 
 	return program;
 }
