@@ -1,5 +1,13 @@
 import * as React from 'react';
-import { StyleSheet, Text, StyleProp, ViewStyle, TextStyle, View, TouchableOpacity } from 'react-native';
+import {
+	StyleSheet,
+	Text,
+	StyleProp,
+	ViewStyle,
+	TextStyle,
+	View,
+	TouchableOpacity,
+} from 'react-native';
 
 import { FormikErrors } from 'formik';
 

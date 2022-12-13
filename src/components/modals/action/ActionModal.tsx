@@ -1,5 +1,10 @@
 import * as React from 'react';
-import { Modal, StyleSheet, View } from 'react-native';
+import {
+	Modal,
+	View,
+	StyleSheet,
+	TouchableOpacity,
+} from 'react-native';
 
 import { palette } from '@app/styles/palette';
 
@@ -24,6 +29,10 @@ export const ActionModal: React.FC<OwnProps> = (props: OwnProps) => {
 			transparent
 		>
 			<View style={styles.container}>
+				<TouchableOpacity
+					onPress={() => props.onChange(false)}
+					style={styles['dismiss-container']}
+				/>
 				<View style={[styles.card, props.type === ActionModalType.Docked ? styles.docked : styles.floating]}>
 					{props.children}
 				</View>
@@ -39,8 +48,15 @@ const styles = StyleSheet.create({
 		flexDirection: 'column',
 		alignItems: 'center',
 		justifyContent: 'center',
-		backgroundColor: 'rgba(0, 0, 0, 0.3)',
 		paddingHorizontal: 32,
+	},
+	'dismiss-container': {
+		position: 'absolute',
+		left: 0,
+		right: 0,
+		top: 0,
+		bottom: 0,
+		backgroundColor: 'rgba(0, 0, 0, 0.3)',
 	},
 	card: {
 		backgroundColor: palette.white['100'],
