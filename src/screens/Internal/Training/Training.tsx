@@ -71,6 +71,7 @@ export const TrainingScreen: React.FC = () => {
 	const { user } = withUser();
 	const { start, finish } = useLoader();
 	const [error, setError] = React.useState<Nullable<string>>(() => null);
+	const [slide, setSlide] = React.useState<number>(() => 0);
 
 	const dispatch = useDispatch();
 	const info = useSelector((state: IState) => state.training.item);
@@ -146,70 +147,7 @@ export const TrainingScreen: React.FC = () => {
 				]}
 				source={Background}
 			>
-				<FlatList
-					style={[
-						styles.collection,
-					]}
-					data={list}
-					renderItem={(item: ListRenderItemInfo<HeaderItem>) => {
-						const exercise = item.item.exercise;
-
-						if (exercise === null) {
-							return (
-								<TouchableOpacity
-									style={[
-										styles.item,
-										{ backgroundColor: '#D04A3A' }
-									]}
-									onPress={() => completeDay()}
-								>
-									<Text
-										style={[
-											typography.cardTitle,
-											styles.text,
-											styles.activeText,
-										]}
-									>
-										END
-									</Text>
-								</TouchableOpacity>
-							);
-						}
-
-						return (
-							<TouchableOpacity
-								style={[
-									styles.item,
-									Boolean(exercise.time) && styles.completeItem,
-									exercise.id === value && styles.activeItem,
-								]}
-								onPress={() => setValue(item.item.id)}
-							>
-								<Text
-									style={[
-										typography.cardTitle,
-										styles.text,
-										(exercise.id === value || Boolean(exercise.time)) && styles.activeText,
-									]}
-								>
-									{exercise.order + 1}
-								</Text>
-								<Text
-									style={[
-										typography.cardTitle,
-										styles.text,
-										(item.item.id === value || Boolean(exercise.time)) && styles.activeText,
-									]}
-								>
-									упр
-								</Text>
-							</TouchableOpacity>
-						);
-					}}
-					keyExtractor={(item: HeaderItem) => item.id}
-					ItemSeparatorComponent={() => <View style={{ height: 80, width: 15 }} />}
-					horizontal
-				/>
+				<View style={[styles.collection, { height: 80 }]} />
 				<View style={styles.placeholder}>
 					<Text style={[styles.placeholderText]}>* не забудьте завершить тренировку</Text>
 				</View>
@@ -220,11 +158,20 @@ export const TrainingScreen: React.FC = () => {
 				style={{
 					marginTop: -offset,
 					marginBottom: -insets.bottom,
+					zIndex: 2,
+					elevation: 2,
 				}}
 				contentContainerStyle={{
 					paddingTop: collectionHeight,
 					backgroundColor: 'transparent',
 					minHeight: '100%',
+				}}
+				scrollEventThrottle={8}
+				onScroll={(event) => {
+					// Map slide from y coordinate to 0-1 space
+					// Distance between card top and collection bottom is ~40
+					const value = Math.max(Math.min(event.nativeEvent.contentOffset.y / 40, 1), 0);
+					setSlide(value);
 				}}
 			>
 				<View
@@ -306,6 +253,79 @@ export const TrainingScreen: React.FC = () => {
 					</View>
 				</View>
 			</ScrollView>
+			<FlatList
+				style={[
+					styles.collection,
+					{
+						position: 'absolute',
+						top: headerHeight,
+						left: 0,
+						right: 0,
+						opacity: 1 - slide,
+						zIndex: slide > 0.5 ? 1 : 3,
+						elevation: slide > 0.5 ? 1 : 3,
+					}
+				]}
+				data={list}
+				renderItem={(item: ListRenderItemInfo<HeaderItem>) => {
+					const exercise = item.item.exercise;
+
+					if (exercise === null) {
+						return (
+							<TouchableOpacity
+								style={[
+									styles.item,
+									{ backgroundColor: '#D04A3A' }
+								]}
+								onPress={() => completeDay()}
+							>
+								<Text
+									style={[
+										typography.cardTitle,
+										styles.text,
+										styles.activeText,
+									]}
+								>
+									END
+								</Text>
+							</TouchableOpacity>
+						);
+					}
+
+					return (
+						<TouchableOpacity
+							style={[
+								styles.item,
+								Boolean(exercise.time) && styles.completeItem,
+								exercise.id === value && styles.activeItem,
+							]}
+							onPress={() => setValue(item.item.id)}
+						>
+							<Text
+								style={[
+									typography.cardTitle,
+									styles.text,
+									(exercise.id === value || Boolean(exercise.time)) && styles.activeText,
+								]}
+							>
+								{exercise.order + 1}
+							</Text>
+							<Text
+								style={[
+									typography.cardTitle,
+									styles.text,
+									(item.item.id === value || Boolean(exercise.time)) && styles.activeText,
+								]}
+							>
+								упр
+							</Text>
+						</TouchableOpacity>
+					);
+				}}
+				keyExtractor={(item: HeaderItem) => item.id}
+				ItemSeparatorComponent={() => <View style={{ height: 80, width: 15 }} />}
+				horizontal
+			/>
 			<AlertBox
 				title="Ошибка завершения тренировки"
 				type={AlertType.error}
