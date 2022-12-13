@@ -8,10 +8,10 @@ import {
 } from 'react-native';
 
 import { formatTime } from '@app/utils/datetime';
+import { Nullable } from '@app/objects/utility/Nullable';
 
 import Clock from '@assets/icons/timer/timer.clock.svg';
 import Cross from '@assets/icons/cross.svg';
-import { Nullable } from '@app/objects/utility/Nullable';
 
 type FireTimer = (time: number) => void;
 type TimerComponent = React.FC & { fire: FireTimer; stop: () => void };
@@ -23,23 +23,29 @@ let fire: FireTimer = (time: number) => console.log('Mock timer: ', time);
 let stop: () => void = () => console.log('Stop timer');
 
 export const Timer: TimerComponent = () => {
-	const [time, setTime] = React.useState<number>(() => -offBounce);
+	const [time, setTime] = React.useState<Nullable<number>>(null);
+	const [value, setValue] = React.useState<number>(() => 0);
 
 	fire = setTime;
-	stop = () => setTime(-offBounce);
+	stop = () => setTime(null);
 
 	React.useEffect(() => {
 		let timer: Nullable<number> = null;
-		if (time >= -alertDuration) {
-			timer = setTimeout(() => setTime((time: number) => time - 1), 1000);
-		}
 
-		if (time <= 0) {
-			Vibration.vibrate();
-		}
+		if (time !== null) {
+			timer = setInterval(() => {
+				const now = +(new Date()) / 1000;
+				const diff = time - now;
+				setValue(diff);
 
-		if (time <= -alertDuration) {
-			Vibration.cancel();
+				if (diff < 0 && diff > offBounce) {
+					Vibration.vibrate();
+				}
+
+				if (diff < offBounce) {
+					setTime(null);
+				}
+			}, 1000);
 		}
 
 		return () => {
@@ -48,19 +54,19 @@ export const Timer: TimerComponent = () => {
 			if (timer !== null) {
 				clearTimeout(timer);
 			}
-		}
+		};
 	}, [time]);
 
-	if (time < -alertDuration) return null;
+	if (time === null) return null;
 
 	return (
 		<View style={styles.container}>
 			<Clock width={45} height={45} />
 			<Text style={styles.text}>Отдых</Text>
-			<Text style={styles.counter}>{formatTime(Math.max(time, 0))}</Text>
+			<Text style={styles.counter}>{formatTime(Math.max(value, 0))}</Text>
 			<TouchableOpacity
 				style={styles.action}
-				onPress={() => setTime(-offBounce)}
+				onPress={() => setTime(null)}
 			>
 				<Cross
 					width={20}
@@ -72,7 +78,7 @@ export const Timer: TimerComponent = () => {
 	);
 }
 
-Timer.fire = (value: number) => fire(value);
+Timer.fire = (value: number) => fire(+(new Date()) / 1000 + value);
 Timer.stop = () => stop();
 
 const styles = StyleSheet.create({
