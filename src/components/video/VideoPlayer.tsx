@@ -19,7 +19,6 @@ export const VideoPlayer: React.FC<OwnProps> = (props: OwnProps) => {
 				resizeMode="cover"
 				style={styles.player}
 				onError={(error: LoadError) => console.log(error.error)}
-				onBuffer={(data: OnBufferData) => console.log(data.isBuffering)}
 			/>
 		</View>
 	);
