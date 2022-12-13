@@ -126,6 +126,7 @@ const styles = StyleSheet.create({
 		borderStyle: 'solid',
 		flex: 1,
 		paddingLeft: 7,
+		justifyContent: 'center',
 	},
 	suffix: {
 		borderWidth: 3,
