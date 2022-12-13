@@ -6,13 +6,13 @@ import {
 	TouchableOpacity,
 	Vibration,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { formatTime } from '@app/utils/datetime';
 import { Nullable } from '@app/objects/utility/Nullable';
 
 import Clock from '@assets/icons/timer/timer.clock.svg';
 import Cross from '@assets/icons/cross.svg';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type FireTimer = (time: number) => void;
 type TimerComponent = React.FC & { fire: FireTimer; stop: () => void };

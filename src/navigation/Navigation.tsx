@@ -55,14 +55,14 @@ export const Navigation: React.FC = () => {
 				<NavigationStack.Screen
 					name={Routes.Training}
 					options={{
-						...getOptions('Тренировка', true, '#ff00000a'),
+						...getOptions('Тренировка', true, 'transparent'),
 						headerTintColor: '#fff',
 					}}
 					component={TrainingScreen}
 				/>
 				<NavigationStack.Screen
 					name={Routes.ProfileMenu}
-					options={getOptions('Личный кабинет', true, '#F2F4F7', 'transparent')}
+					options={getOptions('Личный кабинет', true, '#F2F4F7', '#010101')}
 					component={ProfileMenuScreen}
 				/>
 				<NavigationStack.Screen
