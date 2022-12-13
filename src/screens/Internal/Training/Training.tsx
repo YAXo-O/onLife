@@ -7,7 +7,7 @@ import {
 	Text,
 	TouchableOpacity,
 	ScrollView,
-	ImageBackground,
+	ImageBackground, LayoutChangeEvent,
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -71,6 +71,8 @@ export const TrainingScreen: React.FC = () => {
 	const { user } = withUser();
 	const { start, finish } = useLoader();
 	const [error, setError] = React.useState<Nullable<string>>(() => null);
+	const [slide, setSlide] = React.useState<number>(() => 0);
+
 	const dispatch = useDispatch();
 	const info = useSelector((state: IState) => state.training.item);
 	const { navigate } = useNavigation();
@@ -136,11 +138,24 @@ export const TrainingScreen: React.FC = () => {
 	return (
 		<SafeAreaView style={styles.screen}>
 			<ImageBackground
-				style={[styles.image, { height: topHeight, paddingTop: headerHeight }]}
+				style={[
+					styles.image,
+					{
+						height: topHeight,
+						paddingTop: headerHeight,
+					}
+				]}
 				source={Background}
 			>
 				<FlatList
-					style={styles.collection}
+					style={[
+						styles.collection,
+						{
+							zIndex: 1,
+							elevation: 1,
+							opacity: 1 - slide,
+						}
+					]}
 					data={list}
 					renderItem={(item: ListRenderItemInfo<HeaderItem>) => {
 						const exercise = item.item.exercise;
@@ -208,6 +223,10 @@ export const TrainingScreen: React.FC = () => {
 			<ScrollView
 				bounces={false}
 				showsVerticalScrollIndicator={false}
+				onScroll={(event) => {
+					const value = Math.max(Math.min(event.nativeEvent.contentOffset.y / 40, 1), 0);
+					setSlide(value);
+				}}
 				style={{
 					marginTop: -offset,
 					marginBottom: -insets.bottom,
@@ -218,7 +237,9 @@ export const TrainingScreen: React.FC = () => {
 					minHeight: '100%',
 				}}
 			>
-				<View style={[styles.bottom, { minHeight: '100%' }]}>
+				<View
+					style={[styles.bottom, { minHeight: '100%' }]}
+				>
 					<View style={styles.row}>
 						<TouchableOpacity
 							style={styles.bullet}
@@ -318,6 +339,8 @@ const styles = StyleSheet.create({
 		borderTopLeftRadius: 20,
 		borderTopRightRadius: 20,
 		backgroundColor: palette.white['100'],
+		zIndex: -1,
+		elevation: -1,
 	},
 	collection: {
 		marginTop: 10,
