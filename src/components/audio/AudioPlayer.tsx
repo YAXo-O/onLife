@@ -6,6 +6,8 @@ import {
 } from 'react-native';
 import Sound from 'react-native-sound';
 
+import { Slider } from '@miblanchard/react-native-slider';
+
 import Play from '@assets/icons/audio-player/audio-player.play.svg';
 import Pause from '@assets/icons/audio-player/audio-player.pause.svg';
 import SkipLeft from '@assets/icons/audio-player/audio-player.skip-left.svg';
@@ -25,23 +27,39 @@ interface OwnProps {
 Sound.setCategory('Playback');
 
 interface AudioProgressControlProps {
-	sound: Nullable<Sound>;
 	time: number;
+	duration: number;
+	setTime: (value: number) => void;
 }
 
 const AudioProgressControl: React.FC<AudioProgressControlProps> = (props: AudioProgressControlProps) => {
-	const sound = props.sound;
-	const progress = sound?.getDuration() ? (props.time / sound?.getDuration()) * 100 : 0;
+	const progress = props.duration ? (props.time / props.duration) : 0;
 
 	return (
 		<>
-			<View style={[styles['progress-bar'], { marginTop: 25 }]}>
-				<View style={[styles['progress-bar__track'], { width: `${progress}%` }]} />
-				<View style={[styles['progress-bar__control'], { left: `${progress}%` }]} />
-			</View>
+			<Slider
+				minimumValue={0}
+				maximumValue={1}
+				value={progress}
+				onSlidingComplete={(value: number | Array<number>) => {
+					const isArray = Array.isArray(value);
+					if (isArray && value.length === 0) return;
+
+					const time = (isArray ? value[0] : value) * props.duration;
+					props.setTime(time);
+				}}
+				containerStyle={styles['progress-bar']}
+				minimumTrackTintColor="#63CDDA"
+				minimumTrackStyle={styles['progress-bar__minimum-track']}
+				maximumTrackTintColor="rgba(0, 0, 0, 0.7)"
+				maximumTrackStyle={styles['progress-bar__maximum-track']}
+				thumbStyle={styles['progress-bar__thumb']}
+				thumbTouchSize={{ width: 60, height: 60 }}
+				trackClickable
+			/>
 			<View style={styles['time-row']}>
 				<Text style={styles.time}>{formatTime(props.time)}</Text>
-				<Text style={styles.time}>{formatTime(props.sound?.getDuration() ?? 0)}</Text>
+				<Text style={styles.time}>{formatTime(props.duration)}</Text>
 			</View>
 		</>
 	);
@@ -97,9 +115,23 @@ const VolumeProgressControl: React.FC<VolumeProgressControlProps> = (props: Volu
 			>
 				<VolumeDown />
 			</TouchableOpacity>
-			<View style={styles['volume-bar']}>
-				<View style={[styles['volume-bar__control'], { left: `${props.value * 100}%` }]} />
-			</View>
+			<Slider
+				minimumValue={0}
+				maximumValue={1}
+				value={props.value}
+				onSlidingComplete={(value: number | Array<number>) => {
+					const isArray = Array.isArray(value);
+					if (isArray && value.length === 0) return;
+
+					props.onChange((isArray ? value[0] : value));
+				}}
+				minimumTrackTintColor="#000000B2"
+				maximumTrackTintColor="#000000B2"
+				containerStyle={styles['volume-bar']}
+				thumbStyle={styles['volume-bar__thumb']}
+				thumbTouchSize={{ width: 60, height: 60 }}
+				trackClickable
+			/>
 			<TouchableOpacity
 				onPress={() => props.onChange(props.value + 0.1)}
 			>
@@ -189,8 +221,9 @@ export const AudioPlayer: React.FC<OwnProps> = (props: OwnProps) => {
 				</Text>
 			</View>
 			<AudioProgressControl
-				sound={audio.current}
 				time={time}
+				setTime={changeTime}
+				duration={audio.current?.getDuration() ?? 0}
 			/>
 			<Controls
 				playing={playing}
@@ -232,26 +265,27 @@ const styles = StyleSheet.create({
 		color: '#000'
 	},
 	'progress-bar': {
-		backgroundColor: '#000000B2',
-		borderRadius: 4,
-		height: 4,
 		width: '100%',
+		height: 4,
+		marginTop: 25,
 	},
-	'progress-bar__track': {
-		backgroundColor: '#63CDDA',
-		height: '100%',
+	'progress-bar__minimum-track': {
+		height: 4,
 		borderTopLeftRadius: 4,
 		borderBottomLeftRadius: 4,
-		width: 0,
-	},
-	'progress-bar__control': {
-		position: 'absolute',
 		backgroundColor: '#63CDDA',
+	},
+	'progress-bar__maximum-track': {
+		height: 4,
+		borderTopRightRadius: 4,
+		borderBottomRightRadius: 4,
+		backgroundColor: 'rgba(0, 0, 0, 0.7)',
+	},
+	'progress-bar__thumb': {
 		width: 8,
 		height: 8,
-		borderRadius: 8,
-		top: -2,
-		transform: [{ translateX: -4 }],
+		borderRadius: 4,
+		backgroundColor: '#63CDDA',
 	},
 	'time-row': {
 		flexDirection: 'row',
@@ -282,16 +316,11 @@ const styles = StyleSheet.create({
 		height: 4,
 		marginHorizontal: 15,
 	},
-	'volume-bar__control': {
-		position: 'absolute',
-		top: -8,
+	'volume-bar__thumb': {
 		width: 20,
 		height: 20,
 		borderRadius: 10,
 		backgroundColor: '#fff',
-		transform: [{
-			translateX: -10,
-		}],
 		elevation: 1,
 	},
 });
