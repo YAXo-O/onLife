@@ -88,8 +88,8 @@ const Controls: React.FC<ControlsProps> = (props: ControlsProps) => {
 			>
 				{
 					props.playing
-						? <Pause width={35} height={35} />
-						: <Play width={45} height={45} />
+						? <Pause fillPrimary="#5B5B5B" width={35} height={35} />
+						: <Play fillPrimary="#5B5B5B" width={45} height={45} />
 				}
 			</TouchableOpacity>
 			<TouchableOpacity
