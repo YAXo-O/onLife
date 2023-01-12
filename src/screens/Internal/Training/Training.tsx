@@ -32,7 +32,7 @@ import TrainingMaterial from '@assets/icons/training_material.svg';
 import TrainingStats from '@assets/icons/training_stats.svg';
 import { useLoader } from '@app/hooks/useLoader';
 import { completeTraining } from '@app/services/Requests/AppRequests/UserRequests';
-import { TrainingDay } from '@app/objects/training/TrainingDay';
+import { OnlifeTrainingDay } from '@app/objects/training/TrainingDay';
 import { toString } from '@app/utils/validation';
 import { LocalActionCreators } from '@app/store/LocalState/ActionCreators';
 import { setAction as itemSetAction } from '@app/store/ItemState/ActionCreators';
@@ -68,13 +68,13 @@ const collectionHeight = 150;
 const offset = collectionHeight + 15;
 
 export const TrainingScreen: React.FC = () => {
-	const { user } = withUser();
 	const { start, finish } = useLoader();
 	const [error, setError] = React.useState<Nullable<string>>(() => null);
 	const [slide, setSlide] = React.useState<number>(() => 0);
 
 	const dispatch = useDispatch();
 	const info = useSelector((state: IState) => state.training.item);
+	const training = useSelector((state: IState) => state.session.item);
 	const { navigate } = useNavigation();
 	const insets = useSafeAreaInsets();
 	const headerHeight = useHeaderHeight();
@@ -99,11 +99,10 @@ export const TrainingScreen: React.FC = () => {
 		setError(null);
 		start();
 		completeTraining(day)
-			.then((item: TrainingDay) => {
+			.then((item: OnlifeTrainingDay) => {
 				const creator = new LocalActionCreators('training');
 				dispatch(creator.set({ day: null, block: null, active: null }));
 
-				const training = user?.training;
 				if (!training) return;
 
 				const block = training.blocks.find(q => q.id === item.trainingBlockId);
@@ -114,7 +113,7 @@ export const TrainingScreen: React.FC = () => {
 
 				item.exercises = OrderService.sort(item.exercises);
 				block.days[dayId] = item;
-				dispatch(itemSetAction({ ...user }, 'user'));
+				dispatch(itemSetAction({ ...training }, 'session'))
 
 				navigate(Routes.Main);
 				Timer.stop();
@@ -246,7 +245,7 @@ export const TrainingScreen: React.FC = () => {
 					<View style={styles.container}>
 						<ExerciseTabs
 							tab={tab}
-							training={user?.training}
+							training={training}
 							item={list.find((q: HeaderItem) => q.id === value)?.exercise ?? null}
 							onComplete={completeExercise}
 						/>

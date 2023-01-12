@@ -2,13 +2,13 @@ import * as React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 
 import { TrainingExercise } from '@app/objects/training/TrainingExercise';
-import { TrainingProgramDayExercise } from '@app/objects/program/TrainingProgram';
+import { OnlifeTrainingProgramDayExercise } from '@app/objects/program/TrainingProgram';
 import { palette } from '@app/styles/palette';
 import { typography } from '@app/styles/typography';
 
 interface OwnProps {
 	value: TrainingExercise;
-	reference: TrainingProgramDayExercise;
+	reference: OnlifeTrainingProgramDayExercise;
 
 	children: React.ReactNode;
 }

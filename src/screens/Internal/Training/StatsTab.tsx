@@ -12,19 +12,19 @@ import { palette } from '@app/styles/palette';
 import { TrainingRound } from '@app/objects/training/TrainingRound';
 import { Nullable } from '@app/objects/utility/Nullable';
 import { Training } from '@app/objects/training/Training';
-import { TrainingBlock } from '@app/objects/training/TrainingBlock';
-import { TrainingDay } from '@app/objects/training/TrainingDay';
+import { OnlifeTrainingBlock } from '@app/objects/training/TrainingBlock';
+import { OnlifeTrainingDay } from '@app/objects/training/TrainingDay';
 
 import Up from '@assets/icons/stats/stats.chevron_up.svg';
 import Down from '@assets/icons/stats/stats.chevron_down.svg';
 
-function getBlocks(training: Nullable<Training> | undefined, exerciseId: Nullable<string> | undefined): Array<TrainingBlock> {
+function getBlocks(training: Nullable<Training> | undefined, exerciseId: Nullable<string> | undefined): Array<OnlifeTrainingBlock> {
 	if (!training || !exerciseId) return [];
 
-	const blocks: Array<TrainingBlock> = [];
+	const blocks: Array<OnlifeTrainingBlock> = [];
 
-	training.blocks.forEach((block: TrainingBlock) => {
-		if (block.days.some((day: TrainingDay) => day.exercises.some((exercise: TrainingExercise) => exercise.exerciseId === exerciseId))) {
+	training.blocks.forEach((block: OnlifeTrainingBlock) => {
+		if (block.days.some((day: OnlifeTrainingDay) => day.exercises.some((exercise: TrainingExercise) => exercise.exerciseId === exerciseId))) {
 			blocks.push(block);
 		}
 	})
@@ -32,10 +32,10 @@ function getBlocks(training: Nullable<Training> | undefined, exerciseId: Nullabl
 	return blocks;
 }
 
-function getStats(block: TrainingBlock, exerciseId: string): Array<TrainingExercise> {
+function getStats(block: OnlifeTrainingBlock, exerciseId: string): Array<TrainingExercise> {
 	const result: Array<TrainingExercise> = [];
 
-	block.days.forEach((day: TrainingDay) => {
+	block.days.forEach((day: OnlifeTrainingDay) => {
 		day.exercises.forEach((exercise: TrainingExercise) => {
 			if (exercise.exerciseId === exerciseId) {
 				result.push(exercise);
@@ -164,7 +164,7 @@ const StatsCard: React.FC<StatsCardProps> = (props: StatsCardProps) => {
 };
 
 interface BlockProps {
-	block: TrainingBlock;
+	block: OnlifeTrainingBlock;
 	exerciseId: string
 }
 
@@ -221,7 +221,7 @@ export const StatsTab: React.FC<OwnProps> = (props: OwnProps) => {
 
 	return (
 		<>
-			{blocks.map((item: TrainingBlock) => (
+			{blocks.map((item: OnlifeTrainingBlock) => (
 				<StatsBlock
 					key={item.id}
 					block={item}

@@ -8,7 +8,6 @@ import {
 	TouchableOpacity,
 	FlatList, ListRenderItemInfo,
 } from 'react-native';
-import { useSelector } from 'react-redux';
 
 import { palette } from '@app/styles/palette';
 import { typography } from '@app/styles/typography';
@@ -17,17 +16,19 @@ import { Progress } from '@app/components/display/progress/Progress';
 import Locked from '@assets/icons/locked.svg'
 import Unlocked from '@assets/icons/unlocked.svg';
 import ChevronRight from '@assets/icons/chevron-right.svg';
-import { IState } from '@app/store/IState';
-import { Training } from '@app/objects/training/Training';
-import { TrainingBlock } from '@app/objects/training/TrainingBlock';
-import { TrainingDay } from '@app/objects/training/TrainingDay';
 import { withUser } from '@app/hooks/withUser';
 import { Nullable } from '@app/objects/utility/Nullable';
+import { useSelector } from 'react-redux';
+import { IState } from '@app/store/IState';
+import { OnlifeTraining } from '@app/objects/training/Training';
+import { OnlifeTrainingBlock } from '@app/objects/training/TrainingBlock';
+import { OnlifeTrainingDay } from '@app/objects/training/TrainingDay';
 
 interface OwnProps {
 	header?: React.ReactElement;
 	style?: StyleProp<ViewStyle>;
 	onPress?: (id: string) => void;
+	onRefresh?: () => void;
 }
 
 interface ItemProps {
@@ -39,12 +40,12 @@ interface ItemProps {
 	onPress?: () => void;
 }
 
-function getList(training: Nullable<Training> | undefined): Array<ItemProps> {
-	return (training?.blocks ?? []).map((item: TrainingBlock) => ({
+function getList(training: Nullable<OnlifeTraining> | undefined): Array<ItemProps> {
+	return (training?.blocks ?? []).map((item: OnlifeTrainingBlock) => ({
 		id: item.id,
 		title: `Блок тренировок №${item.order + 1}`,
 		done: (item.days ?? [])
-			.filter((item: TrainingDay) => Boolean(item.time))
+			.filter((item: OnlifeTrainingDay) => Boolean(item.time))
 			.reduce((acc: number) => acc + 1, 0),
 		total: item.days?.length ?? 0,
 		disabled: !item.available,
@@ -99,8 +100,7 @@ const CycleItem: React.FC<ItemProps> = (props: ItemProps) => {
 };
 
 export const CycleCollection: React.FC<OwnProps> = (props: OwnProps) => {
-	const { user } = withUser();
-
+	const training = useSelector((state: IState) => state.session.item);
 	const render = ({ item }: ListRenderItemInfo<ItemProps>) => {
 		return (
 			<CycleItem
@@ -118,10 +118,12 @@ export const CycleCollection: React.FC<OwnProps> = (props: OwnProps) => {
 	return (
 		<FlatList
 			ListHeaderComponent={props.header}
-			data={getList(user?.training)}
+			data={getList(training)}
 			renderItem={render}
 			keyExtractor={item => item.id}
 			style={props.style}
+			refreshing={false}
+			onRefresh={props.onRefresh}
 		/>
 	);
 }

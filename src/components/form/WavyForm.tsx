@@ -27,6 +27,7 @@ interface WavyFormRowProps {
 
 	leading?: boolean;
 	trailing?: boolean;
+	enclosed?: boolean;
 
 	value: string;
 	placeholder?: string;
@@ -44,6 +45,10 @@ interface WavyFormRowProps {
 const InputIcon: React.FC<InputIconProps> = (props: InputIconProps) => {
 	if (!props.visible) return null;
 
+	if (props.enclosed) {
+		return <View style={styles.iconContainer} />
+	}
+
 	return (
 		<View style={styles.iconContainer}>
 			{props.icon}
@@ -58,6 +63,9 @@ function getStyles(props: WavyFormRowProps, type: WavyFormRowType) {
 		result.push(type === WavyFormRowType.Left ? styles.prefix : styles.suffix);
 	} else {
 		result.push(styles.dummy);
+
+		if (props.enclosed) result.push(type === WavyFormRowType.Right ? styles.suffix : styles.prefix);
+
 		if (props.leading) result.push(styles.leading);
 		if (props.trailing) result.push(styles.trailing);
 	}
@@ -69,9 +77,12 @@ export const WavyFormRow: React.FC<WavyFormRowProps> = (props: WavyFormRowProps)
 	return (
 		<View style={[styles.row, !props.leading && styles.overlap]}>
 			<View style={getStyles(props, WavyFormRowType.Left)}>
-				<InputIcon visible={props.type === WavyFormRowType.Right} icon={props.icon} />
+				<InputIcon
+					visible={props.type === WavyFormRowType.Right}
+					icon={props.icon}
+				/>
 			</View>
-			<View style={styles.content}>
+			<View style={[styles.content]}>
 				<TextInput
 					value={props.value}
 					onChangeText={props.onChange}
@@ -84,7 +95,10 @@ export const WavyFormRow: React.FC<WavyFormRowProps> = (props: WavyFormRowProps)
 				/>
 			</View>
 			<View style={getStyles(props, WavyFormRowType.Right)}>
-				<InputIcon visible={props.type === WavyFormRowType.Left} icon={props.icon} />
+				<InputIcon
+					visible={props.type === WavyFormRowType.Left}
+					icon={props.icon}
+				/>
 			</View>
 		</View>
 	);
@@ -97,7 +111,7 @@ const styles = StyleSheet.create({
 	},
 	overlap: { marginTop: -3, },
 	dummy: {
-		width: 83,
+		width: 53,
 	},
 	leading: {
 		borderTopWidth: 3,

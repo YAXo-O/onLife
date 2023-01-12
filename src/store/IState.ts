@@ -8,28 +8,31 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { persistReducer, persistStore } from 'redux-persist';
 import { PersistConfig, Persistor } from 'redux-persist/es/types';
-
-import { ItemState, initItemState } from './ItemState/State';
-import { User } from '../objects/User';
-import { getItemReducer } from './ItemState/Reducer';
 import thunk from 'redux-thunk';
-import { Nullable } from '../objects/utility/Nullable';
-import { CounterState } from './CounterState/State';
-import { counterReducer } from './CounterState/Reducer';
-import { LocalState, initLocalState } from './LocalState/State';
-import { getLocalReducer } from './LocalState/Reducer';
-import { CurrentTraining } from './Types';
+
+import { UserState, initItemState } from '@app/store/ItemState/State';
+import { getItemReducer } from '@app/store/ItemState/Reducer';
+import { Nullable } from '@app/objects/utility/Nullable';
+import { CounterState } from '@app/store/CounterState/State';
+import { counterReducer } from '@app/store/CounterState/Reducer';
+import { LocalState, initLocalState } from '@app/store/LocalState/State';
+import { getLocalReducer } from '@app/store/LocalState/Reducer';
+import { CurrentTraining } from '@app/store/Types';
+import { Client } from '@app/objects/User';
+import { OnlifeTraining } from '@app/objects/training/Training';
 
 export interface IState {
-	user: ItemState<User>;
+	user: UserState<Client>;
 	training: LocalState<CurrentTraining>;
+	session: LocalState<OnlifeTraining>;
 	counter: CounterState;
 	loading: LocalState<boolean>;
 }
 
 export const initialState: IState = {
-	user: initItemState<User>(),
+	user: initItemState<Client>(),
 	training: initLocalState<CurrentTraining>(),
+	session: initLocalState<OnlifeTraining>(),
 	counter: { counter: 0 },
 	loading: initLocalState<boolean>(),
 };
@@ -37,6 +40,7 @@ export const initialState: IState = {
 export const rootReducer: ReducersMapObject<IState> = {
 	user: getItemReducer<'user'>('user'),
 	training: getLocalReducer<'training'>('training'),
+	session: getLocalReducer<'session'>('session'),
 	loading: getLocalReducer<'loading'>('loading'),
 	counter: counterReducer,
 };

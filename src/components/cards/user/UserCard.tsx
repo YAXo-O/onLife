@@ -23,7 +23,7 @@ interface OwnProps {
 }
 
 export const UserCard: React.FC<OwnProps> = (props: OwnProps) => {
-	const user = withUser();
+	const { user } = withUser();
 	const navigation = useNavigation();
 
 	return (
@@ -32,22 +32,22 @@ export const UserCard: React.FC<OwnProps> = (props: OwnProps) => {
 				<View style={[styles.avatar, { marginRight: 10 }]}>
 					<User width={23} height={23} fillPrimary={palette.blue['20']} />
 				</View>
-				<Text style={[typography.cardTitle, styles.text]}>{formatName(user.user)}</Text>
+				<Text style={[typography.cardTitle, styles.text]}>{user?.fullName ?? '-'}</Text>
 				<View style={{ flex: 1 }} />
 				<Dots width={18} height={4} fillPrimary={palette.white['100']} />
 			</TouchableOpacity>
 			<View style={[styles.row, { marginTop: 30 }]}>
 				<View style={{flex: 1}} />
 				<View style={styles.column}>
-					<Text style={[typography.counter, styles.text]}>{formatAge(user.user)}</Text>
+					<Text style={[typography.counter, styles.text]}>{user?.age ?? '-'}</Text>
 					<Text style={[typography.counterCaption, styles.text]}>Возраст</Text>
 				</View>
 				<View style={[styles.column, { borderLeftWidth: 2, borderRightWidth: 2, borderColor: palette.white['100'], borderStyle: 'solid' }]}>
-					<Text style={[typography.counter, styles.text]}>{user.user?.weight ?? '-'}</Text>
+					<Text style={[typography.counter, styles.text]}>{user?.weight ?? '-'}</Text>
 					<Text style={[typography.counterCaption, styles.text]}>Вес</Text>
 				</View>
 				<View style={styles.column}>
-					<Text style={[typography.counter, styles.text]}>{user.user?.height ?? '-'}</Text>
+					<Text style={[typography.counter, styles.text]}>{user?.height ?? '-'}</Text>
 					<Text style={[typography.counterCaption, styles.text]}>Рост</Text>
 				</View>
 				<View style={{flex: 1}}  />

@@ -14,7 +14,8 @@ export enum RequestMethod {
 
 enum RequestHeader {
 	ContentType = 'Content-Type',
-	SessionToken = 'X-Access-Token',
+	// SessionToken = 'X-Access-Token',
+	SessionToken = 'Authorization',
 }
 
 enum RequestState {
@@ -46,7 +47,7 @@ const config = {
 		// host: '192.168.1.4',
 		// port: '5000',
 		protocol: 'https',
-		host: 'api.onlife.pro',
+		host: 'powertrain.app',
 		port: '',
 	},
 };
@@ -55,7 +56,7 @@ export class RequestManager {
 	protected readonly protocol: string = config.backend.protocol;
 	protected readonly host: string = config.backend.host;
 	protected readonly port: string = config.backend.port;
-	protected readonly version: string = 'api/v1';
+	protected readonly version: string = 'api/app';
 	protected readonly endpoint: string;
 
 	protected readonly query: Record<string, string> = {};
@@ -209,7 +210,7 @@ export class RequestManager {
 	private async setCredentials(): Promise<Nullable<string>> {
 		const token = await PrivateStorage.get(PrivateKeys.Session);
 		if (token != null) {
-			this.withHeader(RequestHeader.SessionToken, token);
+			this.withHeader(RequestHeader.SessionToken, `Bearer ${token}`);
 		}
 
 		return token;

@@ -12,14 +12,14 @@ import { ImageFit } from '../../../image/ImageFit';
 import { useSelector, useDispatch } from 'react-redux';
 import { IState } from '../../../../store/IState';
 import {
-	TrainingProgramDay,
-	TrainingProgramDayExercise,
-	ExerciseRoundParams
+	OnlifeTrainingProgramDay,
+	OnlifeTrainingProgramDayExercise,
+	OnlifeExerciseRoundParams
 } from '../../../../objects/program/TrainingProgram';
 import { LocalActionCreators } from '../../../../store/LocalState/ActionCreators';
 import { RoundList } from './components/RoundList';
 import { TrainingRound } from '../../../../objects/training/TrainingRound';
-import { TrainingDay } from '../../../../objects/training/TrainingDay';
+import { OnlifeTrainingDay } from '../../../../objects/training/TrainingDay';
 import { TrainingExercise } from '../../../../objects/training/TrainingExercise';
 import { CurrentTraining } from '../../../../store/Types';
 
@@ -66,15 +66,15 @@ const TrainingTab: React.FC<BaseTabProps> = (props: BaseTabProps) => {
 	const program = useSelector((state: IState) => state.user.item?.trainingProgram);
 	const training: Nullable<CurrentTraining> = useSelector((state: IState) => state.training.item);
 
-	const programDay: TrainingProgramDay | undefined = program?.days?.find(q => q.id === training?.day);
-	const trainingDay: TrainingDay | undefined = training?.training?.days.find(q => q.programDayId === training?.day);
+	const programDay: OnlifeTrainingProgramDay | undefined = program?.days?.find(q => q.id === training?.day);
+	const trainingDay: OnlifeTrainingDay | undefined = training?.training?.days.find(q => q.programDayId === training?.day);
 
-	const programExercise: TrainingProgramDayExercise | undefined = programDay?.exercises?.find(q => q.exerciseId === props.exercise.id);
+	const programExercise: OnlifeTrainingProgramDayExercise | undefined = programDay?.exercises?.find(q => q.exerciseId === props.exercise.id);
 	const cur: TrainingExercise | undefined = trainingDay?.exercises?.find(q => q.exerciseId === programExercise?.id);
 
-	const rounds: Array<ExerciseRoundParams> = program?.days.find((day: TrainingProgramDay) => day.id === training?.day)?.exercises
-		.find((exercise: TrainingProgramDayExercise) => exercise.exerciseId === props.exercise.id)?.rounds ?? [];
-	const completed: Array<TrainingRound> = rounds.map((round: ExerciseRoundParams) => {
+	const rounds: Array<OnlifeExerciseRoundParams> = program?.days.find((day: OnlifeTrainingProgramDay) => day.id === training?.day)?.exercises
+		.find((exercise: OnlifeTrainingProgramDayExercise) => exercise.exerciseId === props.exercise.id)?.rounds ?? [];
+	const completed: Array<TrainingRound> = rounds.map((round: OnlifeExerciseRoundParams) => {
 		const res = cur?.rounds.find(q => q.roundParamsId === round.id);
 		if (res) return res;
 
@@ -94,7 +94,7 @@ const TrainingTab: React.FC<BaseTabProps> = (props: BaseTabProps) => {
 		const newRounds: Array<TrainingRound> = [...completed];
 		newRounds[id] = newRound;
 
-		const newExercises: Array<TrainingExercise> = (programDay?.exercises ?? []).map((item: TrainingProgramDayExercise) => {
+		const newExercises: Array<TrainingExercise> = (programDay?.exercises ?? []).map((item: OnlifeTrainingProgramDayExercise) => {
 			let cur: TrainingExercise | undefined = trainingDay?.exercises?.find(q => q.exerciseId === item.id);
 			if (!cur) cur = { id: uuid.v4().toString(), exerciseId: item.id, rounds: [], time: null, }
 
@@ -107,8 +107,8 @@ const TrainingTab: React.FC<BaseTabProps> = (props: BaseTabProps) => {
 
 			return cur;
 		});
-		const newDays: Array<TrainingDay> = (program?.days ?? []).map((item: TrainingProgramDay) => {
-			let cur: TrainingDay | undefined = training?.training?.days?.find(q => q.programDayId === item.id);
+		const newDays: Array<OnlifeTrainingDay> = (program?.days ?? []).map((item: OnlifeTrainingProgramDay) => {
+			let cur: OnlifeTrainingDay | undefined = training?.training?.days?.find(q => q.programDayId === item.id);
 			if (!cur) cur = { id: uuid.v4().toString(), trainingId: training.training.id, programDayId: item.id, exercises: [], time: null };
 
 			if (cur.programDayId === training?.day) {

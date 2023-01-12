@@ -9,15 +9,16 @@ import { WavyFormRow, WavyFormRowType } from '@app/components/form/WavyForm';
 import { ActionButton } from '@app/components/buttons/ActionButton';
 import { useLoader } from '@app/hooks/useLoader';
 
+import { AlertBox, AlertType } from '@app/components/alertbox/AlertBox';
+import { Translator, toString } from '@app/utils/validation';
+import { Nullable } from '@app/objects/utility/Nullable';
+import { register } from '@app/services/Requests/AppRequests/UserRequests';
+
 import Home from '@assets/icons/home.svg';
 import User from '@assets/icons/user.svg';
 import Email from '@assets/icons/email.svg';
 import Phone from '@assets/icons/phone.svg';
 import Key from '@assets/icons/key.svg';
-import { AlertBox, AlertType } from '@app/components/alertbox/AlertBox';
-import { Translator, toString } from '@app/utils/validation';
-import { Nullable } from '@app/objects/utility/Nullable';
-import { register } from '@app/services/Requests/AppRequests/UserRequests';
 
 interface OwnProps {
 	style?: StyleProp<ViewStyle>;

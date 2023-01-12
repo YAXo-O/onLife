@@ -1,16 +1,16 @@
 import { WithId } from '@app/objects/utility/WithId';
-import { Training } from '@app/objects/training/Training';
 import { Nullable } from '@app/objects/utility/Nullable';
-import { TrainingDay } from '@app/objects/training/TrainingDay';
+import { OnlifeTrainingDay } from '@app/objects/training/TrainingDay';
+import { OnlifeTraining } from '@app/objects/training/Training';
 
-export interface TrainingBlock extends WithId {
+export interface OnlifeTrainingBlock extends WithId {
 	order: number;
 	description: string;
 
-	training: Nullable<Training>;
+	training: Nullable<OnlifeTraining>;
 	trainingId: string;
 
-	days: Array<TrainingDay>;
+	days: Array<OnlifeTrainingDay>;
 	available: boolean;
 
 	time: Nullable<number>;

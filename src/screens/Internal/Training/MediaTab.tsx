@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { View, Text } from 'react-native';
-import { VideoPlayer } from '@app/components/video/VideoPlayer';
+import { URL } from 'react-native-url-polyfill';
+import YoutubeIframe from 'react-native-youtube-iframe';
+
 import { AudioPlayer } from '@app/components/audio/AudioPlayer';
 import { ExerciseTabsProps } from '@app/screens/Internal/Training/ExerciseTabs';
 
@@ -11,20 +13,20 @@ export const MediaTab: React.FC<OwnProps> = (props: OwnProps) => {
 	const video = item?.video;
 	const audio = item?.audio;
 	const name = item?.name ?? 'Упражнение';
+	const url = video ? new URL(video).search.get('v') : null;
 
 	return (
 		<View style={{ paddingHorizontal: 8, paddingVertical: 0 }}>
 			{
-				video ? (
+				url ? (
 					<View style={{
 						paddingHorizontal: 14,
-
 						marginBottom: 10,
-						width: '100%',
-						aspectRatio: 16 / 9,
+						height: 200,
 					}}>
-						<VideoPlayer
-							source={video}
+						<YoutubeIframe
+							height={200}
+							videoId={url}
 						/>
 					</View>
 				) : null

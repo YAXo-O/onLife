@@ -3,7 +3,6 @@ import { View } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 
-import { AuthScreen } from '@app/screens/External/Auth/Auth';
 import { MainScreen } from '@app/screens/Internal/MainScreen';
 import { ProfileMenuScreen } from '@app/screens/Internal/Profile/ProfileMenuScreen';
 import { TrainingListScreen } from '@app/screens/Internal/TrainingListScreen';
@@ -14,20 +13,21 @@ import { getOptions } from '@app/navigation/options';
 import { Routes } from '@app/navigation/routes';
 import { DeleteProfileScreen } from '@app/screens/Internal/Profile/DeleteProfileScreen';
 import { TrainingScreen } from '@app/screens/Internal/Training/Training';
+import { AuthByPhoneScreen } from '@app/screens/External/Auth/AuthByPhone';
 
 const NavigationStack = createNativeStackNavigator();
 
 export const Navigation: React.FC = () => {
-	const { id } = withUser();
+	const { session } = withUser();
 	const navigation = useNavigation();
 
 	React.useEffect(() => {
-		if (id !== null) {
+		if (session !== null) {
 			navigation.navigate(Routes.Main);
 		} else {
 			navigation.navigate(Routes.Auth);
 		}
-	}, [id]);
+	}, [session]);
 
 	return (
 		<View style={{ flex: 1, }}>
@@ -35,7 +35,7 @@ export const Navigation: React.FC = () => {
 				<NavigationStack.Screen
 					name={Routes.Auth}
 					options={{ headerShown: false, }}
-					component={AuthScreen}
+					component={AuthByPhoneScreen}
 				/>
 				<NavigationStack.Screen
 					name={Routes.Main}

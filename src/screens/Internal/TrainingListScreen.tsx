@@ -12,9 +12,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { palette } from '@app/styles/palette';
 
 import { IState } from '@app/store/IState';
-import { TrainingBlock } from '@app/objects/training/TrainingBlock';
+import { OnlifeTrainingBlock } from '@app/objects/training/TrainingBlock';
 
-import { TrainingDay } from '@app/objects/training/TrainingDay';
+import { OnlifeTrainingDay } from '@app/objects/training/TrainingDay';
 import { withUser } from '@app/hooks/withUser';
 import { typography } from '@app/styles/typography';
 
@@ -56,16 +56,16 @@ function getIcon(status: AvailabilityStatus): React.ReactNode {
 	}
 }
 
-function getTrainings(block?: TrainingBlock): Array<ListItemProps> {
+function getTrainings(block?: OnlifeTrainingBlock): Array<ListItemProps> {
 	if (!block) return [];
 	if (!block.days?.length) return [];
 
-	let cur = block.days?.find((item: TrainingDay) => !item.time);
+	let cur = block.days?.find((item: OnlifeTrainingDay) => !item.time);
 	if (cur == null) {
 		cur = block.days[0];
 	}
 
-	return (block?.days ?? []).map((item: TrainingDay) => {
+	return (block?.days ?? []).map((item: OnlifeTrainingDay) => {
 		let status = AvailabilityStatus.Available;
 		if (!block.available) {
 			status = AvailabilityStatus.Locked;
@@ -86,14 +86,14 @@ function getTrainings(block?: TrainingBlock): Array<ListItemProps> {
 
 export const TrainingListScreen: React.FC = () => {
 	const info = useSelector((state: IState) => state.training.item);
-	const { user } = withUser();
+	const session = useSelector((state: IState) => state.session.item);
 	const dispatch = useDispatch();
 	const { navigate } = useNavigation();
 
 	const blockId = info?.block;
 	if (!blockId) return null;
 
-	const block = user?.training?.blocks.find((item: TrainingBlock) => item.id === blockId);
+	const block = session?.blocks.find((item: OnlifeTrainingBlock) => item.id === blockId);
 	if (!block) return null;
 
 	const onPress = (id: string) => {

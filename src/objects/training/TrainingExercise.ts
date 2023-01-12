@@ -1,13 +1,13 @@
 import { WithId } from '@app/objects/utility/WithId';
 import { Nullable } from '@app/objects/utility/Nullable';
-import { Exercise } from '@app/objects/program/Exercise';
+import { OnlifeExercise } from '@app/objects/program/Exercise';
 import { TrainingRound } from '@app/objects/training/TrainingRound';
-import { TrainingDay } from '@app/objects/training/TrainingDay';
+import { OnlifeTrainingDay } from '@app/objects/training/TrainingDay';
 
 export interface TrainingExercise extends WithId {
 	order: number;
 
-	exercise: Nullable<Exercise>;
+	exercise: Nullable<OnlifeExercise>;
 	exerciseId: Nullable<string>;
 
 	parent: Nullable<TrainingExercise>;
@@ -16,7 +16,7 @@ export interface TrainingExercise extends WithId {
 
 	rounds: Array<TrainingRound>;
 
-	trainingDay: Nullable<TrainingDay>;
+	trainingDay: Nullable<OnlifeTrainingDay>;
 	trainingDayId: string;
 
 	time: Nullable<number>;

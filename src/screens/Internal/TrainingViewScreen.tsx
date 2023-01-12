@@ -10,23 +10,23 @@ import {
 import { palette } from '@app/styles/palette';
 import { typography } from '@app/styles/typography';
 
-import { TrainingDay } from '@app/objects/training/TrainingDay';
+import { OnlifeTrainingDay } from '@app/objects/training/TrainingDay';
 import { TrainingExercise } from '@app/objects/training/TrainingExercise';
-import { withUser } from '@app/hooks/withUser';
 import { useSelector, useDispatch } from 'react-redux';
 import { IState } from '@app/store/IState';
 import { CurrentTraining } from '@app/store/Types';
 import { Nullable } from '@app/objects/utility/Nullable';
-import { TrainingBlock } from '@app/objects/training/TrainingBlock';
+import { OnlifeTrainingBlock } from '@app/objects/training/TrainingBlock';
 
-import Rounds from '@assets/icons/rounds.svg';
-import Dumbbell from '@assets/icons/dumbbell.svg';
 import { ActionButton } from '@app/components/buttons/ActionButton';
 import { useNavigation } from '@react-navigation/native';
 import { Routes } from '@app/navigation/routes';
-import { Training } from '@app/objects/training/Training';
 import { LocalActionCreators } from '@app/store/LocalState/ActionCreators';
 import { SafeAreaView } from '@app/components/safearea/SafeAreaView';
+import { OnlifeTraining } from '@app/objects/training/Training';
+
+import Rounds from '@assets/icons/rounds.svg';
+import Dumbbell from '@assets/icons/dumbbell.svg';
 
 interface ListItemProps {
 	id: string;
@@ -37,19 +37,19 @@ interface ListItemProps {
 	order: number,
 }
 
-function getDay(training?: Nullable<Training>, info?: Nullable<CurrentTraining>): Nullable<TrainingDay> {
+function getDay(training?: Nullable<OnlifeTraining>, info?: Nullable<CurrentTraining>): Nullable<OnlifeTrainingDay> {
 	if (!training || !info) return null;
 
-	const block = training.blocks.find((block: TrainingBlock) => block.id === info.block);
+	const block = training.blocks.find((block: OnlifeTrainingBlock) => block.id === info.block);
 	if (!block) return null;
 
-	const day = block.days.find((day: TrainingDay) => day.id === info.day);
+	const day = block.days.find((day: OnlifeTrainingDay) => day.id === info.day);
 	if (!day) return null;
 
 	return day;
 }
 
-function getExercises(day?: Nullable<TrainingDay>): Array<ListItemProps> {
+function getExercises(day?: Nullable<OnlifeTrainingDay>): Array<ListItemProps> {
 	if (!day) return [];
 
 	return day.exercises.map((item: TrainingExercise) => {
@@ -60,19 +60,19 @@ function getExercises(day?: Nullable<TrainingDay>): Array<ListItemProps> {
 			title: item?.exercise?.name ?? '',
 			subtitle: `Упражнение ${order}`,
 			rounds: item?.rounds.length ?? 0,
-			reps: item?.rounds[0].repeats ?? '0',
+			reps: item?.rounds[0]?.repeats ?? '0',
 			order,
 		};
 	}).sort((a, b) => a.order - b.order);
 }
 
 export const TrainingViewScreen: React.FC = () => {
-	const { user } = withUser();
 	const info = useSelector((store: IState) => store.training.item);
+	const session = useSelector((store: IState) => store.session.item);
 	const dispatch = useDispatch();
 	const { navigate } = useNavigation();
 
-	const day = getDay(user?.training, info);
+	const day = getDay(session, info);
 
 	const render = (info: ListRenderItemInfo<ListItemProps>) => {
 		return (

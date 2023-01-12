@@ -5,7 +5,7 @@ import { Nullable } from '@app/objects/utility/Nullable';
 import { OrderService } from '@app/services/Utilities/OrderService';
 import { TrainingRound } from '@app/objects/training/TrainingRound';
 import { TrainingExercise } from '@app/objects/training/TrainingExercise';
-import { TrainingDay } from '@app/objects/training/TrainingDay';
+import { OnlifeTrainingDay } from '@app/objects/training/TrainingDay';
 import { now } from '@app/utils/datetime';
 
 export interface LoginResponse {
@@ -85,7 +85,7 @@ interface CompleteDayMessage {
 	exercises: Array<CompleteExerciseMessage>;
 }
 
-export function toCompleteMessage(day: TrainingDay): CompleteDayMessage {
+export function toCompleteMessage(day: OnlifeTrainingDay): CompleteDayMessage {
 	return {
 		id: day.id,
 		exercises: day.exercises.map<CompleteExerciseMessage>((exc: TrainingExercise) => ({
@@ -100,9 +100,9 @@ export function toCompleteMessage(day: TrainingDay): CompleteDayMessage {
 	};
 }
 
-export function completeTraining(model: TrainingDay): Promise<TrainingDay> {
+export function completeTraining(model: OnlifeTrainingDay): Promise<OnlifeTrainingDay> {
 	const service = new RequestManager('app/training');
 
 	return service.withBody(toCompleteMessage(model))
-		.post<TrainingDay>();
+		.post<OnlifeTrainingDay>();
 }

@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { User } from '../objects/User';
-import { Nullable } from '../objects/utility/Nullable';
-import { usePrivateStorage } from './usePrivateStorage';
-import { PrivateKeys } from '../services/Privacy/PrivateKeys';
-import { IState } from '../store/IState';
-import { ItemState, State } from '../store/ItemState/State';
-import { ItemActionCreators, ItemEndpointList } from '../store/ItemState/ActionCreators';
-import { PrivateStorage } from '../services/Privacy/PrivateStorage';
-import { LocalActionCreators } from '../store/LocalState/ActionCreators';
+import { User, Client } from '@app/objects/User';
+import { Nullable } from '@app/objects/utility/Nullable';
+import { usePrivateStorage } from '@app/hooks/usePrivateStorage';
+import { PrivateKeys } from '@app/services/Privacy/PrivateKeys';
+import { IState } from '@app/store/IState';
+import { UserState, State } from '@app/store/ItemState/State';
+import { UserActionCreators } from '@app/store/ItemState/ActionCreators';
+import { PrivateStorage } from '@app/services/Privacy/PrivateStorage';
+import { LocalActionCreators } from '@app/store/LocalState/ActionCreators';
 
 interface UserInfo {
 	id: Nullable<string>;
@@ -20,73 +20,70 @@ interface UserInfo {
 	logOut: () => void;
 }
 
-const endpoints: ItemEndpointList = {
-	load: '/app/login',
-	save: '',
-	update: '',
-};
-
 export function withUser(): UserInfo {
 	const session = usePrivateStorage(PrivateKeys.Session);
-	const user = useSelector<IState, ItemState<User>>((state: IState) => state.user);
+	const client = useSelector<IState, UserState<Client>>((state: IState) => state.user);
+
 	const dispatch = useDispatch();
+	const user = React.useMemo(() => client?.item ? new User(client?.item) : null, [client?.item]);
 
 	const logOut = () => {
 		PrivateStorage.clear(PrivateKeys.Session)
 			.then(() => {
-				const creator = new ItemActionCreators('user', endpoints);
+				const creator = new UserActionCreators('user');
 				const factory = new LocalActionCreators('training');
 
 				dispatch(creator.clear());
 				dispatch(factory.clear());
 			});
 	};
+
 	const [info, setInfo] = React.useState<UserInfo>(() => ({
-		id: user.item?.id ?? null,
-		user: user.item,
+		id: user?.id ?? null,
+		user: user,
 		session: session.item,
-		loading: user.state === State.Loading || session.loading,
+		loading: client.state === State.Loading || session.loading,
 		logOut,
 	}));
 
 	React.useEffect(() => {
 		if (session.loading) {
 			setInfo({
-				id: user.item?.id ?? null,
-				user: user.item,
+				id: user?.id ?? null,
+				user: user,
 				session: session.item,
 				loading: true,
 				logOut,
 			});
 		} else if (!session.item) {
 			setInfo({
-				id: user.item?.id ?? null,
+				id: user?.id ?? null,
 				user: null,
 				session: null,
 				loading: false,
 				logOut,
 			});
-		} else if (user.state === State.Loading) {
+		} else if (client.state === State.Loading) {
 			setInfo({
-				id: user.item?.id ?? null,
+				id: user?.id ?? null,
 				user: null,
 				session: session.item,
 				loading: true,
 				logOut,
 			});
-		} else if (user.item === null) {
-			const creator = new ItemActionCreators<User>('user', endpoints);
+		} else if (client.item === null) {
+			const creator = new UserActionCreators('user');
 			dispatch(creator.load());
 		} else {
 			setInfo({
-				id: user.item?.id ?? null,
-				user: user.item,
+				id: user?.id ?? null,
+				user: user,
 				session: session.item,
-				loading: session.loading || user.state === State.Loading,
+				loading: session.loading || client.state === State.Loading,
 				logOut,
 			});
 		}
-	}, [session.item, session.loading, user.item, user.state, dispatch]);
+	}, [session.item, session.loading, user, client.state, dispatch]);
 
 	return info;
 }

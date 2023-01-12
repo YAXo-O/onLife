@@ -40,16 +40,16 @@ function getItems(
 	showLogout: (visible: boolean) => void,
 ): Array<ListItem> {
 	return [
-		{
-			id: 0,
-			title: 'Редактировать профиль',
-			icon: <Edit fillPrimary={palette.cyan['40']} />,
-		},
-		{
-			id: 1,
-			title: 'Изменить пароль',
-			icon: <Key fillPrimary={palette.cyan['40']} />,
-		},
+		// {
+		// 	id: 0,
+		// 	title: 'Редактировать профиль',
+		// 	icon: <Edit fillPrimary={palette.cyan['40']} />,
+		// },
+		// {
+		// 	id: 1,
+		// 	title: 'Изменить пароль',
+		// 	icon: <Key fillPrimary={palette.cyan['40']} />,
+		// },
 		{
 			id: 2,
 			title: 'Удалить учётную запись',

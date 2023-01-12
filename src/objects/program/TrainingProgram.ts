@@ -1,6 +1,6 @@
-import { Nullable } from '../utility/Nullable';
-import { WithId } from '../utility/WithId';
-import { Exercise } from './Exercise';
+import { Nullable } from '@app/objects/utility/Nullable';
+import { WithId } from '@app/objects/utility/WithId';
+import { OnlifeExercise, PowerTrainExercise } from '@app/objects/program/Exercise';
 
 export enum TrainingProgramType
 {
@@ -8,56 +8,56 @@ export enum TrainingProgramType
 	Marathon = 1, // A marathon training
 }
 
-export interface ExerciseRoundParams extends WithId {
+export interface OnlifeExerciseRoundParams extends WithId {
 	order: number;
 
 	repeats: string;
 	weight: string;
 	interval: number;
 
-	parent: Nullable<ExerciseRoundParams>;
+	parent: Nullable<OnlifeExerciseRoundParams>;
 	parentId: Nullable<string>;
-	children: Nullable<Array<ExerciseRoundParams>>;
+	children: Nullable<Array<OnlifeExerciseRoundParams>>;
 }
 
-export interface TrainingProgramDayExercise extends WithId {
+export interface OnlifeTrainingProgramDayExercise extends WithId {
 	order: number;
 
-	exercise: Nullable<Exercise>;
+	exercise: Nullable<OnlifeExercise>;
 	exerciseId: string;
 
-	trainingProgramDay: Nullable<TrainingProgramDay>;
+	trainingProgramDay: Nullable<OnlifeTrainingProgramDay>;
 	trainingProgramDayId: string;
 
-	parent: Nullable<TrainingProgramDayExercise>;
+	parent: Nullable<OnlifeTrainingProgramDayExercise>;
 	parentId: Nullable<string>;
-	children: Nullable<Array<TrainingProgramDayExercise>>;
+	children: Nullable<Array<OnlifeTrainingProgramDayExercise>>;
 
-	rounds: Array<ExerciseRoundParams>;
+	rounds: Array<OnlifeExerciseRoundParams>;
 }
 
-export interface TrainingProgramDay extends WithId {
+export interface OnlifeTrainingProgramDay extends WithId {
 	name: string;
 	description: string;
 
-	trainingProgramBlock: Nullable<TrainingProgramBlock>;
+	trainingProgramBlock: Nullable<OnlifeTrainingProgramBlock>;
 	trainingProgramBlockId: string;
 
 	order: number;
-	exercises: Array<TrainingProgramDayExercise>;
+	exercises: Array<OnlifeTrainingProgramDayExercise>;
 }
 
-export interface TrainingProgramBlock extends WithId {
+export interface OnlifeTrainingProgramBlock extends WithId {
 	order: number;
 	description: string;
 
-	trainingProgram: Nullable<TrainingProgram>;
+	trainingProgram: Nullable<OnlifeTrainingProgram>;
 	trainingProgramId: string;
 
-	days: Array<TrainingProgramDay>;
+	days: Array<OnlifeTrainingProgramDay>;
 }
 
-export interface TrainingProgram extends WithId {
+export interface OnlifeTrainingProgram extends WithId {
 	name: string;
 	description: string;
 
@@ -65,5 +65,118 @@ export interface TrainingProgram extends WithId {
 	createdDate: number;
 	type: TrainingProgramType;
 
-	blocks: Array<TrainingProgramBlock>;
+	blocks: Array<OnlifeTrainingProgramBlock>;
+}
+
+export enum PowerAppTrainingExerciseParamCode {
+	Sets = 'sets',
+	Reps = 'reps',
+	Rest = 'rest',
+	Weight = 'weight',
+}
+
+export interface PowerAppTrainingExerciseParams {
+	code: PowerAppTrainingExerciseParamCode;
+	number: string;
+	active: boolean;
+}
+
+export interface PowerAppTrainingProgramDayExercise extends WithId {
+	name: string;
+	exercise_id: string;
+	params: Array<PowerAppTrainingExerciseParams>;
+	extended?: true;
+	extendedParams?: Record<string, Record<PowerAppTrainingExerciseParamCode, { number: string } | undefined>>;
+	superset?: {
+		[PowerAppTrainingExerciseParamCode.Sets]?: string;
+		[PowerAppTrainingExerciseParamCode.Reps]?: string;
+		[PowerAppTrainingExerciseParamCode.Weight]?: string;
+		[PowerAppTrainingExerciseParamCode.Rest]?: string;
+	};
+}
+
+export interface PowerAppTrainingProgramDay extends WithId {
+	name: string;
+	weekday: number;
+
+	exercises: Array<PowerAppTrainingProgramDayExercise>;
+}
+
+export interface PowerAppTrainingProgram extends WithId<number> {
+	name: string;
+	description: Nullable<string>;
+	cycles: Nullable<number>;
+
+	trainingDays: Array<PowerAppTrainingProgramDay>;
+	exercises: Record<string, PowerTrainExercise>;
+}
+
+export class TrainingProgramDay implements WithId {
+	private readonly source: PowerAppTrainingProgramDay;
+
+	constructor(item: PowerAppTrainingProgramDay) {
+		this.source = item;
+	}
+
+	public get id(): string {
+		return this.source.id;
+	}
+
+	public get name(): string {
+		return this.source.name;
+	}
+
+	public get description(): Nullable<string> {
+		return null;
+	}
+
+	public get order(): number {
+		return this.source.weekday;
+	}
+}
+
+export class TrainingProgramBlock implements WithId {
+	public readonly order: number;
+	public readonly days: Array<TrainingProgramDay>;
+
+	public constructor(order: number, days: Array<PowerAppTrainingProgramDay>) {
+		this.order = order;
+		this.days = days.map((item: PowerAppTrainingProgramDay) => new TrainingProgramDay(item));
+	}
+
+	public get id(): string {
+		return this.order.toString();
+	}
+
+	public get description(): Nullable<string> {
+		return null;
+	}
+}
+
+export class TrainingProgram implements WithId {
+	private readonly source: PowerAppTrainingProgram;
+	public readonly blocks: Array<TrainingProgramBlock>;
+
+	public constructor(item: PowerAppTrainingProgram) {
+		this.source = item;
+
+		const blocks: Array<TrainingProgramBlock> = [];
+		const count = item.cycles ?? 1;
+		for (let i = 0; i < count; i++) {
+			blocks.push(new TrainingProgramBlock(i, item.trainingDays));
+		}
+		this.blocks = blocks;
+	}
+
+	public get id(): string {
+		return this.source.id.toString();
+	}
+
+	public get name(): string {
+		return this.source.name;
+	}
+
+	public get description(): Nullable<string> {
+		return this.source.description;
+	}
 }

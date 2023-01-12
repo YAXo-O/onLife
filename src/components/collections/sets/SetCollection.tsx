@@ -9,7 +9,7 @@ import {
 	Text, TextInput,
 } from 'react-native';
 
-import { TrainingProgramDayExercise } from '@app/objects/program/TrainingProgram';
+import { OnlifeTrainingProgramDayExercise } from '@app/objects/program/TrainingProgram';
 import { TrainingExercise } from '@app/objects/training/TrainingExercise';
 import { TrainingRound } from '@app/objects/training/TrainingRound';
 import { typography } from '@app/styles/typography';
@@ -19,7 +19,7 @@ interface OwnProps {
 	style?: StyleProp<ViewStyle>;
 
 	value: TrainingExercise;
-	reference: TrainingProgramDayExercise;
+	reference: OnlifeTrainingProgramDayExercise;
 }
 
 export const SetCollection: React.FC<OwnProps> = (props: OwnProps) => {

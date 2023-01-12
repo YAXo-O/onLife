@@ -3,13 +3,13 @@ import { View, Text, StyleSheet } from 'react-native';
 
 import { WeightInput } from '../../../../input/WeightInput';
 import { Timer } from '../../../../timer/Timer';
-import { ExerciseRoundParams, ExerciseRoundType } from '../../../../../objects/program/TrainingProgram';
+import { OnlifeExerciseRoundParams, ExerciseRoundType } from '../../../../../objects/program/TrainingProgram';
 import { useTimer } from '../../../../../hooks/useTimer';
 import { TrainingRound } from '../../../../../objects/training/TrainingRound';
 
 interface OwnProps {
 	completed: Array<TrainingRound>;
-	rounds: Array<ExerciseRoundParams>;
+	rounds: Array<OnlifeExerciseRoundParams>;
 	onSet: (value: number, id: number) => void;
 	disabled?: boolean;
 }

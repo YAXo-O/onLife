@@ -1,18 +1,27 @@
 import { WithId } from '@app/objects/utility/WithId';
 import { Nullable } from '@app/objects/utility/Nullable';
-import { TrainingBlock } from '@app/objects/training/TrainingBlock';
+import { OnlifeTrainingBlock } from '@app/objects/training/TrainingBlock';
 import { TrainingExercise } from '@app/objects/training/TrainingExercise';
 
-export interface TrainingDay extends WithId {
+export interface OnlifeTrainingDay extends WithId {
 	order: number;
 
 	name: string;
 	description: string;
 
-	trainingBlock: Nullable<TrainingBlock>;
+	trainingBlock: Nullable<OnlifeTrainingBlock>;
 	trainingBlockId: string;
 
 	exercises: Array<TrainingExercise>;
 
 	time: Nullable<number>;
+}
+
+export interface PowerAppTrainingDay extends WithId {
+	created_at: string;
+	program_id: number;
+	day_id: string;
+	cycle: string;
+	status: number;
+	start: number;
 }

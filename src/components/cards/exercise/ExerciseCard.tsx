@@ -2,7 +2,7 @@ import * as React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, StyleProp, ViewStyle } from 'react-native';
 
 import { Nullable } from '../../../objects/utility/Nullable';
-import { TrainingProgramDayExercise } from '../../../objects/program/TrainingProgram';
+import { OnlifeTrainingProgramDayExercise } from '../../../objects/program/TrainingProgram';
 
 import { TabBar, ExerciseTabs } from './Tabs/TabBar';
 
@@ -12,7 +12,7 @@ import { TabPane } from './Tabs/TabPane';
 
 interface OwnProps {
 	order: number;
-	exercise: Nullable<TrainingProgramDayExercise>;
+	exercise: Nullable<OnlifeTrainingProgramDayExercise>;
 	style?: StyleProp<ViewStyle>;
 }
 

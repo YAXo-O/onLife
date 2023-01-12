@@ -1,8 +1,8 @@
-import { TrainingDay } from '../../../objects/training/TrainingDay';
+import { OnlifeTrainingDay } from '../../../objects/training/TrainingDay';
 import { RequestManager } from '../RequestService';
 import { TrainingExercise } from '../../../objects/training/TrainingExercise';
 
-export function completeDay(day: TrainingDay): Promise<TrainingDay> {
+export function completeDay(day: OnlifeTrainingDay): Promise<OnlifeTrainingDay> {
 	const service = new RequestManager('app/training');
 
 	day.exercises.forEach((q: TrainingExercise) => {
@@ -16,5 +16,5 @@ export function completeDay(day: TrainingDay): Promise<TrainingDay> {
 	});
 
 	return service.withBody(day)
-		.post<TrainingDay>();
+		.post<OnlifeTrainingDay>();
 }

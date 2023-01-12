@@ -1,5 +1,6 @@
 import { WithId } from '../utility/WithId';
 import { ExerciseMuscle } from './ExerciseMuscle';
+import { Nullable } from '@app/objects/utility/Nullable';
 
 export enum ExerciseProperty {
 	EPWeight = 1,
@@ -23,16 +24,28 @@ export function toArray(properties: number): Array<ExerciseProperty> {
 	return result;
 }
 
-export interface Exercise extends WithId {
+export interface OnlifeExercise extends WithId {
 	name: string;
 	details: string;
 	description: string;
 
-	image: string;
-	schema: string;
-	video: string;
-	audio: string;
+	image: Nullable<string>;
+	schema: Nullable<string>;
+	video: Nullable<string>;
+	audio: Nullable<string>;
 
 	properties: number;
 	muscles: Array<ExerciseMuscle>;
+}
+
+export interface PowerTrainExercise extends WithId {
+	name: string;
+	intro: Nullable<string>;
+	text: Nullable<string>;
+	photo: Nullable<string>;
+	scheme: Nullable<string>;
+	video: {
+		preview: string;
+		url: string;
+	};
 }

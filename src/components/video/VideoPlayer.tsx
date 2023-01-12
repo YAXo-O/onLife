@@ -5,9 +5,11 @@ import {
 	View,
 	TouchableWithoutFeedback,
 	Text,
-	Modal, StatusBar,
+	Modal,
+	StatusBar,
 } from 'react-native';
 import { Slider } from '@miblanchard/react-native-slider';
+import proxy from 'react-native-video-cache';
 
 import { Nullable } from '@app/objects/utility/Nullable';
 import { formatTime } from '@app/utils/datetime';
@@ -45,7 +47,7 @@ const Player: React.FC<Props> = (props: Props) => {
 				<Video
 					paused={paused}
 					currentTime={time}
-					source={{ uri: source }}
+					source={{ uri: proxy(source) }}
 					resizeMode="contain"
 					style={styles.player}
 					onError={(error: LoadError) => console.log(error.error)}
@@ -141,6 +143,14 @@ export const VideoPlayer: React.FC<OwnProps> = (props: OwnProps) => {
 	const [fullscreen, setFullscreen] = React.useState<boolean>(() => false);
 	const toggle = () => setFullscreen((state: boolean) => !state);
 
+	const Component = () => (
+		<Player
+			{...props}
+			fullscreen={fullscreen}
+			toggleFullscreen={toggle}
+		/>
+	);
+
 	if (fullscreen) {
 		return (
 			<Modal
@@ -149,7 +159,7 @@ export const VideoPlayer: React.FC<OwnProps> = (props: OwnProps) => {
 			>
 				<StatusBar translucent={false} />
 				<View style={{ backgroundColor: 'black', flex: 1 }}>
-					<Player {...props} fullscreen={fullscreen} toggleFullscreen={toggle} />
+					<Component />
 				</View>
 			</Modal>
 		);
@@ -157,7 +167,7 @@ export const VideoPlayer: React.FC<OwnProps> = (props: OwnProps) => {
 
 	return (
 		<View style={styles.container}>
-			<Player {...props} fullscreen={fullscreen} toggleFullscreen={toggle} />
+			<Component />
 		</View>
 	);
 };

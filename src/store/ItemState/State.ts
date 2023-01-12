@@ -1,4 +1,4 @@
-import { Nullable } from '../../objects/utility/Nullable';
+import { Nullable } from '@app/objects/utility/Nullable';
 
 export enum State {
 	Ok = 0,
@@ -6,13 +6,13 @@ export enum State {
 	Failure = 2,
 }
 
-export interface ItemState<T> {
+export interface UserState<T> {
 	item: Nullable<T>;
 	state: State;
 	message: Nullable<string>;
 }
 
-export function initItemState<T>(): ItemState<T> {
+export function initItemState<T>(): UserState<T> {
 	return {
 		item: null,
 		state: State.Ok,
