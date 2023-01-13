@@ -28,6 +28,7 @@ export function withUser(): UserInfo {
 	const user = React.useMemo(() => client?.item ? new User(client?.item) : null, [client?.item]);
 
 	const logOut = () => {
+		console.log('Logging out');
 		PrivateStorage.clear(PrivateKeys.Session)
 			.then(() => {
 				const creator = new UserActionCreators('user');
@@ -35,7 +36,8 @@ export function withUser(): UserInfo {
 
 				dispatch(creator.clear());
 				dispatch(factory.clear());
-			});
+			})
+			.catch((error) => console.log('Failed to log out: ', error));
 	};
 
 	const [info, setInfo] = React.useState<UserInfo>(() => ({

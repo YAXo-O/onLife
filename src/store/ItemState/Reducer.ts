@@ -19,9 +19,6 @@ export function itemReducer<T extends keyof IState>(state: IState[T] | undefined
 			};
 
 		case ItemActionType.Set: {
-			console.log('Store: ', action.store);
-			console.log('Setting item ', action.payload);
-
 			return {
 				...state,
 				item: action.payload,

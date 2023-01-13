@@ -47,11 +47,6 @@ export const MainScreen: React.FC = () => {
 		refresh();
 	}, [id, training]);
 
-	// Prevent go-back on software / hardware 'back' button press
-	React.useEffect(() => {
-		navigation.addListener('beforeRemove', (event) => event.preventDefault());
-	}, [navigation]);
-
 	const onPress = (id?: string) => {
 		const creator = new LocalActionCreators('training');
 		dispatch(creator.set({ block: id }));

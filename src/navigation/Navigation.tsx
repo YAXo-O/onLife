@@ -23,9 +23,19 @@ export const Navigation: React.FC = () => {
 
 	React.useEffect(() => {
 		if (session !== null) {
-			navigation.navigate(Routes.Main);
+			navigation.reset({
+				index: 0,
+				routes: [
+					{ name: Routes.Main },
+				],
+			});
 		} else {
-			navigation.navigate(Routes.Auth);
+			navigation.reset({
+				index: 0,
+				routes: [
+					{ name: Routes.Auth },
+				],
+			});
 		}
 	}, [session]);
 

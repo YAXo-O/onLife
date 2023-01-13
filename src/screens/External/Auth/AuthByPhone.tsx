@@ -37,8 +37,9 @@ interface CodeStepProps {
 	onConfirm: (token: string) => void;
 }
 
+const regexp = /^[+]\d*$/;
 const PhoneStep: React.FC<PhoneStepProps> = (props: PhoneStepProps) => {
-	const [phone, setPhone] = React.useState<string>(() => '');
+	const [phone, setPhone] = React.useState<string>(() => '+7');
 	const [count, setCount] = React.useState<number>(() => 0);
 	const [error, setError] = React.useState<Nullable<string>>(() => null);
 	const { start, finish } = useLoader();
@@ -49,13 +50,21 @@ const PhoneStep: React.FC<PhoneStepProps> = (props: PhoneStepProps) => {
 				<WavyFormRow
 					value={phone}
 					error={undefined}
-					onChange={setPhone}
+					onChange={(value: string) => {
+						if (value && !regexp.test(value)) return;
+
+						setPhone(value);
+					}}
 					placeholder="Телефон"
+					keyboardType="phone-pad"
 					textContentType="telephoneNumber"
 					icon={<Phone fillPrimary={palette.white['100']} />}
 					type={WavyFormRowType.Left}
 					enclosed
 				/>
+				<Text style={styles.details}>
+					Введите номер телефона в формате +7XXXXXXXXXX
+				</Text>
 			</View>
 			<View style={{ padding: 32 }}>
 				<ActionButton
@@ -101,6 +110,7 @@ const CodeStep: React.FC<CodeStepProps> = (props: CodeStepProps) => {
 					onChange={(value: string) => setCode(value)}
 					placeholder="Код подтверждения"
 					textContentType="oneTimeCode"
+					keyboardType="number-pad"
 					icon={<Key fillPrimary={palette.white['100']} />}
 					type={WavyFormRowType.Right}
 					enclosed

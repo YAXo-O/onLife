@@ -154,7 +154,6 @@ export const TrainingScreen: React.FC = () => {
 		const block = training.blocks.find((q: OnlifeTrainingBlock) => q.id === day.trainingBlockId);
 		if (!block) return;
 
-		console.log('[Rounds]: ', day.exercises.map((item: TrainingExercise) => item.rounds));
 		const message = new SessionAdaptor(training, block, day);
 
 		Timer.stop();

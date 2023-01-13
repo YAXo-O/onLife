@@ -31,6 +31,8 @@ export function usePrivateStorage(key: PrivateKeys): StorageState {
 		return () => PrivateStorage.unsubscribe(id);
 	}, [key]);
 
+	React.useEffect(() => console.log('Item has changed: ', item), [item]);
+
 	return {
 		item,
 		loading,
