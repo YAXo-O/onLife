@@ -7,7 +7,7 @@ import {
 	Text,
 	TouchableOpacity,
 	ScrollView,
-	ImageBackground, LayoutChangeEvent,
+	ImageBackground,
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -31,17 +31,19 @@ import TrainingVideo from '@assets/icons/training_video.svg';
 import TrainingMaterial from '@assets/icons/training_material.svg';
 import TrainingStats from '@assets/icons/training_stats.svg';
 import { useLoader } from '@app/hooks/useLoader';
-import { completeTraining } from '@app/services/Requests/AppRequests/UserRequests';
-import { OnlifeTrainingDay } from '@app/objects/training/TrainingDay';
 import { toString } from '@app/utils/validation';
 import { LocalActionCreators } from '@app/store/LocalState/ActionCreators';
-import { setAction as itemSetAction } from '@app/store/ItemState/ActionCreators';
 import { useNavigation } from '@react-navigation/native';
 import { Routes } from '@app/navigation/routes';
 import { AlertBox, AlertType } from '@app/components/alertbox/AlertBox';
 import { Timer } from '@app/components/timer/Timer';
-import { OrderService } from '@app/services/Utilities/OrderService';
 import { SafeAreaView } from '@app/components/safearea/SafeAreaView';
+import { SessionAdaptor } from '@app/objects/adaptors/SessionAdaptor';
+import { OnlifeTrainingBlock } from '@app/objects/training/TrainingBlock';
+import { saveTraining } from '@app/services/Requests/PowerTrainRequests/TrainingProgram';
+import { OnlifeTraining } from '@app/objects/training/Training';
+import { OnlifeTrainingDay } from '@app/objects/training/TrainingDay';
+import { TrainingRound } from '@app/objects/training/TrainingRound';
 
 interface HeaderItem {
 	id: string;
@@ -67,8 +69,52 @@ function getList(info: Nullable<CurrentTraining> | undefined): Array<HeaderItem>
 const collectionHeight = 150;
 const offset = collectionHeight + 15;
 
+function updateTrainingTime(training: OnlifeTraining): OnlifeTraining {
+	const result: OnlifeTraining = { ...training };
+	result.blocks = training.blocks.map((block: OnlifeTrainingBlock) => {
+		const item = { ...block };
+
+		item.days = block.days.map((day: OnlifeTrainingDay) => {
+			const item = { ...day };
+
+			item.exercises = day.exercises.map((exercise: TrainingExercise) => {
+				const item = { ...exercise };
+
+				const time = Math.max.apply(null, item.rounds.map((item: TrainingRound) => item.time ?? Infinity));
+				item.time = time === Infinity ? null : time;
+
+				return item;
+			});
+
+			const time = Math.max.apply(null, item.exercises.map((item: TrainingExercise) => item.time ?? Infinity));
+			item.time = time === Infinity ? null : time;
+
+			return item;
+		});
+
+		const time = Math.max.apply(null, item.days.map((item: OnlifeTrainingDay) => item.time ?? Infinity));
+		item.time = time === Infinity ? null : time;
+
+		return item;
+	});
+
+	return result;
+}
+
+function updateAvailability(training: OnlifeTraining): OnlifeTraining {
+	const index = training.blocks.findIndex((block: OnlifeTrainingBlock) => block.time === null);
+	if (index >= 0) {
+		for (let i = 0; i <= index; i++) {
+			training.blocks[i].available = true;
+		}
+	}
+
+	return training;
+}
+
 export const TrainingScreen: React.FC = () => {
 	const { start, finish } = useLoader();
+	const { id } = withUser();
 	const [error, setError] = React.useState<Nullable<string>>(() => null);
 	const [slide, setSlide] = React.useState<number>(() => 0);
 
@@ -87,6 +133,10 @@ export const TrainingScreen: React.FC = () => {
 
 	const completeDay = () => {
 		if (!day) return;
+		if (!id) return;
+
+		const userId = Number.parseInt(id);
+		if (Number.isNaN(userId)) return;
 
 		if (day.time) {
 			const creator = new LocalActionCreators('training');
@@ -96,27 +146,29 @@ export const TrainingScreen: React.FC = () => {
 			Timer.stop();
 		}
 
+		if (day.exercises.find((item: TrainingExercise) => item.time === null)) return;
+
 		setError(null);
+		if (!training) return;
+
+		const block = training.blocks.find((q: OnlifeTrainingBlock) => q.id === day.trainingBlockId);
+		if (!block) return;
+
+		console.log('[Rounds]: ', day.exercises.map((item: TrainingExercise) => item.rounds));
+		const message = new SessionAdaptor(training, block, day);
+
+		Timer.stop();
 		start();
-		completeTraining(day)
-			.then((item: OnlifeTrainingDay) => {
-				const creator = new LocalActionCreators('training');
-				dispatch(creator.set({ day: null, block: null, active: null }));
+		saveTraining(userId, message)
+			.then(() => {
+				const trainingCreator = new LocalActionCreators('training');
+				dispatch(trainingCreator.set({ day: null, block: null, active: null }));
 
-				if (!training) return;
-
-				const block = training.blocks.find(q => q.id === item.trainingBlockId);
-				if (!block) return;
-
-				const dayId = block.days.findIndex(q => q.id === item.id);
-				if (dayId < 0) return;
-
-				item.exercises = OrderService.sort(item.exercises);
-				block.days[dayId] = item;
-				dispatch(itemSetAction({ ...training }, 'session'))
+				const sessionCreator = new LocalActionCreators('session');
+				const item = updateAvailability(updateTrainingTime(training));
+				dispatch(sessionCreator.set(item));
 
 				navigate(Routes.Main);
-				Timer.stop();
 			})
 			.catch((error: string | Error) => {
 				console.warn('<Training> failed to complete training: ', error);
@@ -265,6 +317,7 @@ export const TrainingScreen: React.FC = () => {
 						elevation: slide > 0.5 ? 1 : 3,
 					}
 				]}
+				contentContainerStyle={{ paddingHorizontal: 22 }}
 				data={list}
 				renderItem={(item: ListRenderItemInfo<HeaderItem>) => {
 					const exercise = item.item.exercise;
@@ -323,6 +376,7 @@ export const TrainingScreen: React.FC = () => {
 				}}
 				keyExtractor={(item: HeaderItem) => item.id}
 				ItemSeparatorComponent={() => <View style={{ height: 80, width: 15 }} />}
+				showsHorizontalScrollIndicator={false}
 				horizontal
 			/>
 			<AlertBox
@@ -352,7 +406,6 @@ const styles = StyleSheet.create({
 	collection: {
 		marginTop: 10,
 		marginBottom: 15,
-		paddingHorizontal: 22,
 	},
 	item: {
 		height: 80,

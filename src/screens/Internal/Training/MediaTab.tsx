@@ -13,7 +13,7 @@ export const MediaTab: React.FC<OwnProps> = (props: OwnProps) => {
 	const video = item?.video;
 	const audio = item?.audio;
 	const name = item?.name ?? 'Упражнение';
-	const url = video ? new URL(video).search.get('v') : null;
+	const url = video ? new URL(video).searchParams.get('v') : null;
 
 	return (
 		<View style={{ paddingHorizontal: 8, paddingVertical: 0 }}>

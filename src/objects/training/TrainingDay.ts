@@ -12,6 +12,8 @@ export interface OnlifeTrainingDay extends WithId {
 	trainingBlock: Nullable<OnlifeTrainingBlock>;
 	trainingBlockId: string;
 
+	trainingDayId: string;
+
 	exercises: Array<TrainingExercise>;
 
 	time: Nullable<number>;

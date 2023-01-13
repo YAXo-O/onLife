@@ -25,7 +25,7 @@ export enum PowerAppTrainingRoundParamCode {
 }
 
 export interface PowerAppTrainingRoundParam {
-	code: string;
+	code: PowerAppTrainingRoundParamCode;
 	value: number;
 }
 

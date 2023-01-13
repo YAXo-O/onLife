@@ -13,13 +13,13 @@ import { LocalActionCreators } from '@app/store/LocalState/ActionCreators';
 import { SafeAreaView } from '@app/components/safearea/SafeAreaView';
 import { IState } from '@app/store/IState';
 import { useLoader } from '@app/hooks/useLoader';
-import { getProgram } from '@app/services/Requests/PowerTrainRequests/TrainingProgram';
+import { getTraining } from '@app/services/Requests/PowerTrainRequests/TrainingProgram';
 import { withUser } from '@app/hooks/withUser';
 import { Nullable } from '@app/objects/utility/Nullable';
 import { OnlifeTraining } from '@app/objects/training/Training';
 
 export const MainScreen: React.FC = () => {
-	const { navigate } = useNavigation();
+	const navigation = useNavigation();
 	const { id } = withUser();
 	const training = useSelector((state: IState) => state.session.item);
 	const dispatch = useDispatch();
@@ -29,10 +29,13 @@ export const MainScreen: React.FC = () => {
 		if (id === null) return;
 
 		start();
-		getProgram(id)
+		getTraining(id)
 			.then((result: Nullable<OnlifeTraining>) => {
-				const creator = new LocalActionCreators('session')
-				dispatch(creator.set(result));
+				const sessionCreator = new LocalActionCreators('session')
+				dispatch(sessionCreator.set(result));
+
+				const trainingCreator = new LocalActionCreators('training');
+				dispatch(trainingCreator.set({ day: null, block: null, active: null }));
 			})
 			.catch((error) => console.warn('Failed to load training program: ', error))
 			.finally(finish);
@@ -44,12 +47,17 @@ export const MainScreen: React.FC = () => {
 		refresh();
 	}, [id, training]);
 
+	// Prevent go-back on software / hardware 'back' button press
+	React.useEffect(() => {
+		navigation.addListener('beforeRemove', (event) => event.preventDefault());
+	}, [navigation]);
+
 	const onPress = (id?: string) => {
 		const creator = new LocalActionCreators('training');
 		dispatch(creator.set({ block: id }));
 
 		if (id) {
-			navigate(Routes.TrainingList);
+			navigation.navigate(Routes.TrainingList);
 		}
 	}
 
