@@ -28,11 +28,13 @@ export async function getTraining(userId: string): Promise<Nullable<OnlifeTraini
 				id: value.id,
 			};
 		});
+
+	if (!program) return null;
+
 	const sessions = await new RequestManager(`profile/${userId}/sessions`)
 		.get<SessionWrapper>()
 		.then((item: SessionWrapper) => item.sessions ?? []);
 
-	if (!program) return null;
 
 	return new TrainingAdaptor(sessions, program);
 }

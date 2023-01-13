@@ -1,5 +1,14 @@
 import * as React from 'react';
-import { StatusBar, View, Text, ImageBackground, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import {
+	StatusBar,
+	View,
+	Text,
+	ImageBackground,
+	StyleSheet,
+	Dimensions,
+	TouchableOpacity,
+	KeyboardAvoidingView, ScrollView,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { palette } from '@app/styles/palette';
@@ -164,40 +173,48 @@ export const AuthByPhoneScreen: React.FC = () => {
 	return (
 		<ImageBackground source={Background} style={{ height: height + (StatusBar.currentHeight ?? 0), }} resizeMode="cover">
 			<SafeAreaView style={{ flex: 1 }}>
-				<View style={[styles.row, { marginTop: 52, }]}>
-					<Text style={styles.title}>
-						<Text style={[styles.title, { color: palette.cyan['40'] }]}>ON</Text>
-						<Text style={[styles.title, { color: palette.white['100'] }]}>LIFE</Text>
-					</Text>
-					<Text style={styles.caption}>
-						Авторизация
-					</Text>
-				</View>
-				{
-					step === AuthStep.Phone
-						? (
-							<PhoneStep
-								onNext={(phone: string, challenge: string) => {
-									setPhone(phone);
-									setChallenge(challenge);
-									setStep(AuthStep.Code)
-								}}
-							/>
-						)
-						: (
-							<CodeStep
-								phone={phone}
-								challenge={challenge}
-								onPrevious={() => setStep(AuthStep.Phone)}
-								onConfirm={(token: string) => {
-									start();
-									PrivateStorage.set(PrivateKeys.Session, token)
-										.catch((error) => console.warn('Failed to save token: ', error))
-										.finally(finish);
-								}}
-							/>
-						)
-				}
+				<ScrollView
+					style={{ flex: 1 }}
+					contentContainerStyle={{ flex: 1 }}
+					bounces={false}
+				>
+					<KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+						<View style={[styles.row, { marginTop: 52, }]}>
+							<Text style={styles.title}>
+								<Text style={[styles.title, { color: palette.cyan['40'] }]}>ON</Text>
+								<Text style={[styles.title, { color: palette.white['100'] }]}>LIFE</Text>
+							</Text>
+							<Text style={styles.caption}>
+								Авторизация
+							</Text>
+						</View>
+						{
+							step === AuthStep.Phone
+								? (
+									<PhoneStep
+										onNext={(phone: string, challenge: string) => {
+											setPhone(phone);
+											setChallenge(challenge);
+											setStep(AuthStep.Code)
+										}}
+									/>
+								)
+								: (
+									<CodeStep
+										phone={phone}
+										challenge={challenge}
+										onPrevious={() => setStep(AuthStep.Phone)}
+										onConfirm={(token: string) => {
+											start();
+											PrivateStorage.set(PrivateKeys.Session, token)
+												.catch((error) => console.warn('Failed to save token: ', error))
+												.finally(finish);
+										}}
+									/>
+								)
+						}
+					</KeyboardAvoidingView>
+				</ScrollView>
 			</SafeAreaView>
 		</ImageBackground>
 	);

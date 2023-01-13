@@ -28,7 +28,6 @@ export function withUser(): UserInfo {
 	const user = React.useMemo(() => client?.item ? new User(client?.item) : null, [client?.item]);
 
 	const logOut = () => {
-		console.log('Logging out');
 		PrivateStorage.clear(PrivateKeys.Session)
 			.then(() => {
 				const creator = new UserActionCreators('user');
