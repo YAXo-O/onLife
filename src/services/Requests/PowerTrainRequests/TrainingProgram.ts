@@ -16,27 +16,38 @@ interface SessionWrapper {
 	sessions: Array<PowerAppSession>;
 }
 
+function getProgram(wrapper: ProgramWrapper): Nullable<PowerAppTrainingProgram> {
+	const value = wrapper.programs.find(({ isCurrent }) => isCurrent);
+	if (!value) return null;
+
+	return {
+		...value.program,
+		id: value.id,
+	};
+}
+
+function getSessions(wrapper: SessionWrapper, programId: number): Array<PowerAppSession> {
+	const list =  wrapper.sessions ?? [];
+
+	return list.filter((item: PowerAppSession) => item.program_id === programId);
+}
+
 export async function getTraining(userId: string): Promise<Nullable<OnlifeTraining>> {
-	const program = await new RequestManager(`profile/${userId}/programs`)
-		.get<ProgramWrapper>()
-		.then((wrap: ProgramWrapper) => {
-			const value = wrap.programs.find(({ isCurrent }) => isCurrent);
-			if (!value) return null;
+	try {
+		const programWrapper = await new RequestManager(`profile/${userId}/programs`)
+			.get<ProgramWrapper>();
+		const program = getProgram(programWrapper);
+		if (!program) return null;
 
-			return {
-				...value.program,
-				id: value.id,
-			};
-		});
+		const sessionWrapper = await new RequestManager(`profile/${userId}/sessions`)
+			.get<SessionWrapper>();
+		const sessions = getSessions(sessionWrapper, program.id);
 
-	if (!program) return null;
-
-	const sessions = await new RequestManager(`profile/${userId}/sessions`)
-		.get<SessionWrapper>()
-		.then((item: SessionWrapper) => item.sessions ?? []);
-
-
-	return new TrainingAdaptor(sessions, program);
+		return new TrainingAdaptor(sessions, program);
+	} catch (e) {
+		console.warn('Failed to get trainings: ', e);
+		throw new Error('Training request failed');
+	}
 }
 
 interface SaveSessionWrapper {

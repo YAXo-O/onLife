@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { useNavigation } from '@react-navigation/native';
-import {
-	StyleSheet,
-} from 'react-native';
+import { StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { palette } from '@app/styles/palette';
@@ -17,6 +15,7 @@ import { getTraining } from '@app/services/Requests/PowerTrainRequests/TrainingP
 import { withUser } from '@app/hooks/withUser';
 import { Nullable } from '@app/objects/utility/Nullable';
 import { OnlifeTraining } from '@app/objects/training/Training';
+import { AlertBox, AlertType } from '@app/components/alertbox/AlertBox';
 
 export const MainScreen: React.FC = () => {
 	const navigation = useNavigation();
@@ -24,20 +23,29 @@ export const MainScreen: React.FC = () => {
 	const training = useSelector((state: IState) => state.session.item);
 	const dispatch = useDispatch();
 	const { start, finish } = useLoader();
+	const [error, setError] = React.useState<Nullable<string>>(() => null);
 
 	const refresh = () => {
 		if (id === null) return;
 
+		setError(null);
 		start();
 		getTraining(id)
 			.then((result: Nullable<OnlifeTraining>) => {
 				const sessionCreator = new LocalActionCreators('session')
-				dispatch(sessionCreator.set(result));
+				if (result) {
+					dispatch(sessionCreator.set(result));
+				} else {
+					dispatch(sessionCreator.clear());
+				}
 
 				const trainingCreator = new LocalActionCreators('training');
 				dispatch(trainingCreator.set({ day: null, block: null, active: null }));
 			})
-			.catch((error) => console.warn('Failed to load training program: ', error))
+			.catch((error) => {
+				console.warn('Failed to load training program: ', error);
+				setError('Не удалось получить данные по программе тренировок. Проверьте состояние сети и убедитесь, что вам добавлена тренировочная программа');
+			})
 			.finally(finish);
 	};
 
@@ -62,6 +70,11 @@ export const MainScreen: React.FC = () => {
 				header={<UserCard style={styles.card} />}
 				onPress={onPress}
 				onRefresh={refresh}
+			/>
+			<AlertBox
+				message={error}
+				title="Ошибка при получении данных"
+				type={AlertType.error}
 			/>
 		</SafeAreaView>
 	);
