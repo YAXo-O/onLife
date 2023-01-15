@@ -183,7 +183,6 @@ export const TrainingTab: React.FC<TrainingTabProps> = (props: TrainingTabProps)
 									if (value === undefined) return;
 
 									if (item.item.time === null) {
-										console.log('Item: ', item.item);
 										Timer.fire(item.item.interval);
 									}
 

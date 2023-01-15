@@ -90,10 +90,7 @@ export const Timer: TimerComponent = () => {
 	);
 }
 
-Timer.fire = (value: number) => {
-	console.log('Value: ', value);
-	fire(moment().unix() + value);
-}
+Timer.fire = (value: number) => fire(moment().unix() + value);
 Timer.stop = () => stop();
 
 const styles = StyleSheet.create({
