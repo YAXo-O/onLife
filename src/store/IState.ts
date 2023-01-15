@@ -18,11 +18,11 @@ import { counterReducer } from '@app/store/CounterState/Reducer';
 import { LocalState, initLocalState } from '@app/store/LocalState/State';
 import { getLocalReducer } from '@app/store/LocalState/Reducer';
 import { CurrentTraining } from '@app/store/Types';
-import { Client } from '@app/objects/User';
+import { User } from '@app/objects/User';
 import { OnlifeTraining } from '@app/objects/training/Training';
 
 export interface IState {
-	user: UserState<Client>;
+	user: UserState<User>;
 	training: LocalState<CurrentTraining>;
 	session: LocalState<OnlifeTraining>;
 	counter: CounterState;
@@ -30,7 +30,7 @@ export interface IState {
 }
 
 export const initialState: IState = {
-	user: initItemState<Client>(),
+	user: initItemState<User>(),
 	training: initLocalState<CurrentTraining>(),
 	session: initLocalState<OnlifeTraining>(),
 	counter: { counter: 0 },

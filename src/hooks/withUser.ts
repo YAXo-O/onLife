@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { User, Client } from '@app/objects/User';
+import { User } from '@app/objects/User';
 import { Nullable } from '@app/objects/utility/Nullable';
 import { usePrivateStorage } from '@app/hooks/usePrivateStorage';
 import { PrivateKeys } from '@app/services/Privacy/PrivateKeys';
@@ -10,6 +10,7 @@ import { UserState, State } from '@app/store/ItemState/State';
 import { UserActionCreators } from '@app/store/ItemState/ActionCreators';
 import { PrivateStorage } from '@app/services/Privacy/PrivateStorage';
 import { LocalActionCreators } from '@app/store/LocalState/ActionCreators';
+import { UserAdaptor } from '@app/objects/adaptors/UserAdaptor';
 
 interface UserInfo {
 	id: Nullable<string>;
@@ -22,19 +23,21 @@ interface UserInfo {
 
 export function withUser(): UserInfo {
 	const session = usePrivateStorage(PrivateKeys.Session);
-	const client = useSelector<IState, UserState<Client>>((state: IState) => state.user);
+	const client = useSelector<IState, UserState<User>>((state: IState) => state.user);
 
 	const dispatch = useDispatch();
-	const user = React.useMemo(() => client?.item ? new User(client?.item) : null, [client?.item]);
+	const user = React.useMemo(() => client?.item ? new UserAdaptor(client?.item) : null, [client?.item]);
 
 	const logOut = () => {
 		PrivateStorage.clear(PrivateKeys.Session)
 			.then(() => {
-				const creator = new UserActionCreators('user');
-				const factory = new LocalActionCreators('training');
+				const user = new UserActionCreators('user');
+				const training = new LocalActionCreators('training');
+				const session = new LocalActionCreators('session');
 
-				dispatch(creator.clear());
-				dispatch(factory.clear());
+				dispatch(user.clear());
+				dispatch(training.clear());
+				dispatch(session.clear());
 			})
 			.catch((error) => console.log('Failed to log out: ', error));
 	};

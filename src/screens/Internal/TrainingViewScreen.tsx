@@ -112,7 +112,7 @@ export const TrainingViewScreen: React.FC = () => {
 			/>
 			<View style={styles.actionContainer}>
 				<ActionButton
-					text="Начать"
+					text={day?.time ? 'Смотреть' : 'Начать'}
 					onPress={() => {
 						if (info?.active?.id !== day?.id) {
 							const creator = new LocalActionCreators('training');

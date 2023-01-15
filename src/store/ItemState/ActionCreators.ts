@@ -2,7 +2,8 @@ import { RequestManager } from '@app/services/Requests/RequestService';
 import { IState } from '@app/store/IState';
 import { ItemDispatchType, ItemActionType, SetItemAction, LoadItemAction, FailItemAction } from '@app/store/ItemState/Actions';
 import { Nullable } from '@app/objects/utility/Nullable';
-import { PowerAppClient, User } from '@app/objects/User';
+import { PowerAppClient, User, Client } from '@app/objects/User';
+import { UserAdaptor } from '@app/objects/adaptors/UserAdaptor';
 
 type GetState = () => IState;
 type ItemThunk<T, TResult = void> = (dispatch: ItemDispatchType<T>, getState: GetState) => TResult;
@@ -37,7 +38,6 @@ function failAction(message: string, store: keyof IState): FailItemAction {
 	};
 }
 
-type Client = PowerAppClient | User;
 
 export class UserActionCreators {
 	private readonly store: keyof IState;
@@ -51,13 +51,13 @@ export class UserActionCreators {
 		this.store = store;
 	}
 
-	public load(): ItemThunk<Client> {
-		return (dispatch: ItemDispatchType<Client>) => {
+	public load(): ItemThunk<User> {
+		return (dispatch: ItemDispatchType<User>) => {
 			dispatch(loadAction(this.store));
 
 			new RequestManager(this.endpoints.load)
 				.get<Client>()
-				.then((item: Client) => dispatch(setAction<Client>(item, this.store)))
+				.then((item: Client) => dispatch(setAction<User>(new UserAdaptor(item), this.store)))
 				.catch((error: string) => dispatch(failAction(error, this.store)));
 		};
 	}

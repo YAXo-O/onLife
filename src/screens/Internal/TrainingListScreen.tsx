@@ -45,9 +45,9 @@ interface ListItemProps {
 function getIcon(status: AvailabilityStatus): React.ReactNode {
 	switch (status) {
 		case AvailabilityStatus.Available:
+		case AvailabilityStatus.Complete:
 			return <Eye/>;
 
-		case AvailabilityStatus.Complete:
 		case AvailabilityStatus.Current:
 			return <Play/>;
 
@@ -67,6 +67,7 @@ function getTrainings(block?: OnlifeTrainingBlock): Array<ListItemProps> {
 
 	return (block?.days ?? []).map((item: OnlifeTrainingDay) => {
 		let status = AvailabilityStatus.Available;
+
 		if (!block.available) {
 			status = AvailabilityStatus.Locked;
 		} else if (item.order === cur!.order) {
