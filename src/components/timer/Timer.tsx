@@ -8,6 +8,8 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import moment from 'moment';
+
 import { formatTime } from '@app/utils/datetime';
 import { Nullable } from '@app/objects/utility/Nullable';
 
@@ -24,7 +26,7 @@ let fire: FireTimer = (time: number) => console.log('Mock timer: ', time);
 let stop: () => void = () => console.log('Stop timer');
 
 function getDiff(time: number): number {
-	const now = +(new Date()) / 1000;
+	const now = moment().unix(); // Current time in seconds
 
 	return time - now;
 }
@@ -43,7 +45,7 @@ export const Timer: TimerComponent = () => {
 		if (time !== null) {
 			const handle = () => {
 				const diff = getDiff(time);
-				setValue(getDiff(time));
+				setValue(diff);
 
 				if (diff < 0 && diff > -offBounce) {
 					Vibration.vibrate();
@@ -88,7 +90,10 @@ export const Timer: TimerComponent = () => {
 	);
 }
 
-Timer.fire = (value: number) => fire(+(new Date()) / 1000 + value);
+Timer.fire = (value: number) => {
+	console.log('Value: ', value);
+	fire(moment().unix() + value);
+}
 Timer.stop = () => stop();
 
 const styles = StyleSheet.create({

@@ -11,6 +11,8 @@ import {
 	StyleSheet,
 } from 'react-native';
 
+import moment from 'moment';
+
 import { LocalActionCreators } from '@app/store/LocalState/ActionCreators';
 import { IState } from '@app/store/IState';
 import { TrainingExercise } from '@app/objects/training/TrainingExercise';
@@ -181,6 +183,7 @@ export const TrainingTab: React.FC<TrainingTabProps> = (props: TrainingTabProps)
 									if (value === undefined) return;
 
 									if (item.item.time === null) {
+										console.log('Item: ', item.item);
 										Timer.fire(item.item.interval);
 									}
 

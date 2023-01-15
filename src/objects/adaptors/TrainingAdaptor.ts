@@ -109,8 +109,8 @@ function getProgramValues(exercise: PowerAppTrainingProgramDayExercise, setId: n
 		params.weight = weight;
 	}
 
-	const interval = toInteger(obj[PowerAppTrainingExerciseParamCode.Rest]?.number);
-	if (interval || interval === 0) {
+	const interval = toTime(obj[PowerAppTrainingExerciseParamCode.Rest]?.number);
+	if (interval !== null) {
 		params.interval = interval;
 	}
 
