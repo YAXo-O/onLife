@@ -13,12 +13,19 @@ import { Store } from 'redux';
 import { Persistor } from 'redux-persist/es/types';
 import { PersistGate } from 'redux-persist/integration/react';
 
+import * as Sentry from '@sentry/react-native';
+
 import { RootScreen } from '@app/screens/Root';
 import { getStore, IState, getPersistor } from '@app/store/IState';
 import { Timer } from '@app/components/timer/Timer';
 import { WeightKeyboard } from '@app/components/keyboard/WeightKeyboard';
 import { useLoader } from '@app/hooks/useLoader';
 import { Spinner } from '@app/components/display/spinner/Spinner';
+
+// Initialize Sentry - this should happen as early as possible so that we can log all possible errors
+Sentry.init({
+	dsn: 'https://0696a7c64a68467ba36c46d843321e08@o376831.ingest.sentry.io/5947463',
+});
 
 // Store should never be changed - so it's ok to call getStore() and getPersistor() only once
 const store: Store<IState> = getStore();
@@ -69,4 +76,5 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default App;
+// Wrap in Sentry to monitor touch events handling and performance
+export default Sentry.wrap(App);
