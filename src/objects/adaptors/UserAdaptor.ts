@@ -77,22 +77,42 @@ function fromOnlifeUser(source: OnlifeUser): User {
 
 export class UserAdaptor implements User {
 	private readonly _age: Nullable<number>;
-	public constructor (source: Client) {
-		const value: User = isOnlifeUser(source) ? fromOnlifeUser(source) : fromPowerAppClient(source);
+	private readonly _isAdaptor: boolean = true;
 
-		this.id = value.id;
-		this.phone = value.phone;
-		this.email = value.email;
+	public constructor (source: Client | UserAdaptor) {
+		if ((source as UserAdaptor)._isAdaptor) {
+			const adaptor = source as UserAdaptor;
+			this.id = adaptor.id;
+			this.phone = adaptor.phone;
+			this.email = adaptor.email;
 
-		this.firstName = value.firstName;
-		this.lastName = value.lastName;
+			this.firstName = adaptor.firstName;
+			this.lastName = adaptor.lastName;
 
-		this.gender = value.gender;
-		this.birthDate = value.birthDate;
+			this.gender = adaptor.gender;
+			this.birthDate = adaptor.birthDate;
 
-		this.height = value.height;
-		this.weight = value.weight;
-		this._age = value.age;
+			this.height = adaptor.height;
+			this.weight = adaptor.weight;
+			this._age = adaptor._age;
+		} else {
+			const client = source as Client;
+			const value: User = isOnlifeUser(client) ? fromOnlifeUser(client) : fromPowerAppClient(client);
+
+			this.id = value.id;
+			this.phone = value.phone;
+			this.email = value.email;
+
+			this.firstName = value.firstName;
+			this.lastName = value.lastName;
+
+			this.gender = value.gender;
+			this.birthDate = value.birthDate;
+
+			this.height = value.height;
+			this.weight = value.weight;
+			this._age = value.age;
+		}
 	}
 
 	public readonly id: string;

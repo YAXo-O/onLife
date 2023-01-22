@@ -24,6 +24,11 @@ import {
 import { OnlifeTrainingDay } from '@app/objects/training/TrainingDay';
 
 function convertExercise(item: PowerTrainExercise): OnlifeExercise {
+	let audio: Nullable<string> = null;
+	if (item.audio) {
+		audio = `https://media.powertrain.app/audio/${item.audio.replace('media:audio/', '')}`;
+	}
+
 	return {
 		id: item.id,
 		name: item.name,
@@ -33,7 +38,7 @@ function convertExercise(item: PowerTrainExercise): OnlifeExercise {
 		image: item.photo,
 		schema: item.scheme,
 		video: item.video?.url,
-		audio: null,
+		audio,
 
 		properties: 0,
 		muscles: [],

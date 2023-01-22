@@ -61,9 +61,6 @@ function getTrainings(block?: OnlifeTrainingBlock): Array<ListItemProps> {
 	if (!block.days?.length) return [];
 
 	let cur = block.days?.find((item: OnlifeTrainingDay) => !item.time);
-	if (cur == null) {
-		cur = block.days[0];
-	}
 
 	return (block?.days ?? []).map((item: OnlifeTrainingDay) => {
 		let status = AvailabilityStatus.Available;

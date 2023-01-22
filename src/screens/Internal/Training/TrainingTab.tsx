@@ -11,8 +11,6 @@ import {
 	StyleSheet,
 } from 'react-native';
 
-import moment from 'moment';
-
 import { LocalActionCreators } from '@app/store/LocalState/ActionCreators';
 import { IState } from '@app/store/IState';
 import { TrainingExercise } from '@app/objects/training/TrainingExercise';
