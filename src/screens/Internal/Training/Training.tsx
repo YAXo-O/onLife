@@ -44,6 +44,9 @@ import { saveTraining } from '@app/services/Requests/PowerTrainRequests/Training
 import { OnlifeTraining } from '@app/objects/training/Training';
 import { OnlifeTrainingDay } from '@app/objects/training/TrainingDay';
 import { TrainingRound } from '@app/objects/training/TrainingRound';
+import { TrainingProgramDay } from '@app/objects/program/TrainingProgram';
+import { ActionModal, ActionModalType } from '@app/components/modals/action/ActionModal';
+import { ActionButton, ActionType } from '@app/components/buttons/ActionButton';
 
 interface HeaderItem {
 	id: string;
@@ -117,6 +120,7 @@ export const TrainingScreen: React.FC = () => {
 	const { id } = withUser();
 	const [error, setError] = React.useState<Nullable<string>>(() => null);
 	const [slide, setSlide] = React.useState<number>(() => 0);
+	const [confirmation, setConfirmation] = React.useState<boolean>(() => false);
 
 	const dispatch = useDispatch();
 	const info = useSelector((state: IState) => state.training.item);
@@ -131,7 +135,7 @@ export const TrainingScreen: React.FC = () => {
 	const [value, setValue] = React.useState(() => list[0].id);
 	const [tab, setTab] = React.useState(() => ExerciseTab.Training);
 
-	const completeDay = () => {
+	const completeDay = (force: boolean = false) => {
 		if (!day) return;
 		if (!id) return;
 
@@ -146,7 +150,11 @@ export const TrainingScreen: React.FC = () => {
 			Timer.stop();
 		}
 
-		if (day.exercises.find((item: TrainingExercise) => item.time === null)) return;
+		if (!force && day.exercises.find((item: TrainingExercise) => item.time === null)) {
+			setConfirmation(true);
+
+			return;
+		}
 
 		setError(null);
 		if (!training) return;
@@ -178,9 +186,15 @@ export const TrainingScreen: React.FC = () => {
 
 	const completeExercise = () => {
 		const id = list.findIndex((q: HeaderItem) => q.id === value);
-		if (id < list.length - 2){
-			setValue(list[id + 1].id);
-		} else {
+		const first = list.findIndex((q: HeaderItem) => q.exercise?.time === null);
+		const next = list.findIndex((q: HeaderItem, index: number) => index > id && q.exercise?.time === null)
+		const goto = next >= 0 ? next : first;
+
+		if (goto >= 0) {
+			setValue(list[goto].id);
+		}
+
+		if (next === -1 || first === -1) {
 			completeDay();
 		}
 	};
@@ -378,6 +392,58 @@ export const TrainingScreen: React.FC = () => {
 				showsHorizontalScrollIndicator={false}
 				horizontal
 			/>
+			<ActionModal
+				visible={confirmation}
+				onChange={setConfirmation}
+				type={ActionModalType.Floating}
+			>
+				<View style={{ alignItems: 'center', paddingBottom: 8 }}>
+					<Text
+						style={[
+							typography.modalTitle,
+							{
+								color: palette.blue['20'],
+								textAlign: 'center',
+							}
+						]}
+					>
+						Завершение тренировки
+					</Text>
+				</View>
+				<View>
+					<Text
+						style={[
+							{
+								textAlign: 'center',
+								color: palette.blue['50'],
+							},
+						]}
+					>
+						Вы выполнели не все упражнения. Вы уверены, что хотите завершить тренировку?
+					</Text>
+				</View>
+				<View style={{ flexDirection: 'row', marginTop: 16 }}>
+					<View style={{ flex: 1 }} />
+					<ActionButton
+						style={{ width: 64 }}
+						text="Нет"
+						onPress={() => {
+							setConfirmation(false);
+						}}
+						type={ActionType.Secondary}
+					/>
+					<View style={{ width: 15 }} />
+					<ActionButton
+						style={{ width: 64 }}
+						text="Да"
+						onPress={() => {
+							setConfirmation(false);
+							completeDay(true);
+						}}
+					/>
+					<View style={{ flex: 1 }} />
+				</View>
+			</ActionModal>
 			<AlertBox
 				title="Ошибка завершения тренировки"
 				type={AlertType.error}

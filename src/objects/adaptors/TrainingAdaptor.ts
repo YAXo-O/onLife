@@ -68,10 +68,19 @@ function toTime(str: Nullable<string> | undefined): Nullable<number> {
 	return minutes * 60 + seconds;
 }
 
+function toFixed(value: string | number | unknown): Nullable<string> {
+	if (typeof value === 'number') return value.toFixed(1);
+	if (typeof value === 'string') return value;
+
+	return null;
+}
+
 function getParamValue(params: Array<PowerAppTrainingExerciseParams>, code: PowerAppTrainingExerciseParamCode): Nullable<string> {
-	return params.find((item: PowerAppTrainingExerciseParams) =>
+	const number = params.find((item: PowerAppTrainingExerciseParams) =>
 		item.code === code && item.active
-	)?.number ?? null;
+	)?.number;
+
+	return toFixed(number);
 }
 
 function getParamNumberValue(params: Array<PowerAppTrainingExerciseParams>, code: PowerAppTrainingExerciseParamCode): Nullable<number> {
@@ -94,8 +103,8 @@ interface TrainingRoundProgramValues {
 
 function getProgramValues(exercise: PowerAppTrainingProgramDayExercise, setId: number): TrainingRoundProgramValues {
 	const params = {
-		repeats: getParamValue(exercise.params, PowerAppTrainingExerciseParamCode.Reps) ?? '-',
-		weight: getParamValue(exercise.params, PowerAppTrainingExerciseParamCode.Weight) ?? '-',
+		repeats: getParamValue(exercise.params, PowerAppTrainingExerciseParamCode.Reps) ?? '',
+		weight: getParamValue(exercise.params, PowerAppTrainingExerciseParamCode.Weight) ?? '',
 		interval: getParamTimeValue(exercise.params, PowerAppTrainingExerciseParamCode.Rest) ?? 60,
 	};
 
@@ -109,7 +118,7 @@ function getProgramValues(exercise: PowerAppTrainingProgramDayExercise, setId: n
 		params.repeats = repeats;
 	}
 
-	const weight = obj[PowerAppTrainingExerciseParamCode.Weight]?.number;
+	const weight = toFixed(obj[PowerAppTrainingExerciseParamCode.Weight]?.number);
 	if (weight) {
 		params.weight = weight;
 	}
@@ -168,7 +177,7 @@ function mergeRounds(
 
 			/* Sets, Weight and Interval (from program) */
 			...getProgramValues(exercise, round.setId),
-		}));
+		}))
 }
 
 function mergeBlocks(

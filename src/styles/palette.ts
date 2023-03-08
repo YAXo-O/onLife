@@ -33,6 +33,8 @@ interface Palette {
 		'60': string;
 		'50': string;
 		'40': string;
+		'20': string;
+		'10': string;
 		'0': string;
 	};
 }
@@ -55,6 +57,8 @@ export const palette: Palette = {
 		'60': '#DEE1E6',
 		'50': '#D6D6D6',
 		'40': '#D9D9D9',
+		'20': '#AAA',
+		'10': '#555',
 		'0': '#000',
 	},
 	cyan: {

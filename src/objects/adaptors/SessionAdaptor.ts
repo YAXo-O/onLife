@@ -35,8 +35,11 @@ export class SessionAdaptor implements PowerAppSession {
 				)
 			)
 		);
+
 		if (this.start) {
 			this.start /= 1000;
+		} else {
+			this.start = moment().unix();
 		}
 
 		this.items = [];

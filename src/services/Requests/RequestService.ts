@@ -161,6 +161,7 @@ export class RequestManager {
 
 		try {
 			const token = await this.setCredentials();
+			console.log('Token: ', token);
 			const controller = new AbortController();
 			const id = setTimeout(controller.abort.bind(controller), this.timeout);
 

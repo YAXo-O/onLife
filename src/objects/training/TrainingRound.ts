@@ -17,6 +17,7 @@ export interface TrainingRound extends WithId {
 	children: Array<TrainingRound>;
 
 	performedWeight: Nullable<number>;
+	performedRepeats: Nullable<number>;
 	time: Nullable<number>;
 }
 

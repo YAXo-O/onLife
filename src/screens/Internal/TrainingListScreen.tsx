@@ -67,7 +67,7 @@ function getTrainings(block?: OnlifeTrainingBlock): Array<ListItemProps> {
 
 		if (!block.available) {
 			status = AvailabilityStatus.Locked;
-		} else if (item.order === cur!.order) {
+		} else if (item.order === cur?.order) {
 			status = AvailabilityStatus.Current;
 		} else if (item.time) {
 			status = AvailabilityStatus.Complete;
