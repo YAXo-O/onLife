@@ -21,6 +21,7 @@ import { Timer } from '@app/components/timer/Timer';
 import { WeightKeyboard } from '@app/components/keyboard/WeightKeyboard';
 import { useLoader } from '@app/hooks/useLoader';
 import { Spinner } from '@app/components/display/spinner/Spinner';
+import { NotificationService } from '@app/services/Notifications';
 
 // Initialize Sentry - this should happen as early as possible so that we can log all possible errors
 Sentry.init({
@@ -45,29 +46,35 @@ const SpinnerHolder: React.FC = () => {
 	return <Spinner loading={loading} />;
 };
 
-const App = () => (
-	<SafeAreaProvider>
-		<NavigationContainer theme={theme}>
-			<View style={styles.app}>
-				<StatusBar
-					barStyle="dark-content"
-					backgroundColor="rgba(0, 0, 0, 0)"
-					translucent
-				/>
-				<Provider store={store}>
-					<PersistGate loading={<ActivityIndicator />} persistor={persistor}>
-						<RootScreen />
+const App = () => {
+	NotificationService.init()
+		.then(() => console.log('NotificationService has been initialized'))
+		.catch((error) => console.warn('NotificationService failed to initialize: ', error));
 
-						<Timer />
-						<WeightKeyboard />
+	return (
+		<SafeAreaProvider>
+			<NavigationContainer theme={theme}>
+				<View style={styles.app}>
+					<StatusBar
+						barStyle="dark-content"
+						backgroundColor="rgba(0, 0, 0, 0)"
+						translucent
+					/>
+					<Provider store={store}>
+						<PersistGate loading={<ActivityIndicator />} persistor={persistor}>
+							<RootScreen />
 
-						<SpinnerHolder />
-					</PersistGate>
-				</Provider>
-			</View>
-		</NavigationContainer>
-	</SafeAreaProvider>
-);
+							<Timer />
+							<WeightKeyboard />
+
+							<SpinnerHolder />
+						</PersistGate>
+					</Provider>
+				</View>
+			</NavigationContainer>
+		</SafeAreaProvider>
+	);
+}
 
 const styles = StyleSheet.create({
 	app: {

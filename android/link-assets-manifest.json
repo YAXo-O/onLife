@@ -1,0 +1,373 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/Gluten/Gluten-Black.ttf",
+      "sha1": "3d3f8c70a59ae33d1ecce17d0622bbec9a957f80"
+    },
+    {
+      "path": "assets/fonts/Gluten/Gluten-Bold.ttf",
+      "sha1": "23492377e0607d9368631c164e7d2069de048507"
+    },
+    {
+      "path": "assets/fonts/Gluten/Gluten-ExtraBold.ttf",
+      "sha1": "2d6e7b5cced1d269535b1bc5967a8d710a360aca"
+    },
+    {
+      "path": "assets/fonts/Gluten/Gluten-ExtraLight.ttf",
+      "sha1": "5cef3753672afc3de1994a3bd977931cda483f76"
+    },
+    {
+      "path": "assets/fonts/Gluten/Gluten-Light.ttf",
+      "sha1": "a4fbcb69cc7f0977ad2a867830d755c7073bb361"
+    },
+    {
+      "path": "assets/fonts/Gluten/Gluten-Medium.ttf",
+      "sha1": "cd87a8e3257447166d75e5cc941e53917265c414"
+    },
+    {
+      "path": "assets/fonts/Gluten/Gluten-Regular.ttf",
+      "sha1": "1c99633c8438e37664bf76e29965ac560364750b"
+    },
+    {
+      "path": "assets/fonts/Gluten/Gluten-SemiBold.ttf",
+      "sha1": "742f1789224fe4a6745c178b4f004fa137c2c3e6"
+    },
+    {
+      "path": "assets/fonts/Gluten/Gluten-Thin.ttf",
+      "sha1": "2bd8cd3dd18592b1d35241bb6e6db132bc9766b5"
+    },
+    {
+      "path": "assets/fonts/Inter/Inter-Black.ttf",
+      "sha1": "283fa65b96dc1f2d71c6504afb9610447bdcdf1b"
+    },
+    {
+      "path": "assets/fonts/Inter/Inter-Bold.ttf",
+      "sha1": "48747b7a60086f97af0d373febcbd1f1bee87f17"
+    },
+    {
+      "path": "assets/fonts/Inter/Inter-ExtraBold.ttf",
+      "sha1": "bff772be6bca9895c6fdcd57e5d5be9a47f2e058"
+    },
+    {
+      "path": "assets/fonts/Inter/Inter-ExtraLight.ttf",
+      "sha1": "421072aef8610cb0f79661b494442a4b9363b43f"
+    },
+    {
+      "path": "assets/fonts/Inter/Inter-Light.ttf",
+      "sha1": "dd9ec1ae67dd85143bacf7a3cb37e9f0ac979843"
+    },
+    {
+      "path": "assets/fonts/Inter/Inter-Medium.ttf",
+      "sha1": "a418a8ba73bbcfa8c131c426ab836d78457afa9b"
+    },
+    {
+      "path": "assets/fonts/Inter/Inter-Regular.ttf",
+      "sha1": "7237d9cf55f177702066a28a4dde1e4c7e8ab576"
+    },
+    {
+      "path": "assets/fonts/Inter/Inter-SemiBold.ttf",
+      "sha1": "431007da316de60d85174aeec9b8389b5c73e7d6"
+    },
+    {
+      "path": "assets/fonts/Inter/Inter-Thin.ttf",
+      "sha1": "297919d59c9ba4fa17251cdb9f06c26ca906e593"
+    },
+    {
+      "path": "assets/fonts/AdobeGaramondPro/AGaramondPro-Bold.otf",
+      "sha1": "6d1cc48f342c3e0ffc4359ca7a697f39a64fa738"
+    },
+    {
+      "path": "assets/fonts/AdobeGaramondPro/AGaramondPro-BoldItalic.otf",
+      "sha1": "17985555634b9ac5f557c5c7ca8c4894110a0b76"
+    },
+    {
+      "path": "assets/fonts/AdobeGaramondPro/AGaramondPro-Italic.otf",
+      "sha1": "20e900a564ec2ae4528535fd59a28c2a07ec2ae2"
+    },
+    {
+      "path": "assets/fonts/AdobeGaramondPro/AGaramondPro-Regular.otf",
+      "sha1": "42c52792ab7f4e4b23c665714254e258997ae142"
+    },
+    {
+      "path": "assets/fonts/Montserrat/Montserrat-Black.ttf",
+      "sha1": "fca130f21601346cce37bb8a9526ff01af66d912"
+    },
+    {
+      "path": "assets/fonts/Montserrat/Montserrat-BlackItalic.ttf",
+      "sha1": "50ca0660179c28c31ef1debc55506a1eab366446"
+    },
+    {
+      "path": "assets/fonts/Montserrat/Montserrat-Bold.ttf",
+      "sha1": "04052dc3b846609216de1e0cbcec337c6b6e74f6"
+    },
+    {
+      "path": "assets/fonts/Montserrat/Montserrat-BoldItalic.ttf",
+      "sha1": "ed5e533b6571e33adb6d01298cb8d1a5a2466657"
+    },
+    {
+      "path": "assets/fonts/Montserrat/Montserrat-ExtraBold.ttf",
+      "sha1": "1914bc1981e6ceceadb2f6d72455b4e89e04965c"
+    },
+    {
+      "path": "assets/fonts/Montserrat/Montserrat-ExtraBoldItalic.ttf",
+      "sha1": "49758a0ea59fe7f82c639a385a2bacf3d4de3398"
+    },
+    {
+      "path": "assets/fonts/Montserrat/Montserrat-ExtraLight.ttf",
+      "sha1": "7c594b126941460bd2f3b47097fd6222f52277e7"
+    },
+    {
+      "path": "assets/fonts/Montserrat/Montserrat-ExtraLightItalic.ttf",
+      "sha1": "fbbb972b616c3b84d99976ddf84b6fecdeb4c7ca"
+    },
+    {
+      "path": "assets/fonts/Montserrat/Montserrat-Italic.ttf",
+      "sha1": "4ee8f07c7414009645d03d87cd72df15658fe9f4"
+    },
+    {
+      "path": "assets/fonts/Montserrat/Montserrat-Light.ttf",
+      "sha1": "6f21894a80049259ef71fcba135218695b41b67a"
+    },
+    {
+      "path": "assets/fonts/Montserrat/Montserrat-LightItalic.ttf",
+      "sha1": "8e980f76a35675acd586f829dd2ae8d002dd97d6"
+    },
+    {
+      "path": "assets/fonts/Montserrat/Montserrat-Medium.ttf",
+      "sha1": "6b57d12e018c64352e202f8ef3bf7f431f76d935"
+    },
+    {
+      "path": "assets/fonts/Montserrat/Montserrat-MediumItalic.ttf",
+      "sha1": "8b2c464e42f07fc307fddb9c58d202ecff19be2a"
+    },
+    {
+      "path": "assets/fonts/Montserrat/Montserrat-Regular.ttf",
+      "sha1": "de57aa03e4821fdbe6c34ec2c895e8b5c914e837"
+    },
+    {
+      "path": "assets/fonts/Montserrat/Montserrat-SemiBold.ttf",
+      "sha1": "8580dec824bbdb6ce24d04d3aaf360776339f0a7"
+    },
+    {
+      "path": "assets/fonts/Montserrat/Montserrat-SemiBoldItalic.ttf",
+      "sha1": "51626902f9f2b0aa24b235bb68b2640622f156b9"
+    },
+    {
+      "path": "assets/fonts/Montserrat/Montserrat-Thin.ttf",
+      "sha1": "8c871991960f520a31635f95be6c346b659e2c8c"
+    },
+    {
+      "path": "assets/fonts/Montserrat/Montserrat-ThinItalic.ttf",
+      "sha1": "f7d887fc6b50157081fd60082d20339c433f9955"
+    },
+    {
+      "path": "assets/images/background.png",
+      "sha1": "a58ba9c7161d1b14e4a86d21e7205111650e5c9a"
+    },
+    {
+      "path": "assets/images/training_background.png",
+      "sha1": "7302aa6e769531d36ef1d0f12ce9fd063d2e3903"
+    },
+    {
+      "path": "assets/icons/attention.svg",
+      "sha1": "d80999d74d27ff4d5de8d81b4665fd52a4fd876b"
+    },
+    {
+      "path": "assets/icons/audio-player/audio-player.pause.svg",
+      "sha1": "d5893a82920f2cd4d9b76c8e3a73bbd5428013e2"
+    },
+    {
+      "path": "assets/icons/audio-player/audio-player.play.svg",
+      "sha1": "6e780cf8df66d22a49056039b7263b4402de7149"
+    },
+    {
+      "path": "assets/icons/audio-player/audio-player.skip-left.svg",
+      "sha1": "7164e6fa5b8dfb46d6d03bae895079c4d83ae8fc"
+    },
+    {
+      "path": "assets/icons/audio-player/audio-player.skip-right.svg",
+      "sha1": "02dae5aaec6036f8421bfa1fe70d7ff544591c3b"
+    },
+    {
+      "path": "assets/icons/audio-player/audio-player.volume-down.svg",
+      "sha1": "9075fdd1055a733923ff9bd0fac4d93bfcfa7192"
+    },
+    {
+      "path": "assets/icons/audio-player/audio-player.volume-up.svg",
+      "sha1": "e01b8b89815f3b21dd4b9ab88e06bc102a035fde"
+    },
+    {
+      "path": "assets/icons/brief-description.svg",
+      "sha1": "077dc9f32dcc411a84975cf83ca53d422bb160e3"
+    },
+    {
+      "path": "assets/icons/check_circle.svg",
+      "sha1": "92964f860a63aabde04b6b678ebea0b7b69f5e4b"
+    },
+    {
+      "path": "assets/icons/chevron-down.svg",
+      "sha1": "f73aa8b14156d49e804f195604d5e6de4079d3dd"
+    },
+    {
+      "path": "assets/icons/chevron-right.svg",
+      "sha1": "d4bb39f94538227734d06ab9503bebdf3104f70e"
+    },
+    {
+      "path": "assets/icons/chevron-up.svg",
+      "sha1": "fc0a61fc656ea376e9716fd1742aa63cbc5c005a"
+    },
+    {
+      "path": "assets/icons/close.svg",
+      "sha1": "b4436896b5da0964423668d1c29763dd43bddcea"
+    },
+    {
+      "path": "assets/icons/cross.svg",
+      "sha1": "18185572af58d3bd16f37499946aaaf074abfa22"
+    },
+    {
+      "path": "assets/icons/delete.png",
+      "sha1": "32fa87744c250e19df9294f7afb1d4f6c9b7a14f"
+    },
+    {
+      "path": "assets/icons/done.svg",
+      "sha1": "ae0261b9ed254d32f466267908f1379ea67f08a1"
+    },
+    {
+      "path": "assets/icons/dots.svg",
+      "sha1": "0fe6b958f2b329b870f8afbc57acca042ce96a84"
+    },
+    {
+      "path": "assets/icons/down.svg",
+      "sha1": "b4008ed1e664bfc9d54acc33fe9be4c50995ca59"
+    },
+    {
+      "path": "assets/icons/dumbbell.svg",
+      "sha1": "4aa21bc8a1c65e54fcc2f36aaade796fafb2c362"
+    },
+    {
+      "path": "assets/icons/edit.svg",
+      "sha1": "146bf5a824a8689846cadfe06257c1c82fb5cbce"
+    },
+    {
+      "path": "assets/icons/educational-material.svg",
+      "sha1": "b055c6326a8ace148d49d3ed61179fa85437b22e"
+    },
+    {
+      "path": "assets/icons/email.svg",
+      "sha1": "99fb2fa5ea1242aa7dfc61a773015bc3281cea74"
+    },
+    {
+      "path": "assets/icons/error_circle.svg",
+      "sha1": "3ffbacdb3856dc9c79272c5959d7043ea6c17778"
+    },
+    {
+      "path": "assets/icons/exit.svg",
+      "sha1": "8cf6b61aa92d4a6b3e4b4821f915684b54966fa4"
+    },
+    {
+      "path": "assets/icons/eye.svg",
+      "sha1": "e4943a5ee03f19a9b0cfcd61b03dd023fa6010c3"
+    },
+    {
+      "path": "assets/icons/hide.png",
+      "sha1": "cc67f8ad8f43b604101b1325e8a3713e882ce587"
+    },
+    {
+      "path": "assets/icons/hide.svg",
+      "sha1": "6279beabc1fdf712d40ccedd6b62ef6e91282b51"
+    },
+    {
+      "path": "assets/icons/home.svg",
+      "sha1": "34de70a7e8f7ef1f61684a705a976830c6b678b2"
+    },
+    {
+      "path": "assets/icons/key.svg",
+      "sha1": "4fd5ee93ca867ad7d7d2ac59af66edb12fef0921"
+    },
+    {
+      "path": "assets/icons/keyboard/keyboard.remove.svg",
+      "sha1": "fea0a7857cbde713ca7f53c21118ff641e080ed4"
+    },
+    {
+      "path": "assets/icons/keyboard/keyboardapply.svg",
+      "sha1": "a95713f5a07ee37edabfd41514c4c92738886d13"
+    },
+    {
+      "path": "assets/icons/locked.svg",
+      "sha1": "3fbbc4c32eddafa67ba53cdf5d88e4b8397eae2e"
+    },
+    {
+      "path": "assets/icons/logout.png",
+      "sha1": "f31d328da00aa1307610b5cc1eb8b44c78bae4b9"
+    },
+    {
+      "path": "assets/icons/phone.svg",
+      "sha1": "784fa95891e3ed719b3ba275031f5711c2333737"
+    },
+    {
+      "path": "assets/icons/play.svg",
+      "sha1": "4871ffd6399e63929256b0803ecb299738af9a4e"
+    },
+    {
+      "path": "assets/icons/rounds.svg",
+      "sha1": "2b9e9ce666f41d74024aeb4e5033d4abc85ccc2a"
+    },
+    {
+      "path": "assets/icons/show.png",
+      "sha1": "6c2da2d22dd7894e74666b796900d1ce0fd8ab2d"
+    },
+    {
+      "path": "assets/icons/stats/stats.chevron_down.svg",
+      "sha1": "39cb256aade2f79cf12e1cb085861b36f30caa56"
+    },
+    {
+      "path": "assets/icons/stats/stats.chevron_up.svg",
+      "sha1": "58178f84205fdb1ec8cd5563d8765fe739f7d4a0"
+    },
+    {
+      "path": "assets/icons/timer/timer.clock.svg",
+      "sha1": "9f9474758ef5dde066e1104e13f4eb8f66723362"
+    },
+    {
+      "path": "assets/icons/timer.svg",
+      "sha1": "927545ec0cc6b47a03a19272430b1dd48c7672b2"
+    },
+    {
+      "path": "assets/icons/training.svg",
+      "sha1": "ac94276d1fa10bb7c36bd222fb6b33e6e023e3fb"
+    },
+    {
+      "path": "assets/icons/training_dumbbell.svg",
+      "sha1": "eec98291632f39f90805e97c5d3a2d5dc1b0135b"
+    },
+    {
+      "path": "assets/icons/training_material.svg",
+      "sha1": "1c453bf8b28fbf0f094b73db9b3213642b7f1718"
+    },
+    {
+      "path": "assets/icons/training_stats.svg",
+      "sha1": "ebf944851bdac9f61937d374f35952f0d52a1260"
+    },
+    {
+      "path": "assets/icons/training_video.svg",
+      "sha1": "accc41d0059e2c9231333bc520802bb702a5db01"
+    },
+    {
+      "path": "assets/icons/trash.svg",
+      "sha1": "ad310b29003c51fbc0030cfe79b46cb4dfadfe4f"
+    },
+    {
+      "path": "assets/icons/unlocked.svg",
+      "sha1": "243096b366ff72ca9746316bf86e00b54da1607c"
+    },
+    {
+      "path": "assets/icons/up.svg",
+      "sha1": "ca190a7e5a13f9089ecd8ab19c77f64f60d138d4"
+    },
+    {
+      "path": "assets/icons/user.svg",
+      "sha1": "b80774fd7956e045f12b6a5c3568974c48a60da6"
+    }
+  ]
+}
