@@ -1,6 +1,6 @@
-import { OnlifeTrainingDay } from '../../../objects/training/TrainingDay';
-import { RequestManager } from '../RequestService';
-import { TrainingExercise } from '../../../objects/training/TrainingExercise';
+import { OnlifeTrainingDay } from '@app/objects/training/TrainingDay';
+import { TrainingExercise } from '@app/objects/training/TrainingExercise';
+import { RequestManager } from '@app/services/Requests/RequestService';
 
 export function completeDay(day: OnlifeTrainingDay): Promise<OnlifeTrainingDay> {
 	const service = new RequestManager('app/training');

@@ -11,8 +11,6 @@ import {
 	StyleSheet,
 } from 'react-native';
 
-import moment from 'moment';
-
 import { LocalActionCreators } from '@app/store/LocalState/ActionCreators';
 import { IState } from '@app/store/IState';
 import { TrainingExercise } from '@app/objects/training/TrainingExercise';
@@ -23,11 +21,14 @@ import { Nullable } from '@app/objects/utility/Nullable';
 import { WithOrder } from '@app/objects/utility/WithOrder';
 import { Timer } from '@app/components/timer/Timer';
 import { now } from '@app/utils/datetime';
+import { RepeatsInput } from '@app/components/input/RepeatsInput';
+import { hasValue } from '@app/utils/value';
 
 function getRounds(exercise?: Nullable<TrainingExercise>): Array<TrainingRound> {
 	if (!exercise) return [];
 
-	return exercise.rounds.sort((a: WithOrder, b: WithOrder) => a.order - b.order) ?? [];
+	return exercise.rounds
+		.sort((a: WithOrder, b: WithOrder) => a.order - b.order) ?? [];
 }
 
 type TrainingTabProps = Omit<ExerciseTabsProps, 'tab'>;
@@ -45,20 +46,43 @@ export const TrainingTab: React.FC<TrainingTabProps> = (props: TrainingTabProps)
 
 	const rounds = getRounds(values);
 
-	const onChange = (value: number, roundId: string) => {
+	const goNext = (index: number) => {
+		if (index < rounds.length - 1) {
+			ref.current?.scrollToIndex({ animated: true, index: index + 1 });
+		} else {
+			ref.current?.scrollToIndex({ animated: true, index: 0 })
+			props.onComplete();
+		}
+	};
+
+	const fireTimer = (index: number) => {
+		const item = rounds[index];
+
+		Timer.fire(item.interval);
+	}
+
+	const onChange = (value: number | undefined, id: number, field: keyof TrainingRound & ('performedWeight' | 'performedRepeats')) => {
 		if (!values) return;
+		if (!hasValue(value)) return;
 
-		const id = values.rounds.findIndex(q => q.id === roundId);
-		if (id < 0) return;
-
-		const current = values.rounds[id];
+		let current = values.rounds[id];
 		values.rounds[id] = {
 			...current,
-			performedWeight: value,
-			time: current.time ?? now(),
+			[field]: value,
 		};
-		const finished = values.rounds.reduce((acc: boolean, cur: TrainingRound) => acc && Boolean(cur.time), true);
+		current = values.rounds[id];
 
+		const complete = hasValue(current.performedWeight) && hasValue(current.performedRepeats);
+		if (complete) {
+			if (!current.time) {
+				goNext(id);
+				fireTimer(id);
+			}
+
+			current.time = current.time ?? now();
+		}
+
+		const finished = values.rounds.reduce((acc: boolean, cur: TrainingRound) => acc && Boolean(cur.time), true);
 		const exerciseId = day.exercises.findIndex((item: TrainingExercise) => item.id === values.id);
 		if (exerciseId < 0) return;
 
@@ -69,15 +93,6 @@ export const TrainingTab: React.FC<TrainingTabProps> = (props: TrainingTabProps)
 
 		dispatch(actions.set({ active: day }));
 	}
-
-	const goNext = (index: number) => {
-		if (index < rounds.length - 1) {
-			ref.current?.scrollToIndex({ animated: true, index: index + 1 });
-		} else {
-			ref.current?.scrollToIndex({ animated: true, index: 0 })
-			props.onComplete();
-		}
-	};
 
 	return (
 		<View>
@@ -99,6 +114,7 @@ export const TrainingTab: React.FC<TrainingTabProps> = (props: TrainingTabProps)
 				snapToInterval={315}
 				snapToAlignment="start"
 				decelerationRate="fast"
+				keyboardShouldPersistTaps="handled"
 				contentContainerStyle={styles.setCollection}
 				data={rounds}
 				renderItem={(item: ListRenderItemInfo<TrainingRound>) => (
@@ -128,41 +144,27 @@ export const TrainingTab: React.FC<TrainingTabProps> = (props: TrainingTabProps)
 							>
 								Повторения
 							</Text>
-							<View
+							<RepeatsInput
+								value={item.item.performedRepeats ?? undefined}
+								placeholder={item.item.repeats ?? undefined}
+								onEnd={(value?: number) => onChange(value, item.index, 'performedRepeats')}
 								style={{
 									borderRadius: 8,
 									backgroundColor: '#fff',
-									alignItems: 'flex-start',
+									alignItems: 'center',
 									justifyContent: 'center',
+									textAlign: 'center',
 									paddingHorizontal: 22,
 									paddingVertical: 13,
 									marginHorizontal: 10,
-									width: 100,
-								}}
-							>
-								<Text
-									style={{
-										fontFamily: 'Inter-Light',
-										fontSize: 20,
-										lineHeight: 24,
-										color: '#000',
-										textAlign: 'center',
-									}}
-								>
-									{item.item.repeats}
-								</Text>
-							</View>
-							<Text
-								style={{
-									fontFamily: 'Inter-Medium',
-									fontSize: 16,
-									lineHeight: 20,
+									fontFamily: 'Inter-Light',
+									fontSize: 20,
+									lineHeight: 24,
 									color: '#000',
 									width: 100,
 								}}
-							>
-								раз
-							</Text>
+								disabled={Boolean(day?.time)}
+							/>
 						</View>
 
 						<View style={{ flexDirection: 'row', marginTop: 30, alignItems: 'center'  }}>
@@ -179,16 +181,8 @@ export const TrainingTab: React.FC<TrainingTabProps> = (props: TrainingTabProps)
 							</Text>
 							<WeightInput
 								value={item.item.performedWeight ?? undefined}
-								onEnd={(value?: number) => {
-									if (value === undefined) return;
-
-									if (item.item.time === null) {
-										Timer.fire(item.item.interval);
-									}
-
-									onChange(value, item.item.id);
-									goNext(item.index);
-								}}
+								placeholder={item.item.weight ?? undefined}
+								onEnd={(value?: number) => onChange(value, item.index, 'performedWeight')}
 								style={{
 									borderRadius: 8,
 									backgroundColor: '#fff',
@@ -237,7 +231,7 @@ export const TrainingTab: React.FC<TrainingTabProps> = (props: TrainingTabProps)
 						paddingHorizontal: 22,
 					}}
 				>
-					*Вес вносите после выполнения подхода
+					*Данные вносите после выполнения подхода
 				</Text>
 			</View>
 		</View>

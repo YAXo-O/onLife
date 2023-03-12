@@ -40,15 +40,15 @@ export const LogoutModal: React.FC<OwnProps> = (props: OwnProps) =>  {
 				<View style={styles.actionContainer}>
 					<ActionButton
 						style={{ width: 64 }}
-						text="Да"
-						onPress={logOut}
+						text="Нет"
+						onPress={() => props.onChange(false)}
+						type={ActionType.Secondary}
 					/>
 					<View style={{ width: 15 }} />
 					<ActionButton
 						style={{ width: 64 }}
-						text="Нет"
-						onPress={() => props.onChange(false)}
-						type={ActionType.Secondary}
+						text="Да"
+						onPress={logOut}
 					/>
 				</View>
 			</View>

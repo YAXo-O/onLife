@@ -77,7 +77,7 @@ export enum PowerAppTrainingExerciseParamCode {
 
 export interface PowerAppTrainingExerciseParams {
 	code: PowerAppTrainingExerciseParamCode;
-	number: string;
+	number: string | number;
 	active: boolean;
 }
 

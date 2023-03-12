@@ -4,7 +4,7 @@ import {
 	View,
 	FlatList,
 	ListRenderItemInfo,
-	Text,
+	Text, TouchableOpacity,
 } from 'react-native';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -15,7 +15,6 @@ import { IState } from '@app/store/IState';
 import { OnlifeTrainingBlock } from '@app/objects/training/TrainingBlock';
 
 import { OnlifeTrainingDay } from '@app/objects/training/TrainingDay';
-import { withUser } from '@app/hooks/withUser';
 import { typography } from '@app/styles/typography';
 
 import { LocalActionCreators } from '@app/store/LocalState/ActionCreators';
@@ -61,16 +60,13 @@ function getTrainings(block?: OnlifeTrainingBlock): Array<ListItemProps> {
 	if (!block.days?.length) return [];
 
 	let cur = block.days?.find((item: OnlifeTrainingDay) => !item.time);
-	if (cur == null) {
-		cur = block.days[0];
-	}
 
 	return (block?.days ?? []).map((item: OnlifeTrainingDay) => {
 		let status = AvailabilityStatus.Available;
 
 		if (!block.available) {
 			status = AvailabilityStatus.Locked;
-		} else if (item.order === cur!.order) {
+		} else if (item.order === cur?.order) {
 			status = AvailabilityStatus.Current;
 		} else if (item.time) {
 			status = AvailabilityStatus.Complete;
@@ -105,7 +101,14 @@ export const TrainingListScreen: React.FC = () => {
 
 	const render = (info: ListRenderItemInfo<ListItemProps>) => {
 		return (
-			<View style={styles.item}>
+			<TouchableOpacity
+				style={styles.item}
+				onPress={() => {
+					if (!block.available) return;
+
+					onPress(info.item.id);
+				}}
+			>
 				<View>
 					<Text style={[styles.title, typography.cardTitle]}>{info.item.title}</Text>
 					<Text style={[styles.subtitle, typography.placeholder]}>{info.item.subtitle}</Text>
@@ -119,7 +122,7 @@ export const TrainingListScreen: React.FC = () => {
 						{getIcon(info.item.status)}
 					</View>
 				</ActionButton>
-			</View>
+			</TouchableOpacity>
 		);
 	};
 

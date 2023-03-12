@@ -17,11 +17,13 @@ export interface TrainingRound extends WithId {
 	children: Array<TrainingRound>;
 
 	performedWeight: Nullable<number>;
+	performedRepeats: Nullable<number>;
 	time: Nullable<number>;
 }
 
 export enum PowerAppTrainingRoundParamCode {
 	Weight = "weight",
+	Repeats = 'reps',
 }
 
 export interface PowerAppTrainingRoundParam {

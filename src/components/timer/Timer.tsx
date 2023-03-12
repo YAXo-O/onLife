@@ -11,10 +11,11 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import moment from 'moment';
 
 import { formatTime } from '@app/utils/datetime';
-import { Nullable } from '@app/objects/utility/Nullable';
+import { Nullable, Optional } from '@app/objects/utility/Nullable';
 
 import Clock from '@assets/icons/timer/timer.clock.svg';
 import Cross from '@assets/icons/cross.svg';
+import { NotificationService } from '@app/services/Notifications';
 
 type FireTimer = (time: number) => void;
 type TimerComponent = React.FC & { fire: FireTimer; stop: () => void };
@@ -31,13 +32,39 @@ function getDiff(time: number): number {
 	return time - now;
 }
 
+function tryClearNotification(taskId: React.MutableRefObject<Optional<string>>) {
+	if (taskId.current) {
+		NotificationService.cancel(taskId.current)
+			.then(() => console.log('Scheduled timer notification has been cancelled'))
+			.catch((error) => console.warn('Failed to cancel scheduled timer notification'));
+		taskId.current = null;
+	}
+}
+
 export const Timer: TimerComponent = () => {
 	const [time, setTime] = React.useState<Nullable<number>>(null);
 	const [value, setValue] = React.useState<number>(() => 0);
 	const insets = useSafeAreaInsets();
+	const taskId = React.useRef<Nullable<string>>();
 
-	fire = setTime;
-	stop = () => setTime(null);
+	fire = (value: number ) => {
+		tryClearNotification(taskId);
+		setTime(value);
+
+		NotificationService.schedule({
+			title: 'Перерыв окончен',
+			body: 'Пора преступать к следующему подходу!',
+		}, value)
+			.then((id: string) => {
+				console.log('Scheduled timer notification');
+				taskId.current = id;
+			})
+			.catch((error) => console.warn('Failed to schedule timer notification: ', error));
+	}
+	stop = () => {
+		tryClearNotification(taskId);
+		setTime(null);
+	}
 
 	React.useEffect(() => {
 		let timer: Nullable<number> = null;
@@ -49,6 +76,7 @@ export const Timer: TimerComponent = () => {
 
 				if (diff < 0 && diff > -offBounce) {
 					Vibration.vibrate();
+					tryClearNotification(taskId);
 				}
 
 				if (diff < -offBounce) {
@@ -63,6 +91,7 @@ export const Timer: TimerComponent = () => {
 		return () => {
 			Vibration.cancel();
 
+			tryClearNotification(taskId);
 			if (timer !== null) {
 				clearTimeout(timer);
 			}

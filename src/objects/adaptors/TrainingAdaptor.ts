@@ -22,8 +22,14 @@ import {
 	PowerAppTrainingRoundParamCode
 } from '@app/objects/training/TrainingRound';
 import { OnlifeTrainingDay } from '@app/objects/training/TrainingDay';
+import { hasValue } from '@app/utils/value';
 
 function convertExercise(item: PowerTrainExercise): OnlifeExercise {
+	let audio: Nullable<string> = null;
+	if (item.audio) {
+		audio = `https://media.powertrain.app/audio/${item.audio.replace('media:audio/', '')}`;
+	}
+
 	return {
 		id: item.id,
 		name: item.name,
@@ -33,7 +39,7 @@ function convertExercise(item: PowerTrainExercise): OnlifeExercise {
 		image: item.photo,
 		schema: item.scheme,
 		video: item.video?.url,
-		audio: null,
+		audio,
 
 		properties: 0,
 		muscles: [],
@@ -63,10 +69,19 @@ function toTime(str: Nullable<string> | undefined): Nullable<number> {
 	return minutes * 60 + seconds;
 }
 
+function toFixed(value: string | number | unknown): Nullable<string> {
+	if (typeof value === 'number') return value.toFixed(1);
+	if (typeof value === 'string') return value;
+
+	return null;
+}
+
 function getParamValue(params: Array<PowerAppTrainingExerciseParams>, code: PowerAppTrainingExerciseParamCode): Nullable<string> {
-	return params.find((item: PowerAppTrainingExerciseParams) =>
+	const number = params.find((item: PowerAppTrainingExerciseParams) =>
 		item.code === code && item.active
-	)?.number ?? null;
+	)?.number;
+
+	return toFixed(number);
 }
 
 function getParamNumberValue(params: Array<PowerAppTrainingExerciseParams>, code: PowerAppTrainingExerciseParamCode): Nullable<number> {
@@ -77,8 +92,8 @@ function getParamTimeValue(params: Array<PowerAppTrainingExerciseParams>, code: 
 	return toTime(getParamValue(params, code));
 }
 
-function getPerformedValue(round: PowerAppTrainingRound): Nullable<number> {
-	return round.params.find((item: PowerAppTrainingRoundParam) => item.code === PowerAppTrainingRoundParamCode.Weight)?.value ?? null;
+function getPerformedValue(round: PowerAppTrainingRound, code: PowerAppTrainingRoundParamCode): Nullable<number> {
+	return round.params.find((item: PowerAppTrainingRoundParam) => item.code === code)?.value ?? null;
 }
 
 interface TrainingRoundProgramValues {
@@ -89,8 +104,8 @@ interface TrainingRoundProgramValues {
 
 function getProgramValues(exercise: PowerAppTrainingProgramDayExercise, setId: number): TrainingRoundProgramValues {
 	const params = {
-		repeats: getParamValue(exercise.params, PowerAppTrainingExerciseParamCode.Reps) ?? '-',
-		weight: getParamValue(exercise.params, PowerAppTrainingExerciseParamCode.Weight) ?? '-',
+		repeats: getParamValue(exercise.params, PowerAppTrainingExerciseParamCode.Reps) ?? '',
+		weight: getParamValue(exercise.params, PowerAppTrainingExerciseParamCode.Weight) ?? '',
 		interval: getParamTimeValue(exercise.params, PowerAppTrainingExerciseParamCode.Rest) ?? 60,
 	};
 
@@ -104,7 +119,7 @@ function getProgramValues(exercise: PowerAppTrainingProgramDayExercise, setId: n
 		params.repeats = repeats;
 	}
 
-	const weight = obj[PowerAppTrainingExerciseParamCode.Weight]?.number;
+	const weight = toFixed(obj[PowerAppTrainingExerciseParamCode.Weight]?.number);
 	if (weight) {
 		params.weight = weight;
 	}
@@ -158,125 +173,191 @@ function mergeRounds(
 			parentId: null,
 			children: [],
 
-			performedWeight: getPerformedValue(round), // Get this value from session (if any)
+			performedWeight: getPerformedValue(round, PowerAppTrainingRoundParamCode.Weight), // Get this value from session (if any)
+			performedRepeats: getPerformedValue(round, PowerAppTrainingRoundParamCode.Repeats),
 			time: round.start ? round.start * 1000 : null,
 
 			/* Sets, Weight and Interval (from program) */
 			...getProgramValues(exercise, round.setId),
-		}));
+		}))
+}
+
+function getSession(sessions: Array<PowerAppSession>, day: PowerAppTrainingProgramDay, cycle: string): PowerAppSession {
+	let session = sessions.find((s: PowerAppSession) => s.day_id === day.id);
+	if (!session) {
+		session = {
+			id: uuid.v4().toString(),
+
+			created_at: null,
+			start: null,
+
+			program_id: 0,
+			day_id: day.id,
+			cycle,
+
+			status: 0,
+			items: day.exercises.map((item: PowerAppTrainingProgramDayExercise) => ({
+				id: item.id,
+				exerciseId: item.exercise_id,
+				setId: 0,
+				start: null,
+				comment: false,
+				params: [],
+			})),
+		}
+	}
+
+	return session;
+}
+
+function createDays(
+	sessions: Array<PowerAppSession>,
+	program: PowerAppTrainingProgram,
+	blockId: string,
+): Array<OnlifeTrainingDay> {
+	const result: Array<OnlifeTrainingDay> = [];
+
+	const cycles = program.cycles ?? 1;
+	for (let cycle = 0; cycle < cycles; cycle++) {
+		const sCycle = cycle.toString();
+		const trainings = sessions.filter(q => q.cycle === sCycle);
+
+		program.trainingDays.forEach((day: PowerAppTrainingProgramDay) => {
+			const session = getSession(trainings, day, sCycle);
+
+			const item: OnlifeTrainingDay = {
+				id: session.id,
+				name: day.name,
+				description: '',
+				order: 0,
+				cycle: sCycle,
+
+				trainingBlock: null,
+				trainingBlockId: blockId,
+				trainingDayId: session.day_id,
+				time: session.start ? session.start * 1000 : null,
+				exercises: day.exercises.map<TrainingExercise>((exercise: PowerAppTrainingProgramDayExercise, order: number) => ({
+					id: uuid.v4().toString(),
+					order,
+
+					exerciseId: exercise.exercise_id,
+					exercise: null,
+
+					parent: null,
+					parentId: null,
+					children: [],
+
+					rounds: mergeRounds(session!.items, exercise, exercise.id),
+
+					trainingDay: null,
+					trainingDayId: '',
+
+					time: null,
+				})),
+			};
+			result.push(item);
+		});
+	}
+
+	result.forEach((item: OnlifeTrainingDay, order: number) => (item.order = order));
+
+	return result;
+}
+
+function createBlock(
+	sessions: Array<PowerAppSession>,
+	program: PowerAppTrainingProgram,
+): OnlifeTrainingBlock {
+	const blockId = program.id.toString();
+
+	return {
+		id: blockId,
+		description: program.name,
+
+		available: false,
+		days: createDays(sessions, program, blockId),
+		order: 0,
+		time: null,
+		training: null,
+		trainingId: '',
+	};
+}
+
+function fillExercises(block: OnlifeTrainingBlock, reference: Record<string, OnlifeExercise>): OnlifeTrainingBlock {
+	block.days.forEach((day: OnlifeTrainingDay) => {
+		day.exercises.forEach((exercise: TrainingExercise) => {
+			if (exercise.exerciseId === null) return;
+
+			exercise.exercise = reference[exercise.exerciseId] ?? null;
+		})
+	});
+
+	return block;
 }
 
 function mergeBlocks(
 	sessions: Array<PowerAppSession>,
-	program: PowerAppTrainingProgram,
+	programs: Array<PowerAppTrainingProgram>,
 	trainingId: string,
 ): Array<OnlifeTrainingBlock> {
-	const cycles = program.cycles ?? 1;
-	const days = program.trainingDays ?? [];
-	const exercises: Record<string, OnlifeExercise> = Object.values(program.exercises)
-		.reduce((res: Record<string, OnlifeExercise>, cur: PowerTrainExercise) => {
-			res[cur.id] = convertExercise(cur);
+	const exercises: Record<string, OnlifeExercise> = {};
+	programs.forEach((program: PowerAppTrainingProgram) => {
+		Object.values(program.exercises).forEach((item: PowerTrainExercise) => {
+			if (exercises[item.id]) return;
 
-			return res;
-		}, {});
-	const blocks: Array<OnlifeTrainingBlock> = [];
+			exercises[item.id] = convertExercise(item);
+		});
+	})
 
-	for (let i = 0; i < cycles; i++) {
-		const block: OnlifeTrainingBlock = {
-			id: uuid.v4().toString(),
-			order: i,
-			description: '',
+	return programs.map((program: PowerAppTrainingProgram, index: number) => {
+		const block = createBlock(sessions.filter((session: PowerAppSession) => session.program_id === program.id), program);
 
-			training: null,
-			trainingId: trainingId,
+		block.trainingId = trainingId;
+		block.order = index;
+		fillExercises(block, exercises);
 
-			days: [],
-			available: false,
+		return block;
+	});
+}
 
-			time: null,
-		};
-		const cycle = i.toString();
-		const trainings = sessions.filter((training: PowerAppSession) => training.cycle === cycle);
+interface Source {
+	sessions: Array<PowerAppSession>;
+	programs: Array<PowerAppTrainingProgram>;
+}
 
-		block.days = days.map<{ session: PowerAppSession, day: PowerAppTrainingProgramDay }>((day: PowerAppTrainingProgramDay) => {
-			let session = trainings.find((q: PowerAppSession) => q.day_id === day.id);
-			if (session) return { session, day };
-
-			return {
-				session: {
-					id: uuid.v4().toString(),
-
-					created_at: null,
-					start: null,
-
-					program_id: 0,
-					day_id: day.id,
-					cycle,
-
-					status: 0,
-					items: day.exercises.map((item: PowerAppTrainingProgramDayExercise) => ({
-						id: item.id,
-						exerciseId: item.exercise_id,
-						setId: 0,
-						start: null,
-						comment: false,
-						params: [],
-					})),
-				},
-				day,
-			}
-		}).map(({ session, day }) => ({
-			id: session.id,
-			order: day.weekday - 1,
-			name: day.name,
-			description: '',
-
-			trainingBlock: null,
-			trainingBlockId: block.id,
-			trainingDayId: session.day_id,
-
-			exercises: day.exercises.map<TrainingExercise>((exercise: PowerAppTrainingProgramDayExercise, order: number) => ({
-				id: exercise.id,
-				order,
-
-				exerciseId: exercise.exercise_id,
-				exercise: exercises[exercise.exercise_id] ?? null,
-
-				parent: null,
-				parentId: null,
-				children: [],
-
-				rounds: mergeRounds(session.items, exercise, exercise.id),
-
-				trainingDay: null,
-				trainingDayId: '',
-
-				time: null,
-			})),
-			time: session.start ? session.start * 1000 : null,
-		}));
-		blocks.push(block);
-	}
-
-	return blocks;
+function isSource(item: Source | OnlifeTraining): item is Source {
+	return (item as Source).programs !== undefined && (item as Source).sessions !== undefined;
 }
 
 export class TrainingAdaptor implements OnlifeTraining {
+	/**
+	 * 	updateTimings - update times (when round, exercise, day, block, training) were completed
+	 *	updates only missing values i.e. if value is present from server - nothing is updated
+	 * @private
+	 */
 	private updateTimings(): void {
 		this.blocks.forEach((block: OnlifeTrainingBlock) => {
 			block.days.forEach((day: OnlifeTrainingDay) => {
 				day.exercises.map((exercise: TrainingExercise) => {
+					if (hasValue(exercise.time)) return;
+
 					const time = Math.max.apply(null, exercise.rounds.map((round: TrainingRound) => round.time ?? Infinity));
 					exercise.time = time !== Infinity ? time : null;
 				});
+
+				if (hasValue(day.time)) return;
 
 				const time = Math.max.apply(null, day.exercises.map((exercise: TrainingExercise) => exercise.time ?? Infinity))
 				day.time = time !== Infinity ? time : null;
 			});
 
+			if (hasValue(block.time)) return;
+
 			const time = Math.max.apply(null, block.days.map((day: OnlifeTrainingDay) => day.time ?? Infinity));
 			block.time = time !== Infinity ? time : null;
 		});
+
+		if (hasValue(this.time)) return;
 
 		const time = Math.max.apply(null, this.blocks.map((block: OnlifeTrainingBlock) => block.time ?? Infinity));
 		this.time = time !== Infinity ? time : null;
@@ -291,25 +372,44 @@ export class TrainingAdaptor implements OnlifeTraining {
 		}
 	}
 
-	public constructor(sessions: Array<PowerAppSession>, program: PowerAppTrainingProgram) {
-		this.id = uuid.v4().toString();
-		this.name = program.name;
-		this.description = program.description ?? '';
-		this.type = TrainingProgramType.Regular;
+	public constructor(source: Source | OnlifeTraining) {
+		if (isSource(source)) {
+			this.id = uuid.v4().toString();
+			this.name = 'Тренировка';
+			this.description = '';
+			this.type = TrainingProgramType.Regular;
 
-		this.created = new Date().valueOf();
-		this.time = null; // This is the time when training is completed
+			this.created = new Date().valueOf();
+			this.time = null; // This is the time when training is completed
 
-		this.client = null
-		this.clientId = '';
-		this.program = null;
-		this.programId = program.id.toString(10);
+			this.client = null
+			this.clientId = '';
 
-		this.blocks = mergeBlocks(
-			sessions.filter((item: PowerAppSession) => item.program_id === program.id),
-			program,
-			this.id,
-		);
+			this.program = null;
+			this.programId = '';
+
+			this.blocks = mergeBlocks(
+				source.sessions,
+				source.programs,
+				this.id,
+			);
+		} else {
+			this.id = source.id;
+			this.name = source.name;
+
+			this.description = source.description;
+			this.type = source.type;
+			this.created = source.created;
+			this.time = source.time;
+
+			this.client = source.client;
+			this.clientId = source.clientId;
+
+			this.program = source.program;
+			this.programId = source.programId;
+
+			this.blocks = source.blocks;
+		}
 
 		this.updateTimings();
 		this.updateAvailable();

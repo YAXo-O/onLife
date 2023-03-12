@@ -5,6 +5,7 @@ import { TrainingExercise } from '@app/objects/training/TrainingExercise';
 
 export interface OnlifeTrainingDay extends WithId {
 	order: number;
+	cycle: string;
 
 	name: string;
 	description: string;

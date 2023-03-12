@@ -48,4 +48,5 @@ export interface PowerTrainExercise extends WithId {
 		preview: string;
 		url: string;
 	};
+	audio?: Nullable<string>;
 }

@@ -79,7 +79,7 @@ const CycleItem: React.FC<ItemProps> = (props: ItemProps) => {
 					<Progress
 						primaryColor={palette.white['60']}
 						secondaryColor={palette.cyan['20']}
-						progress={props.done / props.total}
+						progress={props.total ? props.done / props.total : 0}
 						style={{ marginTop: 30 }}
 					>
 						<View style={[styles.row, { marginBottom: 20 }]}>
@@ -101,6 +101,7 @@ const CycleItem: React.FC<ItemProps> = (props: ItemProps) => {
 
 export const CycleCollection: React.FC<OwnProps> = (props: OwnProps) => {
 	const training = useSelector((state: IState) => state.session.item);
+
 	const render = ({ item }: ListRenderItemInfo<ItemProps>) => {
 		return (
 			<CycleItem
