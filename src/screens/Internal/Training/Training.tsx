@@ -43,11 +43,9 @@ import { SafeAreaView } from '@app/components/safearea/SafeAreaView';
 import { SessionAdaptor } from '@app/objects/adaptors/SessionAdaptor';
 import { OnlifeTrainingBlock } from '@app/objects/training/TrainingBlock';
 import { saveTraining } from '@app/services/Requests/PowerTrainRequests/TrainingProgram';
-import { OnlifeTraining } from '@app/objects/training/Training';
-import { OnlifeTrainingDay } from '@app/objects/training/TrainingDay';
-import { TrainingRound } from '@app/objects/training/TrainingRound';
 import { ActionModal, ActionModalType } from '@app/components/modals/action/ActionModal';
 import { ActionButton, ActionType } from '@app/components/buttons/ActionButton';
+import { TrainingAdaptor } from '@app/objects/adaptors/TrainingAdaptor';
 
 interface HeaderItem {
 	id: string;
@@ -73,6 +71,7 @@ function getList(info: Nullable<CurrentTraining> | undefined): Array<HeaderItem>
 const collectionHeight = 150;
 const offset = collectionHeight + 15;
 
+/*
 function updateTrainingTime(training: OnlifeTraining): OnlifeTraining {
 	const result: OnlifeTraining = { ...training };
 	result.blocks = training.blocks.map((block: OnlifeTrainingBlock) => {
@@ -115,6 +114,8 @@ function updateAvailability(training: OnlifeTraining): OnlifeTraining {
 
 	return training;
 }
+
+ */
 
 export const TrainingScreen: React.FC = () => {
 	const { start, finish } = useLoader();
@@ -168,7 +169,6 @@ export const TrainingScreen: React.FC = () => {
 		if (!block) return;
 
 		const message = new SessionAdaptor(training, block, day);
-		console.log(message.toString());
 
 		Timer.stop();
 		start();
@@ -178,7 +178,7 @@ export const TrainingScreen: React.FC = () => {
 				dispatch(trainingCreator.set({ day: null, block: null, active: null }));
 
 				const sessionCreator = new LocalActionCreators('session');
-				const item = updateAvailability(updateTrainingTime(training));
+				const item = new TrainingAdaptor(training);
 				dispatch(sessionCreator.set(item));
 
 				navigate(Routes.Main);

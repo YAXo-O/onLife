@@ -43,7 +43,7 @@ export async function getTraining(userId: string): Promise<Nullable<OnlifeTraini
 			.get<SessionWrapper>();
 		const sessions = getSessions(sessionWrapper, program.id);
 
-		return new TrainingAdaptor(sessions, program);
+		return new TrainingAdaptor({ sessions, program });
 	} catch (e) {
 		console.warn('Failed to get trainings: ', e);
 		throw new Error('Training request failed');

@@ -3,6 +3,7 @@ import {
 	StyleProp,
 	TextStyle,
 	TextInput,
+	Keyboard,
 } from 'react-native';
 
 import { WeightKeyboard } from '@app/components/keyboard/WeightKeyboard';

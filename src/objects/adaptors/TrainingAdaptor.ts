@@ -278,6 +278,15 @@ function mergeBlocks(
 	return blocks;
 }
 
+interface Source {
+	sessions: Array<PowerAppSession>;
+	program: PowerAppTrainingProgram;
+}
+
+function isSource(item: Source | OnlifeTraining): item is Source {
+	return (item as Source).program !== undefined && (item as Source).sessions !== undefined;
+}
+
 export class TrainingAdaptor implements OnlifeTraining {
 	/**
 	 * 	updateTimings - update times (when round, exercise, day, block, training) were completed
@@ -321,25 +330,42 @@ export class TrainingAdaptor implements OnlifeTraining {
 		}
 	}
 
-	public constructor(sessions: Array<PowerAppSession>, program: PowerAppTrainingProgram) {
-		this.id = uuid.v4().toString();
-		this.name = program.name;
-		this.description = program.description ?? '';
-		this.type = TrainingProgramType.Regular;
+	public constructor(source: Source | OnlifeTraining) {
+		if (isSource(source)) {
+			this.id = uuid.v4().toString();
+			this.name = source.program.name;
 
-		this.created = new Date().valueOf();
-		this.time = null; // This is the time when training is completed
+			this.description = source.program.description ?? '';
+			this.type = TrainingProgramType.Regular;
+			this.created = new Date().valueOf();
+			this.time = null; // This is the time when training is completed
+			this.client = null
+			this.clientId = '';
 
-		this.client = null
-		this.clientId = '';
-		this.program = null;
-		this.programId = program.id.toString(10);
+			this.program = null;
+			this.programId = source.program.id.toString(10);
+			this.blocks = mergeBlocks(
+				source.sessions.filter((item: PowerAppSession) => item.program_id === source.program.id),
+				source.program,
+				this.id,
+			);
+		} else {
+			this.id = source.id;
+			this.name = source.name;
 
-		this.blocks = mergeBlocks(
-			sessions.filter((item: PowerAppSession) => item.program_id === program.id),
-			program,
-			this.id,
-		);
+			this.description = source.description;
+			this.type = source.type;
+			this.created = source.created;
+			this.time = source.time;
+
+			this.client = source.client;
+			this.clientId = source.clientId;
+
+			this.program = source.program;
+			this.programId = source.programId;
+
+			this.blocks = source.blocks;
+		}
 
 		this.updateTimings();
 		this.updateAvailable();
