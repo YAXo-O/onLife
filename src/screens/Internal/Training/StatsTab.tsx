@@ -11,14 +11,19 @@ import { TrainingExercise } from '@app/objects/training/TrainingExercise';
 import { palette } from '@app/styles/palette';
 import { TrainingRound } from '@app/objects/training/TrainingRound';
 import { Nullable } from '@app/objects/utility/Nullable';
-import { Training } from '@app/objects/training/Training';
 import { OnlifeTrainingBlock } from '@app/objects/training/TrainingBlock';
 import { OnlifeTrainingDay } from '@app/objects/training/TrainingDay';
+import { OnlifeTraining } from '@app/objects/training/Training';
 
 import Up from '@assets/icons/stats/stats.chevron_up.svg';
 import Down from '@assets/icons/stats/stats.chevron_down.svg';
 
-function getBlocks(training: Nullable<Training> | undefined, exerciseId: Nullable<string> | undefined): Array<OnlifeTrainingBlock> {
+interface StatsWrapper {
+	order: number;
+	exercise: TrainingExercise;
+}
+
+function getBlocks(training: Nullable<OnlifeTraining> | undefined, exerciseId: Nullable<string> | undefined): Array<OnlifeTrainingBlock> {
 	if (!training || !exerciseId) return [];
 
 	const blocks: Array<OnlifeTrainingBlock> = [];
@@ -32,13 +37,16 @@ function getBlocks(training: Nullable<Training> | undefined, exerciseId: Nullabl
 	return blocks;
 }
 
-function getStats(block: OnlifeTrainingBlock, exerciseId: string): Array<TrainingExercise> {
-	const result: Array<TrainingExercise> = [];
+function getStats(block: OnlifeTrainingBlock, exerciseId: string): Array<StatsWrapper> {
+	const result: Array<StatsWrapper> = [];
 
 	block.days.forEach((day: OnlifeTrainingDay) => {
 		day.exercises.forEach((exercise: TrainingExercise) => {
 			if (exercise.exerciseId === exerciseId) {
-				result.push(exercise);
+				result.push({
+					order: day.order,
+					exercise,
+				});
 			}
 		});
 	});
@@ -47,7 +55,7 @@ function getStats(block: OnlifeTrainingBlock, exerciseId: string): Array<Trainin
 }
 
 interface StatsCardProps {
-	item: TrainingExercise;
+	item: StatsWrapper;
 }
 
 const StatsCard: React.FC<StatsCardProps> = (props: StatsCardProps) => {
@@ -55,6 +63,8 @@ const StatsCard: React.FC<StatsCardProps> = (props: StatsCardProps) => {
 	const [textWidth, setTextWidth] = React.useState(() => 0);
 	const [textHeight, setTextHeight] = React.useState(() => 0);
 	const width = 320;
+
+	const item = props.item.exercise;
 
 	return (
 		<View
@@ -88,7 +98,7 @@ const StatsCard: React.FC<StatsCardProps> = (props: StatsCardProps) => {
 						lineHeight: 18,
 					}}
 				>
-					{props.item.order + 1} неделя
+					{props.item.order + 1} занятие
 				</Text>
 			</View>
 
@@ -108,7 +118,7 @@ const StatsCard: React.FC<StatsCardProps> = (props: StatsCardProps) => {
 						marginTop: 15,
 					}}
 				>
-					{props.item.exercise?.name ?? '-'}
+					{item.exercise?.name ?? '-'}
 				</Text>
 				<View
 					style={{
@@ -119,7 +129,7 @@ const StatsCard: React.FC<StatsCardProps> = (props: StatsCardProps) => {
 					}}
 				>
 					{
-						props.item.rounds.map((round: TrainingRound, index: number) => (
+						item.rounds.map((round: TrainingRound, index: number) => (
 							<View
 								key={round.id}
 								style={{
@@ -199,10 +209,10 @@ export const StatsBlock: React.FC<BlockProps> = (props: BlockProps) => {
 							contentContainerStyle={styles.statsCollection}
 							showsHorizontalScrollIndicator={false}
 							data={list}
-							renderItem={(item: ListRenderItemInfo<TrainingExercise>) => (
+							renderItem={(item: ListRenderItemInfo<StatsWrapper>) => (
 								<StatsCard item={item.item} />
 							)}
-							keyExtractor={(item: TrainingExercise) => item.id}
+							keyExtractor={(item: StatsWrapper) => item.exercise.id}
 							ItemSeparatorComponent={() => <View style={{ width: 15 }} />}
 							horizontal
 						/>

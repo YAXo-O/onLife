@@ -237,7 +237,7 @@ function createDays(
 				trainingDayId: session.day_id,
 				time: session.start ? session.start * 1000 : null,
 				exercises: day.exercises.map<TrainingExercise>((exercise: PowerAppTrainingProgramDayExercise, order: number) => ({
-					id: exercise.id,
+					id: uuid.v4().toString(),
 					order,
 
 					exerciseId: exercise.exercise_id,
