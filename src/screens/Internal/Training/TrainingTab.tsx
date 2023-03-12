@@ -22,6 +22,7 @@ import { WithOrder } from '@app/objects/utility/WithOrder';
 import { Timer } from '@app/components/timer/Timer';
 import { now } from '@app/utils/datetime';
 import { RepeatsInput } from '@app/components/input/RepeatsInput';
+import { hasValue } from '@app/utils/value';
 
 function getRounds(exercise?: Nullable<TrainingExercise>): Array<TrainingRound> {
 	if (!exercise) return [];
@@ -62,7 +63,7 @@ export const TrainingTab: React.FC<TrainingTabProps> = (props: TrainingTabProps)
 
 	const onChange = (value: number | undefined, id: number, field: keyof TrainingRound & ('performedWeight' | 'performedRepeats')) => {
 		if (!values) return;
-		if (typeof value !== 'number') return;
+		if (!hasValue(value)) return;
 
 		let current = values.rounds[id];
 		values.rounds[id] = {
@@ -71,7 +72,7 @@ export const TrainingTab: React.FC<TrainingTabProps> = (props: TrainingTabProps)
 		};
 		current = values.rounds[id];
 
-		const complete = typeof current.performedWeight === 'number' && typeof current.performedRepeats === 'number';
+		const complete = hasValue(current.performedWeight) && hasValue(current.performedRepeats);
 		if (complete) {
 			if (!current.time) {
 				goNext(id);
@@ -229,7 +230,7 @@ export const TrainingTab: React.FC<TrainingTabProps> = (props: TrainingTabProps)
 						paddingHorizontal: 22,
 					}}
 				>
-					*Вес вносите после выполнения подхода
+					*Данные вносите после выполнения подхода
 				</Text>
 			</View>
 		</View>

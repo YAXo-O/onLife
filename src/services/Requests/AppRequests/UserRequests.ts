@@ -1,16 +1,16 @@
 import { User } from '@app/objects/User';
 import { RequestManager, ResponseType } from '@app/services/Requests/RequestService';
-import { Training } from '@app/objects/training/Training';
 import { Nullable } from '@app/objects/utility/Nullable';
 import { OrderService } from '@app/services/Utilities/OrderService';
 import { TrainingRound } from '@app/objects/training/TrainingRound';
 import { TrainingExercise } from '@app/objects/training/TrainingExercise';
 import { OnlifeTrainingDay } from '@app/objects/training/TrainingDay';
 import { now } from '@app/utils/datetime';
+import { OnlifeTraining } from '@app/objects/training/Training';
 
 export interface LoginResponse {
 	client: User;
-	training: Training;
+	training: OnlifeTraining;
 }
 
 interface RegisterModel {
@@ -22,7 +22,7 @@ interface RegisterModel {
 	lastName: string;
 }
 
-function order(program: Nullable<Training>): Nullable<Training> {
+function order(program: Nullable<OnlifeTraining>): Nullable<OnlifeTraining> {
 	if (!program) return null;
 
 	program.blocks = OrderService.sort(program.blocks, 20);

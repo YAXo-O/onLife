@@ -22,6 +22,7 @@ import {
 	PowerAppTrainingRoundParamCode
 } from '@app/objects/training/TrainingRound';
 import { OnlifeTrainingDay } from '@app/objects/training/TrainingDay';
+import { hasValue } from '@app/utils/value';
 
 function convertExercise(item: PowerTrainExercise): OnlifeExercise {
 	let audio: Nullable<string> = null;
@@ -91,8 +92,8 @@ function getParamTimeValue(params: Array<PowerAppTrainingExerciseParams>, code: 
 	return toTime(getParamValue(params, code));
 }
 
-function getPerformedValue(round: PowerAppTrainingRound): Nullable<number> {
-	return round.params.find((item: PowerAppTrainingRoundParam) => item.code === PowerAppTrainingRoundParamCode.Weight)?.value ?? null;
+function getPerformedValue(round: PowerAppTrainingRound, code: PowerAppTrainingRoundParamCode): Nullable<number> {
+	return round.params.find((item: PowerAppTrainingRoundParam) => item.code === code)?.value ?? null;
 }
 
 interface TrainingRoundProgramValues {
@@ -172,7 +173,8 @@ function mergeRounds(
 			parentId: null,
 			children: [],
 
-			performedWeight: getPerformedValue(round), // Get this value from session (if any)
+			performedWeight: getPerformedValue(round, PowerAppTrainingRoundParamCode.Weight), // Get this value from session (if any)
+			performedRepeats: getPerformedValue(round, PowerAppTrainingRoundParamCode.Repeats),
 			time: round.start ? round.start * 1000 : null,
 
 			/* Sets, Weight and Interval (from program) */
@@ -269,6 +271,7 @@ function mergeBlocks(
 			})),
 			time: session.start ? session.start * 1000 : null,
 		}));
+
 		blocks.push(block);
 	}
 
@@ -276,21 +279,34 @@ function mergeBlocks(
 }
 
 export class TrainingAdaptor implements OnlifeTraining {
+	/**
+	 * 	updateTimings - update times (when round, exercise, day, block, training) were completed
+	 *	updates only missing values i.e. if value is present from server - nothing is updated
+	 * @private
+	 */
 	private updateTimings(): void {
 		this.blocks.forEach((block: OnlifeTrainingBlock) => {
 			block.days.forEach((day: OnlifeTrainingDay) => {
 				day.exercises.map((exercise: TrainingExercise) => {
+					if (hasValue(exercise.time)) return;
+
 					const time = Math.max.apply(null, exercise.rounds.map((round: TrainingRound) => round.time ?? Infinity));
 					exercise.time = time !== Infinity ? time : null;
 				});
+
+				if (hasValue(day.time)) return;
 
 				const time = Math.max.apply(null, day.exercises.map((exercise: TrainingExercise) => exercise.time ?? Infinity))
 				day.time = time !== Infinity ? time : null;
 			});
 
+			if (hasValue(block.time)) return;
+
 			const time = Math.max.apply(null, block.days.map((day: OnlifeTrainingDay) => day.time ?? Infinity));
 			block.time = time !== Infinity ? time : null;
 		});
+
+		if (hasValue(this.time)) return;
 
 		const time = Math.max.apply(null, this.blocks.map((block: OnlifeTrainingBlock) => block.time ?? Infinity));
 		this.time = time !== Infinity ? time : null;

@@ -13,6 +13,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useHeaderHeight } from '@react-navigation/elements';
 
+import moment from 'moment';
+
 import { palette } from '@app/styles/palette';
 import { typography } from '@app/styles/typography';
 
@@ -44,7 +46,6 @@ import { saveTraining } from '@app/services/Requests/PowerTrainRequests/Training
 import { OnlifeTraining } from '@app/objects/training/Training';
 import { OnlifeTrainingDay } from '@app/objects/training/TrainingDay';
 import { TrainingRound } from '@app/objects/training/TrainingRound';
-import { TrainingProgramDay } from '@app/objects/program/TrainingProgram';
 import { ActionModal, ActionModalType } from '@app/components/modals/action/ActionModal';
 import { ActionButton, ActionType } from '@app/components/buttons/ActionButton';
 
@@ -156,6 +157,10 @@ export const TrainingScreen: React.FC = () => {
 			return;
 		}
 
+		if (force) {
+			day.time = moment().valueOf();
+		}
+
 		setError(null);
 		if (!training) return;
 
@@ -163,6 +168,7 @@ export const TrainingScreen: React.FC = () => {
 		if (!block) return;
 
 		const message = new SessionAdaptor(training, block, day);
+		console.log(message.toString());
 
 		Timer.stop();
 		start();

@@ -23,6 +23,7 @@ export interface TrainingRound extends WithId {
 
 export enum PowerAppTrainingRoundParamCode {
 	Weight = "weight",
+	Repeats = 'reps',
 }
 
 export interface PowerAppTrainingRoundParam {

@@ -41,7 +41,7 @@ interface ItemProps {
 }
 
 function getList(training: Nullable<OnlifeTraining> | undefined): Array<ItemProps> {
-	return (training?.blocks ?? []).map((item: OnlifeTrainingBlock) => ({
+	const blocks = (training?.blocks ?? []).map((item: OnlifeTrainingBlock) => ({
 		id: item.id,
 		title: `Блок тренировок №${item.order + 1}`,
 		done: (item.days ?? [])
@@ -50,6 +50,8 @@ function getList(training: Nullable<OnlifeTraining> | undefined): Array<ItemProp
 		total: item.days?.length ?? 0,
 		disabled: !item.available,
 	}));
+
+	return blocks;
 }
 
 const CycleItem: React.FC<ItemProps> = (props: ItemProps) => {
