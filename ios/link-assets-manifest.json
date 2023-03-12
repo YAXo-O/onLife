@@ -1,0 +1,301 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/Gluten/Gluten-Black.ttf",
+      "sha1": "3d3f8c70a59ae33d1ecce17d0622bbec9a957f80"
+    },
+    {
+      "path": "assets/fonts/Gluten/Gluten-Bold.ttf",
+      "sha1": "23492377e0607d9368631c164e7d2069de048507"
+    },
+    {
+      "path": "assets/fonts/Gluten/Gluten-ExtraBold.ttf",
+      "sha1": "2d6e7b5cced1d269535b1bc5967a8d710a360aca"
+    },
+    {
+      "path": "assets/fonts/Gluten/Gluten-ExtraLight.ttf",
+      "sha1": "5cef3753672afc3de1994a3bd977931cda483f76"
+    },
+    {
+      "path": "assets/fonts/Gluten/Gluten-Light.ttf",
+      "sha1": "a4fbcb69cc7f0977ad2a867830d755c7073bb361"
+    },
+    {
+      "path": "assets/fonts/Gluten/Gluten-Medium.ttf",
+      "sha1": "cd87a8e3257447166d75e5cc941e53917265c414"
+    },
+    {
+      "path": "assets/fonts/Gluten/Gluten-Regular.ttf",
+      "sha1": "1c99633c8438e37664bf76e29965ac560364750b"
+    },
+    {
+      "path": "assets/fonts/Gluten/Gluten-SemiBold.ttf",
+      "sha1": "742f1789224fe4a6745c178b4f004fa137c2c3e6"
+    },
+    {
+      "path": "assets/fonts/Gluten/Gluten-Thin.ttf",
+      "sha1": "2bd8cd3dd18592b1d35241bb6e6db132bc9766b5"
+    },
+    {
+      "path": "assets/fonts/Inter/Inter-Black.ttf",
+      "sha1": "283fa65b96dc1f2d71c6504afb9610447bdcdf1b"
+    },
+    {
+      "path": "assets/fonts/Inter/Inter-Bold.ttf",
+      "sha1": "48747b7a60086f97af0d373febcbd1f1bee87f17"
+    },
+    {
+      "path": "assets/fonts/Inter/Inter-ExtraBold.ttf",
+      "sha1": "bff772be6bca9895c6fdcd57e5d5be9a47f2e058"
+    },
+    {
+      "path": "assets/fonts/Inter/Inter-ExtraLight.ttf",
+      "sha1": "421072aef8610cb0f79661b494442a4b9363b43f"
+    },
+    {
+      "path": "assets/fonts/Inter/Inter-Light.ttf",
+      "sha1": "dd9ec1ae67dd85143bacf7a3cb37e9f0ac979843"
+    },
+    {
+      "path": "assets/fonts/Inter/Inter-Medium.ttf",
+      "sha1": "a418a8ba73bbcfa8c131c426ab836d78457afa9b"
+    },
+    {
+      "path": "assets/fonts/Inter/Inter-Regular.ttf",
+      "sha1": "7237d9cf55f177702066a28a4dde1e4c7e8ab576"
+    },
+    {
+      "path": "assets/fonts/Inter/Inter-SemiBold.ttf",
+      "sha1": "431007da316de60d85174aeec9b8389b5c73e7d6"
+    },
+    {
+      "path": "assets/fonts/Inter/Inter-Thin.ttf",
+      "sha1": "297919d59c9ba4fa17251cdb9f06c26ca906e593"
+    },
+    {
+      "path": "assets/fonts/AdobeGaramondPro/AGaramondPro-Bold.otf",
+      "sha1": "6d1cc48f342c3e0ffc4359ca7a697f39a64fa738"
+    },
+    {
+      "path": "assets/fonts/AdobeGaramondPro/AGaramondPro-BoldItalic.otf",
+      "sha1": "17985555634b9ac5f557c5c7ca8c4894110a0b76"
+    },
+    {
+      "path": "assets/fonts/AdobeGaramondPro/AGaramondPro-Italic.otf",
+      "sha1": "20e900a564ec2ae4528535fd59a28c2a07ec2ae2"
+    },
+    {
+      "path": "assets/fonts/AdobeGaramondPro/AGaramondPro-Regular.otf",
+      "sha1": "42c52792ab7f4e4b23c665714254e258997ae142"
+    },
+    {
+      "path": "assets/images/background.png",
+      "sha1": "a58ba9c7161d1b14e4a86d21e7205111650e5c9a"
+    },
+    {
+      "path": "assets/images/training_background.png",
+      "sha1": "7302aa6e769531d36ef1d0f12ce9fd063d2e3903"
+    },
+    {
+      "path": "assets/icons/attention.svg",
+      "sha1": "78396ab621645a5d750acd4e095ab5b0447233c5"
+    },
+    {
+      "path": "assets/icons/audio-player/audio-player.pause.svg",
+      "sha1": "a93874dfb0b7886d17d034de37f326ca730730bb"
+    },
+    {
+      "path": "assets/icons/audio-player/audio-player.play.svg",
+      "sha1": "347e1b4c5407f377b4f81ad76de20552d48d273f"
+    },
+    {
+      "path": "assets/icons/audio-player/audio-player.skip-left.svg",
+      "sha1": "6a5510358707b873d239bac9c019cd2779c3cdac"
+    },
+    {
+      "path": "assets/icons/audio-player/audio-player.skip-right.svg",
+      "sha1": "4bfe31a74d768dc59a77bc6255684c0e158b9170"
+    },
+    {
+      "path": "assets/icons/audio-player/audio-player.volume-down.svg",
+      "sha1": "da7752f44a222270c91920c47acf494e483a002b"
+    },
+    {
+      "path": "assets/icons/audio-player/audio-player.volume-up.svg",
+      "sha1": "9ab180f76cbd3a8a8bc0b0f64225cfe8bc638c72"
+    },
+    {
+      "path": "assets/icons/brief-description.svg",
+      "sha1": "22d75973105d769b692a02e28b73d794eac236d4"
+    },
+    {
+      "path": "assets/icons/check_circle.svg",
+      "sha1": "9a189edd1124a5880008b8e04d1484c278500e48"
+    },
+    {
+      "path": "assets/icons/chevron-down.svg",
+      "sha1": "90ff4bb5b9dd744c741c65af3d07e1d939e4a821"
+    },
+    {
+      "path": "assets/icons/chevron-right.svg",
+      "sha1": "ddcdd777c9086887e72bae024f751061c3d0ae8f"
+    },
+    {
+      "path": "assets/icons/chevron-up.svg",
+      "sha1": "bbc09da58fc0ac1ac5ef8fad39ccee5bc8614a3b"
+    },
+    {
+      "path": "assets/icons/close.svg",
+      "sha1": "c5806af11752aa2dc31d729f82c38608d41e6421"
+    },
+    {
+      "path": "assets/icons/cross.svg",
+      "sha1": "e40d031782d216f6dd8ab00b738889c9b6e8d047"
+    },
+    {
+      "path": "assets/icons/delete.png",
+      "sha1": "32fa87744c250e19df9294f7afb1d4f6c9b7a14f"
+    },
+    {
+      "path": "assets/icons/done.svg",
+      "sha1": "c4c561d5fdb905b3bdf1ccc9b849d315bfced4d3"
+    },
+    {
+      "path": "assets/icons/dots.svg",
+      "sha1": "85c0873465048d3745769dccdaac7f5257a89c22"
+    },
+    {
+      "path": "assets/icons/down.svg",
+      "sha1": "3c7671f6097e0401085333b0c020a1925eaf606f"
+    },
+    {
+      "path": "assets/icons/dumbbell.svg",
+      "sha1": "cfebe377fdfe2f48a213d3f40ee5df4a78186951"
+    },
+    {
+      "path": "assets/icons/edit.svg",
+      "sha1": "2003593dac82b6fdf64aec5ae89a7ae4a30a6245"
+    },
+    {
+      "path": "assets/icons/educational-material.svg",
+      "sha1": "6d800568d4cc90ae8ccb55f73e2e050a6bd74435"
+    },
+    {
+      "path": "assets/icons/email.svg",
+      "sha1": "5db334f28c36f2ff7ce78994eb3c8b8b44738a03"
+    },
+    {
+      "path": "assets/icons/error_circle.svg",
+      "sha1": "2ed7d11aead38e45dd1d42ff37a59c7893d7e8fc"
+    },
+    {
+      "path": "assets/icons/exit.svg",
+      "sha1": "49cae1e3ae2c0009d0eb47506ec2756e0e7caeba"
+    },
+    {
+      "path": "assets/icons/eye.svg",
+      "sha1": "7cbd51d11f91b0bd76257f42492dbbcd0bc0f70f"
+    },
+    {
+      "path": "assets/icons/hide.png",
+      "sha1": "cc67f8ad8f43b604101b1325e8a3713e882ce587"
+    },
+    {
+      "path": "assets/icons/hide.svg",
+      "sha1": "253642bf6586b79368dae2951b7c8ad9e7f4d645"
+    },
+    {
+      "path": "assets/icons/home.svg",
+      "sha1": "11490e8bb1da957243704805d37fcb8dea3f52be"
+    },
+    {
+      "path": "assets/icons/key.svg",
+      "sha1": "7b83f24a4af9d52172de7f6659502d79e05470a0"
+    },
+    {
+      "path": "assets/icons/keyboard/keyboard.remove.svg",
+      "sha1": "694a0ff2a3d35e84e329d82841325f3da3f71fb6"
+    },
+    {
+      "path": "assets/icons/keyboard/keyboardapply.svg",
+      "sha1": "1bec39f212b99e886dafddeae9da4e7240b19bc4"
+    },
+    {
+      "path": "assets/icons/locked.svg",
+      "sha1": "221ffc42efdc33dd025d31698e473dc44d4fcb28"
+    },
+    {
+      "path": "assets/icons/logout.png",
+      "sha1": "f31d328da00aa1307610b5cc1eb8b44c78bae4b9"
+    },
+    {
+      "path": "assets/icons/phone.svg",
+      "sha1": "cea9203c7c7d97818f5713611cafebeb7a667938"
+    },
+    {
+      "path": "assets/icons/play.svg",
+      "sha1": "6c502f5f478e80185a50f0bc5f47e8141aed529b"
+    },
+    {
+      "path": "assets/icons/rounds.svg",
+      "sha1": "71b43ba584bb701486c59c9e3507a4e83401dba3"
+    },
+    {
+      "path": "assets/icons/show.png",
+      "sha1": "6c2da2d22dd7894e74666b796900d1ce0fd8ab2d"
+    },
+    {
+      "path": "assets/icons/stats/stats.chevron_down.svg",
+      "sha1": "da50f0da5079cdd6354c5425b3e9c50128faa205"
+    },
+    {
+      "path": "assets/icons/stats/stats.chevron_up.svg",
+      "sha1": "80d211cd5ed48c2fbe19307fdc081ffcc994c1de"
+    },
+    {
+      "path": "assets/icons/timer/timer.clock.svg",
+      "sha1": "9f9474758ef5dde066e1104e13f4eb8f66723362"
+    },
+    {
+      "path": "assets/icons/timer.svg",
+      "sha1": "23759e864f02e7acf00298da1cfafccdbf74b513"
+    },
+    {
+      "path": "assets/icons/training.svg",
+      "sha1": "761237935b954ad8eec00563e7b8ec66959b3aba"
+    },
+    {
+      "path": "assets/icons/training_dumbbell.svg",
+      "sha1": "d1a8793de2103934976c34683126148e8ac72810"
+    },
+    {
+      "path": "assets/icons/training_material.svg",
+      "sha1": "cc36ed13911df808980e72632b9a00f3e6ea34d2"
+    },
+    {
+      "path": "assets/icons/training_stats.svg",
+      "sha1": "f14d2cc2538f62d540fa43979db3f35c7f83a0e2"
+    },
+    {
+      "path": "assets/icons/training_video.svg",
+      "sha1": "81768d6b446ba26ea7adb7d10bafb1b5059e7a2a"
+    },
+    {
+      "path": "assets/icons/trash.svg",
+      "sha1": "d74c8638970d4e75de5b2ec6f40470af4fb2f291"
+    },
+    {
+      "path": "assets/icons/unlocked.svg",
+      "sha1": "bd7cb11fc1a5a5d1b8cbbaab2257fff970cf42a5"
+    },
+    {
+      "path": "assets/icons/up.svg",
+      "sha1": "29b1e2aace53894a30b7e6e8456fa29ab14b8181"
+    },
+    {
+      "path": "assets/icons/user.svg",
+      "sha1": "dd935ba8c1dad306ea206aa72a89a3d03b2f568c"
+    }
+  ]
+}
