@@ -114,6 +114,7 @@ export const TrainingTab: React.FC<TrainingTabProps> = (props: TrainingTabProps)
 				snapToInterval={315}
 				snapToAlignment="start"
 				decelerationRate="fast"
+				keyboardShouldPersistTaps="handled"
 				contentContainerStyle={styles.setCollection}
 				data={rounds}
 				renderItem={(item: ListRenderItemInfo<TrainingRound>) => (

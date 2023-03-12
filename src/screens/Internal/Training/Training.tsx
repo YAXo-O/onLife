@@ -46,6 +46,7 @@ import { saveTraining } from '@app/services/Requests/PowerTrainRequests/Training
 import { ActionModal, ActionModalType } from '@app/components/modals/action/ActionModal';
 import { ActionButton, ActionType } from '@app/components/buttons/ActionButton';
 import { TrainingAdaptor } from '@app/objects/adaptors/TrainingAdaptor';
+import { OnlifeTrainingDay } from '@app/objects/training/TrainingDay';
 
 interface HeaderItem {
 	id: string;
@@ -70,52 +71,6 @@ function getList(info: Nullable<CurrentTraining> | undefined): Array<HeaderItem>
 
 const collectionHeight = 150;
 const offset = collectionHeight + 15;
-
-/*
-function updateTrainingTime(training: OnlifeTraining): OnlifeTraining {
-	const result: OnlifeTraining = { ...training };
-	result.blocks = training.blocks.map((block: OnlifeTrainingBlock) => {
-		const item = { ...block };
-
-		item.days = block.days.map((day: OnlifeTrainingDay) => {
-			const item = { ...day };
-
-			item.exercises = day.exercises.map((exercise: TrainingExercise) => {
-				const item = { ...exercise };
-
-				const time = Math.max.apply(null, item.rounds.map((item: TrainingRound) => item.time ?? Infinity));
-				item.time = time === Infinity ? null : time;
-
-				return item;
-			});
-
-			const time = Math.max.apply(null, item.exercises.map((item: TrainingExercise) => item.time ?? Infinity));
-			item.time = time === Infinity ? null : time;
-
-			return item;
-		});
-
-		const time = Math.max.apply(null, item.days.map((item: OnlifeTrainingDay) => item.time ?? Infinity));
-		item.time = time === Infinity ? null : time;
-
-		return item;
-	});
-
-	return result;
-}
-
-function updateAvailability(training: OnlifeTraining): OnlifeTraining {
-	const index = training.blocks.findIndex((block: OnlifeTrainingBlock) => block.time === null);
-	if (index >= 0) {
-		for (let i = 0; i <= index; i++) {
-			training.blocks[i].available = true;
-		}
-	}
-
-	return training;
-}
-
- */
 
 export const TrainingScreen: React.FC = () => {
 	const { start, finish } = useLoader();
@@ -144,22 +99,10 @@ export const TrainingScreen: React.FC = () => {
 		const userId = Number.parseInt(id);
 		if (Number.isNaN(userId)) return;
 
-		if (day.time) {
-			const creator = new LocalActionCreators('training');
-			dispatch(creator.set({ day: null, block: null, active: null }));
-
-			navigate(Routes.Main);
-			Timer.stop();
-		}
-
 		if (!force && day.exercises.find((item: TrainingExercise) => item.time === null)) {
 			setConfirmation(true);
 
 			return;
-		}
-
-		if (force) {
-			day.time = moment().valueOf();
 		}
 
 		setError(null);
@@ -169,8 +112,8 @@ export const TrainingScreen: React.FC = () => {
 		if (!block) return;
 
 		const message = new SessionAdaptor(training, block, day);
-
 		Timer.stop();
+
 		start();
 		saveTraining(userId, message)
 			.then(() => {
@@ -178,8 +121,24 @@ export const TrainingScreen: React.FC = () => {
 				dispatch(trainingCreator.set({ day: null, block: null, active: null }));
 
 				const sessionCreator = new LocalActionCreators('session');
-				const item = new TrainingAdaptor(training);
-				dispatch(sessionCreator.set(item));
+				const item = { ...training };
+				item.blocks = item.blocks.map((block: OnlifeTrainingBlock) => {
+					if (block.id !== day.trainingBlockId) return block;
+
+					return {
+						...block,
+						days: block.days.map((q: OnlifeTrainingDay) => {
+							if (q.id !== day.id) return q;
+
+							return {
+								...day,
+								time: day.time ?? moment().valueOf(),
+							};
+						}),
+					};
+				});
+				const adaptor = new TrainingAdaptor(item);
+				dispatch(sessionCreator.set(adaptor));
 
 				navigate(Routes.Main);
 			})
@@ -198,9 +157,7 @@ export const TrainingScreen: React.FC = () => {
 
 		if (goto >= 0) {
 			setValue(list[goto].id);
-		}
-
-		if (next === -1 || first === -1) {
+		} else {
 			completeDay();
 		}
 	};
@@ -425,7 +382,7 @@ export const TrainingScreen: React.FC = () => {
 							},
 						]}
 					>
-						Вы выполнели не все упражнения. Вы уверены, что хотите завершить тренировку?
+						Все невыполненные упражнения будут завершены. Вы уверены, что хотите закончить тренировку?
 					</Text>
 				</View>
 				<View style={{ flexDirection: 'row', marginTop: 16 }}>

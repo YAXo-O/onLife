@@ -59,6 +59,8 @@ interface SaveSessionResult {
 }
 
 export function saveTraining(userId: number, session: PowerAppSession): Promise<void> {
+	// return Promise.reject(new Error('Не удалось завершить тренировку'));
+
 	return new RequestManager(`profile/${userId}/sessions`)
 		.withBody<SaveSessionWrapper>({ sessions: [session] })
 		.post<SaveSessionResult>()

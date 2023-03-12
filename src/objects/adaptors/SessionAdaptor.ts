@@ -60,10 +60,11 @@ export class SessionAdaptor implements PowerAppSession {
 			)
 		);
 
+		const stamp = moment().unix(); // If some property has no time - set same time for everything
 		if (this.start !== Infinity) {
 			this.start /= 1000;
 		} else {
-			this.start = moment().unix();
+			this.start = stamp;
 		}
 
 		this.items = [];
@@ -76,7 +77,7 @@ export class SessionAdaptor implements PowerAppSession {
 					id: round.id,
 					exerciseId: round.exerciseId,
 					setId: round.order,
-					start: round.time ? round.time / 1000 : moment().unix(),
+					start: round.time ? round.time / 1000 : stamp,
 					comment: false,
 					params,
 				});
