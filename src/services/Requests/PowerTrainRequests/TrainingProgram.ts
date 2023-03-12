@@ -16,34 +16,28 @@ interface SessionWrapper {
 	sessions: Array<PowerAppSession>;
 }
 
-function getProgram(wrapper: ProgramWrapper): Nullable<PowerAppTrainingProgram> {
-	const value = wrapper.programs.find(({ isCurrent }) => isCurrent);
-	if (!value) return null;
-
-	return {
-		...value.program,
-		id: value.id,
-	};
+function getProgram(wrapper: ProgramWrapper): Array<PowerAppTrainingProgram> {
+	return wrapper.programs.map((item) => ({ ...item.program, id: item.id }));
 }
 
-function getSessions(wrapper: SessionWrapper, programId: number): Array<PowerAppSession> {
+function getSessions(wrapper: SessionWrapper, programs: Array<number>): Array<PowerAppSession> {
 	const list =  wrapper.sessions ?? [];
 
-	return list.filter((item: PowerAppSession) => item.program_id === programId);
+	return list.filter((item: PowerAppSession) => programs.includes(item.program_id));
 }
 
 export async function getTraining(userId: string): Promise<Nullable<OnlifeTraining>> {
 	try {
 		const programWrapper = await new RequestManager(`profile/${userId}/programs`)
 			.get<ProgramWrapper>();
-		const program = getProgram(programWrapper);
-		if (!program) return null;
+		const programs = getProgram(programWrapper);
+		if (!programs.length) return null;
 
 		const sessionWrapper = await new RequestManager(`profile/${userId}/sessions`)
 			.get<SessionWrapper>();
-		const sessions = getSessions(sessionWrapper, program.id);
+		const sessions = getSessions(sessionWrapper, programs.map((q: PowerAppTrainingProgram) => q.id));
 
-		return new TrainingAdaptor({ sessions, program });
+		return new TrainingAdaptor({ sessions, programs });
 	} catch (e) {
 		console.warn('Failed to get trainings: ', e);
 		throw new Error('Training request failed');
@@ -59,8 +53,6 @@ interface SaveSessionResult {
 }
 
 export function saveTraining(userId: number, session: PowerAppSession): Promise<void> {
-	// return Promise.reject(new Error('Не удалось завершить тренировку'));
-
 	return new RequestManager(`profile/${userId}/sessions`)
 		.withBody<SaveSessionWrapper>({ sessions: [session] })
 		.post<SaveSessionResult>()

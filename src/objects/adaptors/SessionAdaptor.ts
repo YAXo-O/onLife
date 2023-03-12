@@ -42,10 +42,9 @@ export class SessionAdaptor implements PowerAppSession {
 		this.id = uuid.v4().toString();
 		this.created_at = moment().format('YYYY-MM-DD[T]HH:mm:ss:SSSSSS[Z]');
 
-		const index = training.blocks.findIndex((q: OnlifeTrainingBlock) => q.id === block.id) ?? 0;
-		this.cycle = index.toString();
+		this.cycle = day.cycle;
 		this.day_id = day.trainingDayId;
-		this.program_id = Number.parseInt(training.programId);
+		this.program_id = Number.parseInt(block.id);
 		this.status = 1;
 
 		this.start = Math.min.apply(

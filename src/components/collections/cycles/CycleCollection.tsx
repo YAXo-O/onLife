@@ -41,7 +41,7 @@ interface ItemProps {
 }
 
 function getList(training: Nullable<OnlifeTraining> | undefined): Array<ItemProps> {
-	const blocks = (training?.blocks ?? []).map((item: OnlifeTrainingBlock) => ({
+	return (training?.blocks ?? []).map((item: OnlifeTrainingBlock) => ({
 		id: item.id,
 		title: `Блок тренировок №${item.order + 1}`,
 		done: (item.days ?? [])
@@ -50,8 +50,6 @@ function getList(training: Nullable<OnlifeTraining> | undefined): Array<ItemProp
 		total: item.days?.length ?? 0,
 		disabled: !item.available,
 	}));
-
-	return blocks;
 }
 
 const CycleItem: React.FC<ItemProps> = (props: ItemProps) => {
@@ -81,7 +79,7 @@ const CycleItem: React.FC<ItemProps> = (props: ItemProps) => {
 					<Progress
 						primaryColor={palette.white['60']}
 						secondaryColor={palette.cyan['20']}
-						progress={props.done / props.total}
+						progress={props.total ? props.done / props.total : 0}
 						style={{ marginTop: 30 }}
 					>
 						<View style={[styles.row, { marginBottom: 20 }]}>
@@ -103,6 +101,7 @@ const CycleItem: React.FC<ItemProps> = (props: ItemProps) => {
 
 export const CycleCollection: React.FC<OwnProps> = (props: OwnProps) => {
 	const training = useSelector((state: IState) => state.session.item);
+
 	const render = ({ item }: ListRenderItemInfo<ItemProps>) => {
 		return (
 			<CycleItem
