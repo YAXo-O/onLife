@@ -1,4 +1,4 @@
-package com.onlife.newarchitecture.components;
+package com.onlife.pro.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;

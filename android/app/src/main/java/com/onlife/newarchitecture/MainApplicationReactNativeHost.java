@@ -1,4 +1,4 @@
-package com.onlife.newarchitecture;
+package com.onlife.pro.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.onlife.BuildConfig;
-import com.onlife.newarchitecture.components.MainComponentsRegistry;
-import com.onlife.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.onlife.pro.BuildConfig;
+import com.onlife.pro.newarchitecture.components.MainComponentsRegistry;
+import com.onlife.pro.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 

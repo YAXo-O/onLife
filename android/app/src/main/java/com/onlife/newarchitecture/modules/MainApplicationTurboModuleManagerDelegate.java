@@ -1,4 +1,4 @@
-package com.onlife.newarchitecture.modules;
+package com.onlife.pro.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;
