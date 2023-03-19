@@ -9,7 +9,6 @@ import {
 	StatusBar,
 } from 'react-native';
 import { Slider } from '@miblanchard/react-native-slider';
-import proxy from 'react-native-video-cache';
 
 import { Nullable } from '@app/objects/utility/Nullable';
 import { formatTime } from '@app/utils/datetime';
@@ -47,7 +46,7 @@ const Player: React.FC<Props> = (props: Props) => {
 				<Video
 					paused={paused}
 					currentTime={time}
-					source={{ uri: proxy(source) }}
+					source={{ uri: source }}
 					resizeMode="contain"
 					style={styles.player}
 					onError={(error: LoadError) => console.log(error.error)}
