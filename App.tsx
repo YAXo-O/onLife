@@ -3,7 +3,7 @@ import {
 	StatusBar,
 	View,
 	StyleSheet,
-	ActivityIndicator,
+	ActivityIndicator, Text,
 } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -47,6 +47,8 @@ const SpinnerHolder: React.FC = () => {
 };
 
 const App = () => {
+	console.log('App mounted');
+
 	NotificationService.init()
 		.then(() => console.log('NotificationService has been initialized'))
 		.catch((error) => console.warn('NotificationService failed to initialize: ', error));
