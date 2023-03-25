@@ -22,6 +22,10 @@ interface WeightInputProps {
 export const WeightInput: React.FC<WeightInputProps> = (props: WeightInputProps) => {
 	const ref = React.useRef<boolean>(false);
 
+	React.useEffect(() => {
+		return () => WeightKeyboard.dismiss();
+	}, []);
+
 	return (
 		<TextInput
 			value={props.value?.toFixed(1)}
