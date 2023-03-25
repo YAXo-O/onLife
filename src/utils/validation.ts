@@ -25,9 +25,29 @@ export function errorsToString<FormValues>(
 	return result.join('\n')
 }
 
-export function toString(error: string | Error): string {
+interface ExternalError {
+	message: string;
+	errors: Record<string, Array<string>>;
+}
+
+function isExternalError(error: ExternalError | unknown): error is ExternalError {
+	return Boolean((error as ExternalError).message) && typeof (error as ExternalError).errors === 'object';
+}
+
+function toMessage(error: ExternalError): string {
+	const result: Array<string> = [error.message];
+	Object.entries(error).forEach(([key, value]) => {
+		result.push(`${key}: ${(value as Array<string>).join(', ')}`);
+	})
+
+	return result.join('\n\r');
+}
+
+export function toString(error: string | Error | ExternalError): string {
 	if (typeof error === 'string') {
 		return error;
+	} else if (isExternalError(error)) {
+		return toMessage(error)
 	} else if ((error as Error).message) {
 		return error.message;
 	}

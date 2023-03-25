@@ -5,9 +5,8 @@ import {
 	ViewStyle,
 	StyleProp, Text, TouchableOpacity, Linking,
 } from 'react-native';
-import { useDispatch } from 'react-redux';
 
-import { Formik, FormikProps } from 'formik';
+import { Formik, FormikProps, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 
 import { WavyFormRow, WavyFormRowType } from '@app/components/form/WavyForm';
@@ -17,12 +16,15 @@ import { AlertBox, AlertType } from '@app/components/alertbox/AlertBox';
 import { Translator, toString } from '@app/utils/validation';
 import { palette } from '@app/styles/palette';
 
-import { logIn, LoginResponse } from '@app/services/Requests/AppRequests/UserRequests';
+import { logIn } from '@app/services/Requests/AppRequests/UserRequests';
 import { Nullable } from '@app/objects/utility/Nullable';
-import { setAction as itemSetAction } from '@app/store/ItemState/ActionCreators';
 
 import Key from '@assets/icons/key.svg';
 import Email from '@assets/icons/email.svg';
+import { PrivateStorage } from '@app/services/Privacy/PrivateStorage';
+import { PrivateKeys } from '@app/services/Privacy/PrivateKeys';
+import { useNavigation } from '@react-navigation/native';
+import { Routes } from '@app/navigation/routes';
 
 interface OwnProps {
 	style?: StyleProp<ViewStyle>;
@@ -59,22 +61,25 @@ function openRules(): void {
 }
 
 export const SignIn: React.FC<OwnProps> = (props: OwnProps) => {
-	const dispatch = useDispatch();
 	const [error, setError] = React.useState<Nullable<string>>(() => null);
 	const { start, finish } = useLoader();
+	const { navigate } = useNavigation();
 
-	const submit = (values: FormValues) => {
+	const submit = (values: FormValues, helpers: FormikHelpers<FormValues>) => {
 		start();
 
 		logIn(values.login, values.password)
-			.then((response: LoginResponse) => {
+			.then((token: string) => {
 				setError(null);
+				helpers.resetForm();
 
-				dispatch(itemSetAction(response.client, 'user'));
+				return PrivateStorage.set(PrivateKeys.Session, token)
+					.catch((error) => console.warn('Failed to save token: ', error))
 			})
 			.catch((error: string | Error) => {
 				console.warn('<SignIn> login error: ', error);
-				setError(toString(error));
+				setError('Убедитесь, что указаны верные логин и пароль');
+				// setError(toString(error));
 			})
 			.finally(finish);
 	};
@@ -120,6 +125,11 @@ export const SignIn: React.FC<OwnProps> = (props: OwnProps) => {
 							</Text>
 						</TouchableOpacity>
 						<View style={styles.actionContainer}>
+							<TouchableOpacity style={{ marginVertical: 16 }} onPress={() => navigate(Routes.AuthByPhone)}>
+								<Text style={styles.action}>
+									Войти по номеру телефона
+								</Text>
+							</TouchableOpacity>
 							<ActionButton
 								text="Войти"
 								onPress={data.handleSubmit} />
@@ -142,6 +152,13 @@ const styles = StyleSheet.create({
 	actionContainer: {
 		marginHorizontal: 30,
 		marginBottom: 75,
+	},
+	action: {
+		color: palette.cyan['60'],
+		fontFamily: 'Inter-SemiBold',
+		fontSize: 14,
+		lineHeight: 18,
+		textAlign: 'center',
 	},
 	rules: {
 		fontFamily: 'Inter-Regular',

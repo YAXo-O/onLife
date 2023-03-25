@@ -164,6 +164,7 @@ export class RequestManager {
 			const controller = new AbortController();
 			const id = setTimeout(controller.abort.bind(controller), this.timeout);
 
+			console.log('Request to: ', this.url);
 			const response = await fetch(this.url, {
 				method,
 				credentials: 'include',

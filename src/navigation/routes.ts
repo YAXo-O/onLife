@@ -1,5 +1,6 @@
 export enum Routes {
-	Auth = 'Auth',
+	AuthByPhone = 'AuthByPhone',
+	AuthByLogin = 'AuthByLogin',
 	Main = 'Main',
 	TrainingView = 'TrainingView',
 	TrainingList = 'TrainingList',
@@ -9,7 +10,8 @@ export enum Routes {
 }
 
 export const names: Record<Routes, string> = {
-	[Routes.Auth]: 'Авторизация',
+	[Routes.AuthByPhone]: 'Авторизация',
+	[Routes.AuthByLogin]: 'Авторизация',
 	[Routes.Main]: 'Основной экран',
 	[Routes.TrainingView]: 'Тренировка',
 	[Routes.TrainingList]: 'План Тренировка',

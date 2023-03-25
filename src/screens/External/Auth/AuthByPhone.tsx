@@ -26,6 +26,8 @@ import { Nullable } from '@app/objects/utility/Nullable';
 import { toString } from '@app/utils/validation';
 import { PrivateStorage } from '@app/services/Privacy/PrivateStorage';
 import { PrivateKeys } from '@app/services/Privacy/PrivateKeys';
+import { useNavigation } from '@react-navigation/native';
+import { Routes } from '@app/navigation/routes';
 
 const height = Dimensions.get('window').height;
 
@@ -52,6 +54,7 @@ const PhoneStep: React.FC<PhoneStepProps> = (props: PhoneStepProps) => {
 	const [count, setCount] = React.useState<number>(() => 0);
 	const [error, setError] = React.useState<Nullable<string>>(() => null);
 	const { start, finish } = useLoader();
+	const { navigate } = useNavigation();
 
 	return (
 		<>
@@ -75,9 +78,17 @@ const PhoneStep: React.FC<PhoneStepProps> = (props: PhoneStepProps) => {
 					Введите номер телефона в формате +7XXXXXXXXXX
 				</Text>
 			</View>
-			<View style={{ padding: 32 }}>
+			<View style={styles.actionContainer}>
+				<TouchableOpacity style={{ marginVertical: 16 }} onPress={() => navigate(Routes.AuthByLogin)}>
+					<Text style={styles.action}>
+						Войти по логину и паролю
+					</Text>
+				</TouchableOpacity>
 				<ActionButton
 					onPress={() => {
+						const reg = /\+7\d\d\d\d\d\d\d\d\d\d/;
+						if (!reg.test(phone)) return;
+
 						setCount((count: number) => count + 1);
 						start();
 						getCode(phone)
@@ -135,7 +146,7 @@ const CodeStep: React.FC<CodeStepProps> = (props: CodeStepProps) => {
 					</Text>
 				</TouchableOpacity>
 			</View>
-			<View style={{ paddingHorizontal: 32, paddingTop: 16, paddingBottom: 32 }}>
+			<View style={styles.actionContainer}>
 				<ActionButton
 					onPress={() => {
 						setCount((count: number) => count + 1);
@@ -221,6 +232,10 @@ export const AuthByPhoneScreen: React.FC = () => {
 }
 
 const styles = StyleSheet.create({
+	actionContainer: {
+		marginHorizontal: 30,
+		marginBottom: 75,
+	},
 	row: {
 		width: '100%',
 		paddingHorizontal: 0,

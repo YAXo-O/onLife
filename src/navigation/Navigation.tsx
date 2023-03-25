@@ -14,6 +14,7 @@ import { Routes } from '@app/navigation/routes';
 import { DeleteProfileScreen } from '@app/screens/Internal/Profile/DeleteProfileScreen';
 import { TrainingScreen } from '@app/screens/Internal/Training/Training';
 import { AuthByPhoneScreen } from '@app/screens/External/Auth/AuthByPhone';
+import { AuthScreen } from '@app/screens/External/Auth/Auth';
 
 const NavigationStack = createNativeStackNavigator();
 
@@ -33,7 +34,7 @@ export const Navigation: React.FC = () => {
 			navigation.reset({
 				index: 0,
 				routes: [
-					{ name: Routes.Auth },
+					{ name: Routes.AuthByPhone },
 				],
 			});
 		}
@@ -43,9 +44,14 @@ export const Navigation: React.FC = () => {
 		<View style={{ flex: 1, }}>
 			<NavigationStack.Navigator>
 				<NavigationStack.Screen
-					name={Routes.Auth}
+					name={Routes.AuthByPhone}
 					options={{ headerShown: false, }}
 					component={AuthByPhoneScreen}
+				/>
+				<NavigationStack.Screen
+					name={Routes.AuthByLogin}
+					options={{ headerShown: false, }}
+					component={AuthScreen}
 				/>
 				<NavigationStack.Screen
 					name={Routes.Main}

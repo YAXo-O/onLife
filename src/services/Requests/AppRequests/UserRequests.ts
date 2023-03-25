@@ -30,24 +30,30 @@ function order(program: Nullable<OnlifeTraining>): Nullable<OnlifeTraining> {
 	return program;
 }
 
-export function logIn(email: string, password: string): Promise<LoginResponse> {
-	const service = new RequestManager('app/login/sign-in');
+export function logIn(email: string, password: string): Promise<string> {
+	// const service = new RequestManager('app/login/sign-in');
+	const service = new RequestManager('login-email');
 
 	return service.withBody({ email, password })
-		.post<LoginResponse>()
-		.then((response: LoginResponse) => {
-			order(response.client?.training);
-
-			return response;
-		});
+		.post<{ token: string }>()
+		.then(q => q.token);
 }
 
-export function register(model: RegisterModel): Promise<void> {
-	const service = new RequestManager('app/login/sign-up');
 
-	return service.withResponse(ResponseType.None)
-		.withBody(model)
-		.post<void>();
+export function register(model: RegisterModel): Promise<string> {
+	// const service = new RequestManager('app/login/sign-up');
+	const service = new RequestManager('register-email')
+
+	return service.withResponse(ResponseType.JSON)
+		.withBody({
+			'first_name': model.firstName,
+			'last_name': model.lastName,
+			phone: model.phone,
+			email: model.email,
+			password: model.password,
+		})
+		.post<{ token: string }>()
+		.then(({ token }) => token);
 }
 
 export function getUser(): Promise<User> {

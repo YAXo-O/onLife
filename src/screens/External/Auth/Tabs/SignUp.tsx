@@ -19,6 +19,8 @@ import User from '@assets/icons/user.svg';
 import Email from '@assets/icons/email.svg';
 import Phone from '@assets/icons/phone.svg';
 import Key from '@assets/icons/key.svg';
+import { PrivateStorage } from '@app/services/Privacy/PrivateStorage';
+import { PrivateKeys } from '@app/services/Privacy/PrivateKeys';
 
 interface OwnProps {
 	style?: StyleProp<ViewStyle>;
@@ -75,14 +77,17 @@ export const SignUp: React.FC<OwnProps> = (props: OwnProps) => {
 		start();
 
 		register(values)
-			.then(() => {
+			.then((token) => {
 				setError(null);
-				setMessage('Теперь вы можете авторизоваться, используя указанные при регистрации email и пароль');
 				helpers.resetForm();
+
+				return PrivateStorage.set(PrivateKeys.Session, token)
+					.catch((error) => console.warn('Failed to save token: ', error))
 			})
 			.catch((error: string | Error) => {
 				console.warn('<SignUp> register error: ', error);
-				setError(toString(error));
+				setError('Не удалось зарегистрировать пользователя. Возможно, email или телефон уже заняты.');
+				// setError(toString(error));
 			})
 			.finally(finish);
 	};
@@ -169,7 +174,7 @@ export const SignUp: React.FC<OwnProps> = (props: OwnProps) => {
 							key={data.submitCount ?? -1}
 							title="Ошибка регистрации"
 							type={AlertType.error}
-							message={data.errors || error}
+							message={error || data.errors}
 							translation={translation}
 						/>
 						<AlertBox
