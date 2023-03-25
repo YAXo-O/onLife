@@ -22,8 +22,6 @@ const height = Dimensions.get('window').height;
 export const AuthScreen: React.FC = () => {
 	const [tab, setTab] = React.useState<string>('auth');
 
-	return <Text style={{ color: 'red' }}>Hello, World!</Text>
-
 	return (
 		<ImageBackground source={Background} style={{ height: height + (StatusBar.currentHeight ?? 0), }} resizeMode="cover">
 			<SafeAreaView style={{ flex: 1 }}>
