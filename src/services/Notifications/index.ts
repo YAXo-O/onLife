@@ -17,7 +17,8 @@ export class NotificationService {
 
 		this.channelId = await notifee.createChannel({
 			id,
-			name
+			name,
+			vibration: true,
 		});
 	}
 
