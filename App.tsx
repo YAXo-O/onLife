@@ -3,7 +3,7 @@ import {
 	StatusBar,
 	View,
 	StyleSheet,
-	ActivityIndicator, Text,
+	ActivityIndicator,
 } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';

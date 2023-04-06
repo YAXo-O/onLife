@@ -18,7 +18,7 @@ export function errorsToString<FormValues>(
 		const key = keys[i];
 		const msg = errors[key] ?? null;
 		const translation = translator[key];
-		const text = `${translation ?? key}: ${msg ?? ''}`;
+		const text = `${translation ?? String(key)}: ${msg ?? ''}`;
 		result.push(text);
 	}
 

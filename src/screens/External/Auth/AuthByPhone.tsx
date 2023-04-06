@@ -27,7 +27,7 @@ import { toString } from '@app/utils/validation';
 import { PrivateStorage } from '@app/services/Privacy/PrivateStorage';
 import { PrivateKeys } from '@app/services/Privacy/PrivateKeys';
 import { useNavigation } from '@react-navigation/native';
-import { Routes } from '@app/navigation/routes';
+import { Routes, ExternalScreenNavigationProps } from '@app/navigation/routes';
 
 const height = Dimensions.get('window').height;
 
@@ -54,7 +54,8 @@ const PhoneStep: React.FC<PhoneStepProps> = (props: PhoneStepProps) => {
 	const [count, setCount] = React.useState<number>(() => 0);
 	const [error, setError] = React.useState<Nullable<string>>(() => null);
 	const { start, finish } = useLoader();
-	const { navigate } = useNavigation();
+
+	const { navigate } = useNavigation<ExternalScreenNavigationProps>();
 
 	return (
 		<>

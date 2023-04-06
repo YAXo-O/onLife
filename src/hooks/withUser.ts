@@ -83,7 +83,7 @@ export function withUser(): UserInfo {
 				id: user?.id ?? null,
 				user: user,
 				session: session.item,
-				loading: session.loading || client.state === State.Loading,
+				loading: session.loading,
 				logOut,
 			});
 		}

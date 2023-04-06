@@ -10,17 +10,18 @@ import { TrainingViewScreen } from '@app/screens/Internal/TrainingViewScreen';
 
 import { withUser } from '@app/hooks/withUser';
 import { getOptions } from '@app/navigation/options';
-import { Routes } from '@app/navigation/routes';
+import { Routes, CombinedScreenNavigationProps } from '@app/navigation/routes';
 import { DeleteProfileScreen } from '@app/screens/Internal/Profile/DeleteProfileScreen';
 import { TrainingScreen } from '@app/screens/Internal/Training/Training';
 import { AuthByPhoneScreen } from '@app/screens/External/Auth/AuthByPhone';
 import { AuthScreen } from '@app/screens/External/Auth/Auth';
 
-const NavigationStack = createNativeStackNavigator();
+type NavigationParams = Record<Routes, undefined>;
+const NavigationStack = createNativeStackNavigator<NavigationParams>();
 
 export const Navigation: React.FC = () => {
 	const { session } = withUser();
-	const navigation = useNavigation();
+	const navigation = useNavigation<CombinedScreenNavigationProps>();
 
 	React.useEffect(() => {
 		if (session !== null) {
@@ -34,7 +35,7 @@ export const Navigation: React.FC = () => {
 			navigation.reset({
 				index: 0,
 				routes: [
-					{ name: Routes.AuthByPhone },
+					{ name: Routes.AuthByLogin },
 				],
 			});
 		}

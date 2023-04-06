@@ -2,7 +2,7 @@ import { RequestManager } from '@app/services/Requests/RequestService';
 import { IState } from '@app/store/IState';
 import { ItemDispatchType, ItemActionType, SetItemAction, LoadItemAction, FailItemAction } from '@app/store/ItemState/Actions';
 import { Nullable } from '@app/objects/utility/Nullable';
-import { PowerAppClient, User, Client } from '@app/objects/User';
+import {  User, Client } from '@app/objects/User';
 import { UserAdaptor } from '@app/objects/adaptors/UserAdaptor';
 
 type GetState = () => IState;
@@ -61,30 +61,6 @@ export class UserActionCreators {
 				.catch((error: string) => dispatch(failAction(error, this.store)));
 		};
 	}
-
-	// public save(item: T): ItemThunk<T> {
-	// 	return (dispatch: ItemDispatchType<T>) => {
-	// 		dispatch(loadAction(this.store));
-	//
-	// 		new RequestManager(this.endpoints.save)
-	// 			.withBody<T>(item)
-	// 			.post<T>()
-	// 			.then((item: T) => dispatch(setAction<T>(item, this.store)))
-	// 			.catch((error: string) => dispatch(failAction(error, this.store)));
-	// 	};
-	// }
-
-	// public update(item: Partial<T>): ItemThunk<T> {
-	// 	return (dispatch: ItemDispatchType<T>) => {
-	// 		dispatch(loadAction(this.store));
-	//
-	// 		new RequestManager(this.endpoints.update)
-	// 			.withBody<T>(item)
-	// 			.patch<T>()
-	// 			.then((item: T) => dispatch(setAction<T>(item, this.store)))
-	// 			.catch((error: string) => dispatch(failAction(error, this.store)));
-	// 	};
-	// }
 
 	public clear(): ItemThunk<Client> {
 		return (dispatch: ItemDispatchType<Client>) => {

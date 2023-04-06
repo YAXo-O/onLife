@@ -1,3 +1,5 @@
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
 export enum Routes {
 	AuthByPhone = 'AuthByPhone',
 	AuthByLogin = 'AuthByLogin',
@@ -19,3 +21,14 @@ export const names: Record<Routes, string> = {
 	[Routes.ProfileMenu]: 'Личный кабинет',
 	[Routes.ProfileDelete]: 'Удаление учётной записи',
 }
+
+/* Currently, all routes receive no params */
+export type AppNavigationParams = Record<Routes, undefined>;
+
+export type ExternalScreens = Routes.AuthByPhone | Routes.AuthByLogin;
+export type InternalScreens = Exclude<Routes, ExternalScreens>;
+
+export type ExternalScreenNavigationProps = NativeStackNavigationProp<AppNavigationParams, ExternalScreens>;
+export type InternalScreenNavigationProps = NativeStackNavigationProp<AppNavigationParams, InternalScreens>;
+export type CombinedScreenNavigationProps = NativeStackNavigationProp<AppNavigationParams, Routes>;
+

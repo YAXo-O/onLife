@@ -13,7 +13,7 @@ import { WavyFormRow, WavyFormRowType } from '@app/components/form/WavyForm';
 import { ActionButton } from '@app/components/buttons/ActionButton';
 import { useLoader } from '@app/hooks/useLoader';
 import { AlertBox, AlertType } from '@app/components/alertbox/AlertBox';
-import { Translator, toString } from '@app/utils/validation';
+import { Translator } from '@app/utils/validation';
 import { palette } from '@app/styles/palette';
 
 import { logIn } from '@app/services/Requests/AppRequests/UserRequests';
@@ -24,7 +24,7 @@ import Email from '@assets/icons/email.svg';
 import { PrivateStorage } from '@app/services/Privacy/PrivateStorage';
 import { PrivateKeys } from '@app/services/Privacy/PrivateKeys';
 import { useNavigation } from '@react-navigation/native';
-import { Routes } from '@app/navigation/routes';
+import { Routes, ExternalScreenNavigationProps } from '@app/navigation/routes';
 
 interface OwnProps {
 	style?: StyleProp<ViewStyle>;
@@ -63,7 +63,7 @@ function openRules(): void {
 export const SignIn: React.FC<OwnProps> = (props: OwnProps) => {
 	const [error, setError] = React.useState<Nullable<string>>(() => null);
 	const { start, finish } = useLoader();
-	const { navigate } = useNavigation();
+	const { navigate } = useNavigation<ExternalScreenNavigationProps>();
 
 	const submit = (values: FormValues, helpers: FormikHelpers<FormValues>) => {
 		start();

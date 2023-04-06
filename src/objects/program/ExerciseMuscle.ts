@@ -1,6 +1,6 @@
-import { WithId } from '../utility/WithId';
-import { Exercise } from './Exercise';
-import { Muscle } from './Muscle';
+import { WithId } from '@app/objects/utility/WithId';
+import { Muscle } from '@app/objects/program/Muscle';
+import { OnlifeExercise } from '@app/objects/program/Exercise';
 
 export enum RelationType {
 	Main = 0,
@@ -8,7 +8,7 @@ export enum RelationType {
 }
 
 export interface ExerciseMuscle extends WithId {
-	exercise: Exercise;
+	exercise: OnlifeExercise;
 	exerciseId: string;
 
 	muscle: Muscle;

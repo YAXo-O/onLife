@@ -36,7 +36,7 @@ import { useLoader } from '@app/hooks/useLoader';
 import { toString } from '@app/utils/validation';
 import { LocalActionCreators } from '@app/store/LocalState/ActionCreators';
 import { useNavigation } from '@react-navigation/native';
-import { Routes } from '@app/navigation/routes';
+import { Routes, InternalScreenNavigationProps } from '@app/navigation/routes';
 import { AlertBox, AlertType } from '@app/components/alertbox/AlertBox';
 import { Timer } from '@app/components/timer/Timer';
 import { SafeAreaView } from '@app/components/safearea/SafeAreaView';
@@ -82,7 +82,7 @@ export const TrainingScreen: React.FC = () => {
 	const dispatch = useDispatch();
 	const info = useSelector((state: IState) => state.training.item);
 	const training = useSelector((state: IState) => state.session.item);
-	const { navigate } = useNavigation();
+	const { navigate } = useNavigation<InternalScreenNavigationProps>();
 	const insets = useSafeAreaInsets();
 	const headerHeight = useHeaderHeight();
 	const topHeight = headerHeight + collectionHeight;

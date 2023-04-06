@@ -12,3 +12,7 @@ declare module '*.svg' {
 	const content: React.FC<SvgProps & OwnProps>;
 	export default content;
 }
+
+interface ObjectConstructor {
+	keys<T extends object>(obj: T): Array<keyof T>;
+}

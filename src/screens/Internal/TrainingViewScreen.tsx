@@ -13,14 +13,14 @@ import { typography } from '@app/styles/typography';
 import { OnlifeTrainingDay } from '@app/objects/training/TrainingDay';
 import { TrainingExercise } from '@app/objects/training/TrainingExercise';
 import { useSelector, useDispatch } from 'react-redux';
-import { IState } from '@app/store/IState';
+import { IState, AppDispatch } from '@app/store/IState';
 import { CurrentTraining } from '@app/store/Types';
 import { Nullable } from '@app/objects/utility/Nullable';
 import { OnlifeTrainingBlock } from '@app/objects/training/TrainingBlock';
 
 import { ActionButton } from '@app/components/buttons/ActionButton';
 import { useNavigation } from '@react-navigation/native';
-import { Routes } from '@app/navigation/routes';
+import { Routes, InternalScreenNavigationProps } from '@app/navigation/routes';
 import { LocalActionCreators } from '@app/store/LocalState/ActionCreators';
 import { SafeAreaView } from '@app/components/safearea/SafeAreaView';
 import { OnlifeTraining } from '@app/objects/training/Training';
@@ -69,8 +69,8 @@ function getExercises(day?: Nullable<OnlifeTrainingDay>): Array<ListItemProps> {
 export const TrainingViewScreen: React.FC = () => {
 	const info = useSelector((store: IState) => store.training.item);
 	const session = useSelector((store: IState) => store.session.item);
-	const dispatch = useDispatch();
-	const { navigate } = useNavigation();
+	const dispatch = useDispatch<AppDispatch>();
+	const { navigate } = useNavigation<InternalScreenNavigationProps>();
 
 	const day = getDay(session, info);
 

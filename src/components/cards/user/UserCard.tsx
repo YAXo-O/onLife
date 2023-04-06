@@ -12,8 +12,7 @@ import { useNavigation } from '@react-navigation/native';
 import { withUser } from '@app/hooks/withUser';
 import { palette } from '@app/styles/palette';
 import { typography } from '@app/styles/typography';
-import { formatName, formatAge } from '@app/utils/formatting';
-import { Routes } from '@app/navigation/routes';
+import { Routes, InternalScreenNavigationProps } from '@app/navigation/routes';
 
 import Dots from '@assets/icons/dots.svg';
 import User from '@assets/icons/user.svg';
@@ -24,7 +23,7 @@ interface OwnProps {
 
 export const UserCard: React.FC<OwnProps> = (props: OwnProps) => {
 	const { user } = withUser();
-	const navigation = useNavigation();
+	const navigation = useNavigation<InternalScreenNavigationProps>();
 
 	return (
 		<View style={[styles.container, props.style]} >

@@ -1,9 +1,8 @@
-import { IState } from '../IState';
-import { LocalDispatchType, LocalActionType, SetLocalAction, ClearLocalAction } from './Actions';
+import { IState } from '@app/store/IState';
+import { LocalDispatchType, LocalActionType, SetLocalAction, ClearLocalAction } from '@app/store/LocalState/Actions';
+import { ThunkAction } from 'redux-thunk';
 
-type GetState = () => IState;
-type LocalThunk<T, TResult = void> = (dispatch: LocalDispatchType<T>, getState: GetState) => TResult;
-
+type LocalThunk<TStore extends keyof IState> = ThunkAction<void, IState[TStore], never, SetLocalAction<IState[TStore]['item']>>;
 
 export class LocalActionCreators<TStore extends keyof IState> {
 	private readonly store: TStore;
@@ -12,22 +11,22 @@ export class LocalActionCreators<TStore extends keyof IState> {
 		this.store = store;
 	}
 
-	set<T>(item: T): LocalThunk<T> {
-		const action: SetLocalAction<T> = {
+	set(item: IState[TStore]['item']): LocalThunk<TStore> {
+		const action: SetLocalAction<IState[TStore]['item']> = {
 			type: LocalActionType.Set,
 			payload: item,
 			store: this.store,
 		};
 
-		return (dispatch: LocalDispatchType<T>) => dispatch(action);
+		return (dispatch: LocalDispatchType<TStore>) => dispatch(action);
 	}
 
-	clear(): LocalThunk<void> {
+	clear(): LocalThunk<TStore> {
 		const action: ClearLocalAction = {
 			type: LocalActionType.Clear,
 			store: this.store,
 		};
 
-		return (dispatch: LocalDispatchType<void>) => dispatch(action);
+		return (dispatch: LocalDispatchType<TStore>) => dispatch(action);
 	}
 }

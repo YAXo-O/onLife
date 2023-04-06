@@ -164,7 +164,6 @@ export class RequestManager {
 			const controller = new AbortController();
 			const id = setTimeout(controller.abort.bind(controller), this.timeout);
 
-			console.log('Request to: ', this.url);
 			const response = await fetch(this.url, {
 				method,
 				credentials: 'include',
@@ -188,11 +187,11 @@ export class RequestManager {
 		}
 	}
 
-	public get<TResult>(): Promise<TResult> {
+	public get<TResult = void>(): Promise<TResult> {
 		return this.request<TResult>(RequestMethod.GET);
 	}
 
-	public post<TResult>(): Promise<TResult> {
+	public post<TResult = void>(): Promise<TResult> {
 		return this.request<TResult>(RequestMethod.POST);
 	}
 

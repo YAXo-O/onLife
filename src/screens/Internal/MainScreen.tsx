@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { palette } from '@app/styles/palette';
 import { UserCard } from '@app/components/cards/user/UserCard';
 import { CycleCollection } from '@app/components/collections/cycles/CycleCollection';
-import { Routes } from '@app/navigation/routes';
+import { Routes, InternalScreenNavigationProps } from '@app/navigation/routes';
 import { LocalActionCreators } from '@app/store/LocalState/ActionCreators';
 import { SafeAreaView } from '@app/components/safearea/SafeAreaView';
 import { IState } from '@app/store/IState';
@@ -18,7 +18,7 @@ import { OnlifeTraining } from '@app/objects/training/Training';
 import { AlertBox, AlertType } from '@app/components/alertbox/AlertBox';
 
 export const MainScreen: React.FC = () => {
-	const navigation = useNavigation();
+	const navigation = useNavigation<InternalScreenNavigationProps>();
 	const { id } = withUser();
 	const training = useSelector((state: IState) => state.session.item);
 	const dispatch = useDispatch();

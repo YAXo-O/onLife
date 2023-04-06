@@ -20,7 +20,7 @@ import { typography } from '@app/styles/typography';
 import { LocalActionCreators } from '@app/store/LocalState/ActionCreators';
 import { ActionButton } from '@app/components/buttons/ActionButton';
 import { useNavigation } from '@react-navigation/native';
-import { Routes } from '@app/navigation/routes';
+import { Routes, InternalScreenNavigationProps } from '@app/navigation/routes';
 import { SafeAreaView } from '@app/components/safearea/SafeAreaView';
 
 import Eye from '@assets/icons/eye.svg';
@@ -85,7 +85,7 @@ export const TrainingListScreen: React.FC = () => {
 	const info = useSelector((state: IState) => state.training.item);
 	const session = useSelector((state: IState) => state.session.item);
 	const dispatch = useDispatch();
-	const { navigate } = useNavigation();
+	const { navigate } = useNavigation<InternalScreenNavigationProps>();
 
 	const blockId = info?.block;
 	if (!blockId) return null;

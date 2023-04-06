@@ -1,9 +1,15 @@
 import { Action } from 'redux';
 
-import { IState, initialState } from '../IState';
-import { isLocalAction, AvailableLocalAction, LocalActionType } from './Actions';
+import { IState, initialState } from '@app/store/IState';
+import { isLocalAction, AvailableLocalAction, LocalActionType } from '@app/store/LocalState/Actions';
 
 type Reducer<T extends keyof IState> = (state: IState[T] | undefined, action: Action) => IState[T];
+
+function merge<T>(source: T, update: T): T {
+	if (typeof source === 'object' && typeof update === 'object') return { ...source, ...update };
+
+	return update;
+}
 
 export function localReducer<T extends keyof IState>(state: IState[T] | undefined, action: Action, store: T): IState[T] {
 	if (state === undefined) return initialState[store];
@@ -12,17 +18,9 @@ export function localReducer<T extends keyof IState>(state: IState[T] | undefine
 	const localAction: AvailableLocalAction<unknown> = action as AvailableLocalAction<unknown>;
 	switch (localAction.type) {
 		case LocalActionType.Set: {
-			let payload = action.payload
-			if (typeof payload === 'object' && typeof (state as { item: unknown }).item === 'object') {
-				payload = {
-					...state.item,
-					...payload,
-				};
-			}
-
 			return {
 				...state,
-				item: payload,
+				item: merge(state.item, action.payload),
 			};
 		}
 

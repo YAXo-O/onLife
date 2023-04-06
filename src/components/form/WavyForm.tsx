@@ -45,10 +45,6 @@ interface WavyFormRowProps {
 const InputIcon: React.FC<InputIconProps> = (props: InputIconProps) => {
 	if (!props.visible) return null;
 
-	if (props.enclosed) {
-		return <View style={styles.iconContainer} />
-	}
-
 	return (
 		<View style={styles.iconContainer}>
 			{props.icon}
