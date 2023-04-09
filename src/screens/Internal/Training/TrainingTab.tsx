@@ -1,9 +1,5 @@
 import * as React from 'react';
 import {
-	useDispatch,
-	useSelector,
-} from 'react-redux';
-import {
 	View,
 	Text,
 	FlatList,
@@ -11,8 +7,6 @@ import {
 	StyleSheet,
 } from 'react-native';
 
-import { LocalActionCreators } from '@app/store/LocalState/ActionCreators';
-import { IState } from '@app/store/IState';
 import { TrainingExercise } from '@app/objects/training/TrainingExercise';
 import { TrainingRound } from '@app/objects/training/TrainingRound';
 import { ExerciseTabsProps } from '@app/screens/Internal/Training/ExerciseTabs';
@@ -31,48 +25,43 @@ function getRounds(exercise?: Nullable<TrainingExercise>): Array<TrainingRound> 
 		.sort((a: WithOrder, b: WithOrder) => a.order - b.order) ?? [];
 }
 
-type TrainingTabProps = Omit<ExerciseTabsProps, 'tab'>;
+function isExerciseFinished(exercise?: Nullable<TrainingExercise>): boolean {
+	if (!exercise) return false;
+	if (Boolean(exercise.time)) return true;
+
+	return exercise.rounds.reduce((acc, cur) => acc && Boolean(cur.time), true)
+}
+
+type TrainingTabProps = Omit<ExerciseTabsProps, 'tab' | 'training'>;
+
 export const TrainingTab: React.FC<TrainingTabProps> = (props: TrainingTabProps) => {
-	const dispatch = useDispatch();
 	const ref = React.useRef<Nullable<FlatList>>(null);
-	const actions = new LocalActionCreators('training');
-
-	const day = useSelector((state: IState) => state.training.item?.active);
-	if (!day) return null;
-
-	const current = props.item;
-	const values = day.exercises.find((item: TrainingExercise) => item.id === current?.id);
-	if (!values) return null;
-
-	const rounds = getRounds(values);
+	const rounds = React.useMemo(() => getRounds(props.item), [props.item]);
 
 	const goNext = (index: number) => {
 		if (index < rounds.length - 1) {
 			ref.current?.scrollToIndex({ animated: true, index: index + 1 });
 		} else {
-			ref.current?.scrollToIndex({ animated: true, index: 0 })
-			props.onComplete();
+			ref.current?.scrollToIndex({ animated: true, index: 0 });
 		}
 	};
 
 	const fireTimer = (index: number) => {
-		const item = rounds[index];
+		const round = rounds[index];
 
-		Timer.fire(item.interval);
+		Timer.fire(round.interval);
 	}
 
 	const onChange = (value: number | undefined, id: number, field: keyof TrainingRound & ('performedWeight' | 'performedRepeats')) => {
-		if (!values) return;
+		if (!props.item) return;
 		if (!hasValue(value)) return;
 
-		let current = values.rounds[id];
-		values.rounds[id] = {
-			...current,
+		const current: TrainingRound = {
+			...props.item.rounds[id],
 			[field]: value,
 		};
-		current = values.rounds[id];
 
-		const complete = hasValue(current.performedWeight) && hasValue(current.performedRepeats);
+		const complete = hasValue(current.performedWeight);
 		if (complete) {
 			if (!current.time) {
 				goNext(id);
@@ -82,16 +71,20 @@ export const TrainingTab: React.FC<TrainingTabProps> = (props: TrainingTabProps)
 			current.time = current.time ?? now();
 		}
 
-		const finished = values.rounds.reduce((acc: boolean, cur: TrainingRound) => acc && Boolean(cur.time), true);
-		const exerciseId = day.exercises.findIndex((item: TrainingExercise) => item.id === values.id);
-		if (exerciseId < 0) return;
+		const exercise: TrainingExercise = {
+			...props.item,
+			rounds: props.item.rounds.map((round: TrainingRound) => {
+				if (round.id === current.id) return current;
 
-		day.exercises[exerciseId] = {
-			...day.exercises[exerciseId],
-			time: day.exercises[exerciseId]?.time ?? (finished ? now() : null),
+				return round;
+			}),
 		};
 
-		dispatch(actions.set({ active: day }));
+		if (isExerciseFinished(exercise)) {
+			exercise.time = exercise.time ?? now();
+		}
+
+		props.onChange(exercise);
 	}
 
 	return (
@@ -107,7 +100,7 @@ export const TrainingTab: React.FC<TrainingTabProps> = (props: TrainingTabProps)
 					textAlign: 'center',
 				}}
 			>
-				{current?.exercise?.name}
+				{props.item?.exercise?.name}
 			</Text>
 
 			<FlatList
@@ -163,7 +156,7 @@ export const TrainingTab: React.FC<TrainingTabProps> = (props: TrainingTabProps)
 									color: '#000',
 									width: 100,
 								}}
-								disabled={Boolean(day?.time)}
+								disabled={props.disabled}
 							/>
 						</View>
 
@@ -198,7 +191,7 @@ export const TrainingTab: React.FC<TrainingTabProps> = (props: TrainingTabProps)
 									color: '#000',
 									width: 100,
 								}}
-								disabled={Boolean(day?.time)}
+								disabled={props.disabled}
 							/>
 							<Text
 								style={{

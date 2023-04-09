@@ -5,7 +5,7 @@ import WebView from 'react-native-autoheight-webview';
 import { ExerciseTabsProps } from '@app/screens/Internal/Training/ExerciseTabs';
 import { ImageFit } from '@app/components/image/ImageFit';
 
-type OwnProps = Omit<ExerciseTabsProps, 'tab' | 'onComplete'>;
+type OwnProps = Omit<ExerciseTabsProps, 'tab' | 'onChange' | 'training' | 'disabled'>;
 export const MaterialTab: React.FC<OwnProps> = (props: OwnProps) => {
 	const item = props.item?.exercise;
 	const [height, setHeight] = React.useState<number | undefined>(() => undefined);

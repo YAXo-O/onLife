@@ -19,19 +19,20 @@ export interface ExerciseTabsProps {
 	tab: ExerciseTab;
 	item?: Nullable<TrainingExercise>;
 	training?: Nullable<OnlifeTraining>;
-	onComplete: () => void;
+	onChange: (item: TrainingExercise) => void;
+	disabled: boolean;
 }
 
 export const ExerciseTabs: React.FC<ExerciseTabsProps> = (props: ExerciseTabsProps) => {
 	switch (props.tab) {
 		case ExerciseTab.Training:
-			return <TrainingTab training={props.training} item={props.item} onComplete={props.onComplete} />
+			return <TrainingTab item={props.item} onChange={props.onChange} disabled={props.disabled} />
 
 		case ExerciseTab.Video:
-			return <MediaTab training={props.training} item={props.item} />
+			return <MediaTab item={props.item} />
 
 		case ExerciseTab.Material:
-			return <MaterialTab training={props.training} item={props.item} />
+			return <MaterialTab item={props.item} />
 
 		case ExerciseTab.Stats:
 			return <StatsTab training={props.training} item={props.item} />

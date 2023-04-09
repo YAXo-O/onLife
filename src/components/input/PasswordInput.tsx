@@ -6,7 +6,9 @@ import {
 	TextInputFocusEventData,
 	TextStyle,
 	StyleProp,
-	Image, StyleSheet, TouchableOpacity,
+	Image,
+	StyleSheet,
+	TouchableOpacity,
 } from 'react-native';
 
 import Hide from '@assets/icons/hide.png';

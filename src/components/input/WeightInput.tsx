@@ -23,7 +23,11 @@ export const WeightInput: React.FC<WeightInputProps> = (props: WeightInputProps)
 	const ref = React.useRef<boolean>(false);
 
 	React.useEffect(() => {
-		return () => WeightKeyboard.dismiss();
+		return () => {
+			if (ref.current) {
+				WeightKeyboard.dismiss();
+			}
+		}
 	}, []);
 
 	return (

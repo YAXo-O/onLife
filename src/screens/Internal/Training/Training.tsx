@@ -22,8 +22,7 @@ import { TrainingExercise } from '@app/objects/training/TrainingExercise';
 
 import { withUser } from '@app/hooks/withUser';
 import { IState } from '@app/store/IState';
-import { CurrentTraining } from '@app/store/Types';
-import { Nullable } from '@app/objects/utility/Nullable';
+import { Nullable, Optional } from '@app/objects/utility/Nullable';
 
 import { ExerciseTab, ExerciseTabs } from '@app/screens/Internal/Training/ExerciseTabs';
 
@@ -53,20 +52,30 @@ interface HeaderItem {
 	exercise: Nullable<TrainingExercise>;
 }
 
-function getList(info: Nullable<CurrentTraining> | undefined): Array<HeaderItem> {
-	if (!info) return [];
-	if (!info.active) return [];
+function getList(day: Optional<OnlifeTrainingDay>): Array<HeaderItem> {
+	if (!day) return [];
 
-	const list = (info.active.exercises ?? []).map<HeaderItem>((item: TrainingExercise) => ({
+	const list: Array<HeaderItem> = (day.exercises ?? []).map<HeaderItem>((item: TrainingExercise) => ({
 		id: item.id,
 		exercise: item,
 	}))
-	if (info.active.time) return list;
+	if (day.time) return list;
 
 	return list.concat({
 		id: 'action',
 		exercise: null,
 	});
+}
+
+function shouldComplete(day: Optional<OnlifeTrainingDay>, active: string): boolean {
+	if (!day) return false;
+
+	if (day.exercises.length === 0) return false;
+
+	const exercise = day.exercises[day.exercises.length - 1];
+	if (exercise.id !== active) return day.exercises.reduce((acc, cur) => acc && Boolean(cur.time), true);
+
+	return Boolean(exercise.time);
 }
 
 const collectionHeight = 150;
@@ -87,10 +96,42 @@ export const TrainingScreen: React.FC = () => {
 	const headerHeight = useHeaderHeight();
 	const topHeight = headerHeight + collectionHeight;
 
-	const day = info?.active;
-	const list: Array<HeaderItem> = getList(info);
-	const [value, setValue] = React.useState(() => list[0].id);
+	const [day, setDay] = React.useState(() => info?.active);
 	const [tab, setTab] = React.useState(() => ExerciseTab.Training);
+
+	const list: Array<HeaderItem> = React.useMemo(() => getList(day), [day]);
+	const [active, setActive] = React.useState(() => list[0].id);
+
+	React.useEffect(() => {
+		if (day === info?.active) return;
+
+		setDay(info?.active)
+	}, [info?.active]);
+
+	React.useEffect(() => {
+		if (!day) return;
+
+		const current = day.exercises.find((item: TrainingExercise) => item.id === active);
+		if (!current) return;
+
+		if (Boolean(current.time)) {
+			const list = day.exercises;
+			const id = list.findIndex((q: TrainingExercise) => q.id === active);
+			const first = list.findIndex((q: TrainingExercise) => q.time === null);
+			const next = list.findIndex((q: TrainingExercise, index: number) => index > id && q.time === null)
+			const goto = next >= 0 ? next : first;
+
+			if (goto >= 0) {
+				setActive(list[goto].id);
+			}
+		}
+
+		if (Boolean(day?.time)) return;
+
+		if (shouldComplete(day, active)) {
+			completeDay();
+		}
+	}, [day]);
 
 	const completeDay = (force: boolean = false) => {
 		if (!day) return;
@@ -149,17 +190,17 @@ export const TrainingScreen: React.FC = () => {
 			.finally(finish);
 	};
 
-	const completeExercise = () => {
-		const id = list.findIndex((q: HeaderItem) => q.id === value);
-		const first = list.findIndex((q: HeaderItem) => q.exercise?.time === null);
-		const next = list.findIndex((q: HeaderItem, index: number) => index > id && q.exercise?.time === null)
-		const goto = next >= 0 ? next : first;
+	const onChangeExercise = (item: TrainingExercise) => {
+		if (!day) return;
 
-		if (goto >= 0) {
-			setValue(list[goto].id);
-		} else {
-			completeDay();
-		}
+		const current: OnlifeTrainingDay = { ...day };
+		current.exercises = (current.exercises ?? []).map((exercise: TrainingExercise) => {
+			if (exercise.id === item.id) return item;
+
+			return exercise;
+		});
+
+		setDay(current);
 	};
 
 	return (
@@ -274,8 +315,9 @@ export const TrainingScreen: React.FC = () => {
 						<ExerciseTabs
 							tab={tab}
 							training={training}
-							item={list.find((q: HeaderItem) => q.id === value)?.exercise ?? null}
-							onComplete={completeExercise}
+							item={list.find((q: HeaderItem) => q.id === active)?.exercise ?? null}
+							onChange={onChangeExercise}
+							disabled={Boolean(day?.time)}
 						/>
 					</View>
 				</View>
@@ -325,15 +367,15 @@ export const TrainingScreen: React.FC = () => {
 							style={[
 								styles.item,
 								Boolean(exercise.time) && styles.completeItem,
-								exercise.id === value && styles.activeItem,
+								exercise.id === active && styles.activeItem,
 							]}
-							onPress={() => setValue(item.item.id)}
+							onPress={() => setActive(item.item.id)}
 						>
 							<Text
 								style={[
 									typography.cardTitle,
 									styles.text,
-									(exercise.id === value || Boolean(exercise.time)) && styles.activeText,
+									(exercise.id === active || Boolean(exercise.time)) && styles.activeText,
 								]}
 							>
 								{exercise.order + 1}
@@ -342,7 +384,7 @@ export const TrainingScreen: React.FC = () => {
 								style={[
 									typography.cardTitle,
 									styles.text,
-									(item.item.id === value || Boolean(exercise.time)) && styles.activeText,
+									(item.item.id === active || Boolean(exercise.time)) && styles.activeText,
 								]}
 							>
 								упр

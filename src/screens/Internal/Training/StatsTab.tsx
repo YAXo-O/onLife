@@ -161,7 +161,7 @@ const StatsCard: React.FC<StatsCardProps> = (props: StatsCardProps) => {
 									}}
 								>
 									<Text style={{ fontFamily: 'Inter-Light', fontSize: 20, lineHeight: 24, color: '#000000' }}>
-										{round.performedWeight ?? ''}{round.performedWeight ? ' кг' : ''}
+										{round.performedWeight ?? '-'}{round.performedWeight ? 'кг' : ''}
 									</Text>
 								</View>
 							</View>
@@ -222,7 +222,7 @@ export const StatsBlock: React.FC<BlockProps> = (props: BlockProps) => {
 	);
 };
 
-type OwnProps = Omit<ExerciseTabsProps, 'tab' | 'onComplete'>;
+type OwnProps = Omit<ExerciseTabsProps, 'tab' | 'onChange' | 'disabled'>;
 export const StatsTab: React.FC<OwnProps> = (props: OwnProps) => {
 	const exerciseId = props.item?.exerciseId;
 	const blocks = getBlocks(props.training, exerciseId);
