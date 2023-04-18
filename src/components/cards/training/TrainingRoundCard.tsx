@@ -100,8 +100,8 @@ const TrainingRoundCardFitness: React.FC<TrainingRoundCardProps> = (props: Train
 			</View>
 
 			<ActionButton
-				text={getButtonTitle(Boolean(props.value.time), busy)}
-				disabled={Boolean(props.value.time)}
+				text={getButtonTitle(Boolean(props.value.time) || props.disabled, busy)}
+				disabled={Boolean(props.value.time) || props.disabled}
 				style={{ marginTop: 15 }}
 				type={busy ? ActionType.Secondary : ActionType.Primary}
 				onPress={() => {

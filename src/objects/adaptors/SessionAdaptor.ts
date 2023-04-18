@@ -21,14 +21,21 @@ function getParams(round: TrainingRound): Nullable<Array<PowerAppTrainingRoundPa
 	if (hasValue(round.performedWeight)) {
 		params.push({
 			code: PowerAppTrainingRoundParamCode.Weight,
-			value: round.performedWeight!,
+			value: round.performedWeight,
 		});
 	}
 
 	if (hasValue(round.performedRepeats)) {
 		params.push({
 			code: PowerAppTrainingRoundParamCode.Repeats,
-			value: round.performedRepeats!,
+			value: round.performedRepeats,
+		});
+	}
+
+	if (hasValue(round.performedDuration)) {
+		params.push({
+			code: PowerAppTrainingRoundParamCode.Duration,
+			value: round.performedDuration,
 		});
 	}
 

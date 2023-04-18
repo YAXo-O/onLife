@@ -60,7 +60,12 @@ function toTime(raw: string | number | null | undefined): Nullable<number> {
 	if (typeof raw === 'number') return raw;
 
 	const value = raw.split(':');
-	if (value.length !== 2) return null;
+	if (value.length !== 2) {
+		const parsed = Number.parseFloat(raw);
+		if (!Number.isNaN(parsed)) return parsed;
+
+		return null;
+	}
 
 	const minutes = toInteger(value[0]);
 	const seconds = toInteger(value[1]);

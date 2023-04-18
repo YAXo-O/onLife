@@ -4,7 +4,7 @@ import {
 	View,
 	ListRenderItemInfo,
 	Text,
-	FlatList,
+	FlatList, TouchableOpacity,
 } from 'react-native';
 
 import { palette } from '@app/styles/palette';
@@ -24,9 +24,11 @@ import { Routes, InternalScreenNavigationProps } from '@app/navigation/routes';
 import { LocalActionCreators } from '@app/store/LocalState/ActionCreators';
 import { SafeAreaView } from '@app/components/safearea/SafeAreaView';
 import { OnlifeTraining } from '@app/objects/training/Training';
+import { formatTime } from '@app/utils/datetime';
 
 import Rounds from '@assets/icons/rounds.svg';
 import Dumbbell from '@assets/icons/dumbbell.svg';
+import Timer from '@assets/icons/timer.svg';
 
 interface ListItemProps {
 	id: string;
@@ -34,6 +36,7 @@ interface ListItemProps {
 	subtitle: string;
 	rounds: number;
 	reps: string;
+	duration: Nullable<string>;
 	order: number,
 }
 
@@ -54,6 +57,7 @@ function getExercises(day?: Nullable<OnlifeTrainingDay>): Array<ListItemProps> {
 
 	return day.exercises.map((item: TrainingExercise) => {
 		const order = item.order + 1;
+		const duration = item?.rounds[0]?.duration ?? null;
 
 		return {
 			id: item.id,
@@ -61,6 +65,7 @@ function getExercises(day?: Nullable<OnlifeTrainingDay>): Array<ListItemProps> {
 			subtitle: `Упражнение ${order}`,
 			rounds: item?.rounds.length ?? 0,
 			reps: item?.rounds[0]?.repeats ?? '0',
+			duration: duration ? formatTime(duration) : null,
 			order,
 		};
 	}).sort((a, b) => a.order - b.order);
@@ -73,10 +78,17 @@ export const TrainingViewScreen: React.FC = () => {
 	const { navigate } = useNavigation<InternalScreenNavigationProps>();
 
 	const day = getDay(session, info);
+	const onPress = () => {
+		if (info?.active?.id !== day?.id) {
+			const creator = new LocalActionCreators('training');
+			dispatch(creator.set({ active: day }));
+		}
+		navigate(Routes.Training)
+	};
 
 	const render = (info: ListRenderItemInfo<ListItemProps>) => {
 		return (
-			<View style={styles.item}>
+			<TouchableOpacity style={styles.item} onPress={onPress}>
 				<View>
 					<Text style={[typography.placeholder, styles.subtitle]}>{info.item.subtitle}</Text>
 				</View>
@@ -92,12 +104,14 @@ export const TrainingViewScreen: React.FC = () => {
 					</View>
 					<View style={styles.bullet}>
 						<View style={styles.icon}>
-							<Dumbbell />
+							{ info.item.duration ? <Timer fillPrimary="#63CDDA" /> : <Dumbbell /> }
 						</View>
-						<Text style={[styles.subtitle]}>{info.item.reps} раз</Text>
+						<Text style={[styles.subtitle]}>
+							{ info.item.duration ?? `${info.item.reps} раз` }
+						</Text>
 					</View>
 				</View>
-			</View>
+			</TouchableOpacity>
 		);
 	};
 
@@ -113,13 +127,7 @@ export const TrainingViewScreen: React.FC = () => {
 			<View style={styles.actionContainer}>
 				<ActionButton
 					text={day?.time ? 'Смотреть' : 'Начать'}
-					onPress={() => {
-						if (info?.active?.id !== day?.id) {
-							const creator = new LocalActionCreators('training');
-							dispatch(creator.set({ active: day }));
-						}
-						navigate(Routes.Training)
-					}}
+					onPress={onPress}
 					style={styles.action}
 				/>
 			</View>
