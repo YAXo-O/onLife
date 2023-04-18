@@ -12,7 +12,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { palette } from '@app/styles/palette';
 
 import { IState } from '@app/store/IState';
-import { OnlifeTrainingBlock } from '@app/objects/training/TrainingBlock';
+import { OnlifeTrainingBlock, OnlifeTrainingBlockStatus } from '@app/objects/training/TrainingBlock';
 
 import { OnlifeTrainingDay } from '@app/objects/training/TrainingDay';
 import { typography } from '@app/styles/typography';
@@ -45,13 +45,13 @@ function getIcon(status: AvailabilityStatus): React.ReactNode {
 	switch (status) {
 		case AvailabilityStatus.Available:
 		case AvailabilityStatus.Complete:
-			return <Eye/>;
+			return <Eye />;
 
 		case AvailabilityStatus.Current:
-			return <Play/>;
+			return <Play />;
 
 		case AvailabilityStatus.Locked:
-			return <Hide/>;
+			return <Hide />;
 	}
 }
 
@@ -64,7 +64,7 @@ function getTrainings(block?: OnlifeTrainingBlock): Array<ListItemProps> {
 	return (block?.days ?? []).map((item: OnlifeTrainingDay) => {
 		let status = AvailabilityStatus.Available;
 
-		if (!block.available) {
+		if (block.status === OnlifeTrainingBlockStatus.Locked) {
 			status = AvailabilityStatus.Locked;
 		} else if (item.order === cur?.order) {
 			status = AvailabilityStatus.Current;
@@ -104,7 +104,7 @@ export const TrainingListScreen: React.FC = () => {
 			<TouchableOpacity
 				style={styles.item}
 				onPress={() => {
-					if (!block.available) return;
+					if (block.status === OnlifeTrainingBlockStatus.Locked) return;
 
 					onPress(info.item.id);
 				}}
@@ -116,7 +116,7 @@ export const TrainingListScreen: React.FC = () => {
 				<ActionButton
 					style={styles.icon}
 					onPress={() => onPress(info.item.id)}
-					disabled={!block.available}
+					disabled={block.status === OnlifeTrainingBlockStatus.Locked}
 				>
 					<View style={styles.icon}>
 						{getIcon(info.item.status)}

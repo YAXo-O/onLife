@@ -4,7 +4,7 @@ import { URL } from 'react-native-url-polyfill';
 import YoutubeIframe from 'react-native-youtube-iframe';
 
 import { AudioPlayer } from '@app/components/audio/AudioPlayer';
-import { ExerciseTabsProps } from '@app/screens/Internal/Training/ExerciseTabs';
+import { ExerciseTabsProps } from '@app/screens/Internal/Training/TrainingTabs/ExerciseTabs';
 
 type OwnProps = Omit<ExerciseTabsProps, 'tab' | 'onChange' | 'training' | 'disabled'>;
 export const MediaTab: React.FC<OwnProps> = (props: OwnProps) => {

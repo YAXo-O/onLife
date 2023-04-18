@@ -19,6 +19,7 @@ export class NotificationService {
 			id,
 			name,
 			vibration: true,
+			vibrationPattern: [300, 500],
 		});
 	}
 

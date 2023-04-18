@@ -2,7 +2,7 @@ import * as React from 'react';
 import { View, Text } from 'react-native';
 import WebView from 'react-native-autoheight-webview';
 
-import { ExerciseTabsProps } from '@app/screens/Internal/Training/ExerciseTabs';
+import { ExerciseTabsProps } from '@app/screens/Internal/Training/TrainingTabs/ExerciseTabs';
 import { ImageFit } from '@app/components/image/ImageFit';
 
 type OwnProps = Omit<ExerciseTabsProps, 'tab' | 'onChange' | 'training' | 'disabled'>;

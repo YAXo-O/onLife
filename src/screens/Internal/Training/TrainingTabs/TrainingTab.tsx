@@ -9,14 +9,14 @@ import {
 
 import { TrainingExercise } from '@app/objects/training/TrainingExercise';
 import { TrainingRound } from '@app/objects/training/TrainingRound';
-import { ExerciseTabsProps } from '@app/screens/Internal/Training/ExerciseTabs';
-import { WeightInput } from '@app/components/input/WeightInput';
+import { ExerciseTabsProps } from '@app/screens/Internal/Training/TrainingTabs/ExerciseTabs';
 import { Nullable } from '@app/objects/utility/Nullable';
 import { WithOrder } from '@app/objects/utility/WithOrder';
 import { Timer } from '@app/components/timer/Timer';
 import { now } from '@app/utils/datetime';
-import { RepeatsInput } from '@app/components/input/RepeatsInput';
 import { hasValue } from '@app/utils/value';
+import { TrainingRoundCard } from '@app/components/cards/training/TrainingRoundCard';
+import { KeysByValue } from '@app/types/Utility';
 
 function getRounds(exercise?: Nullable<TrainingExercise>): Array<TrainingRound> {
 	if (!exercise) return [];
@@ -33,7 +33,6 @@ function isExerciseFinished(exercise?: Nullable<TrainingExercise>): boolean {
 }
 
 type TrainingTabProps = Omit<ExerciseTabsProps, 'tab' | 'training'>;
-
 export const TrainingTab: React.FC<TrainingTabProps> = (props: TrainingTabProps) => {
 	const ref = React.useRef<Nullable<FlatList>>(null);
 	const rounds = React.useMemo(() => getRounds(props.item), [props.item]);
@@ -52,7 +51,7 @@ export const TrainingTab: React.FC<TrainingTabProps> = (props: TrainingTabProps)
 		Timer.fire(round.interval);
 	}
 
-	const onChange = (value: number | undefined, id: number, field: keyof TrainingRound & ('performedWeight' | 'performedRepeats')) => {
+	const onChange = (value: number | undefined, id: number, field: KeysByValue<TrainingRound, Nullable<number>>) => {
 		if (!props.item) return;
 		if (!hasValue(value)) return;
 
@@ -61,7 +60,7 @@ export const TrainingTab: React.FC<TrainingTabProps> = (props: TrainingTabProps)
 			[field]: value,
 		};
 
-		const complete = hasValue(current.performedWeight);
+		const complete = hasValue(current.performedWeight) || hasValue(current.performedDuration);
 		if (complete) {
 			if (!current.time) {
 				goNext(id);
@@ -111,101 +110,11 @@ export const TrainingTab: React.FC<TrainingTabProps> = (props: TrainingTabProps)
 				contentContainerStyle={styles.setCollection}
 				data={rounds}
 				renderItem={(item: ListRenderItemInfo<TrainingRound>) => (
-					<View style={styles.setCard}>
-						<View>
-							<Text
-								style={{
-									fontFamily: 'Inter-ExtraBold',
-									fontSize: 20,
-									lineHeight: 24,
-									color: '#000',
-								}}
-							>
-								SET {item.item.order + 1}
-							</Text>
-						</View>
-
-						<View style={{ flexDirection: 'row', marginTop: 30, alignItems: 'center'  }}>
-							<Text
-								style={{
-									fontFamily: 'Inter-Medium',
-									fontSize: 16,
-									lineHeight: 20,
-									color: '#000',
-									width: 115,
-								}}
-							>
-								Повторения
-							</Text>
-							<RepeatsInput
-								value={item.item.performedRepeats ?? undefined}
-								placeholder={item.item.repeats ?? undefined}
-								onEnd={(value?: number) => onChange(value, item.index, 'performedRepeats')}
-								style={{
-									borderRadius: 8,
-									backgroundColor: '#fff',
-									alignItems: 'center',
-									justifyContent: 'center',
-									textAlign: 'center',
-									paddingHorizontal: 22,
-									paddingVertical: 13,
-									marginHorizontal: 10,
-									fontFamily: 'Inter-Light',
-									fontSize: 20,
-									lineHeight: 24,
-									color: '#000',
-									width: 100,
-								}}
-								disabled={props.disabled}
-							/>
-						</View>
-
-						<View style={{ flexDirection: 'row', marginTop: 30, alignItems: 'center'  }}>
-							<Text
-								style={{
-									fontFamily: 'Inter-Medium',
-									fontSize: 16,
-									lineHeight: 20,
-									color: '#63CDDA',
-									width: 115,
-								}}
-							>
-								Выполненный вес*
-							</Text>
-							<WeightInput
-								value={item.item.performedWeight ?? undefined}
-								placeholder={item.item.weight ?? undefined}
-								onEnd={(value?: number) => onChange(value, item.index, 'performedWeight')}
-								style={{
-									borderRadius: 8,
-									backgroundColor: '#fff',
-									alignItems: 'center',
-									justifyContent: 'center',
-									textAlign: 'center',
-									paddingHorizontal: 22,
-									paddingVertical: 13,
-									marginHorizontal: 10,
-									fontFamily: 'Inter-Light',
-									fontSize: 20,
-									lineHeight: 24,
-									color: '#000',
-									width: 100,
-								}}
-								disabled={props.disabled}
-							/>
-							<Text
-								style={{
-									fontFamily: 'Inter-Medium',
-									fontSize: 16,
-									lineHeight: 20,
-									color: '#000',
-									width: 100,
-								}}
-							>
-								kg
-							</Text>
-						</View>
-					</View>
+					<TrainingRoundCard
+						value={item.item}
+						onChange={(value: number | undefined, key: KeysByValue<TrainingRound, Nullable<number>>) => onChange(value, item.index, key)}
+						disabled={props.disabled}
+					/>
 				)}
 				keyExtractor={(item: TrainingRound) => item.id}
 				ItemSeparatorComponent={() => <View style={{ width: 15 }} />}
@@ -234,11 +143,5 @@ export const TrainingTab: React.FC<TrainingTabProps> = (props: TrainingTabProps)
 const styles = StyleSheet.create({
 	setCollection: {
 		paddingHorizontal: 22,
-	},
-	setCard: {
-		backgroundColor: '#F2F4F7',
-		padding: 20,
-		borderRadius: 8,
-		width: 300,
 	},
 });

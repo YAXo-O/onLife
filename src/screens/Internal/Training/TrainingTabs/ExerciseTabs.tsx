@@ -2,10 +2,10 @@ import * as React from 'react';
 
 import { TrainingExercise } from '@app/objects/training/TrainingExercise';
 import { Nullable } from '@app/objects/utility/Nullable';
-import { TrainingTab } from '@app/screens/Internal/Training/TrainingTab';
-import { MediaTab } from '@app/screens/Internal/Training/MediaTab';
-import { MaterialTab } from '@app/screens/Internal/Training/MaterialTab';
-import { StatsTab } from '@app/screens/Internal/Training/StatsTab';
+import { TrainingTab } from '@app/screens/Internal/Training/TrainingTabs/TrainingTab';
+import { MediaTab } from '@app/screens/Internal/Training/TrainingTabs/MediaTab';
+import { MaterialTab } from '@app/screens/Internal/Training/TrainingTabs/MaterialTab';
+import { StatsTab } from '@app/screens/Internal/Training/TrainingTabs/StatsTab';
 import { OnlifeTraining } from '@app/objects/training/Training';
 
 export enum ExerciseTab {

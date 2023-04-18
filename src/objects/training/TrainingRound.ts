@@ -8,6 +8,7 @@ export interface TrainingRound extends WithId {
 	repeats: string;
 	weight: string;
 	interval: number;
+	duration: Nullable<number>;
 
 	exercise: Nullable<TrainingExercise>;
 	exerciseId: string;
@@ -18,12 +19,15 @@ export interface TrainingRound extends WithId {
 
 	performedWeight: Nullable<number>;
 	performedRepeats: Nullable<number>;
+	performedDuration: Nullable<number>;
+
 	time: Nullable<number>;
 }
 
 export enum PowerAppTrainingRoundParamCode {
-	Weight = "weight",
+	Weight = 'weight',
 	Repeats = 'reps',
+	Duration = 'time',
 }
 
 export interface PowerAppTrainingRoundParam {

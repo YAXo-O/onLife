@@ -73,6 +73,7 @@ export enum PowerAppTrainingExerciseParamCode {
 	Reps = 'reps',
 	Rest = 'rest',
 	Weight = 'weight',
+	Duration = 'time',
 }
 
 export interface PowerAppTrainingExerciseParams {
@@ -107,6 +108,7 @@ export interface PowerAppTrainingProgram extends WithId<number> {
 	description: Nullable<string>;
 	cycles: Nullable<number>;
 
+	dirty: boolean;
 	trainingDays: Array<PowerAppTrainingProgramDay>;
 	exercises: Record<string, PowerTrainExercise>;
 }

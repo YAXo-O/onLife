@@ -6,7 +6,8 @@ import {
 	StyleProp,
 	ViewStyle,
 	TouchableOpacity,
-	FlatList, ListRenderItemInfo,
+	FlatList,
+	ListRenderItemInfo,
 } from 'react-native';
 
 import { palette } from '@app/styles/palette';
@@ -16,12 +17,11 @@ import { Progress } from '@app/components/display/progress/Progress';
 import Locked from '@assets/icons/locked.svg'
 import Unlocked from '@assets/icons/unlocked.svg';
 import ChevronRight from '@assets/icons/chevron-right.svg';
-import { withUser } from '@app/hooks/withUser';
 import { Nullable } from '@app/objects/utility/Nullable';
 import { useSelector } from 'react-redux';
 import { IState } from '@app/store/IState';
 import { OnlifeTraining } from '@app/objects/training/Training';
-import { OnlifeTrainingBlock } from '@app/objects/training/TrainingBlock';
+import { OnlifeTrainingBlock, OnlifeTrainingBlockStatus } from '@app/objects/training/TrainingBlock';
 import { OnlifeTrainingDay } from '@app/objects/training/TrainingDay';
 
 interface OwnProps {
@@ -36,7 +36,7 @@ interface ItemProps {
 	title: string;
 	done: number;
 	total: number;
-	disabled?: boolean;
+	status: OnlifeTrainingBlockStatus
 	onPress?: () => void;
 }
 
@@ -48,12 +48,12 @@ function getList(training: Nullable<OnlifeTraining> | undefined): Array<ItemProp
 			.filter((item: OnlifeTrainingDay) => Boolean(item.time))
 			.reduce((acc: number) => acc + 1, 0),
 		total: item.days?.length ?? 0,
-		disabled: !item.available,
+		status: item.status,
 	}));
 }
 
 const CycleItem: React.FC<ItemProps> = (props: ItemProps) => {
-	const Icon = props.disabled ? Locked : Unlocked;
+	const Icon = props.status === OnlifeTrainingBlockStatus.Locked ? Locked : Unlocked;
 	const handleTouch = () => {
 		if (!props.onPress) return;
 
@@ -69,12 +69,18 @@ const CycleItem: React.FC<ItemProps> = (props: ItemProps) => {
 							{props.title}
 						</Text>
 						<View style={styles.spacer} />
-						<View style={[styles.image, props.disabled ? styles.disabledImage : null]}>
+						<View style={[styles.image, props.status === OnlifeTrainingBlockStatus.Locked ? styles.disabledImage : null]}>
 							<Icon width={18} height={24}/>
 						</View>
 					</View>
 					<Text style={[typography.text, styles.caption]}>
-						{props.disabled ? 'недоступен' : props.done >= props.total ? 'выполнен' : 'доступен'}
+						{
+							props.status === OnlifeTrainingBlockStatus.Locked
+								? 'недоступен'
+								: props.status === OnlifeTrainingBlockStatus.Completed
+									? 'выполнен'
+									: 'доступен'
+						}
 					</Text>
 					<Progress
 						primaryColor={palette.white['60']}
@@ -109,7 +115,7 @@ export const CycleCollection: React.FC<OwnProps> = (props: OwnProps) => {
 				title={item.title}
 				done={item.done}
 				total={item.total}
-				disabled={item.disabled}
+				status={item.status}
 				onPress={() => props.onPress?.(item.id)}
 			/>
 		);

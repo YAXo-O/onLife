@@ -6,7 +6,7 @@ import {
 	Text, StyleSheet, TouchableOpacity, LayoutChangeEvent,
 } from 'react-native';
 
-import { ExerciseTabsProps } from '@app/screens/Internal/Training/ExerciseTabs';
+import { ExerciseTabsProps } from '@app/screens/Internal/Training/TrainingTabs/ExerciseTabs';
 import { TrainingExercise } from '@app/objects/training/TrainingExercise';
 import { palette } from '@app/styles/palette';
 import { TrainingRound } from '@app/objects/training/TrainingRound';

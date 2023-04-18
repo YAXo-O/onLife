@@ -24,7 +24,7 @@ import { withUser } from '@app/hooks/withUser';
 import { IState } from '@app/store/IState';
 import { Nullable, Optional } from '@app/objects/utility/Nullable';
 
-import { ExerciseTab, ExerciseTabs } from '@app/screens/Internal/Training/ExerciseTabs';
+import { ExerciseTab, ExerciseTabs } from '@app/screens/Internal/Training/TrainingTabs/ExerciseTabs';
 
 import Background from '@assets/images/training_background.png';
 import TrainingDumbbell from '@assets/icons/training_dumbbell.svg';
@@ -69,7 +69,6 @@ function getList(day: Optional<OnlifeTrainingDay>): Array<HeaderItem> {
 
 function shouldComplete(day: Optional<OnlifeTrainingDay>, active: string): boolean {
 	if (!day) return false;
-
 	if (day.exercises.length === 0) return false;
 
 	const exercise = day.exercises[day.exercises.length - 1];

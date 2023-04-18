@@ -11,7 +11,7 @@ import {
 	PowerAppTrainingExerciseParamCode,
 } from '@app/objects/program/TrainingProgram';
 import { Nullable } from '@app/objects/utility/Nullable';
-import { OnlifeTrainingBlock } from '@app/objects/training/TrainingBlock';
+import { OnlifeTrainingBlock, OnlifeTrainingBlockStatus } from '@app/objects/training/TrainingBlock';
 import { User } from '@app/objects/User';
 import { TrainingExercise } from '@app/objects/training/TrainingExercise';
 import { PowerTrainExercise, OnlifeExercise } from '@app/objects/program/Exercise';
@@ -55,10 +55,11 @@ function toInteger(str: Nullable<string> | undefined): Nullable<number> {
 	return value;
 }
 
-function toTime(str: Nullable<string> | undefined): Nullable<number> {
-	if (!str) return null;
+function toTime(raw: string | number | null | undefined): Nullable<number> {
+	if (!raw) return null;
+	if (typeof raw === 'number') return raw;
 
-	const value = str.split(':');
+	const value = raw.split(':');
 	if (value.length !== 2) return null;
 
 	const minutes = toInteger(value[0]);
@@ -100,13 +101,15 @@ interface TrainingRoundProgramValues {
 	repeats: string;
 	weight: string;
 	interval: number;
+	duration: Nullable<number>;
 }
 
 function getProgramValues(exercise: PowerAppTrainingProgramDayExercise, setId: number): TrainingRoundProgramValues {
-	const params = {
+	const params: TrainingRoundProgramValues = {
 		repeats: getParamValue(exercise.params, PowerAppTrainingExerciseParamCode.Reps) ?? '',
 		weight: getParamValue(exercise.params, PowerAppTrainingExerciseParamCode.Weight) ?? '',
 		interval: getParamTimeValue(exercise.params, PowerAppTrainingExerciseParamCode.Rest) ?? 60,
+		duration: getParamTimeValue(exercise.params, PowerAppTrainingExerciseParamCode.Duration),
 	};
 
 	const obj = exercise.extendedParams?.[setId.toString()];
@@ -127,6 +130,11 @@ function getProgramValues(exercise: PowerAppTrainingProgramDayExercise, setId: n
 	const interval = toTime(obj[PowerAppTrainingExerciseParamCode.Rest]?.number);
 	if (interval !== null) {
 		params.interval = interval;
+	}
+
+	const duration = toTime(obj[PowerAppTrainingExerciseParamCode.Duration]?.number);
+	if (duration !== null) {
+		params.duration = duration;
 	}
 
 	return params;
@@ -175,6 +183,7 @@ function mergeRounds(
 
 			performedWeight: getPerformedValue(round, PowerAppTrainingRoundParamCode.Weight), // Get this value from session (if any)
 			performedRepeats: getPerformedValue(round, PowerAppTrainingRoundParamCode.Repeats),
+			performedDuration: getPerformedValue(round, PowerAppTrainingRoundParamCode.Duration),
 			time: round.start ? round.start * 1000 : null,
 
 			/* Sets, Weight and Interval (from program) */
@@ -274,7 +283,8 @@ function createBlock(
 		id: blockId,
 		description: program.name,
 
-		available: false,
+		available: !program.dirty,
+		status: OnlifeTrainingBlockStatus.Locked,
 		days: createDays(sessions, program, blockId),
 		order: 0,
 		time: null,
@@ -309,7 +319,7 @@ function mergeBlocks(
 		});
 	})
 
-	return programs.map((program: PowerAppTrainingProgram, index: number) => {
+	const blocks = programs.map((program: PowerAppTrainingProgram, index: number) => {
 		const block = createBlock(sessions.filter((session: PowerAppSession) => session.program_id === program.id), program);
 
 		block.trainingId = trainingId;
@@ -318,6 +328,8 @@ function mergeBlocks(
 
 		return block;
 	});
+
+	return blocks;
 }
 
 interface Source {
@@ -367,8 +379,12 @@ export class TrainingAdaptor implements OnlifeTraining {
 		const index = this.blocks.findIndex((block: OnlifeTrainingBlock) => block.time === null);
 		if (index < 0) return;
 
-		for (let i = 0; i <= index; i++) {
-			this.blocks[i].available = true;
+		for (let i = 0; i < index; i++) {
+			this.blocks[i].status = OnlifeTrainingBlockStatus.Completed;
+		}
+
+		if (this.blocks[index].available) {
+			this.blocks[index].status = OnlifeTrainingBlockStatus.Available;
 		}
 	}
 
