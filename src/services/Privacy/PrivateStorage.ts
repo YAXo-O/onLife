@@ -28,9 +28,9 @@ export abstract class PrivateStorage {
 
 		return EncryptedStorage.getItem(key)
 			.then((value: Nullable<string>) => {
-				this._cache[key] = value;
+				this._cache[key] = value ?? null;
 
-				return value;
+				return value ?? null;
 			});
 	}
 

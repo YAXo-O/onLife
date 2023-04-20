@@ -15,6 +15,7 @@ import { DeleteProfileScreen } from '@app/screens/Internal/Profile/DeleteProfile
 import { TrainingScreen } from '@app/screens/Internal/Training/Training';
 import { AuthByPhoneScreen } from '@app/screens/External/Auth/AuthByPhone';
 import { AuthScreen } from '@app/screens/External/Auth/Auth';
+import { hasValue } from '@app/utils/value';
 
 type NavigationParams = Record<Routes, undefined>;
 const NavigationStack = createNativeStackNavigator<NavigationParams>();
@@ -24,20 +25,23 @@ export const Navigation: React.FC = () => {
 	const navigation = useNavigation<CombinedScreenNavigationProps>();
 
 	React.useEffect(() => {
-		if (session !== null) {
-			navigation.reset({
-				index: 0,
-				routes: [
-					{ name: Routes.Main },
-				],
-			});
+		// TODO: navigation should be inside NavigationStack.Navigator (replacing stack action)
+		if (hasValue(session)) {
+			navigation.navigate(Routes.Main);
+			// navigation.reset({
+			// 	index: 0,
+			// 	routes: [
+			// 		{ name: Routes.Main },
+			// 	],
+			// });
 		} else {
-			navigation.reset({
-				index: 0,
-				routes: [
-					{ name: Routes.AuthByLogin },
-				],
-			});
+			navigation.navigate(Routes.AuthByLogin);
+			// navigation.reset({
+			// 	index: 0,
+			// 	routes: [
+			// 		{ name: Routes.AuthByLogin },
+			// 	],
+			// });
 		}
 	}, [session]);
 
@@ -45,14 +49,14 @@ export const Navigation: React.FC = () => {
 		<View style={{ flex: 1, }}>
 			<NavigationStack.Navigator>
 				<NavigationStack.Screen
-					name={Routes.AuthByPhone}
-					options={{ headerShown: false, }}
-					component={AuthByPhoneScreen}
-				/>
-				<NavigationStack.Screen
 					name={Routes.AuthByLogin}
 					options={{ headerShown: false, }}
 					component={AuthScreen}
+				/>
+				<NavigationStack.Screen
+					name={Routes.AuthByPhone}
+					options={{ headerShown: false, }}
+					component={AuthByPhoneScreen}
 				/>
 				<NavigationStack.Screen
 					name={Routes.Main}

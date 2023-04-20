@@ -1,6 +1,7 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 export enum Routes {
+	Splash = 'SplashScreen',
 	AuthByPhone = 'AuthByPhone',
 	AuthByLogin = 'AuthByLogin',
 	Main = 'Main',
@@ -12,6 +13,7 @@ export enum Routes {
 }
 
 export const names: Record<Routes, string> = {
+	[Routes.Splash]: '',
 	[Routes.AuthByPhone]: 'Авторизация',
 	[Routes.AuthByLogin]: 'Авторизация',
 	[Routes.Main]: 'Основной экран',
